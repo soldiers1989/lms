@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+    <!-- 数据库驱动包位置 -->
+    <context id="DB2Tables" targetRuntime="MyBatis3">
+        <commentGenerator>
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+        <!--<jdbcConnection driverClass="com.mysql.jdbc.Driver"-->
+        <!--connectionURL="jdbc:mysql://193.112.68.193:3306/dyny_test?characterEncoding=utf8"-->
+        <!--userId="root" password="Paladin123">-->
+        <!--</jdbcConnection>-->
+
+        <jdbcConnection driverClass="com.microsoft.sqlserver.jdbc.SQLServerDriver"
+                        connectionURL="jdbc:sqlserver://192.168.1.6:1433;DatabaseName=dyny"
+                        userId="sa" password="dyny0763">
+        </jdbcConnection>
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+        <!-- 生成模型的包名和位置 -->
+        <javaModelGenerator targetPackage="com.yniot.lms.db.pojo" targetProject="src/main/java">
+            <property name="enableSubPackages" value="true"/>
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+        <!-- 生成的映射文件包名和位置 -->
+        <sqlMapGenerator targetPackage="com.yniot.lms.db.dao" targetProject="src/main/java">
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+        <!-- 生成DAO的包名和位置 -->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.yniot.lms.db.dao" targetProject="src/main/java">
+            <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>
+        <!--<table tableName="t_enumeration" domainObjectName="Enumeration">-->
+        <!--<columnRenamingRule searchString="^[^_]+" replaceString="" />-->
+        <!--</table>-->
+
+        <!--<table tableName="t_unit" domainObjectName="Unit">-->
+            <!--<columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>-->
+        <!--</table>-->
+        <!--<table tableName="t_station" domainObjectName="Station">-->
+            <!--<columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>-->
+        <!--</table>-->
+        <!--<table tableName="t_unit" domainObjectName="Unit">-->
+            <!--<columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>-->
+        <!--</table>-->
+        <table tableName="t_warning222_type" domainObjectName="WarningType">
+            <columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>
+        </table>
+    </context>
+</generatorConfiguration>

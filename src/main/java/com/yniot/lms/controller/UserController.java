@@ -32,17 +32,17 @@ public class UserController extends BaseController {
         logger.info("token:"+token);
         return super.getSuccessResult(token);
     }
-    @RequestMapping(name = "/user/unlogin")
-    public String unlogin() throws Exception {
-        return super.getErrorResult("请先登录！");
-    }
-    @RequestMapping(name = "/user/unauth")
-    public String unAuth() throws Exception {
-        return super.getErrorResult("未授权！");
-    }
-
-    @RequestMapping(name = "/user/index")
-    public String index() throws Exception {
-        return super.getSuccessResult("登陆成功！");
-    }
+//    @RequestMapping(name = "/user/unlogin")
+//    public String unlogin() throws Exception {
+//        return super.getErrorResult("请先登录！");
+//    }
+//    @RequestMapping(name = "/user/unauth")
+//    public String unAuth() throws Exception {
+//        return super.getErrorResult("未授权！");
+//    }
+//
+//    @RequestMapping(name = "/user/index")
+//    public String index() throws Exception {
+//        return super.getSuccessResult("登陆成功！");
+//    }
 }

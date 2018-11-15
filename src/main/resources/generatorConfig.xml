@@ -13,8 +13,8 @@
         <!--</jdbcConnection>-->
 
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://193.112.68.193:3306/lms?characterEncoding=utf8"
-                        userId="root" password="Paladin123">
+                        connectionURL="jdbc:mysql://120.79.91.131:3306/lms?characterEncoding=utf8"
+                        userId="lms_admin" password="lms_admin">
         </jdbcConnection>
         <javaTypeResolver>
             <property name="forceBigDecimals" value="false"/>

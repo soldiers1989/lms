@@ -11,23 +11,6 @@ public class BaseService extends BaseController {
     @Value("${database.sql.max}")
     protected int MAX_SQL_SIZE;
 
-
-
-    /**
-     * md5加密，多用于密码
-     *
-     * @param content
-     * @return
-     */
-    protected String MD5(String content) {
-        if (!StringUtils.isEmpty(content)) {
-            return DigestUtils.md5DigestAsHex(content.getBytes());
-        } else {
-            return "";
-        }
-    }
-
-
     /**
      * 配合like操作
      *

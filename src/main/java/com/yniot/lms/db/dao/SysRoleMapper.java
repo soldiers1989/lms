@@ -3,8 +3,10 @@ package com.yniot.lms.db.dao;
 import com.yniot.lms.db.pojo.SysRole;
 import com.yniot.lms.db.pojo.SysRoleExample;
 import java.util.List;
-import org.apache.ibatis.annotations.Param;
 
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+@Mapper
 public interface SysRoleMapper {
     long countByExample(SysRoleExample example);
 
@@ -27,4 +29,7 @@ public interface SysRoleMapper {
     int updateByPrimaryKeySelective(SysRole record);
 
     int updateByPrimaryKey(SysRole record);
+
+
+    List<SysRole> selectRoleByUserId(Integer userId);
 }

@@ -16,6 +16,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import org.springframework.util.DigestUtils;
 import org.w3c.dom.Document;
 
 import com.alibaba.fastjson.JSONObject;
@@ -219,6 +220,13 @@ public class CommonUtil {
             return true;
         }
 
+        public static java.lang.String MD5(java.lang.String content) {
+            if (!StringUtils.isEmpty(content)) {
+                return DigestUtils.md5DigestAsHex(content.getBytes());
+            } else {
+                return "";
+            }
+        }
 
         public static boolean equalsAll(java.lang.String target, java.lang.String... str) {
             for (java.lang.String temp : str) {

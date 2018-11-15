@@ -193,4 +193,14 @@
       rolename = #{rolename,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+
+  <select id="queryByUserId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+  SELECT
+      *
+  FROM
+      sys_role
+  WHERE
+      id IN (  SELECT role_id FROM rel_user_role WHERE user_id = #{id,jdbcType=INTEGER}  )
+  </select>
 </mapper>

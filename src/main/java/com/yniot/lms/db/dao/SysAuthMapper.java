@@ -3,8 +3,10 @@ package com.yniot.lms.db.dao;
 import com.yniot.lms.db.pojo.SysAuth;
 import com.yniot.lms.db.pojo.SysAuthExample;
 import java.util.List;
-import org.apache.ibatis.annotations.Param;
 
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+@Mapper
 public interface SysAuthMapper {
     long countByExample(SysAuthExample example);
 
@@ -27,4 +29,6 @@ public interface SysAuthMapper {
     int updateByPrimaryKeySelective(SysAuth record);
 
     int updateByPrimaryKey(SysAuth record);
+/*********************************************/
+    List<SysAuth> queryByUserId(Integer userId);
 }

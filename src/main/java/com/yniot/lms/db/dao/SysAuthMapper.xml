@@ -255,4 +255,14 @@
       description = #{description,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+
+  <select id="queryByUserId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+  SELECT
+      *
+  FROM
+      sys_auth
+  WHERE
+      id IN ( SELECT auth_id FROM rel_role_auth WHERE role_id IN ( SELECT role_id FROM rel_user_role WHERE user_id = #{id,jdbcType=INTEGER} ) )
+  </select>
 </mapper>

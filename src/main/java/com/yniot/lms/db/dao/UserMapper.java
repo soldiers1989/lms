@@ -3,8 +3,10 @@ package com.yniot.lms.db.dao;
 import com.yniot.lms.db.pojo.User;
 import com.yniot.lms.db.pojo.UserExample;
 import java.util.List;
-import org.apache.ibatis.annotations.Param;
 
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+@Mapper
 public interface UserMapper {
     long countByExample(UserExample example);
 

@@ -12,9 +12,9 @@
         <!--userId="root" password="Paladin123">-->
         <!--</jdbcConnection>-->
 
-        <jdbcConnection driverClass="com.microsoft.sqlserver.jdbc.SQLServerDriver"
-                        connectionURL="jdbc:sqlserver://192.168.1.6:1433;DatabaseName=dyny"
-                        userId="sa" password="dyny0763">
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://193.112.68.193:3306/lms?characterEncoding=utf8"
+                        userId="root" password="Paladin123">
         </jdbcConnection>
         <javaTypeResolver>
             <property name="forceBigDecimals" value="false"/>
@@ -45,7 +45,7 @@
         <!--<table tableName="t_unit" domainObjectName="Unit">-->
             <!--<columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>-->
         <!--</table>-->
-        <table tableName="t_warning222_type" domainObjectName="WarningType">
+        <table tableName="sys_user" domainObjectName="User">
             <columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>
         </table>
     </context>

@@ -117,10 +117,10 @@
             <optional>true</optional>
             <!-- 这个需要为 true 热部署才有效 -->
         </dependency>
-        <dependency>
-            <groupId>com.microsoft.sqlserver</groupId>
-            <artifactId>mssql-jdbc</artifactId>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.microsoft.sqlserver</groupId>-->
+            <!--<artifactId>mssql-jdbc</artifactId>-->
+        <!--</dependency>-->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>springloaded</artifactId>
@@ -136,6 +136,18 @@
             <artifactId>shiro-spring</artifactId>
             <version>1.4.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-ehcache</artifactId>
+            <version>1.2.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.38</version>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-mail</artifactId>
@@ -195,10 +207,15 @@
                     </execution>
                 </executions>
                 <dependencies>
+                    <!--<dependency>-->
+                        <!--<groupId>com.microsoft.sqlserver</groupId>-->
+                        <!--<artifactId>mssql-jdbc</artifactId>-->
+                        <!--<version>6.1.0.jre8</version>-->
+                    <!--</dependency>-->
                     <dependency>
-                        <groupId>com.microsoft.sqlserver</groupId>
-                        <artifactId>mssql-jdbc</artifactId>
-                        <version>6.1.0.jre8</version>
+                        <groupId>mysql</groupId>
+                        <artifactId>mysql-connector-java</artifactId>
+                        <version>5.1.38</version>
                     </dependency>
                 </dependencies>
             </plugin>

@@ -17,9 +17,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @ControllerAdvice
 public class GlobalExceptionHandler extends BaseController {
     private static Logger logger = Logger.getLogger(GlobalExceptionHandler.class);
-    private static final String CACHE_MAIL_SENT_KEY = "ErrorMessageMailSent";
-    private static final String CACHE_MAIL_SENT_VALUE = "1";
-
 
     @Autowired
     private CacheDao cacheDao;
@@ -29,10 +26,6 @@ public class GlobalExceptionHandler extends BaseController {
     public String errorRecorder(Exception e) throws InterruptedException {
         String errorMsg = e.getMessage();
         logger.error(errorMsg);
-        String val = cacheDao.get(CACHE_MAIL_SENT_KEY);
-        if (!CACHE_MAIL_SENT_VALUE.equals(val)) {
-            cacheDao.set(CACHE_MAIL_SENT_KEY, CACHE_MAIL_SENT_VALUE);
-        }
         return super.getErrorMsg(errorMsg);
     }
 }

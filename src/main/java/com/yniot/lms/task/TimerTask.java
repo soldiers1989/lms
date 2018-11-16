@@ -17,7 +17,6 @@ public class TimerTask {
     private static Logger logger = Logger.getLogger(TimerTask.class);
 
 
-
     @Scheduled(cron = "0 0 4 * * ? ") // 每天凌晨四点计算发电时间
     public void calculateGenerateTime() {
     }
@@ -28,8 +27,8 @@ public class TimerTask {
 
     @Scheduled(cron = "0 0 0/1 * * ? ") // 每小时记录一次缓存数量
     public void logCacheKeys() {
-        Set keySet = cacheDao.getKeys("*");
-        logger.info("缓存中的数据量:" + keySet.size());
+//        Set keySet = cacheDao.getKeys("*");
+//        logger.info("缓存中的数据量:" + keySet.size());
     }
 
 
@@ -44,8 +43,8 @@ public class TimerTask {
 
     @Scheduled(cron = "0 0 2 * * ? ") // 每天凌晨2点删除超时的文件
     public void deleteExcelFile() {
-        this.deleteFileByDir(excelExportPath);
-        this.deleteFileByDir(excelImportPath);
+//        this.deleteFileByDir(excelExportPath);
+//        this.deleteFileByDir(excelImportPath);、
     }
 
     private void deleteFileByDir(String excelExportPath) {

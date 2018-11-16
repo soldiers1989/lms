@@ -1,9 +1,7 @@
 package com.yniot.lms.controller;
 
-import com.yniot.lms.annotation.WithoutAuth;
 import com.yniot.lms.controller.commonController.BaseController;
 import com.yniot.lms.db.pojo.User;
-import com.yniot.lms.security.ShiroConfigurator;
 import com.yniot.lms.utils.CommonUtil;
 import org.apache.log4j.Logger;
 import org.apache.shiro.SecurityUtils;

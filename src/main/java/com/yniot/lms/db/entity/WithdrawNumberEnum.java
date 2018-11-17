@@ -1,19 +1,18 @@
-package com.yniot.lms.db.pojo;
+package com.yniot.lms.db.entity;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
-public class Role {
+public class WithdrawNumberEnum {
     private Integer id;
 
-    private Boolean activated;
+    private BigDecimal number;
 
     private String description;
 
-    private String rolename;
+    private Boolean deleted;
 
     private Date createTime;
-
-    private Date modifyTime;
 
     public Integer getId() {
         return id;
@@ -23,12 +22,12 @@ public class Role {
         this.id = id;
     }
 
-    public Boolean getActivated() {
-        return activated;
+    public BigDecimal getNumber() {
+        return number;
     }
 
-    public void setActivated(Boolean activated) {
-        this.activated = activated;
+    public void setNumber(BigDecimal number) {
+        this.number = number;
     }
 
     public String getDescription() {
@@ -39,12 +38,12 @@ public class Role {
         this.description = description == null ? null : description.trim();
     }
 
-    public String getRolename() {
-        return rolename;
+    public Boolean getDeleted() {
+        return deleted;
     }
 
-    public void setRolename(String rolename) {
-        this.rolename = rolename == null ? null : rolename.trim();
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
     }
 
     public Date getCreateTime() {
@@ -53,13 +52,5 @@ public class Role {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
-    }
-
-    public Date getModifyTime() {
-        return modifyTime;
-    }
-
-    public void setModifyTime(Date modifyTime) {
-        this.modifyTime = modifyTime;
     }
 }

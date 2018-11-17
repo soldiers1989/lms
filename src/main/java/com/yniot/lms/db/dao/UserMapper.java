@@ -1,13 +1,15 @@
 package com.yniot.lms.db.dao;
 
-import com.yniot.lms.db.pojo.User;
-import com.yniot.lms.db.pojo.UserExample;
-import java.util.List;
-
+import com.yniot.exclude.CommonMapper;
+import com.yniot.lms.db.entity.User;
+import com.yniot.lms.db.entity.UserExample;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
+
 @Mapper
-public interface UserMapper  extends com.baomidou.mybatisplus.core.mapper.BaseMapper<User> {
+public interface UserMapper extends CommonMapper<User> {
     long countByExample(UserExample example);
 
     int deleteByExample(UserExample example);

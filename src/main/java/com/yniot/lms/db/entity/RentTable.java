@@ -1,4 +1,4 @@
-package com.yniot.lms.db.pojo;
+package com.yniot.lms.db.entity;
 
 import java.math.BigDecimal;
 

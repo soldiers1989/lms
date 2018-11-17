@@ -1,14 +1,13 @@
-package com.yniot.lms.db.pojo;
+package com.yniot.lms.db.entity;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
-public class WithdrawNumberEnum {
+public class IncomeDivide {
     private Integer id;
 
-    private BigDecimal number;
+    private Integer laundryId;
 
-    private String description;
+    private Integer percent;
 
     private Boolean deleted;
 
@@ -22,20 +21,20 @@ public class WithdrawNumberEnum {
         this.id = id;
     }
 
-    public BigDecimal getNumber() {
-        return number;
+    public Integer getLaundryId() {
+        return laundryId;
     }
 
-    public void setNumber(BigDecimal number) {
-        this.number = number;
+    public void setLaundryId(Integer laundryId) {
+        this.laundryId = laundryId;
     }
 
-    public String getDescription() {
-        return description;
+    public Integer getPercent() {
+        return percent;
     }
 
-    public void setDescription(String description) {
-        this.description = description == null ? null : description.trim();
+    public void setPercent(Integer percent) {
+        this.percent = percent;
     }
 
     public Boolean getDeleted() {

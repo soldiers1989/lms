@@ -1,8 +1,8 @@
 package com.yniot.lms.security;
 
-import com.yniot.lms.db.pojo.Auth;
-import com.yniot.lms.db.pojo.Role;
-import com.yniot.lms.db.pojo.User;
+import com.yniot.lms.db.entity.Auth;
+import com.yniot.lms.db.entity.Role;
+import com.yniot.lms.db.entity.User;
 import com.yniot.lms.service.AuthService;
 import com.yniot.lms.service.RoleService;
 import com.yniot.lms.service.UserService;

@@ -1,5 +1,8 @@
-package com.yniot.lms.db.pojo;
+package com.yniot.lms.db.entity;
 
+import com.baomidou.mybatisplus.annotation.TableName;
+
+@TableName("sys_auth")
 public class Auth {
     private Integer id;
 

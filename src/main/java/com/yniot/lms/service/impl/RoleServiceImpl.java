@@ -2,7 +2,7 @@ package com.yniot.lms.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yniot.lms.db.dao.RoleMapper;
-import com.yniot.lms.db.pojo.Role;
+import com.yniot.lms.db.entity.Role;
 import com.yniot.lms.service.RoleService;
 import org.springframework.stereotype.Service;
 

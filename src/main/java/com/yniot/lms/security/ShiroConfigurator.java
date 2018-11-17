@@ -20,8 +20,9 @@ public class ShiroConfigurator {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager);
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
-        filterChainDefinitionMap.put("/static/**", "anon");
-        filterChainDefinitionMap.put("/druid/**", "anon");
+        filterChainDefinitionMap.put("/static/**", "anon");//静态资源
+        filterChainDefinitionMap.put("/druid/**", "anon");//druid管理页面
+        filterChainDefinitionMap.put("/weChat/**", "anon");//微信
         filterChainDefinitionMap.put("/favicon.ico", "anon");
         filterChainDefinitionMap.put("/**", "authc");
         //登陆地址

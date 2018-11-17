@@ -1,4 +1,4 @@
-package com.yniot.lms.db.pojo;
+package com.yniot.lms.db.entity;
 
 public class WithdrawApplication {
     private Integer id;

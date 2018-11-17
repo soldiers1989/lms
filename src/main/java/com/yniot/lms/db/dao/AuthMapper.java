@@ -1,14 +1,15 @@
 package com.yniot.lms.db.dao;
 
-import com.yniot.lms.db.pojo.Auth;
-import com.yniot.lms.db.pojo.AuthExample;
+import com.yniot.exclude.CommonMapper;
+import com.yniot.lms.db.entity.Auth;
+import com.yniot.lms.db.entity.AuthExample;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
+
 @Mapper
-public interface AuthMapper extends com.baomidou.mybatisplus.core.mapper.BaseMapper<Auth> {
+public interface AuthMapper extends CommonMapper<Auth> {
     long countByExample(AuthExample example);
 
     int deleteByExample(AuthExample example);
@@ -30,7 +31,4 @@ public interface AuthMapper extends com.baomidou.mybatisplus.core.mapper.BaseMap
     int updateByPrimaryKeySelective(Auth record);
 
     int updateByPrimaryKey(Auth record);
-
-    @Select("select * from auth where id in(select auth_id from rel_role_auth where role_id in  (select role_id from rel_user_role where user_id={#id}))")
-    List<Auth> selectByUserId(int userId);
 }

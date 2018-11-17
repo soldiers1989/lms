@@ -20,7 +20,7 @@
             <property name="forceBigDecimals" value="false"/>
         </javaTypeResolver>
         <!-- 生成模型的包名和位置 -->
-        <javaModelGenerator targetPackage="com.yniot.lms.db.pojo" targetProject="src/main/java">
+        <javaModelGenerator targetPackage="com.yniot.lms.db.entity" targetProject="src/main/java">
             <property name="enableSubPackages" value="true"/>
             <property name="trimStrings" value="true"/>
         </javaModelGenerator>
@@ -28,91 +28,78 @@
         <sqlMapGenerator targetPackage="com.yniot.lms.db.dao" targetProject="src/main/java">
             <property name="enableSubPackages" value="true"/>
         </sqlMapGenerator>
-        <!-- 生成DAO的包名和位置 -->
+         <!--生成DAO的包名和位置 -->
         <javaClientGenerator type="XMLMAPPER" targetPackage="com.yniot.lms.db.dao" targetProject="src/main/java">
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
 
-
-        <table tableName="sys_user" domainObjectName="User">
-            <columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>
-        </table>
-        <table tableName="sys_role" domainObjectName="Role">
-            <columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>
-        </table>
-        <!--<table tableName="sys_login_history" domainObjectName="LoginHistory">-->
-            <!--<columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>-->
-        <!--</table>-->
-        <!--<table tableName="biz_wardrobe" domainObjectName="Wardrobe">-->
-            <!--<columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>-->
-        <!--</table>-->
-        <!--<table tableName="biz_laundry" domainObjectName="Laundry">-->
-            <!--<columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>-->
-        <!--</table>-->
-        <!--<table tableName="biz_order" domainObjectName="Order">-->
-            <!--<columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>-->
-        <!--</table>-->
-        <!--<table tableName="biz_order_goods" domainObjectName="OrderGoods">-->
-            <!--<columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>-->
-        <!--</table>-->
-        <!--<table tableName="biz_cell" domainObjectName="Cell">-->
-            <!--<columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>-->
-        <!--</table>-->
-        <!--<table tableName="biz_application" domainObjectName="Application">-->
-            <!--<columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>-->
-        <!--</table>-->
-        <!--<table tableName="biz_price_table" domainObjectName="PriceTable">-->
-            <!--<columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>-->
-        <!--</table>-->
-        <!--<table tableName="biz_goods_code" domainObjectName="GoodsCode">-->
-            <!--<columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>-->
-        <!--</table>-->
-        <!--<table tableName="biz_goods_type" domainObjectName="GoodsType">-->
-            <!--<columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>-->
-        <!--</table>-->
-        <!--<table tableName="biz_order_state_history" domainObjectName="OrderStateHistory">-->
-            <!--<columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>-->
-        <!--</table>-->
-        <!--<table tableName="biz_income_divide" domainObjectName="IncomeDivide">-->
-            <!--<columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>-->
-        <!--</table>-->
-        <!--<table tableName="biz_income_history" domainObjectName="IncomeDivide">-->
-            <!--<columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>-->
-        <!--</table>-->
-        <!--<table tableName="biz_cell_storage_history" domainObjectName="CellStorageHistory">-->
-            <!--<columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>-->
-        <!--</table>-->
-        <!--<table tableName="biz_launder_type" domainObjectName="LaunderType">-->
-            <!--<columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>-->
-        <!--</table>-->
-        <!--<table tableName="biz_withdraw_application" domainObjectName="WithdrawApplication">-->
-            <!--<columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>-->
-        <!--</table>-->
-        <!--<table tableName="biz_withdraw_history" domainObjectName="WithdrawHistory">-->
-            <!--<columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>-->
-        <!--</table>-->
-        <!--<table tableName="biz_withdraw_number_enum" domainObjectName="WithdrawNumberEnum">-->
-            <!--<columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>-->
-        <!--</table>-->
         <table tableName="rel_role_auth" domainObjectName="RelRoleAuth">
             <columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>
         </table>
         <table tableName="rel_user_role" domainObjectName="RelUserRole">
             <columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>
         </table>
-        <!--<table tableName="biz_comment" domainObjectName="Comment">-->
-            <!--<columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>-->
-        <!--</table>-->
-        <!--<table tableName="biz_coupon" domainObjectName="Coupon">-->
-            <!--<columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>-->
-        <!--</table>-->
-        <!--<table tableName="biz_rent_paid_history" domainObjectName="RentPaidHistory">-->
-            <!--<columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>-->
-        <!--</table>-->
-        <!--<table tableName="biz_rent_table" domainObjectName="RentTable">-->
-            <!--<columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>-->
-        <!--</table>-->
+        <table tableName="sys_user" domainObjectName="User">
+            <columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>
+        </table>
         <table tableName="sys_auth" domainObjectName="Auth">
+            <columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>
+        </table>
+        <table tableName="sys_role" domainObjectName="Role">
+            <columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>
+        </table>
+        <table tableName="sys_login_history" domainObjectName="LoginHistory">
+            <columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>
+        </table>
+        <table tableName="biz_wardrobe" domainObjectName="Wardrobe">
+            <columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>
+        </table>
+        <table tableName="biz_laundry" domainObjectName="Laundry">
+            <columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>
+        </table>
+        <table tableName="biz_order" domainObjectName="Order">
+            <columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>
+        </table>
+        <table tableName="biz_order_goods" domainObjectName="OrderGoods">
+            <columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>
+        </table>
+        <table tableName="biz_cell" domainObjectName="Cell">
+            <columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>
+        </table>
+        <table tableName="biz_application" domainObjectName="Application">
+            <columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>
+        </table>
+        <table tableName="biz_price_table" domainObjectName="PriceTable">
+            <columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>
+        </table>
+        <table tableName="biz_goods_code" domainObjectName="GoodsCode">
+            <columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>
+        </table>
+        <table tableName="biz_goods_type" domainObjectName="GoodsType">
+            <columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>
+        </table>
+        <table tableName="biz_order_state_history" domainObjectName="OrderStateHistory">
+            <columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>
+        </table>
+        <table tableName="biz_income_divide" domainObjectName="IncomeDivide">
+            <columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>
+        </table>
+        <table tableName="biz_income_history" domainObjectName="IncomeHistory">
+            <columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>
+        </table>
+        <table tableName="biz_cell_storage_history" domainObjectName="CellStorageHistory">
+            <columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>
+        </table>
+        <table tableName="biz_launder_type" domainObjectName="LaunderType">
+            <columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>
+        </table>
+        <table tableName="biz_withdraw_application" domainObjectName="WithdrawApplication">
+            <columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>
+        </table>
+        <table tableName="biz_withdraw_history" domainObjectName="WithdrawHistory">
+            <columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>
+        </table>
+        <table tableName="biz_withdraw_number_enum" domainObjectName="WithdrawNumberEnum">
             <columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>
         </table>
     </context>

@@ -1,13 +1,11 @@
 package com.yniot.lms.db.dao;
 
-import com.yniot.lms.db.pojo.RelRoleAuth;
-import com.yniot.lms.db.pojo.RelRoleAuthExample;
-import org.apache.ibatis.annotations.Mapper;
+import com.yniot.lms.db.entity.RelRoleAuth;
+import com.yniot.lms.db.entity.RelRoleAuthExample;
+import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
-import java.util.List;
-@Mapper
-public interface RelRoleAuthMapper  extends com.baomidou.mybatisplus.core.mapper.BaseMapper<RelRoleAuthMapper> {
+public interface RelRoleAuthMapper {
     long countByExample(RelRoleAuthExample example);
 
     int deleteByExample(RelRoleAuthExample example);

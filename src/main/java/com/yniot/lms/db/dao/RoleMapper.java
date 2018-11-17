@@ -1,14 +1,15 @@
 package com.yniot.lms.db.dao;
 
-import com.yniot.lms.db.pojo.Role;
-import com.yniot.lms.db.pojo.RoleExample;
+import com.yniot.exclude.CommonMapper;
+import com.yniot.lms.db.entity.Role;
+import com.yniot.lms.db.entity.RoleExample;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
+
 @Mapper
-public interface RoleMapper extends com.baomidou.mybatisplus.core.mapper.BaseMapper<Role> {
+public interface RoleMapper extends CommonMapper<Role> {
     long countByExample(RoleExample example);
 
     int deleteByExample(RoleExample example);
@@ -30,7 +31,4 @@ public interface RoleMapper extends com.baomidou.mybatisplus.core.mapper.BaseMap
     int updateByPrimaryKeySelective(Role record);
 
     int updateByPrimaryKey(Role record);
-
-    @Select("select * from sys_role where id in(select role_id from rel_user_role where user_id ={#id})")
-    List<Role> selectRoleByUserId(Integer userId);
 }

@@ -1,17 +1,17 @@
-package com.yniot.lms.db.pojo;
+package com.yniot.lms.db.entity;
+
+import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.util.Date;
-
-public class GoodsCode {
+@TableName("sys_role")
+public class Role {
     private Integer id;
 
-    private Integer laundryId;
-
-    private String uniqueCode;
-
-    private Boolean deleted;
+    private Boolean activated;
 
     private String description;
+
+    private String rolename;
 
     private Date createTime;
 
@@ -25,28 +25,12 @@ public class GoodsCode {
         this.id = id;
     }
 
-    public Integer getLaundryId() {
-        return laundryId;
+    public Boolean getActivated() {
+        return activated;
     }
 
-    public void setLaundryId(Integer laundryId) {
-        this.laundryId = laundryId;
-    }
-
-    public String getUniqueCode() {
-        return uniqueCode;
-    }
-
-    public void setUniqueCode(String uniqueCode) {
-        this.uniqueCode = uniqueCode == null ? null : uniqueCode.trim();
-    }
-
-    public Boolean getDeleted() {
-        return deleted;
-    }
-
-    public void setDeleted(Boolean deleted) {
-        this.deleted = deleted;
+    public void setActivated(Boolean activated) {
+        this.activated = activated;
     }
 
     public String getDescription() {
@@ -55,6 +39,14 @@ public class GoodsCode {
 
     public void setDescription(String description) {
         this.description = description == null ? null : description.trim();
+    }
+
+    public String getRolename() {
+        return rolename;
+    }
+
+    public void setRolename(String rolename) {
+        this.rolename = rolename == null ? null : rolename.trim();
     }
 
     public Date getCreateTime() {

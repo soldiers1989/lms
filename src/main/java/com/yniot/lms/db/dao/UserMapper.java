@@ -7,7 +7,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 @Mapper
-public interface UserMapper {
+public interface UserMapper  extends com.baomidou.mybatisplus.core.mapper.BaseMapper<User> {
     long countByExample(UserExample example);
 
     int deleteByExample(UserExample example);

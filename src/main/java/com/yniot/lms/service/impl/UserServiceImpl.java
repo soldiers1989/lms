@@ -1,23 +1,24 @@
 package com.yniot.lms.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yniot.lms.db.dao.UserMapper;
 import com.yniot.lms.db.pojo.User;
-import com.yniot.lms.db.pojo.UserExample;
 import com.yniot.lms.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 @Service
-public class UserServiceImpl implements UserService {
-    @Autowired
-    UserMapper userMapper;
+public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
 
     @Override
     public User selectByUsername(String username) {
-        UserExample userExample = new UserExample();
-        List<User> userList = userMapper.selectByExample(userExample);
+        Map<String, Object> condition = new HashMap<String, Object>();
+        condition.put("username", username);
+        List<User> userList = baseMapper.selectByMap(condition);
         User result = null;
         if (userList != null && userList.size() > 0) {
             result = userList.get(0);

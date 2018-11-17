@@ -57,9 +57,9 @@ public class CommonUtil {
             }
             if (String.validStr(realPath)) {
                 FileInputStream fis = new FileInputStream(realPath);
-                Properties emailPros = new Properties();
-                emailPros.load(fis);
-                return emailPros;
+                Properties properties = new Properties();
+                properties.load(fis);
+                return properties;
             }
             return null;
         }

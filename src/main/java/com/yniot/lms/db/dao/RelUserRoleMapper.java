@@ -2,12 +2,12 @@ package com.yniot.lms.db.dao;
 
 import com.yniot.lms.db.pojo.RelUserRole;
 import com.yniot.lms.db.pojo.RelUserRoleExample;
-import java.util.List;
-
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 @Mapper
-public interface RelUserRoleMapper {
+public interface RelUserRoleMapper  extends com.baomidou.mybatisplus.core.mapper.BaseMapper<RelUserRole> {
     long countByExample(RelUserRoleExample example);
 
     int deleteByExample(RelUserRoleExample example);

@@ -23,8 +23,8 @@ import java.util.Properties;
 public class ModifyInterceptor implements Interceptor {
     private static Logger logger = Logger.getLogger(ModifyInterceptor.class);
 
-    @Autowired
-    CacheDao cacheDao;
+//    @Autowired
+//    CacheDao cacheDao;
 
     @Override
     public Object intercept(Invocation invocation) throws Throwable {

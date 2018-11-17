@@ -1,6 +1,6 @@
 package com.yniot.lms.db.pojo;
 
-public class SysAuth {
+public class Auth {
     private Integer id;
 
     private String code;

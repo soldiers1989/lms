@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.yniot.lms.db.dao.SysAuthMapper">
-  <resultMap id="BaseResultMap" type="com.yniot.lms.db.pojo.SysAuth">
+<mapper namespace="com.yniot.lms.db.dao.AuthMapper">
+  <resultMap id="BaseResultMap" type="com.yniot.lms.db.pojo.Auth">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="code" jdbcType="VARCHAR" property="code" />
     <result column="authname" jdbcType="VARCHAR" property="authname" />
@@ -72,7 +72,7 @@
   <sql id="Base_Column_List">
     id, code, authname, url, permission, activated, type, description
   </sql>
-  <select id="selectByExample" parameterType="com.yniot.lms.db.pojo.SysAuthExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.yniot.lms.db.pojo.AuthExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -96,13 +96,13 @@
     delete from sys_auth
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.yniot.lms.db.pojo.SysAuthExample">
+  <delete id="deleteByExample" parameterType="com.yniot.lms.db.pojo.AuthExample">
     delete from sys_auth
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.yniot.lms.db.pojo.SysAuth">
+  <insert id="insert" parameterType="com.yniot.lms.db.pojo.Auth">
     insert into sys_auth (id, code, authname, 
       url, permission, activated, 
       type, description)
@@ -110,7 +110,7 @@
       #{url,jdbcType=VARCHAR}, #{permission,jdbcType=VARCHAR}, #{activated,jdbcType=BIT}, 
       #{type,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.yniot.lms.db.pojo.SysAuth">
+  <insert id="insertSelective" parameterType="com.yniot.lms.db.pojo.Auth">
     insert into sys_auth
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -165,7 +165,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.yniot.lms.db.pojo.SysAuthExample" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="com.yniot.lms.db.pojo.AuthExample" resultType="java.lang.Long">
     select count(*) from sys_auth
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -217,7 +217,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.yniot.lms.db.pojo.SysAuth">
+  <update id="updateByPrimaryKeySelective" parameterType="com.yniot.lms.db.pojo.Auth">
     update sys_auth
     <set>
       <if test="code != null">
@@ -244,7 +244,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.yniot.lms.db.pojo.SysAuth">
+  <update id="updateByPrimaryKey" parameterType="com.yniot.lms.db.pojo.Auth">
     update sys_auth
     set code = #{code,jdbcType=VARCHAR},
       authname = #{authname,jdbcType=VARCHAR},
@@ -255,14 +255,4 @@
       description = #{description,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-
-
-  <select id="queryByUserId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-  SELECT
-      *
-  FROM
-      sys_auth
-  WHERE
-      id IN ( SELECT auth_id FROM rel_role_auth WHERE role_id IN ( SELECT role_id FROM rel_user_role WHERE user_id = #{id,jdbcType=INTEGER} ) )
-  </select>
 </mapper>

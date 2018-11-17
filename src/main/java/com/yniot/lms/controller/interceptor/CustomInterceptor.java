@@ -15,8 +15,6 @@ import javax.servlet.http.HttpServletResponse;
  * 登陆拦截器
  */
 public class CustomInterceptor implements HandlerInterceptor {
-    @Value("${system.config.demo.level}")
-    private int DEMO_LEVEL;
     private static Logger logger = Logger.getLogger(CustomInterceptor.class);
     private static String MOBILE_DEVICE_iPhone = "iphone";
     private static String MOBILE_DEVICE_iPad = "ipad";
@@ -28,8 +26,6 @@ public class CustomInterceptor implements HandlerInterceptor {
 
     @Autowired
     private CacheDao cacheDao;
-    @Value("${system.login.timeout}")
-    private int loginTimeout;
 
     /**
      * 1.是否已登录

@@ -1,6 +1,8 @@
 package com.yniot.lms.db.pojo;
 
-public class SysRole {
+import java.util.Date;
+
+public class Role {
     private Integer id;
 
     private Boolean activated;
@@ -8,6 +10,10 @@ public class SysRole {
     private String description;
 
     private String rolename;
+
+    private Date createTime;
+
+    private Date modifyTime;
 
     public Integer getId() {
         return id;
@@ -39,5 +45,21 @@ public class SysRole {
 
     public void setRolename(String rolename) {
         this.rolename = rolename == null ? null : rolename.trim();
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getModifyTime() {
+        return modifyTime;
+    }
+
+    public void setModifyTime(Date modifyTime) {
+        this.modifyTime = modifyTime;
     }
 }

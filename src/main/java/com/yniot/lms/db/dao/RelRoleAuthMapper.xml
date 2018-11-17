@@ -2,8 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yniot.lms.db.dao.RelRoleAuthMapper">
   <resultMap id="BaseResultMap" type="com.yniot.lms.db.pojo.RelRoleAuth">
+    <id column="id" jdbcType="INTEGER" property="id" />
     <result column="role_id" jdbcType="INTEGER" property="roleId" />
     <result column="auth_id" jdbcType="INTEGER" property="authId" />
+    <result column="deleted" jdbcType="BIT" property="deleted" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -64,7 +67,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    role_id, auth_id
+    id, role_id, auth_id, deleted, create_time
   </sql>
   <select id="selectByExample" parameterType="com.yniot.lms.db.pojo.RelRoleAuthExample" resultMap="BaseResultMap">
     select
@@ -80,6 +83,16 @@
       order by ${orderByClause}
     </if>
   </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from rel_role_auth
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from rel_role_auth
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
   <delete id="deleteByExample" parameterType="com.yniot.lms.db.pojo.RelRoleAuthExample">
     delete from rel_role_auth
     <if test="_parameter != null">
@@ -87,25 +100,45 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.yniot.lms.db.pojo.RelRoleAuth">
-    insert into rel_role_auth (role_id, auth_id)
-    values (#{roleId,jdbcType=INTEGER}, #{authId,jdbcType=INTEGER})
+    insert into rel_role_auth (id, role_id, auth_id, 
+      deleted, create_time)
+    values (#{id,jdbcType=INTEGER}, #{roleId,jdbcType=INTEGER}, #{authId,jdbcType=INTEGER}, 
+      #{deleted,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.yniot.lms.db.pojo.RelRoleAuth">
     insert into rel_role_auth
     <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
       <if test="roleId != null">
         role_id,
       </if>
       <if test="authId != null">
         auth_id,
       </if>
+      <if test="deleted != null">
+        deleted,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
       <if test="roleId != null">
         #{roleId,jdbcType=INTEGER},
       </if>
       <if test="authId != null">
         #{authId,jdbcType=INTEGER},
+      </if>
+      <if test="deleted != null">
+        #{deleted,jdbcType=BIT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -118,11 +151,20 @@
   <update id="updateByExampleSelective" parameterType="map">
     update rel_role_auth
     <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
       <if test="record.roleId != null">
         role_id = #{record.roleId,jdbcType=INTEGER},
       </if>
       <if test="record.authId != null">
         auth_id = #{record.authId,jdbcType=INTEGER},
+      </if>
+      <if test="record.deleted != null">
+        deleted = #{record.deleted,jdbcType=BIT},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
     </set>
     <if test="_parameter != null">
@@ -131,10 +173,39 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update rel_role_auth
-    set role_id = #{record.roleId,jdbcType=INTEGER},
-      auth_id = #{record.authId,jdbcType=INTEGER}
+    set id = #{record.id,jdbcType=INTEGER},
+      role_id = #{record.roleId,jdbcType=INTEGER},
+      auth_id = #{record.authId,jdbcType=INTEGER},
+      deleted = #{record.deleted,jdbcType=BIT},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yniot.lms.db.pojo.RelRoleAuth">
+    update rel_role_auth
+    <set>
+      <if test="roleId != null">
+        role_id = #{roleId,jdbcType=INTEGER},
+      </if>
+      <if test="authId != null">
+        auth_id = #{authId,jdbcType=INTEGER},
+      </if>
+      <if test="deleted != null">
+        deleted = #{deleted,jdbcType=BIT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yniot.lms.db.pojo.RelRoleAuth">
+    update rel_role_auth
+    set role_id = #{roleId,jdbcType=INTEGER},
+      auth_id = #{authId,jdbcType=INTEGER},
+      deleted = #{deleted,jdbcType=BIT},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

@@ -1,13 +1,14 @@
 package com.yniot.lms.db.pojo;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
-public class RelRoleAuth {
+public class WithdrawNumberEnum {
     private Integer id;
 
-    private Integer roleId;
+    private BigDecimal number;
 
-    private Integer authId;
+    private String description;
 
     private Boolean deleted;
 
@@ -21,20 +22,20 @@ public class RelRoleAuth {
         this.id = id;
     }
 
-    public Integer getRoleId() {
-        return roleId;
+    public BigDecimal getNumber() {
+        return number;
     }
 
-    public void setRoleId(Integer roleId) {
-        this.roleId = roleId;
+    public void setNumber(BigDecimal number) {
+        this.number = number;
     }
 
-    public Integer getAuthId() {
-        return authId;
+    public String getDescription() {
+        return description;
     }
 
-    public void setAuthId(Integer authId) {
-        this.authId = authId;
+    public void setDescription(String description) {
+        this.description = description == null ? null : description.trim();
     }
 
     public Boolean getDeleted() {

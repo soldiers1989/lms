@@ -1,10 +1,10 @@
 package com.yniot.lms.security;
 
-import com.yniot.lms.db.pojo.SysAuth;
-import com.yniot.lms.db.pojo.SysRole;
+import com.yniot.lms.db.pojo.Auth;
+import com.yniot.lms.db.pojo.Role;
 import com.yniot.lms.db.pojo.User;
-import com.yniot.lms.service.SysAuthService;
-import com.yniot.lms.service.SysRoleService;
+import com.yniot.lms.service.AuthService;
+import com.yniot.lms.service.RoleService;
 import com.yniot.lms.service.UserService;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -23,9 +23,9 @@ public class ShiroRealm extends AuthorizingRealm {
     @Resource
     private UserService userService;
     @Resource
-    private SysRoleService sysRoleService;
+    private RoleService sysRoleService;
     @Resource
-    private SysAuthService authService;
+    private AuthService authService;
     /**
      * 配置权限 注入权限
      * @param principals
@@ -33,19 +33,16 @@ public class ShiroRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals){
-        System.out.println("--------权限配置-------");
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
         User user = (User) principals.getPrimaryPrincipal();
         try {
-            //注入角色(查询所有的角色注入控制器）
-            List<SysRole> list = sysRoleService.selectRoleByUserId(user.getId());
-            for (SysRole role: list){
+            List<Role> list = sysRoleService.selectRoleByUserId(user.getId());
+            for (Role role: list){
                 authorizationInfo.addRole(role.getRolename());
             }
-            //注入角色所有权限（查询用户所有的权限注入控制器）
-            List<SysAuth> sysAuths = authService.queryByUserId(user.getId());
-            for(SysAuth sysAuth:sysAuths){
-                authorizationInfo.addStringPermission(sysAuth.getPermission());
+            List<Auth> sysAuths = authService.selectByUserId(user.getId());
+            for(Auth Auth:sysAuths){
+                authorizationInfo.addStringPermission(Auth.getPermission());
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -61,16 +58,9 @@ public class ShiroRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
-
         //获取用户的输入的账号
         String username = (String) token.getPrincipal();
-        //这里需注意。看别人的教程有人是这样写的String password = (String) token.getCredentials();
-        //项目运行的时候报错，发现密码不正确。后来进源码查看发现将密码注入后。Shiro会进行转义将字符串转换成字符数组。
-        //源码：this(username, password != null ? password.toCharArray() : null, false, null);
-        //不晓得是否是因为版本的原因，建议使用的时候下载源码进行查看
         String password = new String((char[]) token.getCredentials());
-        //通过username从数据库中查找 User对象，如果找到，没找到.
-        //实际项目中，这里可以根据实际情况做缓存，如果不做，Shiro自己也是有时间间隔机制，2分钟内不会重复执行该方法
         User user = userService.selectByUsername(username);
         if(null == user){
             throw new UnknownAccountException();

@@ -12,11 +12,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/user")
 public class UserController extends BaseController {
     private static Logger logger = Logger.getLogger(UserController.class);
 
-
-    @RequestMapping(name = "/user/login")
+    //0.登陆
+    @RequestMapping(name = "/login")
     public String login(@RequestParam(name = "username") String username,
                         @RequestParam(name = "password") String password) throws Exception {
         if (!CommonUtil.String.validStr(username, password)) {
@@ -30,17 +31,10 @@ public class UserController extends BaseController {
         logger.info("token:"+token);
         return super.getSuccessResult(token);
     }
-//    @RequestMapping(name = "/user/unlogin")
-//    public String unlogin() throws Exception {
-//        return super.getErrorResult("请先登录！");
-//    }
-//    @RequestMapping(name = "/user/unauth")
-//    public String unAuth() throws Exception {
-//        return super.getErrorResult("未授权！");
-//    }
-//
-//    @RequestMapping(name = "/user/index")
-//    public String index() throws Exception {
-//        return super.getSuccessResult("登陆成功！");
-//    }
+    //1.密码修改
+    //2.信息修改
+    //3.退出登陆
+
+
+
 }

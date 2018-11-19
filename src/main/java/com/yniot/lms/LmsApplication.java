@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 //
 @EnableTransactionManagement
 @SpringBootApplication
+@MapperScan("com.yniot.lms.db.dao")
 public class LmsApplication {
 
     public static void main(String[] args) {

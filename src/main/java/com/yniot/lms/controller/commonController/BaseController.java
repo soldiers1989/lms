@@ -82,4 +82,10 @@ public class BaseController {
         this.result.put(RESULT_KEY, successFlag);
         return JSONObject.toJSONString(this.result, SerializerFeature.WriteMapNullValue);
     }
+
+
+    public String getToken(String token){
+        this.result.put("token",token);
+        return JSONObject.toJSONString(this.result, SerializerFeature.WriteMapNullValue);
+    }
 }

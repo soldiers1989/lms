@@ -4,16 +4,12 @@ import com.yniot.lms.db.cachce.CacheDao;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- * 登陆拦截器
- */
 public class CustomInterceptor implements HandlerInterceptor {
     private static Logger logger = Logger.getLogger(CustomInterceptor.class);
     private static String MOBILE_DEVICE_iPhone = "iphone";

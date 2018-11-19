@@ -10,13 +10,21 @@ public interface RelUserRoleMapper {
 
     int deleteByExample(RelUserRoleExample example);
 
+    int deleteByPrimaryKey(Integer id);
+
     int insert(RelUserRole record);
 
     int insertSelective(RelUserRole record);
 
     List<RelUserRole> selectByExample(RelUserRoleExample example);
 
+    RelUserRole selectByPrimaryKey(Integer id);
+
     int updateByExampleSelective(@Param("record") RelUserRole record, @Param("example") RelUserRoleExample example);
 
     int updateByExample(@Param("record") RelUserRole record, @Param("example") RelUserRoleExample example);
+
+    int updateByPrimaryKeySelective(RelUserRole record);
+
+    int updateByPrimaryKey(RelUserRole record);
 }

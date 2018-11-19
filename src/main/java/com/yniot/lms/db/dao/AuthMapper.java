@@ -5,9 +5,9 @@ import com.yniot.lms.db.entity.Auth;
 import com.yniot.lms.db.entity.AuthExample;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
-
 @Mapper
 public interface AuthMapper extends CommonMapper<Auth> {
     long countByExample(AuthExample example);
@@ -31,4 +31,7 @@ public interface AuthMapper extends CommonMapper<Auth> {
     int updateByPrimaryKeySelective(Auth record);
 
     int updateByPrimaryKey(Auth record);
+
+    @Select("select * from sys_auth where id in( select * from sys_role where id in (select role_id from rel_user_role where user_id = #{id}))")
+    List<Auth> selectByUserId(Integer id);
 }

@@ -3,10 +3,11 @@ package com.yniot.lms.db.dao;
 import com.yniot.exclude.CommonMapper;
 import com.yniot.lms.db.entity.User;
 import com.yniot.lms.db.entity.UserExample;
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-
-import java.util.List;
+import org.apache.ibatis.annotations.Select;
 
 @Mapper
 public interface UserMapper extends CommonMapper<User> {
@@ -31,4 +32,6 @@ public interface UserMapper extends CommonMapper<User> {
     int updateByPrimaryKeySelective(User record);
 
     int updateByPrimaryKey(User record);
+    @Select("select * from sys_user where username =#{username}")
+    List<User> selectByUsername(String username);
 }

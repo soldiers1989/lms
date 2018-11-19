@@ -23,6 +23,7 @@ public class ShiroConfigurator {
         filterChainDefinitionMap.put("/static/**", "anon");//静态资源
         filterChainDefinitionMap.put("/druid/**", "anon");//druid管理页面
         filterChainDefinitionMap.put("/weChat/**", "anon");//微信
+        filterChainDefinitionMap.put("/user/login", "anon");//登陆
         filterChainDefinitionMap.put("/favicon.ico", "anon");
         filterChainDefinitionMap.put("/**", "authc");
         //登陆地址

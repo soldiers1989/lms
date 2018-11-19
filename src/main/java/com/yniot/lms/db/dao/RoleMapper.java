@@ -3,10 +3,12 @@ package com.yniot.lms.db.dao;
 import com.yniot.exclude.CommonMapper;
 import com.yniot.lms.db.entity.Role;
 import com.yniot.lms.db.entity.RoleExample;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 @Mapper
 public interface RoleMapper extends CommonMapper<Role> {
@@ -31,4 +33,7 @@ public interface RoleMapper extends CommonMapper<Role> {
     int updateByPrimaryKeySelective(Role record);
 
     int updateByPrimaryKey(Role record);
+
+    @Select("select * from sys_role where id in (select role_id from rel_user_role where user_id = #{id})")
+    List<Role> selectRoleByUserId(int userId);
 }

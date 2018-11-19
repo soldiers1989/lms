@@ -1,6 +1,1 @@
-
-
-
-
-
- int insertBatch(List<ActivateHistory> activateHistoryList);
+    @Select("select * from sys_auth where id in( select * from sys_role where id in (select role_id from rel_user_role where user_id = #{id}))")

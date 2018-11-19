@@ -34,7 +34,7 @@ public class UserController extends BaseController {
         UsernamePasswordToken token = new UsernamePasswordToken(username, CommonUtil.String.MD5(user.getPassword()));
         subject.login(token);
         logger.info("token:" + token);
-        return super.getSuccessResult(1);
+        return super.getToken(subject.getSession().getId().toString());
     }
 
     //1.密码修改

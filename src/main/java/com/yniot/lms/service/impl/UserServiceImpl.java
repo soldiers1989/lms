@@ -28,7 +28,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public User selectByUserId(int userId) {
-
         return null;
     }
 
@@ -44,8 +43,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public int changePassword(String username, String oldPassword, String newPassword) {
-
-
         return 0;
     }
 

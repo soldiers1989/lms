@@ -1,8 +1,10 @@
 package com.yniot.lms.db.entity;
 
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.util.Date;
+
 @TableName("sys_user")
 public class User {
     private Integer id;
@@ -26,7 +28,7 @@ public class User {
     private String mail;
 
     private String wxUsername;
-
+    @TableLogic
     private Boolean deleted;
 
     private Date createTime;

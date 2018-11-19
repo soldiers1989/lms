@@ -21,11 +21,12 @@
       <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/resources" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
-      <excludeFolder url="file://$MODULE_DIR$/.idea" />
-      <excludeFolder url="file://$MODULE_DIR$/lms-admin/node_modules" />
+      <excludeFolder url="file://$MODULE_DIR$/avue-admin/node_modules" />
+      <excludeFolder url="file://$MODULE_DIR$/element-admin/node_modules" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
-    <content url="file://$MODULE_DIR$/lms-admin/node_modules" />
+    <content url="file://$MODULE_DIR$/avue-admin/node_modules" />
+    <content url="file://$MODULE_DIR$/element-admin/node_modules" />
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Maven: com.alibaba:druid-spring-boot-starter:1.1.10" level="project" />
@@ -112,6 +113,7 @@
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-autoconfigure:2.0.4.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot:2.0.4.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-devtools:2.0.4.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: com.baomidou:mybatis-plus-boot-starter:3.0.5" level="project" />
     <orderEntry type="library" name="Maven: com.baomidou:mybatis-plus:3.0.5" level="project" />
     <orderEntry type="library" name="Maven: com.baomidou:mybatis-plus-extension:3.0.5" level="project" />
     <orderEntry type="library" name="Maven: com.baomidou:mybatis-plus-core:3.0.5" level="project" />

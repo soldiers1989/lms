@@ -7,4 +7,7 @@ package com.yniot.lms.controller;
  * @Version 1.0.0
  */
 public class GoodsController {
+
+
+
 }

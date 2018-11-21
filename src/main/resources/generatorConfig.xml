@@ -33,21 +33,10 @@
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
 
-        <table tableName="rel_role_auth" domainObjectName="RelRoleAuth">
+        <table tableName="wechat_config" domainObjectName="WeChatConfig">
             <columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>
         </table>
-        <table tableName="rel_user_role" domainObjectName="RelUserRole">
-            <columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>
-        </table>
-        <table tableName="sys_user" domainObjectName="User">
-            <columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>
-        </table>
-        <table tableName="sys_auth" domainObjectName="Auth">
-            <columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>
-        </table>
-        <table tableName="sys_role" domainObjectName="Role">
-            <columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>
-        </table>
+
 
 
     </context>

@@ -2,10 +2,12 @@ package com.yniot.lms.controller.commonController;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import org.apache.log4j.Logger;
 
 import java.util.List;
 
 public class BaseController {
+    private static Logger logger = Logger.getLogger(BaseController.class);
 
     private JSONObject result = new JSONObject();
     private static String DATA_KEY = "data";
@@ -15,8 +17,10 @@ public class BaseController {
     private static String TOTAL_NUM_KEY = "totalNum";
 
     private static String ERROR_MSG_KEY = "errorMsg";
+    private static String STATUS_KEY = "status";
     private static String RESULT_KEY = "result";
     private static String DEFAULT_ERROR_MSG = "内部错误!";
+    private static int DEFAULT_SUCCESS_STATUS = 201;
 
     /**
      * 返回成功信息
@@ -28,7 +32,7 @@ public class BaseController {
         int pageNum = 1;
         int pageSize = 0;
         int totalNum = 0;
-        if(data instanceof List){
+        if (data instanceof List) {
             pageSize = ((List) data).size();
             totalNum = pageSize;
         }
@@ -43,6 +47,7 @@ public class BaseController {
     public String getSuccessResult(Object data, int pageNum, int pageSize, long total) {
         return this.getResult(true, data, "", pageNum, pageSize, total);
     }
+
 
     /**
      * 返回错误信息
@@ -70,6 +75,7 @@ public class BaseController {
 
     private String getResult(boolean successFlag, Object data, String errorMessage, int pageNum, int pageSize, long totalNum) {
         if (successFlag) {
+            this.result.put(STATUS_KEY, DEFAULT_SUCCESS_STATUS);
             this.result.put(DATA_KEY, data);
             this.result.put(PAGE_SIZE_KEY, pageSize);
             this.result.put(PAGE_NUM_KEY, pageNum);
@@ -77,6 +83,7 @@ public class BaseController {
             this.result.put(TOTAL_PAGE_NUM_KEY, totalPageNum);
             this.result.put(TOTAL_NUM_KEY, totalNum);
         } else {
+            logger.info("errorMessage:[" + errorMessage + "]");
             this.result.put(ERROR_MSG_KEY, errorMessage != null && errorMessage.isEmpty() ? DEFAULT_ERROR_MSG : errorMessage);
         }
         this.result.put(RESULT_KEY, successFlag);
@@ -84,8 +91,8 @@ public class BaseController {
     }
 
 
-    public String getToken(String token){
-        this.result.put("token",token);
+    public String getToken(String token) {
+        this.result.put("token", token);
         return JSONObject.toJSONString(this.result, SerializerFeature.WriteMapNullValue);
     }
 }

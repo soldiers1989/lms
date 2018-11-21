@@ -1,6 +1,6 @@
 {
-  "name": "element-admin",
-  "short_name": "element-admin",
+  "name": "lms-admin",
+  "short_name": "lms-admin",
   "icons": [
     {
       "src": "/img/icons/android-chrome-192x192.png",

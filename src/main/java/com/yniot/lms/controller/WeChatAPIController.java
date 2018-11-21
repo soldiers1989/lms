@@ -37,11 +37,6 @@ import java.io.IOException;
 @RestController
 @RequestMapping(value = "/WeChat", produces = "text/plain;charset=UTF-8")
 public class WeChatAPIController extends BaseController {
-    //下面三个类需要做成单例模式
-    protected static WxMpInMemoryConfigStorage config;
-    protected static WxMpService wxMpService;
-    protected static WxMpMessageRouter wxMpMessageRouter;
-
     private static String TIMESTAME_KEY = "timestamp";
     private static String SIGNATURE_KEY = "signature";
     private static String NONCE_KEY = "nonce";
@@ -52,51 +47,45 @@ public class WeChatAPIController extends BaseController {
     private static String AES_KEY = "aes";
     @Autowired
     WeChatService weChatService;
-
-    public WeChatAPIController() {
-
-    }
+    @Autowired
+    WxMpInMemoryConfigStorage config;
+    @Autowired
+    WxMpService wxMpService;
+    @Autowired
+    WxMpMessageRouter wxMpMessageRouter;
 
     @Bean
     public WxMpInMemoryConfigStorage initConfig() {
-
+        WxMpInMemoryConfigStorage config = new WxMpInMemoryConfigStorage();
+        WeChatConfig weChatConfig = weChatService.getConfig();
+        config.setAesKey(weChatConfig.getAesKey());
+        config.setAppId(weChatConfig.getAppId());
+        config.setToken(weChatConfig.getToken());
+        config.setSecret(weChatConfig.getAppSecret());
+        return config;
     }
 
-
-    /**
-     * @return void
-     * @Author wanggl
-     * @Description //初始化微信公众号配置
-     * @Date 14:50 2018-11-21
-     * @Param []
-     **/
-    private void initWeChatConfig() {
-        if (config == null) {
-            config = new WxMpInMemoryConfigStorage();
-            WeChatConfig weChatConfig = weChatService.getConfig();
-            config.setAesKey(weChatConfig.getAesKey());
-            config.setAppId(weChatConfig.getAppId());
-            config.setToken(weChatConfig.getToken());
-            config.setSecret(weChatConfig.getAppSecret());
-        }
-        if (wxMpService == null) {
-            wxMpService = new WxMpServiceHttpClientImpl();
-            wxMpService.setWxMpConfigStorage(config);
-        }
-        if (wxMpMessageRouter == null) {
-            WxMpMessageHandler logHandler = new WeChatLogHandler();
-            WxMpMessageHandler textHandler = new WeChatTextHandler();
-            WxMpMessageHandler imageHandler = new WeChatImageHandler();
-            WxMpMessageHandler oauth2handler = new WeChatOAuth2Handler();
-            wxMpMessageRouter = new WxMpMessageRouter(wxMpService);
-            wxMpMessageRouter
-                    .rule().handler(logHandler).next()
-                    .rule().async(false).content("哈哈").handler(textHandler).end()
-                    .rule().async(false).content("图片").handler(imageHandler).end()
-                    .rule().async(false).content("oauth").handler(oauth2handler).end();
-        }
+    @Bean
+    public WxMpService initWxMpService() {
+        WxMpService wxMpService = new WxMpServiceHttpClientImpl();
+        wxMpService.setWxMpConfigStorage(config);
+        return wxMpService;
     }
 
+    @Bean
+    public WxMpMessageRouter initWxMpMessageRouter() {
+        WxMpMessageHandler logHandler = new WeChatLogHandler();
+        WxMpMessageHandler textHandler = new WeChatTextHandler();
+        WxMpMessageHandler imageHandler = new WeChatImageHandler();
+        WxMpMessageHandler oauth2handler = new WeChatOAuth2Handler();
+        WxMpMessageRouter wxMpMessageRouter = new WxMpMessageRouter(wxMpService);
+        wxMpMessageRouter
+                .rule().handler(logHandler).next()
+                .rule().async(false).content("哈哈").handler(textHandler).end()
+                .rule().async(false).content("图片").handler(imageHandler).end()
+                .rule().async(false).content("oauth").handler(oauth2handler).end();
+        return wxMpMessageRouter;
+    }
 
     /**
      * @return void
@@ -107,7 +96,6 @@ public class WeChatAPIController extends BaseController {
      **/
     @RequestMapping("/api")
     public void auth(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        this.initWeChatConfig();
         String signature = request.getParameter(SIGNATURE_KEY);
         String timestamp = request.getParameter(TIMESTAME_KEY);
         String nonce = request.getParameter(NONCE_KEY);
@@ -150,7 +138,6 @@ public class WeChatAPIController extends BaseController {
     //1.微信菜单修改
     @RequestMapping("/menu/create")
     public String createWeChatMenu(@RequestParam(name = "menu") String jsonMenu) throws WxErrorException {
-        this.initWeChatConfig();
         WxMenu menu = WxMenu.fromJson(jsonMenu);
         return super.getSuccessResult(wxMpService.getMenuService().menuCreate(menu));
     }
@@ -158,7 +145,6 @@ public class WeChatAPIController extends BaseController {
 
     @RequestMapping("/menu/update")
     public String updateWeChatMenu() throws WxErrorException {
-        this.initWeChatConfig();
         String a = "{\n" +
                 "  \"button\": [\n" +
                 "    {\n" +
@@ -190,7 +176,6 @@ public class WeChatAPIController extends BaseController {
     //2.微信菜单删除
     @RequestMapping("/menu/delete")
     public String deleteWeChatMenu() throws WxErrorException {
-        this.initWeChatConfig();
         wxMpService.getMenuService().menuDelete();
         return super.getSuccessResult(1);
     }
@@ -198,7 +183,6 @@ public class WeChatAPIController extends BaseController {
     //3.获取微信菜单
     @RequestMapping("/menu/select")
     public String selectWeChatMenu() throws WxErrorException {
-        this.initWeChatConfig();
         WxMpMenu wxMenu = wxMpService.getMenuService().menuGet();
         return super.getSuccessResult(wxMenu.getMenu().getButtons());
     }
@@ -207,7 +191,6 @@ public class WeChatAPIController extends BaseController {
     //4.微信公众号配置修改
     @RequestMapping("/config/update")
     public String changeWeChatMenu(@RequestBody WeChatConfig weChatConfig) {
-        this.initWeChatConfig();
         return super.getSuccessResult(weChatService.updateConfig(weChatConfig));
     }
 
@@ -215,7 +198,6 @@ public class WeChatAPIController extends BaseController {
     //5.获取微信公众号配置
     @RequestMapping("/config/select")
     public String selectWeChatConfig() {
-        this.initWeChatConfig();
         return super.getSuccessResult(weChatService.getConfig());
     }
 

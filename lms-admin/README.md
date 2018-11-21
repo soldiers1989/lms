@@ -1,4 +1,4 @@
-# element-admin
+# lms-admin
 
 > **Lightweight** admin template based on vue and element-ui
 
@@ -32,13 +32,13 @@ npm run build
 QQ群(PowerTeam) 466234012
 
 ## Screenshot
-![image](https://raw.githubusercontent.com/wiki/yupeng957/element-admin/login.png)
-![image](https://raw.githubusercontent.com/wiki/yupeng957/element-admin/dashboard.png)
-![image](https://raw.githubusercontent.com/wiki/yupeng957/element-admin/list.png)
-![image](https://raw.githubusercontent.com/wiki/yupeng957/element-admin/form.png)
-![image](https://raw.githubusercontent.com/wiki/yupeng957/element-admin/setting.png)
-![image](https://raw.githubusercontent.com/wiki/yupeng957/element-admin/sidebar.png)
+![image](https://raw.githubusercontent.com/wiki/yupeng957/lms-admin/login.png)
+![image](https://raw.githubusercontent.com/wiki/yupeng957/lms-admin/dashboard.png)
+![image](https://raw.githubusercontent.com/wiki/yupeng957/lms-admin/list.png)
+![image](https://raw.githubusercontent.com/wiki/yupeng957/lms-admin/form.png)
+![image](https://raw.githubusercontent.com/wiki/yupeng957/lms-admin/setting.png)
+![image](https://raw.githubusercontent.com/wiki/yupeng957/lms-admin/sidebar.png)
 
 ## Donation :moneybag:
 If you find Element useful, you can buy us a cup of coffee
-![image](https://raw.githubusercontent.com/wiki/yupeng957/element-admin/Pay.png)
+![image](https://raw.githubusercontent.com/wiki/yupeng957/lms-admin/Pay.png)

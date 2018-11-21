@@ -60,8 +60,8 @@
                     <div slot="header">
                         <span>动态</span>
                     </div>
-                    <el-row v-for="n in 10" :key="n">
-                        <el-col :span="20">张三 新建了项目 <span class="text-primary">Element Admin</span></el-col>
+                    <el-row v-for="n in 2" :key="n">
+                        <el-col :span="20">张三 新建了项目 <span class="text-primary">Admin</span></el-col>
                         <el-col :span="4" class="text-info"> 2018-3-1 13:43</el-col>
                     </el-row>
                 </el-card>
@@ -75,42 +75,6 @@
                             </div>
                             <div class="text-primary">2018新款韩版潮流男士夏装丅恤上衣服
                                 <el-tag type="danger" size="mini" class="float-right">¥ 302</el-tag>
-                            </div>
-                            <hr>
-                            <div class="text-primary">2018新款韩版潮流男士夏装丅恤上衣服
-                                <el-tag type="danger" size="mini" class="float-right">¥ 102</el-tag>
-                            </div>
-                            <hr>
-                            <div class="text-primary">2018新款韩版潮流男士夏装丅恤上衣服
-                                <el-tag type="danger" size="mini" class="float-right">¥ 59</el-tag>
-                            </div>
-                            <hr>
-                            <div class="text-primary">2018新款韩版潮流男士夏装丅恤上衣服
-                                <el-tag type="danger" size="mini" class="float-right">¥ 1239</el-tag>
-                            </div>
-                            <hr>
-                            <div class="text-primary">2018新款韩版潮流男士夏装丅恤上衣服
-                                <el-tag type="danger" size="mini" class="float-right">¥ 1239</el-tag>
-                            </div>
-                            <hr>
-                            <div class="text-primary">2018新款韩版潮流男士夏装丅恤上衣服
-                                <el-tag type="danger" size="mini" class="float-right">¥ 302</el-tag>
-                            </div>
-                            <hr>
-                            <div class="text-primary">2018新款韩版潮流男士夏装丅恤上衣服
-                                <el-tag type="danger" size="mini" class="float-right">¥ 102</el-tag>
-                            </div>
-                            <hr>
-                            <div class="text-primary">2018新款韩版潮流男士夏装丅恤上衣服
-                                <el-tag type="danger" size="mini" class="float-right">¥ 59</el-tag>
-                            </div>
-                            <hr>
-                            <div class="text-primary">2018新款韩版潮流男士夏装丅恤上衣服
-                                <el-tag type="danger" size="mini" class="float-right">¥ 1239</el-tag>
-                            </div>
-                            <hr>
-                            <div class="text-primary">2018新款韩版潮流男士夏装丅恤上衣服
-                                <el-tag type="danger" size="mini" class="float-right">¥ 1239</el-tag>
                             </div>
                         </el-card>
                     </el-col>

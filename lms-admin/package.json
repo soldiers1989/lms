@@ -1,5 +1,5 @@
 {
-  "name": "element-admin",
+  "name": "lms-admin",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -21,10 +21,8 @@
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.0.3",
-    "@vue/cli-plugin-eslint": "^3.0.3",
     "@vue/cli-plugin-pwa": "^3.0.3",
     "@vue/cli-service": "^3.0.3",
-    "@vue/eslint-config-prettier": "^3.0.3",
     "mockjs": "^1.0.1-beta3",
     "node-sass": "^4.9.3",
     "sass-loader": "^7.1.0",

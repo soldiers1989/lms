@@ -3,7 +3,7 @@
         <el-aside class="sidebar" v-bind:class="{'sidebar-collapse':isCollapse}">
             <el-header class="logo">
                 <img src="@/assets/logo.png">
-                <h1>Element Admin</h1>
+                <h1>LMS Admin</h1>
             </el-header>
             <el-menu :router="true" :default-active="$route.path" :collapse="isCollapse">
                 <el-menu-item v-for="menu in this.$store.state.menuTree" :key="menu.menuId" :index="menu.link" v-if="menu.children.length===0">
@@ -26,13 +26,6 @@
             <el-header class="header">
                 <i @click="isCollapse=!isCollapse" class="el-icon-menu sidebarToggle"></i>
                 <div class="float-right">
-                    <el-dropdown trigger="click" class="header-action">
-                        <span>语言<i class="el-icon-arrow-down el-icon--right"></i></span>
-                        <el-dropdown-menu slot="dropdown">
-                            <el-dropdown-item>中文</el-dropdown-item>
-                            <el-dropdown-item>English</el-dropdown-item>
-                        </el-dropdown-menu>
-                    </el-dropdown>
                     <el-dropdown trigger="click" @command="handleCommand" class="header-action">
                         <span>Admin<i class="el-icon-arrow-down el-icon--right"></i></span>
                         <el-dropdown-menu slot="dropdown">

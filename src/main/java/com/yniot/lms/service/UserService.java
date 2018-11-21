@@ -26,6 +26,8 @@ public interface UserService extends IService<User> {
 
     int relateRole(String userId,int roleId,boolean relate);
 
+    User selectUser(String username,String password);
+
 
 
 }

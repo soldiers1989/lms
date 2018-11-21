@@ -33,8 +33,9 @@ public class UserController extends BaseController {
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(username, CommonUtil.String.MD5(user.getPassword()));
         subject.login(token);
-        logger.info("token:" + token);
-        return super.getToken(subject.getSession().getId().toString());
+        String sessionId = subject.getSession().getId().toString();
+        logger.info("token:" + sessionId);
+        return super.getToken(sessionId);
     }
 
     //1.密码修改
@@ -45,11 +46,41 @@ public class UserController extends BaseController {
         return super.getSuccessResult(userService.changePassword(username, oldPassword, newPassword));
     }
 
+    /**
+     *  信息修改
+     * @param user
+     * @return
+     */
+    @PostMapping("/changeInfo")
+    public String changeInfo(@RequestBody User user) {
+        return super.getSuccessResult(userService.updateUserInfo(user));
+    }
 
-    //2.信息修改
+
+
 
 
     //3.退出登陆
+    @PostMapping("/logout")
+    public String logout(@RequestBody User user) {
+        Subject subject = SecurityUtils.getSubject();
+        subject.logout();
+        return super.getSuccessResult(1);
+    }
+
+
+
+
+    //5.评价
+
+
+    //6.投诉
+
+
+    //7.获取优惠劵
+
+
+
 
 
 }

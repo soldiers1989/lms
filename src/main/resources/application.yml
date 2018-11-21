@@ -19,38 +19,31 @@ spring:
     database: 6
     password: yniotredis
   datasource:
-    url: jdbc:mysql://120.79.91.131:3306/lms?useUnicode=true&characterEncoding=utf-8&useSSL=false
-    username: lms_admin
-    password: lms_admin
-    driver-class-name: com.mysql.jdbc.Driver
-    platform: mysql
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
+      url: jdbc:mysql://120.79.91.131:3306/lms
+      username: lms_admin
+      password: lms_admin
       initial-size: 1
-      minIdle: 3
-      maxActive: 20
-      maxWait: 6000
-      timeBetweenEvictionRunsMillis: 60000
-      minEvictableIdleTimeMillis: 30000
-      validationQuery: select 1
-      testWhileIdle: true
-      testOnBorrow: false
-      testOnReturn: false
-      poolPreparedStatements: true
-      maxPoolPreparedStatementPerConnectionSize: 20
+      min-idle: 5
+      max-active: 50
+      max-wait: 6000
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 30000
+      validation-query: select 1
+      test-while-idle: false
+      test-on-borrow: false
+      test-on-return: false
       filters: stat,wall,slf4j
-      connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+      connect-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+
   jpa:
     show-sql: true
-    properties:
-      hibernate:
-        hbm2ddl:
-          auto: create
 
-#logging:
-#  config: classpath:logback-boot.xml
+logging:
+  config: classpath:logback-boot.xml
 mybatis-plus:
   global-config:
     db-config:
-      logic-delete-value:true # 逻辑已删除值(默认为 1)
-      logic-not-delete-value: false # 逻辑未删除值(默认为 0)
+      logic-delete-value:true # 逻辑删除
+      logic-not-delete-value: false # 逻辑删除

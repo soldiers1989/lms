@@ -21,6 +21,11 @@ public class AdminController extends BaseController {
     UserService userService;
 
 
+    /**
+     * 添加用户
+     * @param user
+     * @return
+     */
     @AdminOnly
     @RequestMapping("/addUser")
     public String addUser(@RequestBody User user) {
@@ -28,6 +33,10 @@ public class AdminController extends BaseController {
     }
 
 
+    /**
+     * 获取所有用户
+     * @return
+     */
     @AdminOnly
     @RequestMapping("/allUser")
     public String getAllUser() {
@@ -35,5 +44,11 @@ public class AdminController extends BaseController {
         userQueryWrapper.eq("deleted", "false");
         return super.getSuccessResult(userService.list(userQueryWrapper));
     }
+
+
+    //1.新增衣物类型
+
+
+    //2.
 
 }

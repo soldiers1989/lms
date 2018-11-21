@@ -8,7 +8,7 @@
                     </el-form-item>
                     <el-form-item label="手机号码">
                         <el-input placeholder="请输入手机号码" class="input-with-select">
-                            <el-select slot="prepend" placeholder="请选择国际码" style="width: 140px">
+                            <el-select slot="prepend" v-model="phone" placeholder="请选择国际码" style="width: 140px">
                                 <el-option label="中国 86" value="86"></el-option>
                                 <el-option label="英国 44" value="44"></el-option>
                                 <el-option label="秘鲁 51" value="51"></el-option>
@@ -23,7 +23,9 @@
                         <el-radio v-model="radio" label="2">女</el-radio>
                     </el-form-item>
                     <el-form-item label="出生日期">
-                        <el-date-picker align="right" type="date" placeholder="选择出生日期" :picker-options="$store.state.datePickerOptions" style="width: 100%;"></el-date-picker>
+                        <el-date-picker align="right" type="date" placeholder="选择出生日期"
+                                        :picker-options="$store.state.datePickerOptions"
+                                        style="width: 100%;"></el-date-picker>
                     </el-form-item>
                     <el-form-item>
                         <el-button type="primary">更新</el-button>
@@ -70,13 +72,17 @@
     </el-card>
 </template>
 <script>
-export default {
-  name: "Profile",
-  data() {
-    return {
-      test: true
+    export default {
+        name: "Profile",
+        data() {
+            return {
+                phone: "",
+                form: {},
+                radio: "",
+                test: true
+            };
+        },
+        mounted() {
+        }
     };
-  },
-  mounted() {}
-};
 </script>

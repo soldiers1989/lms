@@ -4,9 +4,9 @@
       <el-col :model="user" :offset="9" :span="6">
         <el-card class="login-box" v-loading="$store.state.loading" element-loading-background="rgba(0, 0, 0, 0.8)">
           <el-form>
-            <h1 class="title">欢迎使用22</h1>
+            <h1 class="title">欢迎使用</h1>
             <el-form-item>
-              <el-input type="text" v-model="user.userName" auto-complete="off" placeholder="请输入用户名..." suffix-icon="el-icon-bell"></el-input>
+              <el-input type="text" v-model="user.username" auto-complete="off" placeholder="请输入用户名..." suffix-icon="el-icon-bell"></el-input>
             </el-form-item>
             <el-form-item>
               <el-input type="password" v-model="user.password" auto-complete="off" placeholder="请输入密码..." suffix-icon="el-icon-edit"></el-input>
@@ -50,14 +50,14 @@ export default {
   data() {
     return {
       user: {
-        userName: "",
+        username: "",
         password: ""
       }
     };
   },
   methods: {
     login() {
-      this.$http.post("/passport/signIn", this.user).then(res => {
+      this.$http.post("/user/login", this.user).then(res => {
         if (res.data.token) {
           this.$store.commit("setToken", res.data.token);
           this.$router.push({ path: "/dashboard" });

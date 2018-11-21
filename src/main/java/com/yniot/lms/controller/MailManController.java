@@ -7,4 +7,9 @@ package com.yniot.lms.controller;
  * @Version 1.0.0
  */
 public class MailManController {
+
+
+    //1.取货
+    //2.存货
+    //3.申请
 }

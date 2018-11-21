@@ -54,6 +54,13 @@ public class WeChatAPIController extends BaseController {
     @Autowired
     WxMpMessageRouter wxMpMessageRouter;
 
+    /**
+     * @Author wanggl
+     * @Description 自动装配
+     * @Date 21:06 2018-11-21
+     * @Param []
+     * @return me.chanjar.weixin.mp.api.WxMpInMemoryConfigStorage
+     **/
     @Bean
     public WxMpInMemoryConfigStorage initConfig() {
         WxMpInMemoryConfigStorage config = new WxMpInMemoryConfigStorage();

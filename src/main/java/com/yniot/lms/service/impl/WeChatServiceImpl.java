@@ -13,7 +13,7 @@ import java.util.List;
 
 /**
  * @program: lms
- * @description: ${description}
+ * @description:
  * @author: wanggl
  * @create: 2018-11-21 14:21
  **/

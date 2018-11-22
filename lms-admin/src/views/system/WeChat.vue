@@ -18,6 +18,9 @@
                     <el-form-item size="mini" prop="oriId" label="原始id">
                         <el-input v-model="weChatConfig.oriId"></el-input>
                     </el-form-item>
+                    <el-form-item size="mini" prop="callbackDomain" label="授权回调域名">
+                        <el-input v-model="weChatConfig.callbackDomain"></el-input>
+                    </el-form-item>
                     <el-form-item>
                         <el-button size="mini" type="primary" @click="updateConfig">更新</el-button>
                     </el-form-item>

@@ -2,11 +2,13 @@ package com.yniot.lms.controller;
 
 import com.yniot.lms.controller.commonController.BaseController;
 import com.yniot.lms.db.entity.WeChatConfig;
+import com.yniot.lms.service.UserService;
 import com.yniot.lms.service.WeChatService;
 import com.yniot.lms.service.wechat.WeChatImageHandler;
 import com.yniot.lms.service.wechat.WeChatLogHandler;
 import com.yniot.lms.service.wechat.WeChatOAuth2Handler;
 import com.yniot.lms.service.wechat.WeChatTextHandler;
+import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.bean.menu.WxMenu;
 import me.chanjar.weixin.common.error.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpInMemoryConfigStorage;
@@ -17,18 +19,24 @@ import me.chanjar.weixin.mp.api.impl.WxMpServiceHttpClientImpl;
 import me.chanjar.weixin.mp.bean.menu.WxMpMenu;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlMessage;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlOutMessage;
+import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
+import me.chanjar.weixin.mp.bean.result.WxMpUser;
 import me.chanjar.weixin.mp.bean.template.WxMpTemplate;
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -38,8 +46,9 @@ import java.util.List;
  * @Date 15:38 2018-11-21
  **/
 @RestController
-@RequestMapping(value = "/WeChat", produces = "text/plain;charset=UTF-8")
+@RequestMapping(value = WeChatAPIController.WECHAT_PATH, produces = "text/plain;charset=UTF-8")
 public class WeChatAPIController extends BaseController {
+    public static final String WECHAT_PATH = "/WeChat";
     private static String TIMESTAME_KEY = "timestamp";
     private static String SIGNATURE_KEY = "signature";
     private static String NONCE_KEY = "nonce";
@@ -238,5 +247,38 @@ public class WeChatAPIController extends BaseController {
         return super.getSuccessResult(this.wxMpService.getTemplateMsgService().sendTemplateMsg(wxMpTemplateMessage));
     }
 
+
+    public static final String CALLBACK_PATH = "/OAuth2/callback";
+
+    @RequestMapping(WeChatAPIController.CALLBACK_PATH)
+    public String auth2Callback(@RequestParam(name = "code") String code) throws WxErrorException {
+        WxMpOAuth2AccessToken wxMpOAuth2AccessToken = this.wxMpService.oauth2getAccessToken(code);
+        WxMpUser wxMpUser = wxMpService.oauth2getUserInfo(wxMpOAuth2AccessToken, null);
+//        wxMpOAuth2AccessToken = wxMpService.oauth2refreshAccessToken(wxMpOAuth2AccessToken.getRefreshToken());
+//        boolean valid = wxMpService.oauth2validateAccessToken(wxMpOAuth2AccessToken);
+        return super.getSuccessResult(wxMpUser.getOpenId());
+    }
+
+    @RequestMapping("/auth2")
+    public String auth2() throws WxErrorException {
+        String callbackUrl = weChatService.getConfig().getCallbackDomain() + WeChatAPIController.WECHAT_PATH + WeChatAPIController.CALLBACK_PATH;
+        return super.getSuccessResult(this.wxMpService.oauth2buildAuthorizationUrl(callbackUrl, WxConsts.OAuth2Scope.SNSAPI_USERINFO, null));
+    }
+
+
+    @Value("${wechat.auth.path}")
+    private String authFilePath;
+
+    /**
+     * @return org.springframework.http.ResponseEntity<byte                                                               [                                                               ]>
+     * @Author wanggl
+     * @Description 获取授权文件
+     * @Date 10:41 2018-11-22
+     * @Param [fileName]
+     **/
+    @RequestMapping(value = {"/{fileName:.*}"})//":.*"禁止忽略文件后缀名
+    public ResponseEntity<byte[]> authFilePath(@PathVariable(value = "fileName") String fileName) throws IOException {
+        return super.getFile(authFilePath, fileName);
+    }
 
 }

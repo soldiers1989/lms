@@ -2,10 +2,24 @@ package com.yniot.lms.controller.commonController;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
+/**
+ * @Author wanggl
+ * @Description 通用方法
+ * @create 10:55 2018-8-15
+ * @modify 15:2 2018-11-22
+ **/
 public class BaseController {
     private static Logger logger = Logger.getLogger(BaseController.class);
 
@@ -94,5 +108,18 @@ public class BaseController {
     public String getToken(String token) {
         this.result.put("token", token);
         return JSONObject.toJSONString(this.result, SerializerFeature.WriteMapNullValue);
+    }
+
+
+    public ResponseEntity<byte[]> getFile(String path, String fileName) throws IOException {
+        File file = new File(path + "/" + fileName);
+        if (!file.exists()) {
+            return null;
+        }
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentDispositionFormData("attachment", fileName);
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),
+                headers, HttpStatus.CREATED);
     }
 }

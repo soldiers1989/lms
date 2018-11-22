@@ -68,6 +68,9 @@
                     </el-col>
                 </el-row>
             </el-tab-pane>
+            <el-tab-pane label="通知管理">
+                <el-button @click="relateWeChat">关联微信</el-button>
+            </el-tab-pane>
         </el-tabs>
     </el-card>
 </template>
@@ -83,6 +86,15 @@
             };
         },
         mounted() {
+        },
+        methods: {
+            relateWeChat() {
+                this.$http.post("/WeChat/auth2", this.weChatConfig).then(res => {
+                    if (res.data.result && res.data.data) {
+                        window.location = res.data.data;
+                    }
+                });
+            }
         }
     };
 </script>

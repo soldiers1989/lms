@@ -33,37 +33,13 @@
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
 
-        <table tableName="biz_order" domainObjectName="Order">
-            <columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>
-        </table>
-
-        <table tableName="biz_order_goods" domainObjectName="OrderGoods">
-            <columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>
-        </table>
-
-        <table tableName="biz_order_state_history" domainObjectName="OrderStateHistory">
-            <columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>
-        </table>
-
-        <table tableName="biz_price_table" domainObjectName="PriceTable">
-            <columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>
-        </table>
-
-        <table tableName="sys_login_history" domainObjectName="LoginHistory">
-            <columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>
-        </table>
-        <table tableName="biz_laundry" domainObjectName="Laundry">
-            <columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>
-        </table>
-
-        <table tableName="biz_goods_code" domainObjectName="GoodsCode">
-            <columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>
-        </table>
-
         <table tableName="biz_application" domainObjectName="Application">
             <columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>
         </table>
 
+        <table tableName="biz_order" domainObjectName="Order">
+            <columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>
+        </table>
 
     </context>
 </generatorConfiguration>

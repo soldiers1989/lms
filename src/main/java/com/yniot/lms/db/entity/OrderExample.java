@@ -1265,6 +1265,196 @@ public class OrderExample {
             addCriterion("expire_in_min not between", value1, value2, "expireInMin");
             return (Criteria) this;
         }
+
+        public Criteria andCommentIsNull() {
+            addCriterion("comment is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommentIsNotNull() {
+            addCriterion("comment is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommentEqualTo(String value) {
+            addCriterion("comment =", value, "comment");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommentNotEqualTo(String value) {
+            addCriterion("comment <>", value, "comment");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommentGreaterThan(String value) {
+            addCriterion("comment >", value, "comment");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommentGreaterThanOrEqualTo(String value) {
+            addCriterion("comment >=", value, "comment");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommentLessThan(String value) {
+            addCriterion("comment <", value, "comment");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommentLessThanOrEqualTo(String value) {
+            addCriterion("comment <=", value, "comment");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommentLike(String value) {
+            addCriterion("comment like", value, "comment");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommentNotLike(String value) {
+            addCriterion("comment not like", value, "comment");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommentIn(List<String> values) {
+            addCriterion("comment in", values, "comment");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommentNotIn(List<String> values) {
+            addCriterion("comment not in", values, "comment");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommentBetween(String value1, String value2) {
+            addCriterion("comment between", value1, value2, "comment");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommentNotBetween(String value1, String value2) {
+            addCriterion("comment not between", value1, value2, "comment");
+            return (Criteria) this;
+        }
+
+        public Criteria andStarsIsNull() {
+            addCriterion("stars is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStarsIsNotNull() {
+            addCriterion("stars is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStarsEqualTo(Integer value) {
+            addCriterion("stars =", value, "stars");
+            return (Criteria) this;
+        }
+
+        public Criteria andStarsNotEqualTo(Integer value) {
+            addCriterion("stars <>", value, "stars");
+            return (Criteria) this;
+        }
+
+        public Criteria andStarsGreaterThan(Integer value) {
+            addCriterion("stars >", value, "stars");
+            return (Criteria) this;
+        }
+
+        public Criteria andStarsGreaterThanOrEqualTo(Integer value) {
+            addCriterion("stars >=", value, "stars");
+            return (Criteria) this;
+        }
+
+        public Criteria andStarsLessThan(Integer value) {
+            addCriterion("stars <", value, "stars");
+            return (Criteria) this;
+        }
+
+        public Criteria andStarsLessThanOrEqualTo(Integer value) {
+            addCriterion("stars <=", value, "stars");
+            return (Criteria) this;
+        }
+
+        public Criteria andStarsIn(List<Integer> values) {
+            addCriterion("stars in", values, "stars");
+            return (Criteria) this;
+        }
+
+        public Criteria andStarsNotIn(List<Integer> values) {
+            addCriterion("stars not in", values, "stars");
+            return (Criteria) this;
+        }
+
+        public Criteria andStarsBetween(Integer value1, Integer value2) {
+            addCriterion("stars between", value1, value2, "stars");
+            return (Criteria) this;
+        }
+
+        public Criteria andStarsNotBetween(Integer value1, Integer value2) {
+            addCriterion("stars not between", value1, value2, "stars");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommentTimeIsNull() {
+            addCriterion("comment_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommentTimeIsNotNull() {
+            addCriterion("comment_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommentTimeEqualTo(Date value) {
+            addCriterion("comment_time =", value, "commentTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommentTimeNotEqualTo(Date value) {
+            addCriterion("comment_time <>", value, "commentTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommentTimeGreaterThan(Date value) {
+            addCriterion("comment_time >", value, "commentTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommentTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("comment_time >=", value, "commentTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommentTimeLessThan(Date value) {
+            addCriterion("comment_time <", value, "commentTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommentTimeLessThanOrEqualTo(Date value) {
+            addCriterion("comment_time <=", value, "commentTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommentTimeIn(List<Date> values) {
+            addCriterion("comment_time in", values, "commentTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommentTimeNotIn(List<Date> values) {
+            addCriterion("comment_time not in", values, "commentTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommentTimeBetween(Date value1, Date value2) {
+            addCriterion("comment_time between", value1, value2, "commentTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommentTimeNotBetween(Date value1, Date value2) {
+            addCriterion("comment_time not between", value1, value2, "commentTime");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

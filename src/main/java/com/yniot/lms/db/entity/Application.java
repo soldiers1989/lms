@@ -19,6 +19,10 @@ public class Application {
 
     private Integer assessorId;
 
+    private String reason;
+
+    private String openId;
+
     public Integer getId() {
         return id;
     }
@@ -81,5 +85,21 @@ public class Application {
 
     public void setAssessorId(Integer assessorId) {
         this.assessorId = assessorId;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason == null ? null : reason.trim();
+    }
+
+    public String getOpenId() {
+        return openId;
+    }
+
+    public void setOpenId(String openId) {
+        this.openId = openId == null ? null : openId.trim();
     }
 }

@@ -1,6 +1,7 @@
 package com.yniot.lms.controller.commonController;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 /**
  * @Author wanggl
@@ -12,5 +13,11 @@ public class BaseControllerT<T> extends BaseController {
 
     public String getSuccessPage(IPage<T> page) {
         return super.getSuccessResult(page.getRecords(), page.getPages(), page.getSize(), page.getTotal());
+    }
+
+    public Page<T> getPage(Page<T> page, long pageNum, long pageSize) {
+        page.setPages(pageNum);
+        page.setSize(pageSize);
+        return page;
     }
 }

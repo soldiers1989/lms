@@ -42,6 +42,12 @@ public class Order {
 
     private Integer expireInMin;
 
+    private String comment;
+
+    private Integer stars;
+
+    private Date commentTime;
+
     public Integer getId() {
         return id;
     }
@@ -192,5 +198,29 @@ public class Order {
 
     public void setExpireInMin(Integer expireInMin) {
         this.expireInMin = expireInMin;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment == null ? null : comment.trim();
+    }
+
+    public Integer getStars() {
+        return stars;
+    }
+
+    public void setStars(Integer stars) {
+        this.stars = stars;
+    }
+
+    public Date getCommentTime() {
+        return commentTime;
+    }
+
+    public void setCommentTime(Date commentTime) {
+        this.commentTime = commentTime;
     }
 }

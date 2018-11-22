@@ -17,7 +17,7 @@ public class UserController extends BaseController {
     private static Logger logger = Logger.getLogger(UserController.class);
     @Autowired
     UserService userService;
-
+    //0.普通用户 10.洗衣店配送员   20.洗衣店管理员 25.洗衣店管理员和配送员  30.系统运营人员
 
     //0.登陆
     @RequestMapping("/login")
@@ -66,8 +66,6 @@ public class UserController extends BaseController {
         return super.getSuccessResult(1);
     }
 
-
-    //5.评价
 
 
     //6.投诉

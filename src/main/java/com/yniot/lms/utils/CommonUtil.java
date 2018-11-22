@@ -12,10 +12,7 @@ import java.io.*;
 import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -218,12 +215,28 @@ public class CommonUtil {
             return true;
         }
 
+
         public static java.lang.String MD5(java.lang.String content) {
             if (!StringUtils.isEmpty(content)) {
                 return DigestUtils.md5DigestAsHex(content.getBytes());
             } else {
                 return "";
             }
+        }
+
+        public static java.lang.String RandomWord(int length) {
+            java.lang.String val = "";
+            Random random = new Random();
+            for (int i = 0; i < length; i++) {
+                java.lang.String charOrNum = random.nextInt(2) % 2 == 0 ? "char" : "num";
+                if ("char".equalsIgnoreCase(charOrNum)) {
+                    int temp = random.nextInt(2) % 2 == 0 ? 65 : 97;
+                    val += (char) (random.nextInt(26) + temp);
+                } else if ("num".equalsIgnoreCase(charOrNum)) {
+                    val += java.lang.String.valueOf(random.nextInt(10));
+                }
+            }
+            return val;
         }
 
         public static boolean equalsAll(java.lang.String target, java.lang.String... str) {

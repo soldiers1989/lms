@@ -8,7 +8,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,20 +20,20 @@ import java.util.List;
  * @modify 15:2 2018-11-22
  **/
 public class BaseController {
-    private static Logger logger = Logger.getLogger(BaseController.class);
+    protected static Logger logger = Logger.getLogger(BaseController.class);
 
-    private JSONObject result = new JSONObject();
-    private static String DATA_KEY = "data";
-    private static String PAGE_SIZE_KEY = "size";
-    private static String PAGE_NUM_KEY = "pageNum";
-    private static String TOTAL_PAGE_NUM_KEY = "totalPageNum";
-    private static String TOTAL_NUM_KEY = "totalNum";
+    protected JSONObject result = new JSONObject();
+    protected static String DATA_KEY = "data";
+    public final static String PAGE_SIZE_KEY = "pageSize";
+    public final static String PAGE_NUM_KEY = "pageNum";
+    protected static String TOTAL_PAGE_NUM_KEY = "totalPageNum";
+    protected static String TOTAL_NUM_KEY = "totalNum";
 
-    private static String ERROR_MSG_KEY = "errorMsg";
-    private static String STATUS_KEY = "status";
-    private static String RESULT_KEY = "result";
-    private static String DEFAULT_ERROR_MSG = "内部错误!";
-    private static int DEFAULT_SUCCESS_STATUS = 201;
+    protected static String ERROR_MSG_KEY = "errorMsg";
+    protected static String STATUS_KEY = "status";
+    protected static String RESULT_KEY = "result";
+    protected static String DEFAULT_ERROR_MSG = "内部错误!";
+    protected static int DEFAULT_SUCCESS_STATUS = 201;
 
     /**
      * 返回成功信息
@@ -43,9 +42,9 @@ public class BaseController {
      * @return
      */
     public String getSuccessResult(Object data) {
-        int pageNum = 1;
-        int pageSize = 0;
-        int totalNum = 0;
+        long pageNum = 1;
+        long pageSize = 0;
+        long totalNum = 0;
         if (data instanceof List) {
             pageSize = ((List) data).size();
             totalNum = pageSize;
@@ -58,7 +57,7 @@ public class BaseController {
     }
 
 
-    public String getSuccessResult(Object data, int pageNum, int pageSize, long total) {
+    public String getSuccessResult(Object data, long pageNum, long pageSize, long total) {
         return this.getResult(true, data, "", pageNum, pageSize, total);
     }
 
@@ -87,7 +86,7 @@ public class BaseController {
     }
 
 
-    private String getResult(boolean successFlag, Object data, String errorMessage, int pageNum, int pageSize, long totalNum) {
+    private String getResult(boolean successFlag, Object data, String errorMessage, long pageNum, long pageSize, long totalNum) {
         if (successFlag) {
             this.result.put(STATUS_KEY, DEFAULT_SUCCESS_STATUS);
             this.result.put(DATA_KEY, data);
@@ -122,4 +121,6 @@ public class BaseController {
         return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),
                 headers, HttpStatus.CREATED);
     }
+
+
 }

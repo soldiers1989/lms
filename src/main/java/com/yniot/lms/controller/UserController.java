@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping(value = "/user", produces = "text/plain;charset=UTF-8")
 public class UserController extends BaseController {
     private static Logger logger = Logger.getLogger(UserController.class);
     @Autowired
@@ -20,7 +20,7 @@ public class UserController extends BaseController {
 
 
     //0.登陆
-    @PostMapping("/login")
+    @RequestMapping("/login")
     public String login(@RequestBody User user) throws Exception {
         if (user == null) {
             return super.getErrorMsg("请正确输入账号密码");
@@ -39,7 +39,7 @@ public class UserController extends BaseController {
     }
 
     //1.密码修改
-    @PostMapping("/changePsw")
+    @RequestMapping("/changePsw")
     public String changePsw(@RequestParam(name = "username") String username,
                             @RequestParam(name = "oldPassword") String oldPassword,
                             @RequestParam(name = "newPassword") String newPassword) {
@@ -47,28 +47,24 @@ public class UserController extends BaseController {
     }
 
     /**
-     *  信息修改
+     * 信息修改
+     *
      * @param user
      * @return
      */
-    @PostMapping("/changeInfo")
+    @RequestMapping("/changeInfo")
     public String changeInfo(@RequestBody User user) {
         return super.getSuccessResult(userService.updateUserInfo(user));
     }
 
 
-
-
-
     //3.退出登陆
-    @PostMapping("/logout")
-    public String logout(@RequestBody User user) {
+    @RequestMapping("/logout")
+    public String logout() {
         Subject subject = SecurityUtils.getSubject();
         subject.logout();
         return super.getSuccessResult(1);
     }
-
-
 
 
     //5.评价
@@ -78,9 +74,6 @@ public class UserController extends BaseController {
 
 
     //7.获取优惠劵
-
-
-
 
 
 }

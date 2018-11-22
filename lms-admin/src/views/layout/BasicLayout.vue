@@ -6,7 +6,8 @@
                 <h1>LMS Admin</h1>
             </el-header>
             <el-menu :router="true" :default-active="$route.path" :collapse="isCollapse">
-                <el-menu-item v-for="menu in this.$store.state.menuTree" :key="menu.menuId" :index="menu.link" v-if="menu.children.length===0">
+                <el-menu-item v-for="menu in this.$store.state.menuTree" :key="menu.menuId" :index="menu.link"
+                              v-if="menu.children.length===0">
                     <i :class="menu.icon"></i>
                     <span slot="title">{{menu.menuName}}</span>
                 </el-menu-item>
@@ -29,8 +30,8 @@
                     <el-dropdown trigger="click" @command="handleCommand" class="header-action">
                         <span>Admin<i class="el-icon-arrow-down el-icon--right"></i></span>
                         <el-dropdown-menu slot="dropdown">
-                            <el-dropdown-item command="Profile"> <i class="el-icon-setting"></i> 个人设定</el-dropdown-item>
-                            <el-dropdown-item command="SignOut"> <i class="el-icon-refresh"></i> 安全退出</el-dropdown-item>
+                            <el-dropdown-item command="Profile"><i class="el-icon-setting"></i> 个人设定</el-dropdown-item>
+                            <el-dropdown-item command="SignOut"><i class="el-icon-refresh"></i> 安全退出</el-dropdown-item>
                         </el-dropdown-menu>
                     </el-dropdown>
                 </div>
@@ -47,29 +48,32 @@
     </el-container>
 </template>
 <script>
-export default {
-  name: "App",
-  data() {
-    return {
-      isCollapse: false
+    export default {
+        name: "App",
+        data() {
+            return {
+                isCollapse: false
+            };
+        },
+        methods: {
+            handleCommand(command) {
+                switch (command) {
+                    case "Profile":
+                        this.$router.push({path: "/system/profile"});
+                        break;
+                    case "SignOut":
+                        this.signOut();
+                        break;
+                }
+            },
+            signOut() {
+                this.$store.dispatch("signOut").then(() => {
+                    this.$http.get("/user/logout").then(res => {
+                        this.$router.push({path: "/"});
+                        location.reload(true);
+                    });
+                });
+            }
+        }
     };
-  },
-  methods: {
-    handleCommand(command) {
-      switch (command) {
-        case "Profile":
-          this.$router.push({ path: "/system/profile" });
-          break;
-        case "SignOut":
-          this.signOut();
-          break;
-      }
-    },
-    signOut() {
-      this.$store.dispatch("signOut").then(() => {
-        this.$router.push({ path: "/" });
-      });
-    }
-  }
-};
 </script>

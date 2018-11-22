@@ -18,6 +18,14 @@
     <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
     <result column="is_laundry" jdbcType="BIT" property="isLaundry" />
     <result column="laundry_id" jdbcType="INTEGER" property="laundryId" />
+    <result column="gender" jdbcType="INTEGER" property="gender" />
+    <result column="nickname" jdbcType="VARCHAR" property="nickname" />
+    <result column="remark_name" jdbcType="VARCHAR" property="remarkName" />
+    <result column="activated" jdbcType="BIT" property="activated" />
+    <result column="subscribe_time" jdbcType="TIMESTAMP" property="subscribeTime" />
+    <result column="un_subscribe_time" jdbcType="TIMESTAMP" property="unSubscribeTime" />
+    <result column="subscribe" jdbcType="BIT" property="subscribe" />
+    <result column="head_url" jdbcType="VARCHAR" property="headUrl" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -79,7 +87,8 @@
   </sql>
   <sql id="Base_Column_List">
     id, username, password, state, user_type, last_login, wx_openid, description, phone, 
-    mail, wx_username, deleted, create_time, modify_time, is_laundry, laundry_id
+    mail, wx_username, deleted, create_time, modify_time, is_laundry, laundry_id, gender, 
+    nickname, remark_name, activated, subscribe_time, un_subscribe_time, subscribe, head_url
   </sql>
   <select id="selectByExample" parameterType="com.yniot.lms.db.entity.UserExample" resultMap="BaseResultMap">
     select
@@ -117,13 +126,19 @@
       wx_openid, description, phone, 
       mail, wx_username, deleted, 
       create_time, modify_time, is_laundry, 
-      laundry_id)
+      laundry_id, gender, nickname, 
+      remark_name, activated, subscribe_time, 
+      un_subscribe_time, subscribe, head_url
+      )
     values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{state,jdbcType=INTEGER}, #{userType,jdbcType=INTEGER}, #{lastLogin,jdbcType=TIMESTAMP}, 
       #{wxOpenid,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
       #{mail,jdbcType=VARCHAR}, #{wxUsername,jdbcType=VARCHAR}, #{deleted,jdbcType=BIT}, 
       #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP}, #{isLaundry,jdbcType=BIT}, 
-      #{laundryId,jdbcType=INTEGER})
+      #{laundryId,jdbcType=INTEGER}, #{gender,jdbcType=INTEGER}, #{nickname,jdbcType=VARCHAR}, 
+      #{remarkName,jdbcType=VARCHAR}, #{activated,jdbcType=BIT}, #{subscribeTime,jdbcType=TIMESTAMP}, 
+      #{unSubscribeTime,jdbcType=TIMESTAMP}, #{subscribe,jdbcType=BIT}, #{headUrl,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.yniot.lms.db.entity.User">
     insert into sys_user
@@ -176,6 +191,30 @@
       <if test="laundryId != null">
         laundry_id,
       </if>
+      <if test="gender != null">
+        gender,
+      </if>
+      <if test="nickname != null">
+        nickname,
+      </if>
+      <if test="remarkName != null">
+        remark_name,
+      </if>
+      <if test="activated != null">
+        activated,
+      </if>
+      <if test="subscribeTime != null">
+        subscribe_time,
+      </if>
+      <if test="unSubscribeTime != null">
+        un_subscribe_time,
+      </if>
+      <if test="subscribe != null">
+        subscribe,
+      </if>
+      <if test="headUrl != null">
+        head_url,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -225,6 +264,30 @@
       </if>
       <if test="laundryId != null">
         #{laundryId,jdbcType=INTEGER},
+      </if>
+      <if test="gender != null">
+        #{gender,jdbcType=INTEGER},
+      </if>
+      <if test="nickname != null">
+        #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="remarkName != null">
+        #{remarkName,jdbcType=VARCHAR},
+      </if>
+      <if test="activated != null">
+        #{activated,jdbcType=BIT},
+      </if>
+      <if test="subscribeTime != null">
+        #{subscribeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="unSubscribeTime != null">
+        #{unSubscribeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="subscribe != null">
+        #{subscribe,jdbcType=BIT},
+      </if>
+      <if test="headUrl != null">
+        #{headUrl,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -285,6 +348,30 @@
       <if test="record.laundryId != null">
         laundry_id = #{record.laundryId,jdbcType=INTEGER},
       </if>
+      <if test="record.gender != null">
+        gender = #{record.gender,jdbcType=INTEGER},
+      </if>
+      <if test="record.nickname != null">
+        nickname = #{record.nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remarkName != null">
+        remark_name = #{record.remarkName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.activated != null">
+        activated = #{record.activated,jdbcType=BIT},
+      </if>
+      <if test="record.subscribeTime != null">
+        subscribe_time = #{record.subscribeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.unSubscribeTime != null">
+        un_subscribe_time = #{record.unSubscribeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.subscribe != null">
+        subscribe = #{record.subscribe,jdbcType=BIT},
+      </if>
+      <if test="record.headUrl != null">
+        head_url = #{record.headUrl,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -307,7 +394,15 @@
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       modify_time = #{record.modifyTime,jdbcType=TIMESTAMP},
       is_laundry = #{record.isLaundry,jdbcType=BIT},
-      laundry_id = #{record.laundryId,jdbcType=INTEGER}
+      laundry_id = #{record.laundryId,jdbcType=INTEGER},
+      gender = #{record.gender,jdbcType=INTEGER},
+      nickname = #{record.nickname,jdbcType=VARCHAR},
+      remark_name = #{record.remarkName,jdbcType=VARCHAR},
+      activated = #{record.activated,jdbcType=BIT},
+      subscribe_time = #{record.subscribeTime,jdbcType=TIMESTAMP},
+      un_subscribe_time = #{record.unSubscribeTime,jdbcType=TIMESTAMP},
+      subscribe = #{record.subscribe,jdbcType=BIT},
+      head_url = #{record.headUrl,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -360,6 +455,30 @@
       <if test="laundryId != null">
         laundry_id = #{laundryId,jdbcType=INTEGER},
       </if>
+      <if test="gender != null">
+        gender = #{gender,jdbcType=INTEGER},
+      </if>
+      <if test="nickname != null">
+        nickname = #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="remarkName != null">
+        remark_name = #{remarkName,jdbcType=VARCHAR},
+      </if>
+      <if test="activated != null">
+        activated = #{activated,jdbcType=BIT},
+      </if>
+      <if test="subscribeTime != null">
+        subscribe_time = #{subscribeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="unSubscribeTime != null">
+        un_subscribe_time = #{unSubscribeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="subscribe != null">
+        subscribe = #{subscribe,jdbcType=BIT},
+      </if>
+      <if test="headUrl != null">
+        head_url = #{headUrl,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -379,7 +498,15 @@
       create_time = #{createTime,jdbcType=TIMESTAMP},
       modify_time = #{modifyTime,jdbcType=TIMESTAMP},
       is_laundry = #{isLaundry,jdbcType=BIT},
-      laundry_id = #{laundryId,jdbcType=INTEGER}
+      laundry_id = #{laundryId,jdbcType=INTEGER},
+      gender = #{gender,jdbcType=INTEGER},
+      nickname = #{nickname,jdbcType=VARCHAR},
+      remark_name = #{remarkName,jdbcType=VARCHAR},
+      activated = #{activated,jdbcType=BIT},
+      subscribe_time = #{subscribeTime,jdbcType=TIMESTAMP},
+      un_subscribe_time = #{unSubscribeTime,jdbcType=TIMESTAMP},
+      subscribe = #{subscribe,jdbcType=BIT},
+      head_url = #{headUrl,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

@@ -10,7 +10,15 @@
                         <el-input placeholder="手机号码"></el-input>
                     </el-col>
                     <el-col :span="3">
-                        <el-select v-model="state" placeholder="用户状态">
+                        <el-select v-model="userType" placeholder="用户类型">
+                            <el-option :label="'普通用户'" :value="0"></el-option>
+                            <el-option :label="'配送员'" :value="10"></el-option>
+                            <el-option :label="'洗衣店'" :value="20"></el-option>
+                            <el-option :label="'运营人员'" :value="30"></el-option>
+                        </el-select>
+                    </el-col>
+                    <el-col :span="3">
+                        <el-select v-model="activated" placeholder="用户状态">
                             <el-option :label="'启用'" :value="0"></el-option>
                             <el-option :label="'禁用'" :value="1"></el-option>
                         </el-select>
@@ -31,37 +39,32 @@
                 <el-button size="medium" type="primary" icon="el-icon-plus" @click="dialogVisible = true">新增</el-button>
                 <el-button size="medium" icon="el-icon-delete" :disabled="selectedRows.length==0">删除</el-button>
             </div>
-            <el-table :data="pager.records" style="width: 100%" stripe highlight-current-row
+            <el-table :data="pager.data" style="width: 100%" stripe highlight-current-row
                       v-loading="$store.state.loading" @selection-change="onSelectionChange">
                 <el-table-column type="selection" width="55" align="center">
                 </el-table-column>
-                <el-table-column prop="userName" label="用户名"></el-table-column>
+                <el-table-column prop="username" label="用户名"></el-table-column>
                 <el-table-column label="手机号码" width="150">
                     <template slot-scope="scope">
-                        {{ '+' + scope.row.nation + ' ' + scope.row.phone }}
+                        {{ scope.row.phone }}
                     </template>
                 </el-table-column>
                 <el-table-column prop="email" label="电子邮件" width="200"></el-table-column>
-                <el-table-column prop="gender" label="性别" width="100"></el-table-column>
-                <el-table-column label="出生日期" width="140">
-                    <template slot-scope="scope">
-                        {{ scope.row.birthday | moment('YYYY-MM-DD hh:mm') }}
-                    </template>
-                </el-table-column>
                 <el-table-column label="状态" width="120">
                     <template slot-scope="scope">
-                        <el-tag v-if="scope.row.enabled" :type="'success'">已启用</el-tag>
-                        <el-tag v-if="!scope.row.enabled" :type="'danger'">已禁用</el-tag>
+                        <el-tag v-if="scope.row.activated==1" :type="'success'">已启用</el-tag>
+                        <el-tag v-else :type="'danger'">已禁用</el-tag>
                     </template>
                 </el-table-column>
+                <el-table-column prop="gender" label="性别" width="100"></el-table-column>
                 <el-table-column label="创建日期" width="140">
                     <template slot-scope="scope">
-                        {{ scope.row.createDate | moment('YYYY-MM-DD hh:mm') }}
+                        {{ scope.row.createTime | moment('YYYY-MM-DD hh:mm') }}
                     </template>
                 </el-table-column>
                 <el-table-column label="最后登陆日期" width="140">
                     <template slot-scope="scope">
-                        {{ scope.row.signInDate | moment('YYYY-MM-DD hh:mm') }}
+                        {{ scope.row.lastLogin | moment('YYYY-MM-DD hh:mm') }}
                     </template>
                 </el-table-column>
                 <el-table-column label="操作" width="200">
@@ -71,7 +74,7 @@
                     </template>
                 </el-table-column>
             </el-table>
-            <el-pagination :current-page="pager.current" :page-size="pager.size" :total="pager.total"
+            <el-pagination :current-page="pager.pageNum" :page-size="pager.pageSize" :total="pager.totalNum"
                            class="pagination text-right" :page-sizes="$store.state.paginationPageSizes"
                            :layout="$store.state.paginationLayout"></el-pagination>
         </el-card>
@@ -149,13 +152,12 @@
         },
         methods: {
             query() {
-                this.$http.get("/WeChat/user/select").then(res => {
-                    console.log(res.data);
+                this.$http.get("/admin/allUser").then(res => {
                     this.pager = res.data;
                 });
             },
             insert() {
-              
+
             },
             openEditOrInsertDialog() {
                 this.dialogVisible = true;

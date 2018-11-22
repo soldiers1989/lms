@@ -8,6 +8,7 @@ import com.yniot.lms.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @Auther: lane
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @Version 1.0.0
  */
 @RequestMapping("/admin")
+@RestController
 public class AdminController extends BaseController {
     @Autowired
     UserService userService;

@@ -270,11 +270,9 @@ public class WeChatAPIController extends BaseController {
     private String authFilePath;
 
     /**
-     * @return org.springframework.http.ResponseEntity<byte                                                               [                                                               ]>
      * @Author wanggl
      * @Description 获取授权文件
      * @Date 10:41 2018-11-22
-     * @Param [fileName]
      **/
     @RequestMapping(value = {"/{fileName:.*}"})//":.*"禁止忽略文件后缀名
     public ResponseEntity<byte[]> authFilePath(@PathVariable(value = "fileName") String fileName) throws IOException {

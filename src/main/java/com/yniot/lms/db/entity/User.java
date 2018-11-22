@@ -1,11 +1,7 @@
 package com.yniot.lms.db.entity;
 
-import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.baomidou.mybatisplus.annotation.TableName;
-
 import java.util.Date;
 
-@TableName("sys_user")
 public class User {
     private Integer id;
 
@@ -28,7 +24,7 @@ public class User {
     private String mail;
 
     private String wxUsername;
-    @TableLogic
+
     private Boolean deleted;
 
     private Date createTime;
@@ -38,6 +34,22 @@ public class User {
     private Boolean isLaundry;
 
     private Integer laundryId;
+
+    private Integer gender;
+
+    private String nickname;
+
+    private String remarkName;
+
+    private Boolean activated;
+
+    private Date subscribeTime;
+
+    private Date unSubscribeTime;
+
+    private Boolean subscribe;
+
+    private String headUrl;
 
     public Integer getId() {
         return id;
@@ -165,5 +177,69 @@ public class User {
 
     public void setLaundryId(Integer laundryId) {
         this.laundryId = laundryId;
+    }
+
+    public Integer getGender() {
+        return gender;
+    }
+
+    public void setGender(Integer gender) {
+        this.gender = gender;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname == null ? null : nickname.trim();
+    }
+
+    public String getRemarkName() {
+        return remarkName;
+    }
+
+    public void setRemarkName(String remarkName) {
+        this.remarkName = remarkName == null ? null : remarkName.trim();
+    }
+
+    public Boolean getActivated() {
+        return activated;
+    }
+
+    public void setActivated(Boolean activated) {
+        this.activated = activated;
+    }
+
+    public Date getSubscribeTime() {
+        return subscribeTime;
+    }
+
+    public void setSubscribeTime(Date subscribeTime) {
+        this.subscribeTime = subscribeTime;
+    }
+
+    public Date getUnSubscribeTime() {
+        return unSubscribeTime;
+    }
+
+    public void setUnSubscribeTime(Date unSubscribeTime) {
+        this.unSubscribeTime = unSubscribeTime;
+    }
+
+    public Boolean getSubscribe() {
+        return subscribe;
+    }
+
+    public void setSubscribe(Boolean subscribe) {
+        this.subscribe = subscribe;
+    }
+
+    public String getHeadUrl() {
+        return headUrl;
+    }
+
+    public void setHeadUrl(String headUrl) {
+        this.headUrl = headUrl == null ? null : headUrl.trim();
     }
 }

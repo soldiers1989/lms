@@ -36,7 +36,7 @@ export const asyncRouter = [
             },
             {
                 path: "/system/WeChat",
-                name: "WeChat",
+                name: "weChat",
                 component: () => import("@/views/system/WeChat.vue")
             },
             {

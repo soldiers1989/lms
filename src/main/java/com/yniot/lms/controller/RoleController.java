@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yniot.lms.annotation.AdminOnly;
 import com.yniot.lms.controller.commonController.BaseControllerT;
 import com.yniot.lms.db.entity.Role;
+import com.yniot.lms.service.RelRoleAuthService;
 import com.yniot.lms.service.RoleService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class RoleController extends BaseControllerT<Role> {
     @Autowired
     RoleService roleService;
+    @Autowired
+    RelRoleAuthService relRoleAuthService;
 
     @RequestMapping("/create")
     public String createRole(@RequestBody Role role) {
@@ -47,8 +50,14 @@ public class RoleController extends BaseControllerT<Role> {
                              @RequestParam(name = PAGE_SIZE_KEY, required = false, defaultValue = "0") long pageSize) {
         QueryWrapper<Role> roleQueryWrapper = new QueryWrapper<>();
         if (StringUtils.isNotEmpty(keyWord)) {
-            roleQueryWrapper.like("", keyWord);
+            roleQueryWrapper.like("role_name", keyWord).or().like("description", keyWord);
         }
-        return super.getSuccessPage(roleService.page(super.getPage(new Page(), pageNum, pageSize), roleQueryWrapper));
+        return super.getSuccessPage(roleService.page(new Page(pageNum, pageSize), roleQueryWrapper));
     }
+
+    @RequestMapping("/selectByUserId")
+    public String selectAuth(@RequestParam(name = "userId") int userId) {
+        return super.getSuccessResult(roleService.selectRoleByUserId(userId));
+    }
+
 }

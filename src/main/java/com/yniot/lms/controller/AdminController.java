@@ -54,11 +54,4 @@ public class AdminController extends BaseControllerT<User> {
     }
 
 
-    //1.crud衣物类型
-
-    //2.更改权限
-
-
-
-
 }

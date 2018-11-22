@@ -26,6 +26,7 @@ public class BaseController {
     protected static String DATA_KEY = "data";
     public final static String PAGE_SIZE_KEY = "pageSize";
     public final static String PAGE_NUM_KEY = "pageNum";
+    public final static String KEY_WORD_KEY = "keyWord";
     protected static String TOTAL_PAGE_NUM_KEY = "totalPageNum";
     protected static String TOTAL_NUM_KEY = "totalNum";
 

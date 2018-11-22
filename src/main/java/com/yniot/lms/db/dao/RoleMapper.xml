@@ -5,7 +5,7 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="activated" jdbcType="BIT" property="activated" />
     <result column="description" jdbcType="VARCHAR" property="description" />
-    <result column="rolename" jdbcType="VARCHAR" property="rolename" />
+    <result column="role_name" jdbcType="VARCHAR" property="roleName" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
   </resultMap>
@@ -68,7 +68,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, activated, description, rolename, create_time, modify_time
+    id, activated, description, role_name, create_time, modify_time
   </sql>
   <select id="selectByExample" parameterType="com.yniot.lms.db.entity.RoleExample" resultMap="BaseResultMap">
     select
@@ -102,10 +102,10 @@
   </delete>
   <insert id="insert" parameterType="com.yniot.lms.db.entity.Role">
     insert into sys_role (id, activated, description, 
-      rolename, create_time, modify_time
+      role_name, create_time, modify_time
       )
     values (#{id,jdbcType=INTEGER}, #{activated,jdbcType=BIT}, #{description,jdbcType=VARCHAR}, 
-      #{rolename,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP}
+      #{roleName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.yniot.lms.db.entity.Role">
@@ -120,8 +120,8 @@
       <if test="description != null">
         description,
       </if>
-      <if test="rolename != null">
-        rolename,
+      <if test="roleName != null">
+        role_name,
       </if>
       <if test="createTime != null">
         create_time,
@@ -140,8 +140,8 @@
       <if test="description != null">
         #{description,jdbcType=VARCHAR},
       </if>
-      <if test="rolename != null">
-        #{rolename,jdbcType=VARCHAR},
+      <if test="roleName != null">
+        #{roleName,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -169,8 +169,8 @@
       <if test="record.description != null">
         description = #{record.description,jdbcType=VARCHAR},
       </if>
-      <if test="record.rolename != null">
-        rolename = #{record.rolename,jdbcType=VARCHAR},
+      <if test="record.roleName != null">
+        role_name = #{record.roleName,jdbcType=VARCHAR},
       </if>
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -188,7 +188,7 @@
     set id = #{record.id,jdbcType=INTEGER},
       activated = #{record.activated,jdbcType=BIT},
       description = #{record.description,jdbcType=VARCHAR},
-      rolename = #{record.rolename,jdbcType=VARCHAR},
+      role_name = #{record.roleName,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       modify_time = #{record.modifyTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
@@ -204,8 +204,8 @@
       <if test="description != null">
         description = #{description,jdbcType=VARCHAR},
       </if>
-      <if test="rolename != null">
-        rolename = #{rolename,jdbcType=VARCHAR},
+      <if test="roleName != null">
+        role_name = #{roleName,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -220,7 +220,7 @@
     update sys_role
     set activated = #{activated,jdbcType=BIT},
       description = #{description,jdbcType=VARCHAR},
-      rolename = #{rolename,jdbcType=VARCHAR},
+      role_name = #{roleName,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       modify_time = #{modifyTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}

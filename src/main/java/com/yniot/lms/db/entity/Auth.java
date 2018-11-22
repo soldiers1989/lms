@@ -1,14 +1,11 @@
 package com.yniot.lms.db.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-
-@TableName("sys_auth")
 public class Auth {
     private Integer id;
 
     private String code;
 
-    private String authname;
+    private String authName;
 
     private String url;
 
@@ -36,12 +33,12 @@ public class Auth {
         this.code = code == null ? null : code.trim();
     }
 
-    public String getAuthname() {
-        return authname;
+    public String getAuthName() {
+        return authName;
     }
 
-    public void setAuthname(String authname) {
-        this.authname = authname == null ? null : authname.trim();
+    public void setAuthName(String authName) {
+        this.authName = authName == null ? null : authName.trim();
     }
 
     public String getUrl() {

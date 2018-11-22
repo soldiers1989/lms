@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.yniot.lms.db.entity.Auth">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="code" jdbcType="VARCHAR" property="code" />
-    <result column="authname" jdbcType="VARCHAR" property="authname" />
+    <result column="auth_name" jdbcType="VARCHAR" property="authName" />
     <result column="url" jdbcType="VARCHAR" property="url" />
     <result column="permission" jdbcType="VARCHAR" property="permission" />
     <result column="activated" jdbcType="BIT" property="activated" />
@@ -70,7 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, code, authname, url, permission, activated, type, description
+    id, code, auth_name, url, permission, activated, type, description
   </sql>
   <select id="selectByExample" parameterType="com.yniot.lms.db.entity.AuthExample" resultMap="BaseResultMap">
     select
@@ -103,10 +103,10 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.yniot.lms.db.entity.Auth">
-    insert into sys_auth (id, code, authname, 
+    insert into sys_auth (id, code, auth_name, 
       url, permission, activated, 
       type, description)
-    values (#{id,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{authname,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{authName,jdbcType=VARCHAR}, 
       #{url,jdbcType=VARCHAR}, #{permission,jdbcType=VARCHAR}, #{activated,jdbcType=BIT}, 
       #{type,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR})
   </insert>
@@ -119,8 +119,8 @@
       <if test="code != null">
         code,
       </if>
-      <if test="authname != null">
-        authname,
+      <if test="authName != null">
+        auth_name,
       </if>
       <if test="url != null">
         url,
@@ -145,8 +145,8 @@
       <if test="code != null">
         #{code,jdbcType=VARCHAR},
       </if>
-      <if test="authname != null">
-        #{authname,jdbcType=VARCHAR},
+      <if test="authName != null">
+        #{authName,jdbcType=VARCHAR},
       </if>
       <if test="url != null">
         #{url,jdbcType=VARCHAR},
@@ -180,8 +180,8 @@
       <if test="record.code != null">
         code = #{record.code,jdbcType=VARCHAR},
       </if>
-      <if test="record.authname != null">
-        authname = #{record.authname,jdbcType=VARCHAR},
+      <if test="record.authName != null">
+        auth_name = #{record.authName,jdbcType=VARCHAR},
       </if>
       <if test="record.url != null">
         url = #{record.url,jdbcType=VARCHAR},
@@ -207,7 +207,7 @@
     update sys_auth
     set id = #{record.id,jdbcType=INTEGER},
       code = #{record.code,jdbcType=VARCHAR},
-      authname = #{record.authname,jdbcType=VARCHAR},
+      auth_name = #{record.authName,jdbcType=VARCHAR},
       url = #{record.url,jdbcType=VARCHAR},
       permission = #{record.permission,jdbcType=VARCHAR},
       activated = #{record.activated,jdbcType=BIT},
@@ -223,8 +223,8 @@
       <if test="code != null">
         code = #{code,jdbcType=VARCHAR},
       </if>
-      <if test="authname != null">
-        authname = #{authname,jdbcType=VARCHAR},
+      <if test="authName != null">
+        auth_name = #{authName,jdbcType=VARCHAR},
       </if>
       <if test="url != null">
         url = #{url,jdbcType=VARCHAR},
@@ -247,7 +247,7 @@
   <update id="updateByPrimaryKey" parameterType="com.yniot.lms.db.entity.Auth">
     update sys_auth
     set code = #{code,jdbcType=VARCHAR},
-      authname = #{authname,jdbcType=VARCHAR},
+      auth_name = #{authName,jdbcType=VARCHAR},
       url = #{url,jdbcType=VARCHAR},
       permission = #{permission,jdbcType=VARCHAR},
       activated = #{activated,jdbcType=BIT},

@@ -34,6 +34,7 @@ public interface RoleMapper extends CommonMapper<Role> {
 
     int updateByPrimaryKey(Role record);
 
+
     @Select("select * from sys_role where id in (select role_id from rel_user_role where user_id = #{id})")
     List<Role> selectRoleByUserId(int userId);
 }

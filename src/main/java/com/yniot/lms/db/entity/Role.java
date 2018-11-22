@@ -1,9 +1,7 @@
 package com.yniot.lms.db.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-
 import java.util.Date;
-@TableName("sys_role")
+
 public class Role {
     private Integer id;
 
@@ -11,7 +9,7 @@ public class Role {
 
     private String description;
 
-    private String rolename;
+    private String roleName;
 
     private Date createTime;
 
@@ -41,12 +39,12 @@ public class Role {
         this.description = description == null ? null : description.trim();
     }
 
-    public String getRolename() {
-        return rolename;
+    public String getRoleName() {
+        return roleName;
     }
 
-    public void setRolename(String rolename) {
-        this.rolename = rolename == null ? null : rolename.trim();
+    public void setRoleName(String roleName) {
+        this.roleName = roleName == null ? null : roleName.trim();
     }
 
     public Date getCreateTime() {

@@ -1,11 +1,14 @@
 package com.yniot.lms.db.dao;
 
+import com.yniot.exclude.CommonMapper;
 import com.yniot.lms.db.entity.RelUserRole;
 import com.yniot.lms.db.entity.RelUserRoleExample;
-import java.util.List;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-public interface RelUserRoleMapper {
+import java.util.List;
+@Mapper
+public interface RelUserRoleMapper extends CommonMapper<RelUserRole> {
     long countByExample(RelUserRoleExample example);
 
     int deleteByExample(RelUserRoleExample example);

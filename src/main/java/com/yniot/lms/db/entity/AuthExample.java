@@ -234,73 +234,73 @@ public class AuthExample {
             return (Criteria) this;
         }
 
-        public Criteria andAuthnameIsNull() {
-            addCriterion("authname is null");
+        public Criteria andAuthNameIsNull() {
+            addCriterion("auth_name is null");
             return (Criteria) this;
         }
 
-        public Criteria andAuthnameIsNotNull() {
-            addCriterion("authname is not null");
+        public Criteria andAuthNameIsNotNull() {
+            addCriterion("auth_name is not null");
             return (Criteria) this;
         }
 
-        public Criteria andAuthnameEqualTo(String value) {
-            addCriterion("authname =", value, "authname");
+        public Criteria andAuthNameEqualTo(String value) {
+            addCriterion("auth_name =", value, "authName");
             return (Criteria) this;
         }
 
-        public Criteria andAuthnameNotEqualTo(String value) {
-            addCriterion("authname <>", value, "authname");
+        public Criteria andAuthNameNotEqualTo(String value) {
+            addCriterion("auth_name <>", value, "authName");
             return (Criteria) this;
         }
 
-        public Criteria andAuthnameGreaterThan(String value) {
-            addCriterion("authname >", value, "authname");
+        public Criteria andAuthNameGreaterThan(String value) {
+            addCriterion("auth_name >", value, "authName");
             return (Criteria) this;
         }
 
-        public Criteria andAuthnameGreaterThanOrEqualTo(String value) {
-            addCriterion("authname >=", value, "authname");
+        public Criteria andAuthNameGreaterThanOrEqualTo(String value) {
+            addCriterion("auth_name >=", value, "authName");
             return (Criteria) this;
         }
 
-        public Criteria andAuthnameLessThan(String value) {
-            addCriterion("authname <", value, "authname");
+        public Criteria andAuthNameLessThan(String value) {
+            addCriterion("auth_name <", value, "authName");
             return (Criteria) this;
         }
 
-        public Criteria andAuthnameLessThanOrEqualTo(String value) {
-            addCriterion("authname <=", value, "authname");
+        public Criteria andAuthNameLessThanOrEqualTo(String value) {
+            addCriterion("auth_name <=", value, "authName");
             return (Criteria) this;
         }
 
-        public Criteria andAuthnameLike(String value) {
-            addCriterion("authname like", value, "authname");
+        public Criteria andAuthNameLike(String value) {
+            addCriterion("auth_name like", value, "authName");
             return (Criteria) this;
         }
 
-        public Criteria andAuthnameNotLike(String value) {
-            addCriterion("authname not like", value, "authname");
+        public Criteria andAuthNameNotLike(String value) {
+            addCriterion("auth_name not like", value, "authName");
             return (Criteria) this;
         }
 
-        public Criteria andAuthnameIn(List<String> values) {
-            addCriterion("authname in", values, "authname");
+        public Criteria andAuthNameIn(List<String> values) {
+            addCriterion("auth_name in", values, "authName");
             return (Criteria) this;
         }
 
-        public Criteria andAuthnameNotIn(List<String> values) {
-            addCriterion("authname not in", values, "authname");
+        public Criteria andAuthNameNotIn(List<String> values) {
+            addCriterion("auth_name not in", values, "authName");
             return (Criteria) this;
         }
 
-        public Criteria andAuthnameBetween(String value1, String value2) {
-            addCriterion("authname between", value1, value2, "authname");
+        public Criteria andAuthNameBetween(String value1, String value2) {
+            addCriterion("auth_name between", value1, value2, "authName");
             return (Criteria) this;
         }
 
-        public Criteria andAuthnameNotBetween(String value1, String value2) {
-            addCriterion("authname not between", value1, value2, "authname");
+        public Criteria andAuthNameNotBetween(String value1, String value2) {
+            addCriterion("auth_name not between", value1, value2, "authName");
             return (Criteria) this;
         }
 

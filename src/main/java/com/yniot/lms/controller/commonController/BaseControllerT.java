@@ -15,9 +15,4 @@ public class BaseControllerT<T> extends BaseController {
         return super.getSuccessResult(page.getRecords(), page.getPages(), page.getSize(), page.getTotal());
     }
 
-    public Page<T> getPage(Page<T> page, long pageNum, long pageSize) {
-        page.setPages(pageNum);
-        page.setSize(pageSize);
-        return page;
-    }
 }

@@ -48,7 +48,7 @@ public class OrderController extends BaseControllerT<Order> {
     public String receiveOrder(@RequestParam(name = "laundryId") int laundryId,
                                @RequestParam(name = "orderId") int orderId) {
         Order order = orderService.getById(orderId);
-        if (order.getLaundryId() == laundryId) {
+        if (order != null && order.getLaundryId() == laundryId) {
             order.setAccepted(true);
             return super.getSuccessResult("");
 
@@ -73,7 +73,7 @@ public class OrderController extends BaseControllerT<Order> {
                          @RequestParam(name = "stars") int stars,
                          @RequestParam(name = "comment") String comment) {
         Order order = orderService.getById(orderId);
-        if (userId == order.getUserId()) {
+        if (order != null && userId == order.getUserId()) {
             order.setComment(comment);
             order.setStars(stars);
             order.setCommitTime(new Date());

@@ -6,12 +6,6 @@ import com.yniot.lms.db.dao.WeChatConfigMapper;
 import com.yniot.lms.db.entity.WeChatConfig;
 import com.yniot.lms.db.entity.WeChatConfigExample;
 import com.yniot.lms.service.WeChatService;
-import me.chanjar.weixin.common.error.WxErrorException;
-import me.chanjar.weixin.mp.api.WxMpInMemoryConfigStorage;
-import me.chanjar.weixin.mp.api.WxMpService;
-import me.chanjar.weixin.mp.bean.template.WxMpTemplateData;
-import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,10 +23,6 @@ public class WeChatServiceImpl extends ServiceImpl<WeChatConfigMapper, WeChatCon
     WeChatConfigMapper weChatConfigMapper;
     @Autowired
     CacheDao cacheDao;
-    @Autowired
-    WxMpInMemoryConfigStorage config;
-    @Autowired
-    WxMpService wxMpService;
 
     private static String CONFIG_KEY = "WeChatAccountConfig";
 
@@ -61,20 +51,4 @@ public class WeChatServiceImpl extends ServiceImpl<WeChatConfigMapper, WeChatCon
     }
 
 
-    /**
-     * @Author wanggl
-     * @Description 发消息
-     * @Date 21:25 2018-11-21
-     * @Param []
-     * @return int
-     **/
-    @Override
-    public int sendMessage() throws WxErrorException {
-        WxMpTemplateMessage templateMessage = WxMpTemplateMessage.builder().toUser("").templateId("").url("").build();
-        templateMessage.addData(new WxMpTemplateData("first", "", "#FF00FF"))
-                .addData(new WxMpTemplateData("remark", RandomStringUtils.randomAlphanumeric(100), "#FF00FF"));
-        this.wxMpService.getTemplateMsgService().sendTemplateMsg(templateMessage);
-
-        return 0;
-    }
 }

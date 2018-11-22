@@ -149,7 +149,8 @@
         },
         methods: {
             query() {
-                this.$http.get("/admin/allUser").then(res => {
+                this.$http.get("/WeChat/user/select").then(res => {
+                    console.log(res.data);
                     this.pager = res.data;
                 });
             },

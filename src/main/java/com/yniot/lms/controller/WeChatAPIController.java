@@ -17,6 +17,8 @@ import me.chanjar.weixin.mp.api.impl.WxMpServiceHttpClientImpl;
 import me.chanjar.weixin.mp.bean.menu.WxMpMenu;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlMessage;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlOutMessage;
+import me.chanjar.weixin.mp.bean.template.WxMpTemplate;
+import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -28,6 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * @Author wanggl
@@ -55,11 +58,11 @@ public class WeChatAPIController extends BaseController {
     WxMpMessageRouter wxMpMessageRouter;
 
     /**
+     * @return me.chanjar.weixin.mp.api.WxMpInMemoryConfigStorage
      * @Author wanggl
      * @Description 自动装配
      * @Date 21:06 2018-11-21
      * @Param []
-     * @return me.chanjar.weixin.mp.api.WxMpInMemoryConfigStorage
      **/
     @Bean
     public WxMpInMemoryConfigStorage initConfig() {
@@ -194,18 +197,46 @@ public class WeChatAPIController extends BaseController {
         return super.getSuccessResult(wxMenu.getMenu().getButtons());
     }
 
-
     //4.微信公众号配置修改
     @RequestMapping("/config/update")
     public String changeWeChatMenu(@RequestBody WeChatConfig weChatConfig) {
         return super.getSuccessResult(weChatService.updateConfig(weChatConfig));
     }
 
-
     //5.获取微信公众号配置
     @RequestMapping("/config/select")
     public String selectWeChatConfig() {
         return super.getSuccessResult(weChatService.getConfig());
     }
+
+
+    //6.获取用户列表
+    @RequestMapping("/user/select")
+    public String getAllUser(@RequestParam(name = "nextOpenId", required = false, defaultValue = "") String nextOpenId) throws WxErrorException {
+        //oaend0YgraAE8JpUNSt4YN4tvZEk
+        return super.getSuccessResult(this.wxMpService.getUserService().userList(nextOpenId));
+    }
+
+    @RequestMapping("/message/template/select")
+    public String selectMessageTemplate(@RequestParam(name = "nextOpenId", required = false, defaultValue = "") String nextOpenId) throws WxErrorException {
+        return super.getSuccessResult(this.wxMpService.getTemplateMsgService().getAllPrivateTemplate());
+    }
+
+    @RequestMapping("/message/template/create")
+    public String createMessageTemplate(@RequestParam(name = "messageTemplate") String messageTemplate) throws WxErrorException {
+        return super.getSuccessResult(this.wxMpService.getTemplateMsgService().addTemplate(messageTemplate));
+    }
+
+    @RequestMapping("/message/template/delete")
+    public String deleteMessageTemplate(@RequestParam(name = "templateId") String templateId) throws WxErrorException {
+        return super.getSuccessResult(this.wxMpService.getTemplateMsgService().delPrivateTemplate(templateId));
+    }
+
+    @RequestMapping("/message/send")
+    public String sendMessage(@RequestBody WxMpTemplateMessage temp) throws WxErrorException {
+        WxMpTemplateMessage wxMpTemplateMessage = WxMpTemplateMessage.builder().build();
+        return super.getSuccessResult(this.wxMpService.getTemplateMsgService().sendTemplateMsg(wxMpTemplateMessage));
+    }
+
 
 }

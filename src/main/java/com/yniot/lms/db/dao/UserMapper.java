@@ -4,9 +4,11 @@ import com.yniot.exclude.CommonMapper;
 import com.yniot.lms.db.entity.User;
 import com.yniot.lms.db.entity.UserExample;
 import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
-
+@Mapper
 public interface UserMapper  extends CommonMapper<User> {
     long countByExample(UserExample example);
 

@@ -6,6 +6,7 @@ import com.yniot.lms.annotation.AdminOnly;
 import com.yniot.lms.controller.commonController.BaseControllerT;
 import com.yniot.lms.db.entity.Auth;
 import com.yniot.lms.service.AuthService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,17 +26,29 @@ public class AuthController extends BaseControllerT<Auth> {
     @Autowired
     AuthService authService;
 
-    //5.crud权限
-    @RequestMapping("/auth/create")
+    @RequestMapping("/create")
     public String createAuth(@RequestBody Auth auth) {
         return super.getSuccessResult(authService.save(auth));
     }
 
-    @RequestMapping("/auth/select")
-    public String selectAuth(@RequestParam(name = PAGE_NUM_KEY, required = false, defaultValue = "1") long pageNum,
+    @RequestMapping("/update")
+    public String updateAuth(@RequestBody Auth auth) {
+        return super.getSuccessResult(authService.saveOrUpdate(auth));
+    }
+
+    @RequestMapping("/delete")
+    public String deleteAuth(@RequestParam(name = "authId") int authId) {
+        return super.getSuccessResult(authService.removeById(authId));
+    }
+
+    @RequestMapping("/select")
+    public String selectAuth(@RequestParam(name = "keyWord", required = false, defaultValue = "") String keyWord,
+                             @RequestParam(name = PAGE_NUM_KEY, required = false, defaultValue = "1") long pageNum,
                              @RequestParam(name = PAGE_SIZE_KEY, required = false, defaultValue = "0") long pageSize) {
         QueryWrapper<Auth> authQueryWrapper = new QueryWrapper<>();
-        authQueryWrapper.eq("deleted", 0);
+        if (StringUtils.isNotEmpty(keyWord)) {
+            authQueryWrapper.like("", keyWord);
+        }
         return super.getSuccessPage(authService.page(super.getPage(new Page(), pageNum, pageSize), authQueryWrapper));
     }
 

@@ -16,35 +16,33 @@ import org.slf4j.LoggerFactory;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ShiroRealm extends AuthorizingRealm {
     private static Logger logger = LoggerFactory.getLogger(ShiroRealm.class);
-    //这里尝试过使用@Autowired 但是发现会报错。这个是spring的注解。如果有知道原因的可以留言。谢谢
     @Resource
     private UserService userService;
     @Resource
     private RoleService sysRoleService;
     @Resource
     private AuthService authService;
+
     /**
      * 配置权限 注入权限
+     *
      * @param principals
      * @return
      */
     @Override
-    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals){
+    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
         User user = (User) principals.getPrimaryPrincipal();
         try {
-            List<Role> list = sysRoleService.selectRoleByUserId(user.getId());
-            for (Role role: list){
-                authorizationInfo.addRole(role.getRolename());
-            }
-            List<Auth> sysAuths = authService.selectByUserId(user.getId());
-            for(Auth Auth:sysAuths){
-                authorizationInfo.addStringPermission(Auth.getPermission());
-            }
-        }catch (Exception e){
+            List<Role> roleList = sysRoleService.selectRoleByUserId(user.getId());
+            List<Auth> authList = authService.selectByUserId(user.getId());
+            authorizationInfo.addRoles(roleList.stream().map(Role::getRolename).collect(Collectors.toList()));
+            authorizationInfo.addStringPermissions(authList.stream().map(Auth::getPermission).collect(Collectors.toList()));
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return authorizationInfo;
@@ -52,6 +50,7 @@ public class ShiroRealm extends AuthorizingRealm {
 
     /**
      * 用户验证
+     *
      * @param token 账户数据
      * @return
      * @throws AuthenticationException 根据账户数据查询账户。根据账户状态抛出对应的异常
@@ -62,16 +61,16 @@ public class ShiroRealm extends AuthorizingRealm {
         String username = (String) token.getPrincipal();
         String password = new String((char[]) token.getCredentials());
         User user = userService.selectByUsername(username);
-        if(null == user){
+        if (null == user) {
             throw new UnknownAccountException();
-        }else {
-            if(password.equals(user.getPassword())){
-                if(0 == user.getState()){
+        } else {
+            if (password.equals(user.getPassword())) {
+                if (0 == user.getState()) {
                     throw new LockedAccountException();
-                }else if (2 == user.getState()){
+                } else if (2 == user.getState()) {
                     throw new DisabledAccountException();
-                }else{
-                    SimpleAuthenticationInfo authorizationInfo = new SimpleAuthenticationInfo(user,user.getPassword().toCharArray(),getName());
+                } else {
+                    SimpleAuthenticationInfo authorizationInfo = new SimpleAuthenticationInfo(user, user.getPassword().toCharArray(), getName());
                     return authorizationInfo;
                 }
             } else {

@@ -1,8 +1,10 @@
 package com.yniot.lms.db.entity;
 
+import com.baomidou.mybatisplus.annotation.TableName;
+
 import java.math.BigDecimal;
 import java.util.Date;
-
+@TableName("biz_order")
 public class Order {
     private Integer id;
 

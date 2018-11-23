@@ -10,6 +10,7 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
+import org.apache.shiro.web.util.WebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -52,6 +53,19 @@ public class UserController extends BaseControllerT<User> {
         return super.getToken(session.getId().toString());
     }
 
+    //3.退出登陆
+    @RequestMapping("/logout")
+    public String logout() {
+        Subject subject = SecurityUtils.getSubject();
+        Session session = subject.getSession();
+        String host = session.getHost();
+        String sessionId = session.getId().toString();
+        logger.info("退出登陆:"+sessionId);
+        loginHistoryService.saveLoginInfo(sessionId, host, null, false);
+        subject.logout();
+        return super.getSuccessResult(1);
+    }
+
     //1.密码修改
     @RequestMapping("/changePsw")
     public String changePsw(@RequestParam(name = "username") String username,
@@ -69,19 +83,6 @@ public class UserController extends BaseControllerT<User> {
     @RequestMapping("/changeInfo")
     public String changeInfo(@RequestBody User user) {
         return super.getSuccessResult(userService.saveOrUpdate(user));
-    }
-
-
-    //3.退出登陆
-    @RequestMapping("/logout")
-    public String logout() {
-        Subject subject = SecurityUtils.getSubject();
-        subject.logout();
-        Session session = subject.getSession();
-        String host = session.getHost();
-        String sessionId = session.getId().toString();
-        loginHistoryService.saveLoginInfo(sessionId, host, null, false);
-        return super.getSuccessResult(1);
     }
 
 

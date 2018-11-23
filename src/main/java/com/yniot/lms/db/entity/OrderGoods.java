@@ -1,7 +1,9 @@
 package com.yniot.lms.db.entity;
 
-import java.util.Date;
+import com.baomidou.mybatisplus.annotation.TableName;
 
+import java.util.Date;
+@TableName("biz_order_goods")
 public class OrderGoods {
     private Integer id;
 

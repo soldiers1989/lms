@@ -7,6 +7,8 @@ import com.yniot.lms.db.entity.User;
 import com.yniot.lms.service.LoginHistoryService;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 /**
  * @project: lms
  * @description:
@@ -21,9 +23,10 @@ public class LoginHistoryImpl extends ServiceImpl<LoginHistoryMapper, LoginHisto
         LoginHistory loginHistory = new LoginHistory();
         loginHistory.setToken(token);
         loginHistory.setIp(host);
+        loginHistory.setCreateTime(new Date());
         if (login && user != null) {
             loginHistory.setUsername(user.getUsername());
-            loginHistory.setId(user.getId());
+            loginHistory.setUserId(user.getId());
         }
         loginHistory.setLogin(login);
         return super.save(loginHistory);

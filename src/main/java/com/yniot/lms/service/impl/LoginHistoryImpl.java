@@ -38,9 +38,7 @@ public class LoginHistoryImpl extends ServiceImpl<LoginHistoryMapper, LoginHisto
             user.setPassword("");
             loginHistory.setUsername(user.getUsername());
             loginHistory.setUserId(user.getId());
-            cacheDao.set(token, user);
         } else {
-            cacheDao.delete(token);
         }
         loginHistory.setLogin(login);
         return super.save(loginHistory);

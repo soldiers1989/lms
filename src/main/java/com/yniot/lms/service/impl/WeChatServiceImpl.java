@@ -1,15 +1,13 @@
 package com.yniot.lms.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yniot.lms.db.cachce.CacheDao;
 import com.yniot.lms.db.dao.WeChatConfigMapper;
 import com.yniot.lms.db.entity.WeChatConfig;
-import com.yniot.lms.db.entity.WeChatConfigExample;
 import com.yniot.lms.service.WeChatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * @program: lms
@@ -19,8 +17,6 @@ import java.util.List;
  **/
 @Service
 public class WeChatServiceImpl extends ServiceImpl<WeChatConfigMapper, WeChatConfig> implements WeChatService {
-    @Autowired
-    WeChatConfigMapper weChatConfigMapper;
     @Autowired
     CacheDao cacheDao;
 
@@ -33,11 +29,9 @@ public class WeChatServiceImpl extends ServiceImpl<WeChatConfigMapper, WeChatCon
         WeChatConfig weChatConfig = cacheDao.get(CONFIG_KEY, WeChatConfig.class);
         //2.没有则直接读数据库,并写入缓存
         if (weChatConfig == null) {
-            WeChatConfigExample weChatConfigExample = new WeChatConfigExample();
-            weChatConfigExample.or().andActivatedEqualTo(true);
-            List<WeChatConfig> weChatConfigList = weChatConfigMapper.selectByExample(weChatConfigExample);
-            if (!weChatConfigList.isEmpty()) {
-                weChatConfig = weChatConfigList.get(0);
+            QueryWrapper<WeChatConfig> weChatConfigQueryWrapper = new QueryWrapper<>();
+            weChatConfig = super.getOne(weChatConfigQueryWrapper);
+            if (weChatConfig != null) {
                 cacheDao.set(CONFIG_KEY, weChatConfig);
             }
         }
@@ -47,7 +41,7 @@ public class WeChatServiceImpl extends ServiceImpl<WeChatConfigMapper, WeChatCon
     @Override
     public int updateConfig(WeChatConfig weChatConfig) {
         cacheDao.delete(CONFIG_KEY);
-        return weChatConfigMapper.updateByPrimaryKeySelective(weChatConfig);
+        return super.saveOrUpdate(weChatConfig) ? 1 : 0;
     }
 
 

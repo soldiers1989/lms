@@ -5,39 +5,42 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yniot.lms.db.dao.UserMapper;
 import com.yniot.lms.db.entity.User;
 import com.yniot.lms.service.UserService;
+import com.yniot.lms.utils.CommonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
-    @Autowired
-    UserMapper userMapper;
+
 
     @Override
     public User selectByUsername(String username) {
-        List<User> userList = userMapper.selectByUsername(username);
-        User result = null;
-        if (userList != null && userList.size() > 0) {
-            result = userList.get(0);
-        }
-        return result;
+        QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
+        userQueryWrapper.eq("username", username);
+        return baseMapper.selectOne(userQueryWrapper);
     }
 
-
-    @Override
-    public int changePassword(String username, String oldPassword, String newPassword) {
-        User user = new User();
-        return userMapper.updateByPrimaryKeySelective(user);
-    }
 
     @Override
     public User login(String username, String passwordMD5) {
         QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
-        userQueryWrapper.eq("password",passwordMD5);
-        userQueryWrapper.eq("username",username);
+        userQueryWrapper.eq("password", passwordMD5);
+        userQueryWrapper.eq("username", username);
         return baseMapper.selectOne(userQueryWrapper);
+    }
+
+    @Override
+    public int changePassword(String username, String oldPassword, String newPassword) {
+        User user = this.login(username, CommonUtil.String.MD5(oldPassword));
+        if (user != null) {
+            user.setPassword(CommonUtil.String.MD5(newPassword));
+            user.setModifyTime(new Date());
+            return super.saveOrUpdate(user) ? 1 : 0;
+        }
+        return 0;
     }
 
 

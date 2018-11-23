@@ -20,8 +20,6 @@ public class CustomInterceptor implements HandlerInterceptor {
     private static String PC_DEVICE_Win = "windows";
     private static String PC_DEVICE_Lux = "linux";
 
-    @Autowired
-    private CacheDao cacheDao;
 
     /**
      * 1.是否已登录

@@ -7,9 +7,7 @@ public interface UserService extends IService<User> {
 
     User selectByUsername(String username);
 
-
-    int changePassword(String username, String oldPassword, String newPassword);
-
     User login(String username,String password);
 
+    int changePassword(String username, String oldPassword, String newPassword);
 }

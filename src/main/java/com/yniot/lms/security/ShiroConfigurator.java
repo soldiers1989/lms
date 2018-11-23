@@ -24,13 +24,13 @@ public class ShiroConfigurator {
         filterChainDefinitionMap.put("/druid/**", "anon");//druid管理页面
         filterChainDefinitionMap.put("/WeChat/**", "anon");//微信
         filterChainDefinitionMap.put("/user/login", "anon");//登陆
-        filterChainDefinitionMap.put("/favicon.ico", "anon");
+        filterChainDefinitionMap.put("/WebSocket/**", "anon");//WebSocket
+        filterChainDefinitionMap.put("/favicon.ico", "anon");//书签logo
         filterChainDefinitionMap.put("/**", "authc");
-        //登陆地址
+
+
         shiroFilterFactoryBean.setLoginUrl("/user/unlogin");
-        //登陆后跳转
         shiroFilterFactoryBean.setSuccessUrl("/user/index");
-        //未授权跳转
         shiroFilterFactoryBean.setUnauthorizedUrl("/user/unauth");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;

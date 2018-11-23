@@ -40,7 +40,7 @@ public class ShiroRealm extends AuthorizingRealm {
         try {
             List<Role> roleList = sysRoleService.selectRoleByUserId(user.getId());
             List<Auth> authList = authService.selectByUserId(user.getId());
-            authorizationInfo.addRoles(roleList.stream().map(Role::getRolename).collect(Collectors.toList()));
+            authorizationInfo.addRoles(roleList.stream().map(Role::getRoleName).collect(Collectors.toList()));
             authorizationInfo.addStringPermissions(authList.stream().map(Auth::getPermission).collect(Collectors.toList()));
         } catch (Exception e) {
             e.printStackTrace();

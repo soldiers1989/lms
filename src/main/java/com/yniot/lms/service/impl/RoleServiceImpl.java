@@ -17,13 +17,4 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
         return baseMapper.selectRoleByUserId(userId);
     }
 
-    @Override
-    public Page<Role> selectAllRole() {
-        return null;
-    }
-
-    @Override
-    public int relateRole(String username, int roleId) {
-        return 0;
-    }
 }

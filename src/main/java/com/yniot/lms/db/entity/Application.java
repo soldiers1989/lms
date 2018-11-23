@@ -23,6 +23,10 @@ public class Application {
 
     private String openId;
 
+    private String address;
+
+    private String phone;
+
     public Integer getId() {
         return id;
     }
@@ -101,5 +105,21 @@ public class Application {
 
     public void setOpenId(String openId) {
         this.openId = openId == null ? null : openId.trim();
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address == null ? null : address.trim();
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone == null ? null : phone.trim();
     }
 }

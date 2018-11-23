@@ -2,11 +2,13 @@ package com.yniot.lms.controller;
 
 import com.yniot.lms.controller.commonController.BaseControllerT;
 import com.yniot.lms.db.entity.User;
+import com.yniot.lms.service.LoginHistoryService;
 import com.yniot.lms.service.UserService;
 import com.yniot.lms.utils.CommonUtil;
 import org.apache.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,6 +23,8 @@ public class UserController extends BaseControllerT<User> {
     @Autowired
     UserService userService;
     //0.普通用户 10.洗衣店配送员   20.洗衣店管理员 25.洗衣店管理员和配送员  30.系统运营人员
+    @Autowired
+    LoginHistoryService loginHistoryService;
 
     //0.登陆
     @RequestMapping("/login")
@@ -30,15 +34,22 @@ public class UserController extends BaseControllerT<User> {
         }
         String password = user.getPassword();
         String username = user.getUsername();
+        String passwordMD5 = CommonUtil.String.MD5(user.getPassword());
         if (!CommonUtil.String.validStr(username, password)) {
             return super.getErrorResult("请输入正确的账号密码");
         }
+        user = userService.login(username, passwordMD5);
+        if (user == null) {
+            return super.getErrorResult("账户或密码错误!");
+        }
         Subject subject = SecurityUtils.getSubject();
-        UsernamePasswordToken token = new UsernamePasswordToken(username, CommonUtil.String.MD5(user.getPassword()));
+        UsernamePasswordToken token = new UsernamePasswordToken(username, passwordMD5);
         subject.login(token);
-        String sessionId = subject.getSession().getId().toString();
-        logger.info("token:" + sessionId);
-        return super.getToken(sessionId);
+        Session session = subject.getSession();
+        String host = session.getHost();
+        String sessionId = session.getId().toString();
+        loginHistoryService.saveLoginInfo(sessionId, host, user, true);
+        return super.getToken(session.getId().toString());
     }
 
     //1.密码修改
@@ -66,6 +77,10 @@ public class UserController extends BaseControllerT<User> {
     public String logout() {
         Subject subject = SecurityUtils.getSubject();
         subject.logout();
+        Session session = subject.getSession();
+        String host = session.getHost();
+        String sessionId = session.getId().toString();
+        loginHistoryService.saveLoginInfo(sessionId, host, null, false);
         return super.getSuccessResult(1);
     }
 

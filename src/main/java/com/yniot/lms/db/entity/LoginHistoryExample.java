@@ -295,73 +295,73 @@ public class LoginHistoryExample {
             return (Criteria) this;
         }
 
-        public Criteria andLoginDeviceIsNull() {
-            addCriterion("login_device is null");
+        public Criteria andDeviceIsNull() {
+            addCriterion("device is null");
             return (Criteria) this;
         }
 
-        public Criteria andLoginDeviceIsNotNull() {
-            addCriterion("login_device is not null");
+        public Criteria andDeviceIsNotNull() {
+            addCriterion("device is not null");
             return (Criteria) this;
         }
 
-        public Criteria andLoginDeviceEqualTo(String value) {
-            addCriterion("login_device =", value, "loginDevice");
+        public Criteria andDeviceEqualTo(String value) {
+            addCriterion("device =", value, "device");
             return (Criteria) this;
         }
 
-        public Criteria andLoginDeviceNotEqualTo(String value) {
-            addCriterion("login_device <>", value, "loginDevice");
+        public Criteria andDeviceNotEqualTo(String value) {
+            addCriterion("device <>", value, "device");
             return (Criteria) this;
         }
 
-        public Criteria andLoginDeviceGreaterThan(String value) {
-            addCriterion("login_device >", value, "loginDevice");
+        public Criteria andDeviceGreaterThan(String value) {
+            addCriterion("device >", value, "device");
             return (Criteria) this;
         }
 
-        public Criteria andLoginDeviceGreaterThanOrEqualTo(String value) {
-            addCriterion("login_device >=", value, "loginDevice");
+        public Criteria andDeviceGreaterThanOrEqualTo(String value) {
+            addCriterion("device >=", value, "device");
             return (Criteria) this;
         }
 
-        public Criteria andLoginDeviceLessThan(String value) {
-            addCriterion("login_device <", value, "loginDevice");
+        public Criteria andDeviceLessThan(String value) {
+            addCriterion("device <", value, "device");
             return (Criteria) this;
         }
 
-        public Criteria andLoginDeviceLessThanOrEqualTo(String value) {
-            addCriterion("login_device <=", value, "loginDevice");
+        public Criteria andDeviceLessThanOrEqualTo(String value) {
+            addCriterion("device <=", value, "device");
             return (Criteria) this;
         }
 
-        public Criteria andLoginDeviceLike(String value) {
-            addCriterion("login_device like", value, "loginDevice");
+        public Criteria andDeviceLike(String value) {
+            addCriterion("device like", value, "device");
             return (Criteria) this;
         }
 
-        public Criteria andLoginDeviceNotLike(String value) {
-            addCriterion("login_device not like", value, "loginDevice");
+        public Criteria andDeviceNotLike(String value) {
+            addCriterion("device not like", value, "device");
             return (Criteria) this;
         }
 
-        public Criteria andLoginDeviceIn(List<String> values) {
-            addCriterion("login_device in", values, "loginDevice");
+        public Criteria andDeviceIn(List<String> values) {
+            addCriterion("device in", values, "device");
             return (Criteria) this;
         }
 
-        public Criteria andLoginDeviceNotIn(List<String> values) {
-            addCriterion("login_device not in", values, "loginDevice");
+        public Criteria andDeviceNotIn(List<String> values) {
+            addCriterion("device not in", values, "device");
             return (Criteria) this;
         }
 
-        public Criteria andLoginDeviceBetween(String value1, String value2) {
-            addCriterion("login_device between", value1, value2, "loginDevice");
+        public Criteria andDeviceBetween(String value1, String value2) {
+            addCriterion("device between", value1, value2, "device");
             return (Criteria) this;
         }
 
-        public Criteria andLoginDeviceNotBetween(String value1, String value2) {
-            addCriterion("login_device not between", value1, value2, "loginDevice");
+        public Criteria andDeviceNotBetween(String value1, String value2) {
+            addCriterion("device not between", value1, value2, "device");
             return (Criteria) this;
         }
 
@@ -562,6 +562,66 @@ public class LoginHistoryExample {
 
         public Criteria andTokenNotBetween(String value1, String value2) {
             addCriterion("token not between", value1, value2, "token");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginIsNull() {
+            addCriterion("login is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginIsNotNull() {
+            addCriterion("login is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginEqualTo(Boolean value) {
+            addCriterion("login =", value, "login");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginNotEqualTo(Boolean value) {
+            addCriterion("login <>", value, "login");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginGreaterThan(Boolean value) {
+            addCriterion("login >", value, "login");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("login >=", value, "login");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginLessThan(Boolean value) {
+            addCriterion("login <", value, "login");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginLessThanOrEqualTo(Boolean value) {
+            addCriterion("login <=", value, "login");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginIn(List<Boolean> values) {
+            addCriterion("login in", values, "login");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginNotIn(List<Boolean> values) {
+            addCriterion("login not in", values, "login");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginBetween(Boolean value1, Boolean value2) {
+            addCriterion("login between", value1, value2, "login");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("login not between", value1, value2, "login");
             return (Criteria) this;
         }
     }

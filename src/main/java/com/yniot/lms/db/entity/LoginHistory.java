@@ -9,13 +9,15 @@ public class LoginHistory {
 
     private String username;
 
-    private String loginDevice;
+    private String device;
 
     private Date createTime;
 
     private String ip;
 
     private String token;
+
+    private Boolean login;
 
     public Integer getId() {
         return id;
@@ -41,12 +43,12 @@ public class LoginHistory {
         this.username = username == null ? null : username.trim();
     }
 
-    public String getLoginDevice() {
-        return loginDevice;
+    public String getDevice() {
+        return device;
     }
 
-    public void setLoginDevice(String loginDevice) {
-        this.loginDevice = loginDevice == null ? null : loginDevice.trim();
+    public void setDevice(String device) {
+        this.device = device == null ? null : device.trim();
     }
 
     public Date getCreateTime() {
@@ -71,5 +73,13 @@ public class LoginHistory {
 
     public void setToken(String token) {
         this.token = token == null ? null : token.trim();
+    }
+
+    public Boolean getLogin() {
+        return login;
+    }
+
+    public void setLogin(Boolean login) {
+        this.login = login;
     }
 }

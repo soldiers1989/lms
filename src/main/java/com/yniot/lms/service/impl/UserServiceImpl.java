@@ -1,5 +1,6 @@
 package com.yniot.lms.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yniot.lms.db.dao.UserMapper;
 import com.yniot.lms.db.entity.User;
@@ -24,10 +25,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         return result;
     }
 
-    @Override
-    public int updateUserInfo(User user) {
-        return userMapper.updateByPrimaryKeySelective(user);
-    }
 
     @Override
     public int changePassword(String username, String oldPassword, String newPassword) {
@@ -35,6 +32,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         return userMapper.updateByPrimaryKeySelective(user);
     }
 
+    @Override
+    public User login(String username, String passwordMD5) {
+        QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
+        userQueryWrapper.eq("password",passwordMD5);
+        userQueryWrapper.eq("username",username);
+        return baseMapper.selectOne(userQueryWrapper);
+    }
 
 
 }

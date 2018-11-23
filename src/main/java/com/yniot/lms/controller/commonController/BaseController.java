@@ -2,8 +2,13 @@ package com.yniot.lms.controller.commonController;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.yniot.lms.db.entity.User;
+import com.yniot.lms.service.LoginHistoryService;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.Subject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -35,6 +40,8 @@ public class BaseController {
     protected static String RESULT_KEY = "result";
     protected static String DEFAULT_ERROR_MSG = "内部错误!";
     protected static int DEFAULT_SUCCESS_STATUS = 201;
+    @Autowired
+    LoginHistoryService loginHistoryService;
 
     /**
      * 返回成功信息
@@ -109,6 +116,7 @@ public class BaseController {
         this.result.put("token", token);
         return JSONObject.toJSONString(this.result, SerializerFeature.WriteMapNullValue);
     }
+
 
 
     public ResponseEntity<byte[]> getFile(String path, String fileName) throws IOException {

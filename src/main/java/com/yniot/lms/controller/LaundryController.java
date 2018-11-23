@@ -27,8 +27,6 @@ public class LaundryController extends BaseControllerT<Laundry> {
     @Autowired
     CouponService couponService;
 
-    //5.修改价格表
-
     //
 
     /**

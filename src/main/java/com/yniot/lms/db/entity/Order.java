@@ -1,10 +1,8 @@
 package com.yniot.lms.db.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-
 import java.math.BigDecimal;
 import java.util.Date;
-@TableName("biz_order")
+
 public class Order {
     private Integer id;
 
@@ -49,6 +47,10 @@ public class Order {
     private Integer stars;
 
     private Date commentTime;
+
+    private Date acceptedTime;
+
+    private Date rejectedTime;
 
     public Integer getId() {
         return id;
@@ -224,5 +226,21 @@ public class Order {
 
     public void setCommentTime(Date commentTime) {
         this.commentTime = commentTime;
+    }
+
+    public Date getAcceptedTime() {
+        return acceptedTime;
+    }
+
+    public void setAcceptedTime(Date acceptedTime) {
+        this.acceptedTime = acceptedTime;
+    }
+
+    public Date getRejectedTime() {
+        return rejectedTime;
+    }
+
+    public void setRejectedTime(Date rejectedTime) {
+        this.rejectedTime = rejectedTime;
     }
 }

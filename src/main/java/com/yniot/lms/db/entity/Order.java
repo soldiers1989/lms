@@ -56,6 +56,8 @@ public class Order {
 
     private Integer canceledBy;
 
+    private Date expiredTime;
+
     public Integer getId() {
         return id;
     }
@@ -262,5 +264,13 @@ public class Order {
 
     public void setCanceledBy(Integer canceledBy) {
         this.canceledBy = canceledBy;
+    }
+
+    public Date getExpiredTime() {
+        return expiredTime;
+    }
+
+    public void setExpiredTime(Date expiredTime) {
+        this.expiredTime = expiredTime;
     }
 }

@@ -185,4 +185,8 @@ public class BaseController {
     }
 
 
+    public String expired() {
+        return this.getErrorMsg("订单已超时!");
+    }
+
 }

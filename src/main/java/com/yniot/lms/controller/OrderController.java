@@ -2,6 +2,7 @@ package com.yniot.lms.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.sun.jmx.snmp.Timestamp;
 import com.yniot.lms.annotation.Finished;
 import com.yniot.lms.annotation.LaundryOnly;
 import com.yniot.lms.annotation.Unfinished;
@@ -60,10 +61,15 @@ public class OrderController extends BaseControllerT<Order> {
         }
         //1.如果订单编号为空则终止
         if (StringUtils.isNotEmpty(orderCode)) {
+            Date now = new Date();
+            Date expiredTime = new Date(now.getTime() - OrderService.EXPIRED_IN_MIN * 60000);
             order.setCode(orderCode);
             order.setUserId(user.getId());
             order.setState(OrderStateEnum.COMMITTED.getState());
-            order.setCommitTime(new Date());
+            order.setCommitTime(now);
+            order.setExpired(false);
+            order.setExpiredTime(expiredTime);
+            order.setCreateTime(now);
             result1 = orderService.save(order);
             //这里还需要获得订单id
         }
@@ -104,6 +110,14 @@ public class OrderController extends BaseControllerT<Order> {
         if (!isLaundry()) {
             return super.noAuth();
         }
+        Date commitTime = order.getCommentTime();
+        Timestamp commitTimestamp = new Timestamp(commitTime.getTime());
+        Timestamp nowTimestamp = new Timestamp(new Date().getTime());
+        int expireMin = order.getExpireInMin();
+        //是否已经过期
+        if (nowTimestamp.getDateTime() - commitTimestamp.getDateTime() >= expireMin * 60000) {
+            return super.expired();
+        }
         if (!(order.getState() == OrderStateEnum.COMMITTED.getState())) {
             return super.stateWrong();
         }
@@ -142,8 +156,12 @@ public class OrderController extends BaseControllerT<Order> {
         if (order.getState() != OrderStateEnum.TOOK.getState()) {
             return super.stateWrong();
         }
-
-        return super.getSuccessResult("");
+        if (!isUser()) {
+            return noAuth();
+        }
+        order.setState(OrderStateEnum.FINISHED.getState());
+        order.setFinishedTime(new Date());
+        return super.getSuccessResult(orderService.saveOrUpdate(order) && orderStateHistoryService.saveOrderState(order, getUser().getId()));
     }
 
     //7.评价

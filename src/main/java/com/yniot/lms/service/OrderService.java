@@ -17,6 +17,8 @@ public interface OrderService extends IService<Order> {
     // 60.清洁中 70.完成清洁、待送回  80.已送出、待放回
     // 90.已放回、待取回  100.已取回、待评价（完成订单）
     // 110.评价
+    int markExpiredOrder();
 
+    static int EXPIRED_IN_MIN = 10;
 
 }

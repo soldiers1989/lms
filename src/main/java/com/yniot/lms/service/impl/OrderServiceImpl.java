@@ -17,6 +17,10 @@ import org.springframework.stereotype.Service;
  **/
 @Service
 public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements OrderService {
+    @Override
+    public int markExpiredOrder() {
+        return baseMapper.markExpiredOrder();
+    }
 
     //7.检查订单编号
 }

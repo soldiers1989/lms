@@ -50,7 +50,11 @@ public class Order {
 
     private Date acceptedTime;
 
-    private Date rejectedTime;
+    private Date canceledTime;
+
+    private Integer nextOperator;
+
+    private Integer canceledBy;
 
     public Integer getId() {
         return id;
@@ -236,11 +240,27 @@ public class Order {
         this.acceptedTime = acceptedTime;
     }
 
-    public Date getRejectedTime() {
-        return rejectedTime;
+    public Date getCanceledTime() {
+        return canceledTime;
     }
 
-    public void setRejectedTime(Date rejectedTime) {
-        this.rejectedTime = rejectedTime;
+    public void setCanceledTime(Date canceledTime) {
+        this.canceledTime = canceledTime;
+    }
+
+    public Integer getNextOperator() {
+        return nextOperator;
+    }
+
+    public void setNextOperator(Integer nextOperator) {
+        this.nextOperator = nextOperator;
+    }
+
+    public Integer getCanceledBy() {
+        return canceledBy;
+    }
+
+    public void setCanceledBy(Integer canceledBy) {
+        this.canceledBy = canceledBy;
     }
 }

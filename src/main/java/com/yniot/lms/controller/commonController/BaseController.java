@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.yniot.lms.db.cachce.CacheDao;
 import com.yniot.lms.db.entity.User;
+import com.yniot.lms.enums.OperatorEnum;
 import com.yniot.lms.service.LoginHistoryService;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
@@ -135,5 +136,53 @@ public class BaseController {
     public User getUser() {
         return (User) SecurityUtils.getSubject().getPrincipal();
     }
+
+    public boolean isUser() {
+        User user = this.getUser();
+        if (user.getUserType() == OperatorEnum.USER.getType()) {
+            return true;
+        }
+        return false;
+    }
+
+
+    public boolean isLaundry() {
+        User user = this.getUser();
+        if (user.getUserType() == OperatorEnum.LAUNDRY.getType()) {
+            return true;
+        }
+        return false;
+    }
+
+
+    public boolean isMailMan() {
+        User user = this.getUser();
+        if (user.getUserType() == OperatorEnum.MAIL_MAN.getType()) {
+            return true;
+        }
+        return false;
+    }
+
+
+    public boolean isAdmin() {
+        User user = this.getUser();
+        if (user.getUserType() == OperatorEnum.ADMIN.getType()) {
+            return true;
+        }
+        return false;
+    }
+
+    public String noAuth() {
+        return this.getErrorMsg("没有权限!");
+    }
+
+    public String noLogin() {
+        return this.getErrorMsg("登陆!");
+    }
+
+    public String stateWrong() {
+        return this.getErrorMsg("当前状态不允许该操作!");
+    }
+
 
 }

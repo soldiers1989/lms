@@ -36,6 +36,9 @@
         <table tableName="biz_order" domainObjectName="Order">
             <columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>
         </table>
+        <!--<table tableName="biz_order_state_history" domainObjectName="OrderStateHistory">-->
+            <!--<columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>-->
+        <!--</table>-->
 
 
     </context>

@@ -15,6 +15,8 @@ public class OrderStateHistory {
 
     private Boolean deleted;
 
+    private Integer nextOperator;
+
     public Integer getId() {
         return id;
     }
@@ -61,5 +63,13 @@ public class OrderStateHistory {
 
     public void setDeleted(Boolean deleted) {
         this.deleted = deleted;
+    }
+
+    public Integer getNextOperator() {
+        return nextOperator;
+    }
+
+    public void setNextOperator(Integer nextOperator) {
+        this.nextOperator = nextOperator;
     }
 }

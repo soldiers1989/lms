@@ -18,12 +18,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 
 
 
-    //6.获取唯一的订单编号
-    static synchronized String getOrderCode() {
-        String randomWord = CommonUtil.String.RandomWord(4);
-        String dateStr = CommonUtil.Date.getNowDate("YYYYMMddHHmmssSSS");
-        return "LO"+dateStr + randomWord;
-    }
+
 
 
     //7.检查订单编号

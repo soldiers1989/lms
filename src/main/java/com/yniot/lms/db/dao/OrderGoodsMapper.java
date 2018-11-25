@@ -6,6 +6,6 @@ import com.yniot.lms.db.entity.OrderGoods;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
-public interface OrderGoodsMapper  extends CommonMapper<OrderGoods> {
+public interface OrderGoodsMapper extends CommonMapper<OrderGoods>{
 
 }

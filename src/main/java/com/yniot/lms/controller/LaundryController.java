@@ -38,7 +38,7 @@ public class LaundryController extends BaseControllerT<Laundry> {
      * @Param [pageSize, pageNum, latitude, longitude]
      **/
     @Unfinished
-    @RequestMapping("select")
+    @RequestMapping("/select")
     public String getNearestLaundryList(@RequestParam(name = "pageSize", required = false, defaultValue = "0") int pageSize,
                                         @RequestParam(name = "pageNum", required = false, defaultValue = "1") int pageNum,
                                         @RequestParam(name = "latitude") float latitude,

@@ -52,7 +52,7 @@ axios.interceptors.response.use(
     },
     error => {
         let message = codeMessage[error.response.status];
-        if (error.response.data && error.response.data.errorMsg) {
+        if (error.response.data.errorMsg) {
             message = error.response.data.errorMsg;
         }
         Notification.error({

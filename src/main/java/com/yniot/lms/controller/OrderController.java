@@ -5,8 +5,12 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yniot.lms.annotation.Unfinished;
 import com.yniot.lms.controller.commonController.BaseControllerT;
 import com.yniot.lms.db.entity.Order;
+import com.yniot.lms.db.entity.OrderGoods;
 import com.yniot.lms.db.entity.User;
+import com.yniot.lms.service.OrderGoodsService;
 import com.yniot.lms.service.OrderService;
+import com.yniot.lms.utils.CommonUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.websocket.server.PathParam;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @Auther: lane
@@ -26,8 +31,57 @@ import java.util.Date;
 public class OrderController extends BaseControllerT<Order> {
     @Autowired
     OrderService orderService;
+    @Autowired
+    OrderGoodsService orderGoodsService;
 
-    //1.下单
+    //1.提交订单
+    @RequestMapping("/create")
+    public String createOrder(@RequestParam(name = "order") Order order,
+                              @RequestParam(name = "orderGoodsList[]") List<OrderGoods> orderGoodsList) {
+        boolean result1 = false;
+        boolean result2 = false;
+        //0.检查订单编号是否重复,与订单id无关,高并发下很小概率会重复
+        String orderCode = null;
+        for (int i = 0; i < 20; i++) {
+            orderCode = getOrderCode();
+            QueryWrapper<Order> orderQueryWrapper = new QueryWrapper<>();
+            orderQueryWrapper.eq("code", orderCode);
+            Order temp = orderService.getOne(orderQueryWrapper);
+            if (temp == null) {
+                break;
+            }
+        }
+        //1.如果订单编号为空则终止
+        if (StringUtils.isNotEmpty(orderCode)) {
+            order.setCode(orderCode);
+            result1 = orderService.save(order);
+            //这里还需要获得订单id
+        }
+        //2.插入 orderGoods
+        if (result1) {
+            for (OrderGoods orderGoods : orderGoodsList) {
+                orderGoods.setOrderId(order.getId());
+                orderGoods.setCreateTime(new Date());
+                orderGoods.setDeleted(false);
+            }
+            result2 = orderGoodsService.saveBatch(orderGoodsList);
+        }
+        //3.如果商品插入失败,则订单也需要删除
+        if (result2) {
+            QueryWrapper<Order> orderQueryWrapper = new QueryWrapper<>();
+            orderQueryWrapper.eq("code", orderCode);
+            Order temp = orderService.getOne(orderQueryWrapper);
+            orderService.remove(orderQueryWrapper);
+        }
+        return super.getSuccessResult(result1 && result2 ? 1 : 0);
+    }
+
+    //6.获取唯一的订单编号
+    private static synchronized String getOrderCode() {
+        String randomWord = CommonUtil.String.RandomWord(4);
+        String dateStr = CommonUtil.Date.getNowDate("YYYYMMddHHmmssSSS");
+        return "LO" + dateStr + randomWord;
+    }
 
 
     //2.获取订单
@@ -64,7 +118,7 @@ public class OrderController extends BaseControllerT<Order> {
                                @RequestParam(name = "orderId") int orderId) {
         Order order = orderService.getById(orderId);
         User user = super.getUser();
-        if(user==null){
+        if (user == null) {
             return super.getErrorMsg("!");
         }
 

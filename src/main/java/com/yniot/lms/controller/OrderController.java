@@ -127,6 +127,7 @@ public class OrderController extends BaseControllerT<Order> {
         }
         order.setCanceled(true);
         order.setCanceledTime(new Date());
+        //这里是用户id,没有使用洗衣店id
         order.setCanceledBy(super.getUser().getId());
         order.setState(OrderStateEnum.CANCELED.getState());
         return super.getSuccessResult(orderService.saveOrUpdate(order) && orderStateHistoryService.saveOrderState(order, super.getUser().getId()));

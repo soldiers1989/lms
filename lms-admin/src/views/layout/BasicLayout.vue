@@ -59,6 +59,9 @@
         },
         mounted: function () {
             this.initWebSocket();
+            this.$http.get("/WeChat/user/select").then(res => {
+                console.log(res);
+            });
         },
         methods: {
             handleCommand(command) {

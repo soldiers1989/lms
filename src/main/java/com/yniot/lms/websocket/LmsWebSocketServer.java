@@ -14,7 +14,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
  * @author: wanggl
  * @create: 2018-11-22 21:11
  **/
-@ServerEndpoint(LmsWebSocketServer.BASE_PATH + "/{token}")
+@ServerEndpoint(LmsWebSocketServer.BASE_PATH + "/{receiverId}")
 @Component
 public class LmsWebSocketServer {
     private static Logger logger = Logger.getLogger(LmsWebSocketServer.class);
@@ -23,10 +23,10 @@ public class LmsWebSocketServer {
     public static final String BASE_PATH = "/WebSocket";
 
     @OnOpen
-    public void onOpen(@PathParam("token") String token, Session session) {
+    public void onOpen(@PathParam("receiverId") String receiverId, Session session) {
         this.session = session;
         webSockets.add(this);
-        logger.info("新建来自token为[" + token + "]的连接,当前连接数:" + webSockets.size());
+        logger.info("新建来自receiverId为[" + receiverId + "]的连接,当前连接数:" + webSockets.size());
     }
 
     @OnClose
@@ -55,21 +55,26 @@ public class LmsWebSocketServer {
      * @Author wanggl(lane)
      * @Description //TODO 发送消息
      * @Date 上午11:41 2018/11/26
-     * @Param [jsonMessage, token]
+     * @Param [jsonMessage, receiverId]
      * @return void
      **/
-    public void sendWSMessage(String jsonMessage, int token) {
+    public void sendWSMessage(String jsonMessage, int receiverId) {
         for (LmsWebSocketServer webSocket : webSockets) {
-            String path = webSocket.session.getRequestURI().getPath();
-            if (path.equals(BASE_PATH + "/" + token)) {
-                try {
-                    webSocket.session.getBasicRemote().sendText(jsonMessage);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                } finally {
-                    break;
+            Session session = webSocket.session;
+            int id = Integer.valueOf((String) session.getPathParameters(""));
+            if (session.isOpen()) {
+                String path = webSocket.session.getRequestURI().getPath();
+                if (path.equals(BASE_PATH + "/" + receiverId)) {
+                    try {
+                        webSocket.session.getBasicRemote().sendText(jsonMessage);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    } finally {
+                        break;
+                    }
                 }
             }
+
 
         }
     }

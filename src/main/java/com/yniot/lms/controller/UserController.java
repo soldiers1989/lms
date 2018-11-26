@@ -5,6 +5,8 @@ import com.yniot.lms.db.entity.User;
 import com.yniot.lms.service.LoginHistoryService;
 import com.yniot.lms.service.UserService;
 import com.yniot.lms.utils.CommonUtil;
+import me.chanjar.weixin.mp.api.WxMpService;
+import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage;
 import org.apache.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -25,6 +27,9 @@ public class UserController extends BaseControllerT<User> {
     //0.普通用户 10.洗衣店配送员   20.洗衣店管理员 25.洗衣店管理员和配送员  30.系统运营人员
     @Autowired
     LoginHistoryService loginHistoryService;
+    @Autowired
+    WxMpService wxMpService;
+
 
     //0.登陆
     @RequestMapping("/login")
@@ -49,6 +54,23 @@ public class UserController extends BaseControllerT<User> {
         String host = session.getHost();
         String sessionId = session.getId().toString();
         loginHistoryService.saveLoginInfo(sessionId, host, user, true);
+
+        //218FmLW3m6DOiFpfvQp3ev148Jy6yhahzk9cpIe0Fq4
+        //    亲爱的姓名，您已经成功登陆某某管理系统
+        //    登陆时间：2015年5月22日9:04:56
+        //    登陆Ip：183.185.98.240
+        //    如果不是您本人操作请联系系统管理员。
+
+
+        //    {{first.DATA}}
+        //    登陆时间：{{keyword1.DATA}}
+        //    登陆Ip：{{keyword2.DATA}}
+        //    {{remark.DATA}}
+        WxMpTemplateMessage wxMpTemplateMessage = new WxMpTemplateMessage();
+        wxMpTemplateMessage.setTemplateId("218FmLW3m6DOiFpfvQp3ev148Jy6yhahzk9cpIe0Fq4");
+        wxMpTemplateMessage.setUrl("https://www.baidu.com");
+        wxMpTemplateMessage.setToUser("oaend0YgraAE8JpUNSt4YN4tvZEk");
+        wxMpService.getTemplateMsgService().sendTemplateMsg(wxMpTemplateMessage);
         return super.getToken(session.getId().toString());
     }
 

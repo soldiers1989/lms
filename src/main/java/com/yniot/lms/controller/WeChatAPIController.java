@@ -279,4 +279,16 @@ public class WeChatAPIController extends BaseController {
         return super.getFile(authFilePath, fileName);
     }
 
+    //218FmLW3m6DOiFpfvQp3ev148Jy6yhahzk9cpIe0Fq4
+    //    亲爱的姓名，您已经成功登陆某某管理系统
+    //    登陆时间：2015年5月22日9:04:56
+    //    登陆Ip：183.185.98.240
+    //    如果不是您本人操作请联系系统管理员。
+
+
+    //    {{first.DATA}}
+    //    登陆时间：{{keyword1.DATA}}
+    //    登陆Ip：{{keyword2.DATA}}
+    //    {{remark.DATA}}
+
 }

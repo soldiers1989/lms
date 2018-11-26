@@ -20,6 +20,7 @@ public enum OrderStateEnum {
     /*!!!!!!!!!!!!注意!,定义的顺序将会影响排序!!!!!!!!!!!!*/
     /*!!!!!!!!!!!!for循环中为倒序!!!!!!!!!!!!*/
     COMMITTED(10, "订单提交"),
+    PUT_USER(20, "已存放"),
 
     //订单取消
     CANCELED(30, "已取消"),
@@ -33,9 +34,9 @@ public enum OrderStateEnum {
 
     CLEANED(60, "已清洁"),
 
-    PUT(70, "已放回"),
+    PUT_MAILMAN(70, "已放回"),
 
-    TOOK(90, "已取出"),
+    TOOK_USER(90, "已取出"),
 
     FINISHED(100, "已完成");
 

@@ -6,10 +6,12 @@ import com.sun.jmx.snmp.Timestamp;
 import com.yniot.lms.annotation.Finished;
 import com.yniot.lms.annotation.LaundryOnly;
 import com.yniot.lms.annotation.Unfinished;
+import com.yniot.lms.annotation.UserOnly;
 import com.yniot.lms.controller.commonController.BaseControllerT;
 import com.yniot.lms.db.entity.Order;
 import com.yniot.lms.db.entity.OrderGoods;
 import com.yniot.lms.db.entity.User;
+import com.yniot.lms.enums.GoodsStateEnum;
 import com.yniot.lms.enums.OrderStateEnum;
 import com.yniot.lms.service.OrderGoodsService;
 import com.yniot.lms.service.OrderService;
@@ -92,7 +94,13 @@ public class OrderController extends BaseControllerT<Order> {
             //保存订单状态
             orderStateHistoryService.saveOrderState(order, super.getUser().getId());
         }
-        return super.getSuccessResult(result1 && result2 ? 1 : 0);
+        boolean re = result1 && result2;
+        if(re){
+            //4.发送提示信息到商家微信和PC端
+        }
+
+
+        return super.getSuccessResult(re);
     }
 
     //5.付款
@@ -153,7 +161,7 @@ public class OrderController extends BaseControllerT<Order> {
     @RequestMapping("/finish")
     public String finishOrder(@RequestParam(name = "orderId") int orderId) {
         Order order = orderService.getById(orderId);
-        if (order.getState() != OrderStateEnum.TOOK.getState()) {
+        if (order.getState() != OrderStateEnum.TOOK_USER.getState()) {
             return super.wrongState();
         }
         if (!isUser()) {
@@ -163,6 +171,7 @@ public class OrderController extends BaseControllerT<Order> {
         order.setFinishedTime(new Date());
         return super.getSuccessResult(orderService.saveOrUpdate(order) && orderStateHistoryService.saveOrderState(order, getUser().getId()));
     }
+
 
     //7.评价
     @RequestMapping("/comment")
@@ -184,6 +193,24 @@ public class OrderController extends BaseControllerT<Order> {
         }
     }
 
+
+    @UserOnly
+    @RequestMapping("/user/storage")
+    public String storageByUser(@RequestParam(name = "orderId") int orderId) {
+        if (!isUser()) {
+            return noAuth();
+        }
+        Order order = orderService.getById(orderId);
+        order.setState(OrderStateEnum.PUT_USER.getState());
+        QueryWrapper<OrderGoods> orderGoodsQueryWrapper = new QueryWrapper<>();
+        List<OrderGoods> orderGoodsList = orderGoodsService.list(orderGoodsQueryWrapper);
+//        List<Integer> orderGoodsId = orderGoodsList.stream().map(OrderGoods::getId).collect(Collectors.toList());
+        for (OrderGoods orderGoods : orderGoodsList) {
+            orderGoods.setState(GoodsStateEnum.PUT_USER.getType());
+        }
+        orderGoodsService.saveOrUpdateBatch(orderGoodsList);
+        return "";
+    }
 
     //6.获取唯一的订单编号
     private static synchronized String getOrderCode() {

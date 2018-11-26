@@ -74,7 +74,7 @@ public class ApplicationController extends BaseControllerT<Application> {
 
     @RequestMapping("/select")
     public String selectApplication(
-            @RequestParam(name = "userId", required = false, defaultValue = "10") int userId,
+            @RequestParam(name = "userId", required = false, defaultValue = "") int userId,
             @RequestParam(name = "state", required = false, defaultValue = "10") int state,
             @RequestParam(name = "type", required = false, defaultValue = "0") int type,
             @RequestParam(name = PAGE_SIZE_KEY, required = false, defaultValue = "0") int pageSize,

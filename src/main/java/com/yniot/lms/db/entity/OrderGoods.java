@@ -1,15 +1,15 @@
 package com.yniot.lms.db.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-
 import java.util.Date;
-@TableName("biz_order_goods")
+
 public class OrderGoods {
     private Integer id;
 
     private Integer orderId;
 
-    private Integer cellId;
+    private Integer storageCellId;
+
+    private Integer putCellId;
 
     private Boolean deleted;
 
@@ -20,6 +20,12 @@ public class OrderGoods {
     private Integer launderType;
 
     private Integer count;
+
+    private String code;
+
+    private Integer state;
+
+    private Boolean canceled;
 
     public Integer getId() {
         return id;
@@ -37,12 +43,20 @@ public class OrderGoods {
         this.orderId = orderId;
     }
 
-    public Integer getCellId() {
-        return cellId;
+    public Integer getStorageCellId() {
+        return storageCellId;
     }
 
-    public void setCellId(Integer cellId) {
-        this.cellId = cellId;
+    public void setStorageCellId(Integer storageCellId) {
+        this.storageCellId = storageCellId;
+    }
+
+    public Integer getPutCellId() {
+        return putCellId;
+    }
+
+    public void setPutCellId(Integer putCellId) {
+        this.putCellId = putCellId;
     }
 
     public Boolean getDeleted() {
@@ -83,5 +97,29 @@ public class OrderGoods {
 
     public void setCount(Integer count) {
         this.count = count;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code == null ? null : code.trim();
+    }
+
+    public Integer getState() {
+        return state;
+    }
+
+    public void setState(Integer state) {
+        this.state = state;
+    }
+
+    public Boolean getCanceled() {
+        return canceled;
+    }
+
+    public void setCanceled(Boolean canceled) {
+        this.canceled = canceled;
     }
 }

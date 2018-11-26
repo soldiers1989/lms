@@ -57,7 +57,7 @@ public class WeChatServiceImpl extends ServiceImpl<WeChatConfigMapper, WeChatCon
 
     @Override
     public void sendLoginNotice(String openId, String host) throws WxErrorException {
-        this.sendMessage("你的账户进行了登陆操作", "若为本人操作,可忽略本条消息",
+        this.sendWeChatMessage("你的账户进行了登陆操作", "若为本人操作,可忽略本条消息",
                 null, openId, LOGIN_MSG_TEMPLATE_ID, CommonUtil.Date.getNowDate(), host);
     }
 
@@ -80,7 +80,7 @@ public class WeChatServiceImpl extends ServiceImpl<WeChatConfigMapper, WeChatCon
      * @Param [first, remark, url, openId, templateId, keywords]
      * @return void
      **/
-    private void sendMessage(String first, String remark, String url, String openId, String templateId, String... keywords) throws WxErrorException {
+    private void sendWeChatMessage(String first, String remark, String url, String openId, String templateId, String... keywords) throws WxErrorException {
         WxMpTemplateMessage wxMpTemplateMessage = new WxMpTemplateMessage();
         wxMpTemplateMessage.setTemplateId(templateId);
         //根据id生产url
@@ -95,9 +95,9 @@ public class WeChatServiceImpl extends ServiceImpl<WeChatConfigMapper, WeChatCon
         wxMpTemplateDataLast.setValue(remark);
         wxMpTemplateDataList.add(wxMpTemplateDataFirst);
         wxMpTemplateDataList.add(wxMpTemplateDataLast);
-        for (int i = 1; i < keywords.length; i++) {
+        for (int i = 0; i < keywords.length; i++) {
             WxMpTemplateData wxMpTemplateDataTemp = new WxMpTemplateData();
-            wxMpTemplateDataTemp.setName(KEYWORD_KEY + i);
+            wxMpTemplateDataTemp.setName(KEYWORD_KEY + (i+1));
             wxMpTemplateDataTemp.setValue(keywords[i]);
             wxMpTemplateDataList.add(wxMpTemplateDataTemp);
         }

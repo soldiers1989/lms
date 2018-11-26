@@ -1,6 +1,5 @@
 package com.yniot.lms.task;
 
-import com.yniot.lms.service.MessageService;
 import com.yniot.lms.service.OrderService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +14,8 @@ public class TimerTask {
 
     @Autowired
     OrderService orderService;
-    @Autowired
-    MessageService messageService;
+//    @Autowired
+//    MessageService messageService;
 
     @Scheduled(cron = "0 0/1 * * * ? ") // 每分钟查找过期的订单
     public void logCacheKeys() {
@@ -24,10 +23,10 @@ public class TimerTask {
     }
 
 
-    @Scheduled(cron = "0/30 * * * * ? ")
-    public void sendMessageTest() {
-        messageService.sendMessage("message!!!", 9527, 1, 1);
-    }
+//    @Scheduled(cron = "0/30 * * * * ? ")
+//    public void sendMessageTest() {
+//        messageService.sendMessage("message!!!", 9527, 1, 1);
+//    }
 
 
     private void markExpiredOrder() {

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
+import java.util.Map;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
@@ -61,7 +62,8 @@ public class LmsWebSocketServer {
     public void sendWSMessage(String jsonMessage, int receiverId) {
         for (LmsWebSocketServer webSocket : webSockets) {
             Session session = webSocket.session;
-            int id = Integer.valueOf((String) session.getPathParameters(""));
+            Map<String,String> pathMap = session.getPathParameters();
+//            int id = Integer.valueOf(pathMap.get("receiverId"));
             if (session.isOpen()) {
                 String path = webSocket.session.getRequestURI().getPath();
                 if (path.equals(BASE_PATH + "/" + receiverId)) {

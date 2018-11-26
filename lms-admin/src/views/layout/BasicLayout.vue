@@ -59,7 +59,7 @@
         },
         mounted: function () {
             this.initWebSocket();
-            this.$http.get("/WeChat/user/select").then(res => {
+            this.$http.get("/WeChat/testMessage").then(res => {
                 console.log(res);
             });
         },

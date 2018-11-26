@@ -2,7 +2,6 @@ package com.yniot.lms.controller;
 
 import com.yniot.lms.controller.commonController.BaseController;
 import com.yniot.lms.db.entity.WeChatConfig;
-import com.yniot.lms.service.UserService;
 import com.yniot.lms.service.WeChatService;
 import com.yniot.lms.service.wechat.WeChatImageHandler;
 import com.yniot.lms.service.wechat.WeChatLogHandler;
@@ -21,23 +20,19 @@ import me.chanjar.weixin.mp.bean.message.WxMpXmlMessage;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlOutMessage;
 import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
 import me.chanjar.weixin.mp.bean.result.WxMpUser;
-import me.chanjar.weixin.mp.bean.template.WxMpTemplate;
+import me.chanjar.weixin.mp.bean.template.WxMpTemplateData;
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -49,7 +44,7 @@ import java.util.List;
 @RequestMapping(value = WeChatAPIController.WECHAT_PATH, produces = "text/plain;charset=UTF-8")
 public class WeChatAPIController extends BaseController {
     public static final String WECHAT_PATH = "/WeChat";
-    private static String TIMESTAME_KEY = "timestamp";
+    private static String TIMESTAMP_KEY = "timestamp";
     private static String SIGNATURE_KEY = "signature";
     private static String NONCE_KEY = "nonce";
     private static String ECHOSTR_KEY = "echostr";
@@ -67,46 +62,6 @@ public class WeChatAPIController extends BaseController {
     WxMpMessageRouter wxMpMessageRouter;
 
     /**
-     * @return me.chanjar.weixin.mp.api.WxMpInMemoryConfigStorage
-     * @Author wanggl
-     * @Description 自动装配
-     * @Date 21:06 2018-11-21
-     * @Param []
-     **/
-    @Bean
-    public WxMpInMemoryConfigStorage initConfig() {
-        WxMpInMemoryConfigStorage config = new WxMpInMemoryConfigStorage();
-        WeChatConfig weChatConfig = weChatService.getConfig();
-        config.setAesKey(weChatConfig.getAesKey());
-        config.setAppId(weChatConfig.getAppId());
-        config.setToken(weChatConfig.getToken());
-        config.setSecret(weChatConfig.getAppSecret());
-        return config;
-    }
-
-    @Bean
-    public WxMpService initWxMpService() {
-        WxMpService wxMpService = new WxMpServiceHttpClientImpl();
-        wxMpService.setWxMpConfigStorage(config);
-        return wxMpService;
-    }
-
-    @Bean
-    public WxMpMessageRouter initWxMpMessageRouter() {
-        WxMpMessageHandler logHandler = new WeChatLogHandler();
-        WxMpMessageHandler textHandler = new WeChatTextHandler();
-        WxMpMessageHandler imageHandler = new WeChatImageHandler();
-        WxMpMessageHandler oauth2handler = new WeChatOAuth2Handler();
-        WxMpMessageRouter wxMpMessageRouter = new WxMpMessageRouter(wxMpService);
-        wxMpMessageRouter
-                .rule().handler(logHandler).next()
-                .rule().async(false).content("哈哈").handler(textHandler).end()
-                .rule().async(false).content("图片").handler(imageHandler).end()
-                .rule().async(false).content("oauth").handler(oauth2handler).end();
-        return wxMpMessageRouter;
-    }
-
-    /**
      * @return void
      * @Author wanggl
      * @Description //TODO 微信接口
@@ -116,7 +71,7 @@ public class WeChatAPIController extends BaseController {
     @RequestMapping("/api")
     public void auth(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String signature = request.getParameter(SIGNATURE_KEY);
-        String timestamp = request.getParameter(TIMESTAME_KEY);
+        String timestamp = request.getParameter(TIMESTAMP_KEY);
         String nonce = request.getParameter(NONCE_KEY);
         String echostr = request.getParameter(ECHOSTR_KEY);
         if (!wxMpService.checkSignature(timestamp, nonce, signature)) {
@@ -279,6 +234,16 @@ public class WeChatAPIController extends BaseController {
         return super.getFile(authFilePath, fileName);
     }
 
+
+//    @RequestMapping("/testMessage")
+//    public String testMessage() throws WxErrorException {
+//        //    {{first.DATA}}
+//        //    登陆时间：{{keyword1.DATA}}
+//        //    登陆Ip：{{keyword2.DATA}}
+//        //    {{remark.DATA}}
+//        return super.getSuccessResult(wxMpService.getTemplateMsgService().sendTemplateMsg(wxMpTemplateMessage));
+//    }
+
     //218FmLW3m6DOiFpfvQp3ev148Jy6yhahzk9cpIe0Fq4
     //    亲爱的姓名，您已经成功登陆某某管理系统
     //    登陆时间：2015年5月22日9:04:56
@@ -286,9 +251,6 @@ public class WeChatAPIController extends BaseController {
     //    如果不是您本人操作请联系系统管理员。
 
 
-    //    {{first.DATA}}
-    //    登陆时间：{{keyword1.DATA}}
-    //    登陆Ip：{{keyword2.DATA}}
-    //    {{remark.DATA}}
+
 
 }

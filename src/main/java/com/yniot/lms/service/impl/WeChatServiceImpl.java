@@ -57,42 +57,50 @@ public class WeChatServiceImpl extends ServiceImpl<WeChatConfigMapper, WeChatCon
 
     @Override
     public void sendLoginNotice(String openId, String host) throws WxErrorException {
+        this.sendMessage("你的账户进行了登陆操作", "若为本人操作,可忽略本条消息",
+                null, openId, LOGIN_MSG_TEMPLATE_ID, CommonUtil.Date.getNowDate(), host);
+    }
+
+
+
+    /**
+     * @Author wanggl(lane)
+     * @Description //TODO 通用微信推送消息方法
+     * 适用于以下以下形式
+     * {{first.DATA}}
+     * 名称1：{{keyword1.DATA}}
+     * 名称2：{{keyword2.DATA}}
+     * 名称3：{{keyword3.DATA}}
+     * 名称4：{{keyword4.DATA}}
+     *  .........
+     * 名称N：{{keywordN.DATA}}
+     * {{remark.DATA}}
+     *
+     * @Date 下午7:55 2018/11/26
+     * @Param [first, remark, url, openId, templateId, keywords]
+     * @return void
+     **/
+    private void sendMessage(String first, String remark, String url, String openId, String templateId, String... keywords) throws WxErrorException {
         WxMpTemplateMessage wxMpTemplateMessage = new WxMpTemplateMessage();
-        wxMpTemplateMessage.setTemplateId(LOGIN_MSG_TEMPLATE_ID);
+        wxMpTemplateMessage.setTemplateId(templateId);
         //根据id生产url
-        wxMpTemplateMessage.setUrl("https://www.baidu.com");
+        wxMpTemplateMessage.setUrl(url);
         wxMpTemplateMessage.setToUser(openId);
         List<WxMpTemplateData> wxMpTemplateDataList = new ArrayList<>();
-        //    {{first.DATA}}
-        //    登陆时间：{{keyword1.DATA}}
-        //    登陆Ip：{{keyword2.DATA}}
-        //    {{remark.DATA}}
-        WxMpTemplateData wxMpTemplateData1 = new WxMpTemplateData();
-        WxMpTemplateData wxMpTemplateData2 = new WxMpTemplateData();
-        WxMpTemplateData wxMpTemplateData3 = new WxMpTemplateData();
-        WxMpTemplateData wxMpTemplateData4 = new WxMpTemplateData();
-
-        wxMpTemplateData1.setName("first");
-        wxMpTemplateData1.setValue("你的账户进行了登陆操作");
-//        wxMpTemplateData1.setColor("#173177");
-
-        wxMpTemplateData2.setName("keyword1");
-        wxMpTemplateData2.setValue(CommonUtil.Date.getNowDate());
-//        wxMpTemplateData2.setColor("#2F4F4F");
-
-        wxMpTemplateData3.setName("keyword2");
-        wxMpTemplateData3.setValue(host);
-//        wxMpTemplateData3.setColor("#2F4F4F");
-
-        wxMpTemplateData4.setName("remark");
-        wxMpTemplateData4.setValue("若为本人操作，可忽略该条信息。");
-//        wxMpTemplateData4.setColor("#173177");
-
-//The SQL execution time is too large, please optimize !
-        wxMpTemplateDataList.add(wxMpTemplateData1);
-        wxMpTemplateDataList.add(wxMpTemplateData2);
-        wxMpTemplateDataList.add(wxMpTemplateData3);
-        wxMpTemplateDataList.add(wxMpTemplateData4);
+        WxMpTemplateData wxMpTemplateDataFirst = new WxMpTemplateData();
+        WxMpTemplateData wxMpTemplateDataLast = new WxMpTemplateData();
+        wxMpTemplateDataFirst.setName("first");
+        wxMpTemplateDataFirst.setValue(first);
+        wxMpTemplateDataLast.setName("remark");
+        wxMpTemplateDataLast.setValue(remark);
+        wxMpTemplateDataList.add(wxMpTemplateDataFirst);
+        wxMpTemplateDataList.add(wxMpTemplateDataLast);
+        for (int i = 1; i < keywords.length; i++) {
+            WxMpTemplateData wxMpTemplateDataTemp = new WxMpTemplateData();
+            wxMpTemplateDataTemp.setName(KEYWORD_KEY + i);
+            wxMpTemplateDataTemp.setValue(keywords[i]);
+            wxMpTemplateDataList.add(wxMpTemplateDataTemp);
+        }
         wxMpTemplateMessage.setData(wxMpTemplateDataList);
         String result = wxMpService.getTemplateMsgService().sendTemplateMsg(wxMpTemplateMessage);
         logger.info("推送结果:" + result);

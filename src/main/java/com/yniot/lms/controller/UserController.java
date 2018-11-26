@@ -9,6 +9,7 @@ import com.yniot.lms.utils.CommonUtil;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateData;
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -81,7 +82,12 @@ public class UserController extends BaseControllerT<User> {
     public String changePsw(@RequestParam(name = "username") String username,
                             @RequestParam(name = "oldPassword") String oldPassword,
                             @RequestParam(name = "newPassword") String newPassword) {
-        return super.getSuccessResult(userService.changePassword(username, oldPassword, newPassword));
+        if (StringUtils.isNotEmpty(username) && username.equals(getUser().getUsername())) {
+            return super.getSuccessResult(userService.changePassword(username, oldPassword, newPassword));
+        } else {
+            return noAuth();
+        }
+
     }
 
     /**

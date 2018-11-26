@@ -1,16 +1,15 @@
 package com.yniot.lms.db.entity;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
-public class WithdrawNumberEnum {
+public class WardrobeProblem {
     private Integer id;
-
-    private BigDecimal number;
 
     private String description;
 
-    private Boolean deleted;
+    private Integer wardrobeId;
+
+    private Integer userId;
 
     private Date createTime;
 
@@ -22,14 +21,6 @@ public class WithdrawNumberEnum {
         this.id = id;
     }
 
-    public BigDecimal getNumber() {
-        return number;
-    }
-
-    public void setNumber(BigDecimal number) {
-        this.number = number;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -38,12 +29,20 @@ public class WithdrawNumberEnum {
         this.description = description == null ? null : description.trim();
     }
 
-    public Boolean getDeleted() {
-        return deleted;
+    public Integer getWardrobeId() {
+        return wardrobeId;
     }
 
-    public void setDeleted(Boolean deleted) {
-        this.deleted = deleted;
+    public void setWardrobeId(Integer wardrobeId) {
+        this.wardrobeId = wardrobeId;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public Date getCreateTime() {

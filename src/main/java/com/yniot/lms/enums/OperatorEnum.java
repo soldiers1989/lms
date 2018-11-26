@@ -32,16 +32,5 @@ public enum OperatorEnum {
         return name;
     }
 
-//    public boolean isApproved(int target, int userType) {
-//        if (target - userType <= 0) {
-//            return true;
-//        }
-//        for (OperatorEnum temp : values()) {
-//            if () {
-//
-//            }
-//        }
-//    }
-
 
 }

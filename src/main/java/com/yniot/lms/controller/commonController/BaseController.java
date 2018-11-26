@@ -137,12 +137,21 @@ public class BaseController {
         return (User) SecurityUtils.getSubject().getPrincipal();
     }
 
+    public int getId() {
+        return getUser().getId();
+    }
+
     public boolean isUser() {
         User user = this.getUser();
         if (user.getUserType() == OperatorEnum.USER.getType()) {
             return true;
         }
         return false;
+    }
+
+    public boolean isLogin() {
+        User user = this.getUser();
+        return user != null;
     }
 
 
@@ -154,6 +163,9 @@ public class BaseController {
         return false;
     }
 
+    public boolean isAdminOrLaundry() {
+        return isLaundry() || isAdmin();
+    }
 
     public boolean isMailMan() {
         User user = this.getUser();
@@ -180,7 +192,7 @@ public class BaseController {
         return this.getErrorMsg("登陆!");
     }
 
-    public String stateWrong() {
+    public String wrongState() {
         return this.getErrorMsg("当前状态不允许该操作!");
     }
 

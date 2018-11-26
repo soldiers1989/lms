@@ -14,4 +14,15 @@ import org.springframework.stereotype.Service;
  **/
 @Service
 public class OrderGoodsServiceImpl extends ServiceImpl<OrderGoodsMapper, OrderGoods> implements OrderGoodsService {
+
+
+    @Override
+    public boolean finishOrder(Integer orderId) {
+        return false;
+    }
+
+    @Override
+    public boolean cancelOrder(Integer orderId) {
+        return false;
+    }
 }

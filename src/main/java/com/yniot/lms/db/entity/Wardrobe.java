@@ -23,6 +23,14 @@ public class Wardrobe {
 
     private Integer laundryId;
 
+    private Double latitude;
+
+    private Double longitude;
+
+    private Integer modifier;
+
+    private Integer creator;
+
     public Integer getId() {
         return id;
     }
@@ -101,5 +109,37 @@ public class Wardrobe {
 
     public void setLaundryId(Integer laundryId) {
         this.laundryId = laundryId;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
+
+    public Integer getModifier() {
+        return modifier;
+    }
+
+    public void setModifier(Integer modifier) {
+        this.modifier = modifier;
+    }
+
+    public Integer getCreator() {
+        return creator;
+    }
+
+    public void setCreator(Integer creator) {
+        this.creator = creator;
     }
 }

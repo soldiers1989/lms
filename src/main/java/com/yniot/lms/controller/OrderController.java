@@ -119,7 +119,7 @@ public class OrderController extends BaseControllerT<Order> {
             return super.expired();
         }
         if (!(order.getState() == OrderStateEnum.COMMITTED.getState())) {
-            return super.stateWrong();
+            return super.wrongState();
         }
         //更改状态
         order.setAccepted(true);
@@ -134,7 +134,7 @@ public class OrderController extends BaseControllerT<Order> {
     public String cancelOrderUser(@RequestParam(name = "orderId") int orderId) {
         Order order = orderService.getById(orderId);
         if (order.getState() == OrderStateEnum.COMMITTED.getState()) {
-            return super.stateWrong();
+            return super.wrongState();
         }
         if (!super.isUser() && !super.isLaundry()) {
             return super.noAuth();
@@ -148,13 +148,13 @@ public class OrderController extends BaseControllerT<Order> {
     }
 
 
-    //4.
+    //完成订单.
     @Unfinished
     @RequestMapping("/finish")
     public String finishOrder(@RequestParam(name = "orderId") int orderId) {
         Order order = orderService.getById(orderId);
         if (order.getState() != OrderStateEnum.TOOK.getState()) {
-            return super.stateWrong();
+            return super.wrongState();
         }
         if (!isUser()) {
             return noAuth();
@@ -172,7 +172,7 @@ public class OrderController extends BaseControllerT<Order> {
             @RequestParam(name = "comment") String comment) {
         Order order = orderService.getById(orderId);
         if (order.getState() != OrderStateEnum.FINISHED.getState()) {
-            return super.stateWrong();
+            return super.wrongState();
         }
         if (order != null && super.getUser().getId() == order.getUserId()) {
             order.setComment(comment);

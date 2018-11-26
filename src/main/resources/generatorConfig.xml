@@ -33,7 +33,16 @@
             <!--<property name="enableSubPackages" value="true"/>-->
         <!--</javaClientGenerator>-->
 
-        <table tableName="biz_order" domainObjectName="Order">
+        <!--<table tableName="biz_cell" domainObjectName="Cell">-->
+            <!--<columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>-->
+        <!--</table>-->
+        <!--<table tableName="biz_cell_open_history" domainObjectName="CellOpenHistory">-->
+            <!--<columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>-->
+        <!--</table>-->
+        <!--<table tableName="biz_cell_storage_history" domainObjectName="CellStorageHistory">-->
+            <!--<columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>-->
+        <!--</table>-->
+        <table tableName="biz_wardrobe_problem" domainObjectName="WardrobeProblem">
             <columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>
         </table>
         <!--<table tableName="biz_order_state_history" domainObjectName="OrderStateHistory">-->

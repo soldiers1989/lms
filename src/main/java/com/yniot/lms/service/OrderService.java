@@ -19,6 +19,6 @@ public interface OrderService extends IService<Order> {
     // 110.评价
     int markExpiredOrder();
 
-    static int EXPIRED_IN_MIN = 10;
+    int EXPIRED_IN_MIN = 10;
 
 }

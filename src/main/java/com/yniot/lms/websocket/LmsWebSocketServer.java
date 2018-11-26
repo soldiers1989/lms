@@ -14,7 +14,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
  * @author: wanggl
  * @create: 2018-11-22 21:11
  **/
-@ServerEndpoint(LmsWebSocketServer.BASE_PATH + "/{userId}")
+@ServerEndpoint(LmsWebSocketServer.BASE_PATH + "/{token}")
 @Component
 public class LmsWebSocketServer {
     private static Logger logger = Logger.getLogger(LmsWebSocketServer.class);
@@ -23,25 +23,31 @@ public class LmsWebSocketServer {
     public static final String BASE_PATH = "/WebSocket";
 
     @OnOpen
-    public void onOpen(@PathParam("userId") int userId, Session session) {
-        logger.info("userId:" + userId);
-
+    public void onOpen(@PathParam("token") String token, Session session) {
+        this.session = session;
+        webSockets.add(this);
+        logger.info("新建来自token为[" + token + "]的连接,当前连接数:" + webSockets.size());
     }
 
     @OnClose
     public void onClose() {
+        logger.info("关闭连接:" + session.getRequestURI().getPath());
+        logger.info("当前连接数:" + webSockets.size());
 
     }
 
 
     @OnMessage
     public void onMessage(String message, Session session) {
-        logger.info("message:" + message);
+        logger.info("接受信息:" + session.getRequestURI().getPath());
+        logger.info("信息内容:" + message);
+
     }
 
     @OnError
     public void onError(Session session, Throwable error) {
-
+        logger.error("发生错误:" + session.getRequestURI().getPath());
+        logger.error(error.getMessage());
 
     }
 
@@ -49,13 +55,13 @@ public class LmsWebSocketServer {
      * @Author wanggl(lane)
      * @Description //TODO 发送消息
      * @Date 上午11:41 2018/11/26
-     * @Param [jsonMessage, userId]
+     * @Param [jsonMessage, token]
      * @return void
      **/
-    public void sendWSMessage(String jsonMessage, int userId) {
+    public void sendWSMessage(String jsonMessage, int token) {
         for (LmsWebSocketServer webSocket : webSockets) {
             String path = webSocket.session.getRequestURI().getPath();
-            if (path.equals(BASE_PATH + "/" + userId)) {
+            if (path.equals(BASE_PATH + "/" + token)) {
                 try {
                     webSocket.session.getBasicRemote().sendText(jsonMessage);
                 } catch (Exception e) {

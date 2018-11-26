@@ -5,7 +5,7 @@
                 <el-card class="login-box" v-loading="$store.state.loading"
                          element-loading-background="rgba(0, 0, 0, 0.8)">
                     <el-form>
-                        <h1 class="title">欢迎使用</h1>
+                        <h1 class="title">欢迎使用1111</h1>
                         <el-form-item>
                             <el-input type="text" v-model="user.username" auto-complete="off" placeholder="请输入用户名..."
                                       suffix-icon="el-icon-bell"></el-input>

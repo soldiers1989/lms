@@ -42,39 +42,12 @@
             return {
                 weChatConfig: {},
                 menu: "",
-                webSocketUrl: "ws://localhost:8080/WebSocket/wardrobe/9527",
-                webSocket: null,
             };
         },
         mounted() {
             this.getConfig();
-            this.initWebSocket();
         },
         methods: {
-            initWebSocket() {
-                this.webSocket = new WebSocket(this.webSocketUrl);
-                this.webSocket.onopen = this.webSocketOnOpen;
-                this.webSocket.onmessage = this.webSocketOnMessage;
-                this.webSocket.onclose = this.webSocketOnClose;
-                this.webSocket.onerror = this.webSocketOnError;
-            },
-            webSocketOnOpen() {
-                console.log("WebSocket连接成功");
-            },
-            webSocketOnError(error) { //错误
-                console.log(error);
-            },
-            webSocketOnMessage(message) { //数据接收
-                console.log(message);
-            },
-
-            webSocketSend(agentData) {//数据发送
-                this.webSocket.send(agentData);
-            },
-
-            webSocketOnClose(message) { //关闭
-                console.log(message);
-            },
             getConfig() {
                 this.$http.post("/WeChat/config/select").then(res => {
                     if (res.data.result) {

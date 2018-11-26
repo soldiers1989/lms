@@ -8,14 +8,10 @@ import com.yniot.lms.annotation.LaundryOnly;
 import com.yniot.lms.annotation.Unfinished;
 import com.yniot.lms.annotation.UserOnly;
 import com.yniot.lms.controller.commonController.BaseControllerT;
-import com.yniot.lms.db.entity.Order;
-import com.yniot.lms.db.entity.OrderGoods;
-import com.yniot.lms.db.entity.User;
-import com.yniot.lms.enums.GoodsStateEnum;
+import com.yniot.lms.db.entity.*;
+import com.yniot.lms.enums.ShipmentEnum;
 import com.yniot.lms.enums.OrderStateEnum;
-import com.yniot.lms.service.OrderGoodsService;
-import com.yniot.lms.service.OrderService;
-import com.yniot.lms.service.OrderStateHistoryService;
+import com.yniot.lms.service.*;
 import com.yniot.lms.utils.CommonUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +37,11 @@ public class OrderController extends BaseControllerT<Order> {
     OrderStateHistoryService orderStateHistoryService;
     @Autowired
     OrderGoodsService orderGoodsService;
+    @Autowired
+    OrderCommentService orderCommentService;
+    @Autowired
+    OrderShipmentService orderShipmentService;
+
 
     //1.提交订单
     @RequestMapping("/commit")
@@ -95,7 +96,7 @@ public class OrderController extends BaseControllerT<Order> {
             orderStateHistoryService.saveOrderState(order, super.getUser().getId());
         }
         boolean re = result1 && result2;
-        if(re){
+        if (re) {
             //4.发送提示信息到商家微信和PC端
         }
 
@@ -118,7 +119,7 @@ public class OrderController extends BaseControllerT<Order> {
         if (!isLaundry()) {
             return super.noAuth();
         }
-        Date commitTime = order.getCommentTime();
+        Date commitTime = order.getCommitTime();
         Timestamp commitTimestamp = new Timestamp(commitTime.getTime());
         Timestamp nowTimestamp = new Timestamp(new Date().getTime());
         int expireMin = order.getExpireInMin();
@@ -161,7 +162,8 @@ public class OrderController extends BaseControllerT<Order> {
     @RequestMapping("/finish")
     public String finishOrder(@RequestParam(name = "orderId") int orderId) {
         Order order = orderService.getById(orderId);
-        if (order.getState() != OrderStateEnum.TOOK_USER.getState()) {
+        OrderShipment orderShipment = orderShipmentService.getById(orderId);
+        if (orderShipment.getState() != ShipmentEnum.TOOK_USER.getState()) {
             return super.wrongState();
         }
         if (!isUser()) {
@@ -183,11 +185,15 @@ public class OrderController extends BaseControllerT<Order> {
         if (order.getState() != OrderStateEnum.FINISHED.getState()) {
             return super.wrongState();
         }
+        OrderComment orderComment = new OrderComment();
         if (order != null && super.getUser().getId() == order.getUserId()) {
-            order.setComment(comment);
-            order.setStars(stars);
-            order.setCommitTime(new Date());
-            return super.getSuccessResult(orderService.saveOrUpdate(order) && orderStateHistoryService.saveOrderState(order, super.getUser().getId()));
+            orderComment.setId(orderId);
+            orderComment.setContent(comment);
+            orderComment.setStars(stars);
+            orderComment.setCreateTime(new Date());
+            orderComment.setUsername(getUser().getUsername());
+            orderComment.setUserId(getUser().getId());
+            return super.getSuccessResult(orderCommentService.save(orderComment));
         } else {
             return super.noAuth();
         }
@@ -201,12 +207,19 @@ public class OrderController extends BaseControllerT<Order> {
             return noAuth();
         }
         Order order = orderService.getById(orderId);
-        order.setState(OrderStateEnum.PUT_USER.getState());
+        if (order.getState() != OrderStateEnum.COMMITTED.getState()) {
+            return wrongState();
+        }
+        //更改物流状态
+        OrderShipment orderShipment = orderShipmentService.getById(orderId);
+        orderShipment.setState(ShipmentEnum.PUT_USER.getState());
+        orderShipment.setModifyTime(new Date());
+        orderShipmentService.saveOrUpdate(orderShipment);
+        //更改每个物品的状态
         QueryWrapper<OrderGoods> orderGoodsQueryWrapper = new QueryWrapper<>();
         List<OrderGoods> orderGoodsList = orderGoodsService.list(orderGoodsQueryWrapper);
-//        List<Integer> orderGoodsId = orderGoodsList.stream().map(OrderGoods::getId).collect(Collectors.toList());
         for (OrderGoods orderGoods : orderGoodsList) {
-            orderGoods.setState(GoodsStateEnum.PUT_USER.getType());
+            orderGoods.setState(ShipmentEnum.PUT_USER.getState());
         }
         orderGoodsService.saveOrUpdateBatch(orderGoodsList);
         return "";

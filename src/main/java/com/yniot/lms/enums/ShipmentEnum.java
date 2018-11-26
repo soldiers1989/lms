@@ -6,7 +6,7 @@ package com.yniot.lms.enums;
  * @Description:
  * @Version 1.0.0
  */
-public enum GoodsStateEnum {
+public enum ShipmentEnum {
     WAITING(0, "待存放"),
     PUT_USER(10, "已存放"),
     TOOK_MAILMAN(20, "已取走"),
@@ -17,12 +17,12 @@ public enum GoodsStateEnum {
     private Integer state;
     private String name;
 
-    private GoodsStateEnum(Integer state, String name) {
+    private ShipmentEnum(Integer state, String name) {
         this.state = state;
         this.name = name;
     }
 
-    public Integer getType() {
+    public Integer getState() {
         return state;
     }
 

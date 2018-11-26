@@ -1,13 +1,8 @@
 package com.yniot.lms.db.entity;
 
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-
-import java.math.BigDecimal;
 import java.util.Date;
-@TableName("biz_order")
+
 public class Order {
-    @TableId
     private Integer id;
 
     private String code;
@@ -16,27 +11,9 @@ public class Order {
 
     private Integer laundryId;
 
-    private BigDecimal totalCost;
-
     private Integer state;
 
-    private Boolean deleted;
-
-    private Boolean asap;
-
     private String description;
-
-    private Date createTime;
-
-    private Date commitTime;
-
-    private Date paidTime;
-
-    private Date pickedTime;
-
-    private Date putTime;
-
-    private Date finishedTime;
 
     private Boolean accepted;
 
@@ -46,21 +23,23 @@ public class Order {
 
     private Integer expireInMin;
 
-    private String comment;
+    private Date createTime;
 
-    private Integer stars;
-
-    private Date commentTime;
+    private Date commitTime;
 
     private Date acceptedTime;
 
     private Date canceledTime;
 
+    private Date expiredTime;
+
+    private Date finishedTime;
+
     private Integer nextOperator;
 
     private Integer canceledBy;
 
-    private Date expiredTime;
+    private Boolean deleted;
 
     public Integer getId() {
         return id;
@@ -94,14 +73,6 @@ public class Order {
         this.laundryId = laundryId;
     }
 
-    public BigDecimal getTotalCost() {
-        return totalCost;
-    }
-
-    public void setTotalCost(BigDecimal totalCost) {
-        this.totalCost = totalCost;
-    }
-
     public Integer getState() {
         return state;
     }
@@ -110,76 +81,12 @@ public class Order {
         this.state = state;
     }
 
-    public Boolean getDeleted() {
-        return deleted;
-    }
-
-    public void setDeleted(Boolean deleted) {
-        this.deleted = deleted;
-    }
-
-    public Boolean getAsap() {
-        return asap;
-    }
-
-    public void setAsap(Boolean asap) {
-        this.asap = asap;
-    }
-
     public String getDescription() {
         return description;
     }
 
     public void setDescription(String description) {
         this.description = description == null ? null : description.trim();
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getCommitTime() {
-        return commitTime;
-    }
-
-    public void setCommitTime(Date commitTime) {
-        this.commitTime = commitTime;
-    }
-
-    public Date getPaidTime() {
-        return paidTime;
-    }
-
-    public void setPaidTime(Date paidTime) {
-        this.paidTime = paidTime;
-    }
-
-    public Date getPickedTime() {
-        return pickedTime;
-    }
-
-    public void setPickedTime(Date pickedTime) {
-        this.pickedTime = pickedTime;
-    }
-
-    public Date getPutTime() {
-        return putTime;
-    }
-
-    public void setPutTime(Date putTime) {
-        this.putTime = putTime;
-    }
-
-    public Date getFinishedTime() {
-        return finishedTime;
-    }
-
-    public void setFinishedTime(Date finishedTime) {
-        this.finishedTime = finishedTime;
     }
 
     public Boolean getAccepted() {
@@ -214,28 +121,20 @@ public class Order {
         this.expireInMin = expireInMin;
     }
 
-    public String getComment() {
-        return comment;
+    public Date getCreateTime() {
+        return createTime;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment == null ? null : comment.trim();
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
-    public Integer getStars() {
-        return stars;
+    public Date getCommitTime() {
+        return commitTime;
     }
 
-    public void setStars(Integer stars) {
-        this.stars = stars;
-    }
-
-    public Date getCommentTime() {
-        return commentTime;
-    }
-
-    public void setCommentTime(Date commentTime) {
-        this.commentTime = commentTime;
+    public void setCommitTime(Date commitTime) {
+        this.commitTime = commitTime;
     }
 
     public Date getAcceptedTime() {
@@ -254,6 +153,22 @@ public class Order {
         this.canceledTime = canceledTime;
     }
 
+    public Date getExpiredTime() {
+        return expiredTime;
+    }
+
+    public void setExpiredTime(Date expiredTime) {
+        this.expiredTime = expiredTime;
+    }
+
+    public Date getFinishedTime() {
+        return finishedTime;
+    }
+
+    public void setFinishedTime(Date finishedTime) {
+        this.finishedTime = finishedTime;
+    }
+
     public Integer getNextOperator() {
         return nextOperator;
     }
@@ -270,11 +185,11 @@ public class Order {
         this.canceledBy = canceledBy;
     }
 
-    public Date getExpiredTime() {
-        return expiredTime;
+    public Boolean getDeleted() {
+        return deleted;
     }
 
-    public void setExpiredTime(Date expiredTime) {
-        this.expiredTime = expiredTime;
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
     }
 }

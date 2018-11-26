@@ -60,7 +60,14 @@ public class WeChatServiceImpl extends ServiceImpl<WeChatConfigMapper, WeChatCon
         this.sendWeChatMessage("你的账户进行了登陆操作", "若为本人操作,可忽略本条消息",
                 null, openId, LOGIN_MSG_TEMPLATE_ID, CommonUtil.Date.getNowDate(), host);
     }
-
+    //订单完成通知  通知用户、洗衣店
+    //配送员已放回  通知用户、洗衣店
+    //配送员已取走  通知用户、洗衣店
+    //洗衣店已清洁  通知用户
+    //订单金额确定  通知用户
+    //金额已确定    通知洗衣店
+    //用户已存放    通知洗衣店
+    //用户已取回    通知洗衣店
 
 
     /**

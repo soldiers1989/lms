@@ -3,14 +3,12 @@ package com.yniot.lms.service.impl;
 import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.bean.WxMaTemplateData;
 import cn.binarywang.wx.miniapp.bean.WxMaTemplateMessage;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yniot.lms.config.WxMaConfiguration;
 import com.yniot.lms.db.cachce.CacheDao;
 import com.yniot.lms.db.dao.SmallAppConfigMapper;
 import com.yniot.lms.db.entity.SmallAppConfig;
 import com.yniot.lms.service.SmallAppService;
-import com.yniot.lms.utils.CommonUtil;
 import me.chanjar.weixin.common.error.WxErrorException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,13 +76,6 @@ public class SmallAppServiceImpl extends ServiceImpl<SmallAppConfigMapper, Small
 
     @Override
     public void initConfig() {
-        QueryWrapper<SmallAppConfig> smallAppConfigQueryWrapper = new QueryWrapper<>();
-        smallAppConfigQueryWrapper.eq("deleted", 0);
-        smallAppConfigQueryWrapper.eq("activated", 1);
-        List<SmallAppConfig> smallAppConfigList = super.list(smallAppConfigQueryWrapper);
-        for (SmallAppConfig temp : smallAppConfigList) {
-            logger.info("插入缓存:appId:[" + temp.getAppId() + "]");
-            cacheDao.set(temp.getAppId(), temp, SmallAppConfig.class);
-        }
+
     }
 }

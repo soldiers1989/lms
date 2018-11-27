@@ -5,7 +5,7 @@ spring:
       charset: UTF-8
       enabled: true
   server:
-    port: 8088
+    port: 8080
     tomcat:
       uri-encoding: UTF-8
   thymeleaf:
@@ -42,8 +42,16 @@ spring:
 
 logging:
   config: classpath:logback-boot.xml
-mybatis-plus:
-  global-config:
-    db-config:
-      logic-delete-value:true # 逻辑删除
-      logic-not-delete-value: false # 逻辑删除
+#mybatis-plus:
+#  global-config:
+#    db-config:
+#      logic-delete-value:true # 逻辑删除
+#      logic-not-delete-value: false # 逻辑删除
+wechat:
+  smallapp:
+    configs:
+      - appid: wx935f4f8a4ba9454b
+        secret: b3fbd40446090e3b5672caed753ca21d
+        token: lms_token
+        aesKey:
+        msgDataFormat: JSON

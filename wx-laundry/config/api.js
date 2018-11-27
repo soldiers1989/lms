@@ -13,7 +13,11 @@ module.exports = {
     CatalogList: API_BASE_URL + 'catalog/index',  //分类目录全部分类数据接口
     CatalogCurrent: API_BASE_URL + 'catalog/current',  //分类目录当前分类数据接口
 
-  AuthLoginByWeixin: "http://localhost:8080/" + 'WeChat/login', //微信登录
+  AuthLoginByWeixin: "http://localhost:8080/" + 'SmallAppApi/wx935f4f8a4ba9454b/login', //微信登录
+    AuthUserInfo: "http://localhost:8080/" + 'SmallAppApi/wx935f4f8a4ba9454b/info', //微信登录
+
+
+
 
     GoodsCount: API_BASE_URL + 'goods/count',  //统计商品总数
     GoodsList: API_BASE_URL + 'goods/list',  //获得商品列表

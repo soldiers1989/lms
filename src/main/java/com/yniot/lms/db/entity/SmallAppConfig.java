@@ -15,17 +15,15 @@ public class SmallAppConfig {
 
     private String aesKey;
 
-    private String callbackDomain;
-
     private Date modifiedTime;
+
+    private String msgDataFormat;
 
     private Date createTime;
 
     private Boolean deleted;
 
     private Boolean activated;
-
-    private String msgDataFormat;
 
     public Integer getId() {
         return id;
@@ -75,20 +73,20 @@ public class SmallAppConfig {
         this.aesKey = aesKey == null ? null : aesKey.trim();
     }
 
-    public String getCallbackDomain() {
-        return callbackDomain;
-    }
-
-    public void setCallbackDomain(String callbackDomain) {
-        this.callbackDomain = callbackDomain == null ? null : callbackDomain.trim();
-    }
-
     public Date getModifiedTime() {
         return modifiedTime;
     }
 
     public void setModifiedTime(Date modifiedTime) {
         this.modifiedTime = modifiedTime;
+    }
+
+    public String getMsgDataFormat() {
+        return msgDataFormat;
+    }
+
+    public void setMsgDataFormat(String msgDataFormat) {
+        this.msgDataFormat = msgDataFormat == null ? null : msgDataFormat.trim();
     }
 
     public Date getCreateTime() {
@@ -113,13 +111,5 @@ public class SmallAppConfig {
 
     public void setActivated(Boolean activated) {
         this.activated = activated;
-    }
-
-    public String getMsgDataFormat() {
-        return msgDataFormat;
-    }
-
-    public void setMsgDataFormat(String msgDataFormat) {
-        this.msgDataFormat = msgDataFormat == null ? null : msgDataFormat.trim();
     }
 }

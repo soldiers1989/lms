@@ -1,0 +1,51 @@
+
+<!--index.wxml-->
+<view class="container">
+  <!-- 轮播图 -->
+  <swiper class="banner" indicator-dots="true" autoplay="true" interval="3000" duration="1000">
+    <swiper-item wx:for="{{banner}}" wx:key="{{item.id}}">
+      <navigator url="{{item.link}}">
+        <image src="{{item.image_url}}" background-size="cover"></image>
+      </navigator>
+    </swiper-item>
+  </swiper>
+
+<!-- 衣物类型 -->
+<view class="a-section a-topic" wx:if="{{channel.length > 0}}">
+  <view class="m-menu">
+    <navigator  class="item" url="{{item.url}}" wx:for="{{channel}}" wx:key="{{item.id}}">
+      <image src="{{item.icon_url}}" background-size="cover"></image>
+      <text>{{item.name}}</text>
+    </navigator>
+  </view>
+ </view>
+
+
+<!-- 优惠 -->
+  <view class="a-section a-topic" wx:if="{{topics.length > 0}}">
+    <view class="h">
+      <view>
+      <navigator url="../topic/topic" open-type="switchTab">
+        <text class="txt">每日优惠</text>
+        </navigator>
+      </view>
+    </view>
+    <view class="b">
+      <scroll-view scroll-x="true" class="list">
+        <view class="item" wx:for="{{topics}}" wx:for-index="index" wx:for-item="item" wx:key="{{item.id}}">
+          <navigator url="../topicDetail/topicDetail?id={{item.id}}">
+            <image class="img" src="{{item.scene_pic_url}}" background-size="cover"></image>
+            <view class="np">
+              <text class="name">{{item.title}}</text>
+              <text class="price">￥{{item.price_info}}元起</text>
+            </view>
+            <text class="desc">{{item.subtitle}}</text>
+          </navigator>
+        </view>
+      </scroll-view>
+    </view>
+  </view>
+
+
+
+</view>

@@ -17,6 +17,8 @@ public class OrderComment {
 
     private Integer userId;
 
+    private Integer laundryId;
+
     public Integer getId() {
         return id;
     }
@@ -71,5 +73,13 @@ public class OrderComment {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public Integer getLaundryId() {
+        return laundryId;
+    }
+
+    public void setLaundryId(Integer laundryId) {
+        this.laundryId = laundryId;
     }
 }

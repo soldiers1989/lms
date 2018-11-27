@@ -3,37 +3,27 @@ package com.yniot.lms.controller;
 import com.yniot.lms.controller.commonController.BaseController;
 import com.yniot.lms.db.entity.WeChatConfig;
 import com.yniot.lms.service.WeChatService;
-import com.yniot.lms.service.wechat.WeChatImageHandler;
-import com.yniot.lms.service.wechat.WeChatLogHandler;
-import com.yniot.lms.service.wechat.WeChatOAuth2Handler;
-import com.yniot.lms.service.wechat.WeChatTextHandler;
 import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.bean.menu.WxMenu;
 import me.chanjar.weixin.common.error.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpInMemoryConfigStorage;
-import me.chanjar.weixin.mp.api.WxMpMessageHandler;
 import me.chanjar.weixin.mp.api.WxMpMessageRouter;
 import me.chanjar.weixin.mp.api.WxMpService;
-import me.chanjar.weixin.mp.api.impl.WxMpServiceHttpClientImpl;
 import me.chanjar.weixin.mp.bean.menu.WxMpMenu;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlMessage;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlOutMessage;
 import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
 import me.chanjar.weixin.mp.bean.result.WxMpUser;
-import me.chanjar.weixin.mp.bean.template.WxMpTemplateData;
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @Author wanggl
@@ -72,6 +62,7 @@ public class WeChatAPIController extends BaseController {
     public void auth(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String signature = request.getParameter(SIGNATURE_KEY);
         String timestamp = request.getParameter(TIMESTAMP_KEY);
+
         String nonce = request.getParameter(NONCE_KEY);
         String echostr = request.getParameter(ECHOSTR_KEY);
         if (!wxMpService.checkSignature(timestamp, nonce, signature)) {
@@ -115,6 +106,8 @@ public class WeChatAPIController extends BaseController {
         WxMenu menu = WxMenu.fromJson(jsonMenu);
         return super.getSuccessResult(wxMpService.getMenuService().menuCreate(menu));
     }
+
+
 
 
     @RequestMapping("/menu/update")
@@ -213,6 +206,8 @@ public class WeChatAPIController extends BaseController {
 //        boolean valid = wxMpService.oauth2validateAccessToken(wxMpOAuth2AccessToken);
         return super.getSuccessResult(wxMpUser.getOpenId());
     }
+
+
 
     @RequestMapping("/auth2")
     public String auth2() throws WxErrorException {

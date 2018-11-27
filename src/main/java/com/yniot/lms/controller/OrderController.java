@@ -3,16 +3,14 @@ package com.yniot.lms.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.sun.jmx.snmp.Timestamp;
-import com.yniot.lms.annotation.Finished;
-import com.yniot.lms.annotation.LaundryOnly;
-import com.yniot.lms.annotation.Unfinished;
-import com.yniot.lms.annotation.UserOnly;
+import com.yniot.lms.annotation.*;
 import com.yniot.lms.controller.commonController.BaseControllerT;
 import com.yniot.lms.db.entity.*;
 import com.yniot.lms.enums.ShipmentEnum;
 import com.yniot.lms.enums.OrderStateEnum;
 import com.yniot.lms.service.*;
 import com.yniot.lms.utils.CommonUtil;
+import net.sf.ehcache.search.expression.Or;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -78,18 +76,22 @@ public class OrderController extends BaseControllerT<Order> {
         }
         //2.插入 orderGoods
         if (result1) {
-            for (OrderGoods orderGoods : orderGoodsList) {
-                orderGoods.setOrderId(order.getId());
-                orderGoods.setCreateTime(new Date());
-                orderGoods.setDeleted(false);
+            QueryWrapper<Order> orderQueryWrapper = new QueryWrapper<>();
+            orderQueryWrapper.eq("code", orderCode);
+            order = orderService.getOne(orderQueryWrapper);
+            if (order != null) {
+                for (OrderGoods orderGoods : orderGoodsList) {
+                    orderGoods.setOrderId(order.getId());
+                    orderGoods.setCreateTime(new Date());
+                    orderGoods.setDeleted(false);
+                }
+                result2 = orderGoodsService.saveBatch(orderGoodsList);
             }
-            result2 = orderGoodsService.saveBatch(orderGoodsList);
         }
         //3.如果商品插入失败,则订单也需要删除
         if (result2) {
             QueryWrapper<Order> orderQueryWrapper = new QueryWrapper<>();
             orderQueryWrapper.eq("code", orderCode);
-            Order temp = orderService.getOne(orderQueryWrapper);
             orderService.remove(orderQueryWrapper);
         } else {
             //保存订单状态
@@ -99,7 +101,7 @@ public class OrderController extends BaseControllerT<Order> {
         if (re) {
             //4.发送提示信息到商家微信和PC端
         }
-
+            //5.生成二维码
 
         return super.getSuccessResult(re);
     }
@@ -107,11 +109,6 @@ public class OrderController extends BaseControllerT<Order> {
     //5.付款
 
     //3.接单
-    // 状态：0.创建订单  10.提交订单、待接单 15.已接单.待入柜 20.已接单、待取货
-    // 30.已取货、待到店  40.已到店、待确认金额 50.已确认金额并付款、待清洁
-    // 60.清洁中 70.完成清洁、待送回  80.已送出、待放回
-    // 90.已放回、待取回  100.已取回、待评价
-    // 110.已评价（完成订单）
     @LaundryOnly
     @RequestMapping("/accept")
     public String receiveOrder(@RequestParam(name = "orderId") int orderId) {
@@ -176,6 +173,7 @@ public class OrderController extends BaseControllerT<Order> {
 
 
     //7.评价
+    @UserOnly
     @RequestMapping("/comment")
     public String logout(
             @RequestParam(name = "orderId") int orderId,
@@ -193,6 +191,7 @@ public class OrderController extends BaseControllerT<Order> {
             orderComment.setCreateTime(new Date());
             orderComment.setUsername(getUser().getUsername());
             orderComment.setUserId(getUser().getId());
+            orderComment.setLaundryId(order.getLaundryId());
             return super.getSuccessResult(orderCommentService.save(orderComment));
         } else {
             return super.noAuth();
@@ -201,7 +200,7 @@ public class OrderController extends BaseControllerT<Order> {
 
 
     @UserOnly
-    @RequestMapping("/user/storage")
+    @RequestMapping("/user/put")
     public String storageByUser(@RequestParam(name = "orderId") int orderId) {
         if (!isUser()) {
             return noAuth();
@@ -224,6 +223,31 @@ public class OrderController extends BaseControllerT<Order> {
         orderGoodsService.saveOrUpdateBatch(orderGoodsList);
         return "";
     }
+
+    @MailmanOnly
+    @RequestMapping("/mailman/take")
+    public String tookByMailman(@RequestParam(name = "cellId") int cellId) {
+        QueryWrapper<OrderGoods> orderGoodsQueryWrapper = new QueryWrapper<>();
+        orderGoodsQueryWrapper.eq("storage_cell_id", cellId);
+        List<OrderGoods> orderGoodsList = orderGoodsService.list(orderGoodsQueryWrapper);
+        if (orderGoodsList.isEmpty()) {
+            return super.getErrorMsg("没有数据!");
+        }
+        for (OrderGoods orderGoods : orderGoodsList) {
+            if (orderGoods.getState() == ShipmentEnum.PUT_USER.getState()) {
+                orderGoods.setState(ShipmentEnum.TOOK_MAILMAN.getState());
+            }
+        }
+        OrderGoods orderGoods = orderGoodsList.get(0);
+        int orderId = orderGoods.getOrderId();
+        OrderShipment orderShipment = orderShipmentService.getById(orderId);
+        if (orderShipment.getState() == ShipmentEnum.PUT_USER.getState()) {
+            orderShipment.setState(ShipmentEnum.TOOK_MAILMAN.getState());
+            orderShipmentService.saveOrUpdate(orderShipment);
+        }
+        return super.getErrorMsg("");
+    }
+
 
     //6.获取唯一的订单编号
     private static synchronized String getOrderCode() {

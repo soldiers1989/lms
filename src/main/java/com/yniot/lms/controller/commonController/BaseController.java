@@ -2,21 +2,15 @@ package com.yniot.lms.controller.commonController;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.yniot.lms.db.cachce.CacheDao;
 import com.yniot.lms.db.entity.User;
-import com.yniot.lms.enums.OperatorEnum;
-import com.yniot.lms.service.LoginHistoryService;
+import com.yniot.lms.enums.UserTypeEnum;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.session.Session;
-import org.apache.shiro.subject.Subject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import sun.misc.Cache;
 
 import java.io.File;
 import java.io.IOException;
@@ -62,7 +56,7 @@ public class BaseController {
         return this.getResult(true, data, "", pageNum, pageSize, totalNum);
     }
 
-    public String getJsonObj(Object data) {
+    public String getJsonStr(Object data) {
         return JSONObject.toJSONString(data, SerializerFeature.WriteMapNullValue);
     }
 
@@ -143,7 +137,7 @@ public class BaseController {
 
     public boolean isUser() {
         User user = this.getUser();
-        if (user.getUserType() == OperatorEnum.USER.getType()) {
+        if (user.getUserType() == UserTypeEnum.USER.getType()) {
             return true;
         }
         return false;
@@ -157,7 +151,7 @@ public class BaseController {
 
     public boolean isLaundry() {
         User user = this.getUser();
-        if (user.getUserType() == OperatorEnum.LAUNDRY.getType()) {
+        if (user.getUserType() == UserTypeEnum.LAUNDRY.getType()) {
             return true;
         }
         return false;
@@ -169,7 +163,7 @@ public class BaseController {
 
     public boolean isMailMan() {
         User user = this.getUser();
-        if (user.getUserType() == OperatorEnum.MAIL_MAN.getType()) {
+        if (user.getUserType() == UserTypeEnum.MAIL_MAN.getType()) {
             return true;
         }
         return false;
@@ -178,7 +172,7 @@ public class BaseController {
 
     public boolean isAdmin() {
         User user = this.getUser();
-        if (user.getUserType() == OperatorEnum.ADMIN.getType()) {
+        if (user.getUserType() == UserTypeEnum.ADMIN.getType()) {
             return true;
         }
         return false;
@@ -189,7 +183,7 @@ public class BaseController {
     }
 
     public String noLogin() {
-        return this.getErrorMsg("登陆!");
+        return this.getErrorMsg("请先登陆!");
     }
 
     public String wrongState() {

@@ -6,7 +6,7 @@ package com.yniot.lms.enums;
  * @author: wanggl
  * @create: 2018-11-25 12:02
  **/
-public enum OperatorEnum {
+public enum UserTypeEnum {
 
     USER(10, "用户"),
     MAIL_MAN(20, "配送员"),
@@ -19,7 +19,7 @@ public enum OperatorEnum {
     private Integer type;
     private String name;
 
-    private OperatorEnum(Integer type, String name) {
+    private UserTypeEnum(Integer type, String name) {
         this.type = type;
         this.name = name;
     }

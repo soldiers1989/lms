@@ -1,6 +1,8 @@
 package com.yniot.lms.task;
 
+import com.yniot.lms.db.entity.SmallAppConfig;
 import com.yniot.lms.db.entity.WeChatConfig;
+import com.yniot.lms.service.SmallAppService;
 import com.yniot.lms.service.WeChatService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,15 +28,19 @@ public class StartedTask implements ApplicationRunner {
 
     @Autowired
     WeChatService weChatService;
+    @Autowired
+    SmallAppService smallAppService;
 
     private void initWeChatConfig() {
         WeChatConfig weChatConfig = weChatService.getConfig();
+        smallAppService.initConfig();
         if (weChatConfig != null) {
             logger.info("微信配置加载完成!");
         } else {
             logger.info("微信配置加载失败,退出程序!");
             System.exit(0);
         }
+
 
     }
 

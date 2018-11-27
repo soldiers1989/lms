@@ -42,18 +42,18 @@
         <!--<table tableName="biz_cell_storage_history" domainObjectName="CellStorageHistory">-->
             <!--<columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>-->
         <!--</table>-->
-        <table tableName="biz_order" domainObjectName="Order">
+        <!--<table tableName="biz_order" domainObjectName="Order">-->
+            <!--<columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>-->
+        <!--</table>-->
+        <table tableName="small_app_config" domainObjectName="SmallAppConfig">
             <columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>
         </table>
-        <table tableName="biz_order_comment" domainObjectName="OrderComment">
-            <columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>
-        </table>
-        <table tableName="biz_order_shipment" domainObjectName="OrderShipment">
-            <columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>
-        </table>
-        <table tableName="biz_order_cost" domainObjectName="OrderCost">
-            <columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>
-        </table>
+        <!--<table tableName="biz_order_shipment" domainObjectName="OrderShipment">-->
+            <!--<columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>-->
+        <!--</table>-->
+        <!--<table tableName="biz_order_cost" domainObjectName="OrderCost">-->
+            <!--<columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>-->
+        <!--</table>-->
         <!--<table tableName="biz_order_state_history" domainObjectName="OrderStateHistory">-->
             <!--<columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>-->
         <!--</table>-->

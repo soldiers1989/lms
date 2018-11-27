@@ -1,9 +1,7 @@
 package com.yniot.lms.db.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-
 import java.util.Date;
-@TableName("sys_user")
+
 public class User {
     private Integer id;
 
@@ -52,6 +50,8 @@ public class User {
     private Boolean subscribe;
 
     private String headUrl;
+
+    private Boolean autoAccept;
 
     public Integer getId() {
         return id;
@@ -243,5 +243,13 @@ public class User {
 
     public void setHeadUrl(String headUrl) {
         this.headUrl = headUrl == null ? null : headUrl.trim();
+    }
+
+    public Boolean getAutoAccept() {
+        return autoAccept;
+    }
+
+    public void setAutoAccept(Boolean autoAccept) {
+        this.autoAccept = autoAccept;
     }
 }

@@ -6,6 +6,7 @@ import me.chanjar.weixin.mp.api.WxMpMessageHandler;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlMessage;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlOutMessage;
+import org.apache.log4j.Logger;
 
 import java.util.Map;
 
@@ -15,15 +16,19 @@ import java.util.Map;
  * @Date 14:07 2018-11-21
  **/
 public class WeChatOAuth2Handler implements WxMpMessageHandler {
-  @Override
-  public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage,
-                                  Map<String, Object> context, WxMpService wxMpService,
-                                  WxSessionManager sessionManager) {
-    String href = "<a href=\"" + wxMpService.oauth2buildAuthorizationUrl(
-      wxMpService.getWxMpConfigStorage().getOauth2redirectUri(),
-      WxConsts.OAuth2Scope.SNSAPI_USERINFO, null) + "\">测试oauth2</a>";
-    return WxMpXmlOutMessage.TEXT().content(href)
-      .fromUser(wxMessage.getToUser()).toUser(wxMessage.getFromUser())
-      .build();
-  }
+    private static Logger logger = Logger.getLogger(WeChatOAuth2Handler.class);
+
+    @Override
+    public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage,
+                                    Map<String, Object> context, WxMpService wxMpService,
+                                    WxSessionManager sessionManager) {
+
+        logger.info("oauth2 called!");
+        String href = "<a href=\"" + wxMpService.oauth2buildAuthorizationUrl(
+                wxMpService.getWxMpConfigStorage().getOauth2redirectUri(),
+                WxConsts.OAuth2Scope.SNSAPI_USERINFO, null) + "\">测试oauth2</a>";
+        return WxMpXmlOutMessage.TEXT().content(href)
+                .fromUser(wxMessage.getToUser()).toUser(wxMessage.getFromUser())
+                .build();
+    }
 }

@@ -14,22 +14,16 @@ public class TimerTask {
 
     @Autowired
     OrderService orderService;
-//    @Autowired
-//    MessageService messageService;
 
-    @Scheduled(cron = "0 0/1 * * * ? ") // 每分钟查找过期的订单
+    @Scheduled(cron = "0 0/1 * * * ? ")
     public void logCacheKeys() {
         this.markExpiredOrder();
     }
 
 
-//    @Scheduled(cron = "0/30 * * * * ? ")
-//    public void sendMessageTest() {
-//        messageService.sendMessage("message!!!", 9527, 1, 1);
-//    }
 
 
-    private void markExpiredOrder() {
+    private void markExpiredOrder() {// 每分钟查找过期的订单
         int cnt = orderService.markExpiredOrder();
         logger.info("过期的订单数量:[" + cnt + "]");
     }

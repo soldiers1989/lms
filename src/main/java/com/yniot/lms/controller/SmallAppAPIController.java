@@ -47,7 +47,6 @@ public class SmallAppAPIController extends BaseController {
      */
     @RequestMapping("/login")
     public String login(@PathVariable String appId, String code) throws ClientException {
-        messageUtil.sendRegisterCode("13172211993","123123");
         if (StringUtils.isBlank(code)) {
             return getErrorMsg("code为空!");
         }

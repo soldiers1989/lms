@@ -4,7 +4,12 @@ import com.yniot.exclude.CommonMapper;
 import com.yniot.lms.db.entity.User;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 @Mapper
 public interface UserMapper  extends CommonMapper<User> {
+
+    @Select("select * from sys_user where id in(select user_id from rel_user_app where open_id =#{openId} and app_id=#{appId}) limit 0,1")
+    User selectByAppIdNOpenId(@Param("appId")String appId,@Param("openId")String openId);
 }

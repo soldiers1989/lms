@@ -227,8 +227,6 @@ Page({
     if (checkedGoods.length <= 0) {
       return false;
     }
-
-
     wx.navigateTo({
       url: '../shopping/checkout/checkout'
     })

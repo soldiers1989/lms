@@ -45,7 +45,7 @@
         <!--<table tableName="biz_order" domainObjectName="Order">-->
             <!--<columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>-->
         <!--</table>-->
-        <table tableName="small_app_config" domainObjectName="SmallAppConfig">
+        <table tableName="rel_user_app" domainObjectName="RelUserApp">
             <columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>
         </table>
         <!--<table tableName="biz_order_shipment" domainObjectName="OrderShipment">-->

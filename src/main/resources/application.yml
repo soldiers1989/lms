@@ -36,7 +36,6 @@ spring:
       test-on-return: false
       filters: stat,wall,slf4j
       connect-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
-
   jpa:
     show-sql: true
 
@@ -48,10 +47,22 @@ logging:
 #      logic-delete-value:true # 逻辑删除
 #      logic-not-delete-value: false # 逻辑删除
 wechat:
+  auth:
+    path:wwww
   smallapp:
     configs:
-      - appid: wx935f4f8a4ba9454b
-        secret: b3fbd40446090e3b5672caed753ca21d
-        token: lms_token
-        aesKey:
-        msgDataFormat: JSON
+    - appid: wx935f4f8a4ba9454b
+      secret: b3fbd40446090e3b5672caed753ca21d
+      token: lms_token
+      aesKey:
+      msgDataFormat: JSON
+message:
+  aliyun:
+    accessKeyId: LTAI6zmwosr9fzp9
+    accessKeySecret: viraMBYDvSrGTC4PJJrw7ExTkdn0kf
+    product: Dysmsapi
+    domain: dysmsapi.aliyuncs.com
+    connectTimeout: 10000
+    readTimeout: 1000
+    signName: 有你物联网科技
+    regionId: cn-hangzhou

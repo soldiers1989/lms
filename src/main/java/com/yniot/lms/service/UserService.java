@@ -10,4 +10,6 @@ public interface UserService extends IService<User> {
     User login(String username,String password);
 
     int changePassword(String username, String oldPassword, String newPassword);
+
+    User selectByAppIdNOpenId(String appId,String openId);
 }

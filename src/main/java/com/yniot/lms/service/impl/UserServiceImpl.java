@@ -23,6 +23,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         return baseMapper.selectOne(userQueryWrapper);
     }
 
+    public User selectByAppIdNOpenId(String appId,String openId) {
+        return baseMapper.selectByAppIdNOpenId(appId,openId);
+    }
+
 
     @Override
     public User login(String username, String passwordMD5) {

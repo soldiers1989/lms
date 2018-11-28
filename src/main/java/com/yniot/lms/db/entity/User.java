@@ -1,8 +1,13 @@
 package com.yniot.lms.db.entity;
 
-import java.util.Date;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 
+import java.util.Date;
+@TableName("sys_user")
 public class User {
+    @TableId(type = IdType.AUTO)
     private Integer id;
 
     private String username;
@@ -37,7 +42,7 @@ public class User {
 
     private Integer gender;
 
-    private String nickname;
+    private String nickName;
 
     private String remarkName;
 
@@ -49,9 +54,17 @@ public class User {
 
     private Boolean subscribe;
 
-    private String headUrl;
+    private String avatarUrl;
 
     private Boolean autoAccept;
+
+    private String unionId;
+
+    private String city;
+
+    private String country;
+
+    private String province;
 
     public Integer getId() {
         return id;
@@ -189,12 +202,12 @@ public class User {
         this.gender = gender;
     }
 
-    public String getNickname() {
-        return nickname;
+    public String getNickName() {
+        return nickName;
     }
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname == null ? null : nickname.trim();
+    public void setNickName(String nickName) {
+        this.nickName = nickName == null ? null : nickName.trim();
     }
 
     public String getRemarkName() {
@@ -237,12 +250,12 @@ public class User {
         this.subscribe = subscribe;
     }
 
-    public String getHeadUrl() {
-        return headUrl;
+    public String getAvatarUrl() {
+        return avatarUrl;
     }
 
-    public void setHeadUrl(String headUrl) {
-        this.headUrl = headUrl == null ? null : headUrl.trim();
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl == null ? null : avatarUrl.trim();
     }
 
     public Boolean getAutoAccept() {
@@ -251,5 +264,37 @@ public class User {
 
     public void setAutoAccept(Boolean autoAccept) {
         this.autoAccept = autoAccept;
+    }
+
+    public String getUnionId() {
+        return unionId;
+    }
+
+    public void setUnionId(String unionId) {
+        this.unionId = unionId == null ? null : unionId.trim();
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city == null ? null : city.trim();
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country == null ? null : country.trim();
+    }
+
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province == null ? null : province.trim();
     }
 }

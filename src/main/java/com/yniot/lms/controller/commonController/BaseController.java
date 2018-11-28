@@ -38,6 +38,7 @@ public class BaseController {
     protected static String RESULT_KEY = "result";
     protected static String DEFAULT_ERROR_MSG = "内部错误!";
     protected static int DEFAULT_SUCCESS_STATUS = 201;
+    protected static int NEED_LOGIN = 333;
 
     /**
      * 返回成功信息
@@ -85,14 +86,22 @@ public class BaseController {
         return this.getResult(false, null, msg, 0, 0, 0);
     }
 
+    public String getErrorMsg(String msg, int status) {
+        return this.getResult(false, null, msg, status, 0, 0, 0);
+    }
+
     public String getError() {
         return this.getResult(false, null, null, 0, 0, 0);
     }
 
 
     private String getResult(boolean successFlag, Object data, String errorMessage, long pageNum, long pageSize, long totalNum) {
+        return this.getResult(successFlag, data, errorMessage, DEFAULT_SUCCESS_STATUS, pageNum, pageSize, totalNum);
+    }
+
+    private String getResult(boolean successFlag, Object data, String errorMessage, int status, long pageNum, long pageSize, long totalNum) {
         if (successFlag) {
-            this.result.put(STATUS_KEY, DEFAULT_SUCCESS_STATUS);
+            this.result.put(STATUS_KEY, status);
             this.result.put(DATA_KEY, data);
             this.result.put(PAGE_SIZE_KEY, pageSize);
             this.result.put(PAGE_NUM_KEY, pageNum);
@@ -106,7 +115,6 @@ public class BaseController {
         this.result.put(RESULT_KEY, successFlag);
         return JSONObject.toJSONString(this.result, SerializerFeature.WriteMapNullValue);
     }
-
 
     public String getToken(String token) {
         this.result.put("token", token);
@@ -183,7 +191,7 @@ public class BaseController {
     }
 
     public String noLogin() {
-        return this.getErrorMsg("请先登陆!");
+        return this.getErrorMsg("请先登陆!", NEED_LOGIN);
     }
 
     public String wrongState() {

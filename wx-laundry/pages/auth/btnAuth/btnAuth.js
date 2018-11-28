@@ -25,23 +25,30 @@ Page({
             )
         }
     },
-
+    getUserUnionId: function () {
+    },
     bindGetUserInfo: function (e) {
         let that = this;
         wx.login({
             success: function (res) {
                 if (res.code) {
+                    //登录远程服务器
                     util.request(api.AuthLoginByWeixin, {
                         code: res.code,
                         userInfo: e.detail
-                    }, 'POST').then(res => {
-                        let detail = e.detail;
-                        detail.sessionKey = res.data.sessionKey;
-                      console.log(detail);
-                        util.request(api.AuthUserInfo, detail, 'POST').then(res => {
-                            console.log(res.data);
-                        });
-
+                    }).then(res => {
+                        if (res.errno === 0) {
+                            //存储用户信息
+                            wx.setStorageSync('userInfo', res.data.userInfo);
+                            wx.setStorageSync('token', res.data.token);
+                            wx.setStorageSync('userId', res.data.userId);
+                        } else {
+                            wx.showModal({
+                                title: '提示',
+                                content: res.errmsg,
+                                showCancel: false
+                            });
+                        }
                     });
                 }
             }

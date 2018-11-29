@@ -21,18 +21,19 @@ public class ShiroConfigurator {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager);
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
-        filterChainDefinitionMap.put("/static/**", "anon");//静态资源
-        filterChainDefinitionMap.put("/druid/**", "anon");//druid管理页面
-        filterChainDefinitionMap.put("/WeChat/**", "anon");//微信
-        filterChainDefinitionMap.put("/SmallAppApi/**", "anon");//微信
+        filterChainDefinitionMap.put("/**", "anon");//全部放行
+//        filterChainDefinitionMap.put("/static/**", "anon");//静态资源
+//        filterChainDefinitionMap.put("/druid/**", "anon");//druid管理页面
+//        filterChainDefinitionMap.put("/WeChat/**", "anon");//微信
+//        filterChainDefinitionMap.put("/SmallAppApi/**", "anon");//微信
         //SmallAppApi
-        filterChainDefinitionMap.put("/user/login", "anon");//登陆
-        filterChainDefinitionMap.put("/WebSocket/**", "anon");//WebSocket
-        filterChainDefinitionMap.put("/favicon.ico", "anon");//书签logo
-        filterChainDefinitionMap.put("/**", "authc");
+//        filterChainDefinitionMap.put("/user/login", "anon");//登陆
+//        filterChainDefinitionMap.put("/WebSocket/**", "anon");//WebSocket
+//        filterChainDefinitionMap.put("/favicon.ico", "anon");//书签logo
+//        filterChainDefinitionMap.put("/**", "authc");
 
 
-        shiroFilterFactoryBean.setLoginUrl("/pages/auth/login/login");
+//        shiroFilterFactoryBean.setLoginUrl("/pages/auth/login/login");
 //        shiroFilterFactoryBean.setSuccessUrl("/user/index");
 //        shiroFilterFactoryBean.setUnauthorizedUrl("/user/unauth");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);

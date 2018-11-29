@@ -22,15 +22,15 @@ import java.util.Date;
  * @create: 2018-11-22 20:03
  **/
 @AdminOnly
-@RequestMapping("/catalog")
 @RestController
+@RequestMapping(value = "/catalog", produces = {"application/json;charset=UTF-8"})
 public class CatalogController extends BaseControllerT<Catalog> {
     @Autowired
     CatalogService catalogService;
 
     @RequestMapping("/select")
     public String select(@RequestParam(name = KEY_WORD_KEY, required = false, defaultValue = "") String keyWord,
-                         @RequestParam(name = PAGE_SIZE_KEY, required = false, defaultValue = "0") int pageSize,
+                         @RequestParam(name = PAGE_SIZE_KEY, required = false, defaultValue = "20000") int pageSize,
                          @RequestParam(name = PAGE_NUM_KEY, required = false, defaultValue = "1") int pageNum) {
         QueryWrapper<Catalog> queryWrapper = new QueryWrapper<>();
         if (!StringUtils.isEmpty(keyWord)) {

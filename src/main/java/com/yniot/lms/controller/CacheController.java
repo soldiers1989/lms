@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Anonymous
 @RestController
-@RequestMapping(name = "/cache", produces = {"application/json;charset=UTF-8"})
+@RequestMapping(value = "/cache", produces = {"application/json;charset=UTF-8"})
 public class CacheController extends BaseController {
 
 

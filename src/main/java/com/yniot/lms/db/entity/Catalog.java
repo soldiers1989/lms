@@ -1,5 +1,8 @@
 package com.yniot.lms.db.entity;
 
+import com.baomidou.mybatisplus.annotation.TableName;
+
+@TableName("biz_catalog")
 public class Catalog {
     private Integer id;
 

@@ -21,17 +21,18 @@ Page({
       title: '加载中...',
     });
     util.request(api.CatalogList).then(function (res) {
+      console.log(res.data);
         that.setData({
-          navList: res.data.categoryList,
-          currentCategory: res.data.currentCategory
+          navList: res.data,
+          currentCategory: res.data[0]
         });
         wx.hideLoading();
       });
-    util.request(api.GoodsCount).then(function (res) {
-      that.setData({
-        goodsCount: res.data.goodsCount
-      });
-    });
+    // util.request(api.GoodsCount).then(function (res) {
+    //   that.setData({
+    //     goodsCount: res.data.goodsCount
+    //   });
+    // });
 
   },
   getCurrentCategory: function (id) {
@@ -39,7 +40,7 @@ Page({
     util.request(api.CatalogCurrent, { catalogId: id })
       .then(function (res) {
         that.setData({
-          currentCategory: res.data.data
+            categoryList: res.data
         });
       });
   },
@@ -55,22 +56,12 @@ Page({
   onUnload: function () {
     // 页面关闭
   },
-  getList: function () {
-    var that = this;
-    util.request(api.ApiRootUrl + 'api/catalog/' + that.data.currentCategory.cat_id)
-      .then(function (res) {
-        that.setData({
-          categoryList: res.data,
-        });
-      });
-  },
   switchCate: function (event) {
     var that = this;
     var currentTarget = event.currentTarget;
     if (this.data.currentCategory.id == event.currentTarget.dataset.id) {
       return false;
     }
-
     this.getCurrentCategory(event.currentTarget.dataset.id);
   }
 })

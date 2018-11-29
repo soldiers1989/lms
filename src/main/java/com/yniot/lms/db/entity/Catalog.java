@@ -1,21 +1,11 @@
 package com.yniot.lms.db.entity;
 
-import java.util.Date;
-
-public class GoodsType {
+public class Catalog {
     private Integer id;
 
     private String name;
 
     private String description;
-
-    private Integer unitId;
-
-    private Boolean deleted;
-
-    private Date modifyTime;
-
-    private Integer catalogId;
 
     private String bannerImgUrl;
 
@@ -41,38 +31,6 @@ public class GoodsType {
 
     public void setDescription(String description) {
         this.description = description == null ? null : description.trim();
-    }
-
-    public Integer getUnitId() {
-        return unitId;
-    }
-
-    public void setUnitId(Integer unitId) {
-        this.unitId = unitId;
-    }
-
-    public Boolean getDeleted() {
-        return deleted;
-    }
-
-    public void setDeleted(Boolean deleted) {
-        this.deleted = deleted;
-    }
-
-    public Date getModifyTime() {
-        return modifyTime;
-    }
-
-    public void setModifyTime(Date modifyTime) {
-        this.modifyTime = modifyTime;
-    }
-
-    public Integer getCatalogId() {
-        return catalogId;
-    }
-
-    public void setCatalogId(Integer catalogId) {
-        this.catalogId = catalogId;
     }
 
     public String getBannerImgUrl() {

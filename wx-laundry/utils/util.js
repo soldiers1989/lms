@@ -1,13 +1,13 @@
 var api = require('../config/api.js');
 
 function formatTime(date) {
-    var year = date.getFullYear()
-    var month = date.getMonth() + 1
-    var day = date.getDate()
+    let year = date.getFullYear()
+    let month = date.getMonth() + 1
+    let day = date.getDate()
 
-    var hour = date.getHours()
-    var minute = date.getMinutes()
-    var second = date.getSeconds()
+    let hour = date.getHours()
+    let minute = date.getMinutes()
+    let second = date.getSeconds()
 
 
     return [year, month, day].map(formatNumber).join('-') + ' ' + [hour, minute, second].map(formatNumber).join(':')
@@ -18,9 +18,7 @@ function formatNumber(n) {
     return n[1] ? n : '0' + n
 }
 
-/**
- * 封封微信的的request
- */
+
 function request(url, data = {}, method = "POST", header = "application/x-www-form-urlencoded") {
     wx.showLoading({
         title: '加载中...',
@@ -32,15 +30,20 @@ function request(url, data = {}, method = "POST", header = "application/x-www-fo
             method: method,
             header: {
                 'Content-Type': header,
+                'Authorization': wx.getStorageSync('token'),
+                // 'token': wx.getStorageSync('token'),
                 'X-Nideshop-Token': wx.getStorageSync('token')
             },
             success: function (res) {
                 wx.hideLoading();
+                console.log(res);
                 if (res.statusCode == 200) {
 
-                    if (res.data.errno == 401) {
+                    if (!wx.getStorageSync('token')) {
                         wx.navigateTo({
-                            url: '/pages/auth/btnAuth/btnAuth',
+                            // url: '/pages/auth/btnAuth/btnAuth',
+                            url: '/pages/auth/login/login',
+
                         })
                     } else {
                         resolve(res.data);

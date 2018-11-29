@@ -63,7 +63,7 @@
         methods: {
             login() {
                 this.$http.post("/user/login", this.user).then(res => {
-                    console.log(res.data);
+                    // console.log(res.data);
                     if (res.data.token) {
                         this.$store.commit("setToken", res.data.token);
                         this.$router.replace({path: "/dashboard"});

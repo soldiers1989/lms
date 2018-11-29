@@ -60,7 +60,7 @@
         mounted: function () {
             this.initWebSocket();
             this.$http.get("/WeChat/testMessage").then(res => {
-                console.log(res);
+                // console.log(res);
             });
         },
         methods: {
@@ -82,13 +82,13 @@
                 this.webSocket.onerror = this.webSocketOnError;
             },
             webSocketOnOpen() {
-                console.log("WebSocket连接成功");
+                // console.log("WebSocket连接成功");
             },
             webSocketOnError(error) { //错误
-                console.log(error);
+                // console.log(error);
             },
             webSocketOnMessage(message) { //数据接收
-                console.log(message);
+                // console.log(message);
             },
 
             webSocketSend(agentData) {//数据发送
@@ -96,7 +96,7 @@
             },
 
             webSocketOnClose(message) { //关闭
-                console.log(message);
+                // console.log(message);
             },
             signOut() {
                 this.$store.dispatch("signOut").then(() => {

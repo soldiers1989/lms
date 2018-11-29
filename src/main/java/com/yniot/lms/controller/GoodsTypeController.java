@@ -1,5 +1,6 @@
 package com.yniot.lms.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yniot.lms.annotation.AdminOnly;
@@ -56,6 +57,13 @@ public class GoodsTypeController extends BaseControllerT<GoodsType> {
     @RequestMapping("/selectById")
     public String select(@RequestParam(name = "id") int goodsTypeId) {
         return super.getSuccessResult(goodsTypeService.getById(goodsTypeId));
+    }
+
+    @RequestMapping("/selectByCatalogId")
+    public String selectByCatalogId(int catalogId) {
+        QueryWrapper<GoodsType> goodsTypeQueryWrapper = new QueryWrapper<>();
+        goodsTypeQueryWrapper.eq("catalog_id", catalogId);
+        return super.getSuccessResult(goodsTypeService.list(goodsTypeQueryWrapper));
     }
 
 }

@@ -2,15 +2,20 @@ package com.yniot.lms.controller;
 
 import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
-import cn.binarywang.wx.miniapp.bean.WxMaPhoneNumberInfo;
 import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
 import com.alibaba.fastjson.JSONObject;
 import com.aliyuncs.exceptions.ClientException;
+import com.yniot.lms.annotation.LowPerformance;
 import com.yniot.lms.config.WxMaConfiguration;
 import com.yniot.lms.controller.commonController.BaseController;
 import com.yniot.lms.db.cachce.CacheDao;
+import com.yniot.lms.db.entity.RelUserApp;
 import com.yniot.lms.db.entity.User;
+import com.yniot.lms.enums.ErrorMsgEnum;
+import com.yniot.lms.enums.UserTypeEnum;
+import com.yniot.lms.service.RelUserAppService;
 import com.yniot.lms.service.UserService;
+import com.yniot.lms.utils.CommonUtil;
 import com.yniot.lms.utils.MessageUtil;
 import me.chanjar.weixin.common.error.WxErrorException;
 import org.apache.commons.lang3.StringUtils;
@@ -23,6 +28,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -31,7 +37,7 @@ import java.util.concurrent.TimeUnit;
  * @Date 15:38 2018-11-21
  **/
 @RestController
-@RequestMapping(value = SmallAppAPIController.WECHAT_APP_PATH + "/{appId}", produces = "text/plain;charset=UTF-8")
+@RequestMapping(value = "{appId}/" + SmallAppAPIController.WECHAT_APP_PATH, produces = "text/plain;charset=UTF-8")
 public class SmallAppAPIController extends BaseController {
     public static final String WECHAT_APP_PATH = "/SmallAppApi";
 
@@ -56,7 +62,7 @@ public class SmallAppAPIController extends BaseController {
             return getErrorMsg("appId不存在!");
         }
         try {
-            WxMaJscode2SessionResult sessionWx = wxService.getUserService().getSessionInfo(code);
+            WxMaJscode2SessionResult sessionWx = wxService.jsCode2SessionInfo(code);
             String openId = sessionWx.getOpenid();
             String sessionKey = sessionWx.getSessionKey();
             User user = userService.selectByAppIdNOpenId(appId, openId);
@@ -81,6 +87,25 @@ public class SmallAppAPIController extends BaseController {
         }
     }
 
+
+    private static final String CODE_PREFIX = "code_";
+
+    private boolean isCodeMatch(String code, String openId) {
+        return CommonUtil.String.validStr(code, openId) && code.equals(cacheDao.get(CODE_PREFIX + openId));
+    }
+
+    private void sendCode(String openId, String phone) throws ClientException {
+        String code = CommonUtil.String.RandomCheckCode(6);
+        cacheDao.set(CODE_PREFIX + openId, code, 5, TimeUnit.MINUTES);
+        messageUtil.sendRegisterCode(phone, code);
+    }
+
+
+//    @RequestMapping("/loginByCode")
+//    public String loginByCode(@PathVariable String appId, String phone, String checkCode) {
+//
+//    }
+
     /**
      * <pre>
      * 获取用户信息接口
@@ -92,7 +117,7 @@ public class SmallAppAPIController extends BaseController {
                        String signature,
                        String rawData,
                        String encryptedData,
-                       String iv)  {
+                       String iv) {
         final WxMaService wxService = WxMaConfiguration.getMaServices().get(appId);
         if (wxService == null) {
             return getErrorMsg(String.format("未找到对应appId=[%d]的配置！", appId));
@@ -113,29 +138,58 @@ public class SmallAppAPIController extends BaseController {
         return getSuccessResult(userInfo.getUnionId());
     }
 
-    /**
-     * <pre>
-     * 获取用户绑定手机号信息
-     * </pre>
-     */
-    @RequestMapping("/phone")
-    public String phone(@PathVariable String appId, String token, String signature,
-                        String rawData, String encryptedData, String iv) {
-        final WxMaService wxService = WxMaConfiguration.getMaServices().get(appId);
-        if (wxService == null) {
-            return getErrorMsg(String.format("未找到对应appId=[%d]的配置！", appId));
+
+    @Autowired
+    RelUserAppService relUserAppService;
+
+
+    @LowPerformance
+    @RequestMapping("/register")
+    public String register(@PathVariable String appId, String openId, String phone, String password, String code) {
+        if (userService.selectByUsername(phone) != null) {
+            return getErrorMsg(ErrorMsgEnum.PHONE_EXIST);
         }
-        // 用户信息校验
-        String sessionKey = cacheDao.get(token);
-        if (StringUtils.isEmpty(sessionKey)) {
-            return getErrorMsg("已超时!");
+        if (!isCodeMatch(code, openId)) {
+            return getErrorMsg(ErrorMsgEnum.WRONG_CHECK_CODE);
+        } else {
+            //cacheDao.delete(CODE_PREFIX + openId);
         }
-        if (!wxService.getUserService().checkUserInfo(sessionKey, rawData, signature)) {
-            return "用户信息校验错误";
+        User user = new User();
+        user.setUsername(phone);
+        user.setPassword(CommonUtil.String.MD5(password));
+        user.setCreateTime(new Date());
+        user.setUserType(UserTypeEnum.USER.getType());
+        user.setDeleted(false);
+        user.setNickName(phone);
+        userService.save(user);
+
+        user = userService.selectByUsername(phone);
+        RelUserApp relUserApp = new RelUserApp();
+        relUserApp.setAppId(appId);
+        relUserApp.setPhone(phone);
+        relUserApp.setOpenId(openId);
+        relUserApp.setUserId(user.getId());
+        relUserAppService.save(relUserApp);
+
+        return super.getSuccessResult(1);
+    }
+
+    @RequestMapping("/register/sendCode")
+    public String register(String openId, String phone) throws ClientException {
+        if (userService.selectByPhoneOrUsername(phone) != null) {
+            return getErrorMsg(ErrorMsgEnum.PHONE_EXIST);
         }
-        // 解密
-        WxMaPhoneNumberInfo phoneNoInfo = wxService.getUserService().getPhoneNoInfo(sessionKey, encryptedData, iv);
-        return getJsonStr(phoneNoInfo);
+        sendCode(openId, phone);
+        return getSuccessResult(1);
+    }
+
+    @RequestMapping("/login/sendCode")
+    public String loginSendCode(String openId, String phone) throws ClientException {
+        if (userService.selectByPhoneOrUsername(phone) == null) {
+            return getErrorMsg(ErrorMsgEnum.PHONE_NOT_EXIST);
+        }
+        sendCode(openId, phone);
+        return getSuccessResult(1);
     }
 
 

@@ -1,7 +1,7 @@
 <view class="container">
   <button class="userinfo" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">
 		<image wx:if="{{userInfo && userInfo.avatarUrl}}" class="userinfo-avatar" src="{{ userInfo.avatarUrl }}" background-size="cover"></image>
-		<text class="userinfo-nickname">{{ userInfo.nickName }}</text>
+		<text class="userinfo-nickname">{{ userInfo.username }}</text>
 	</button>
   <view style="height:20rpx;background: #eee;width:100%;"></view>
   <view class="my-item" style='background:none;display:flex;flex-direction:column;height:auto;'></view>
@@ -35,26 +35,6 @@
       <navigator url="../address/address" class="a">
         <text class="icon address"></text>
         <text class="txt">地址管理</text>
-      </navigator>
-    </view>
-    <button class='service' open-type="contact">
-      <view class="item no-border">
-        <navigator url="url" class="a">
-          <text class="icon kefu"></text>
-          <text class="txt">联系客服</text>
-        </navigator>
-      </view>
-    </button>
-    <view class="item item-bottom">
-      <navigator url="/pages/ucenter/help/help" class="a">
-        <text class="icon help"></text>
-        <text class="txt">帮助中心</text>
-      </navigator>
-    </view>
-    <view class="item item-bottom">
-      <navigator url="/pages/ucenter/feedback/feedback" class="a">
-        <text class="icon feedback"></text>
-        <text class="txt">意见反馈</text>
       </navigator>
     </view>
     <view class="item item-bottom" v-if="hasMobile != ''">

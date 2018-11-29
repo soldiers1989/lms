@@ -55,7 +55,7 @@ public class UserController extends BaseControllerT<User> {
         String sessionId = session.getId().toString();
         loginHistoryService.saveLoginInfo(sessionId, host, user, true);
         weChatService.sendLoginNotice(user.getWxOpenid(), host);
-        return super.getToken(session.getId().toString());
+        return super.tokenAndUser(session.getId().toString(), user);
     }
 
     //3.退出登陆
@@ -70,6 +70,7 @@ public class UserController extends BaseControllerT<User> {
         subject.logout();
         return super.getSuccessResult(1);
     }
+
 
     //1.密码修改
     @RequestMapping("/changePsw")

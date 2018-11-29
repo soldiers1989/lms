@@ -1,6 +1,7 @@
 package com.yniot.lms.security;
 
 import org.apache.log4j.Logger;
+import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
@@ -31,9 +32,9 @@ public class ShiroConfigurator {
         filterChainDefinitionMap.put("/**", "authc");
 
 
-        shiroFilterFactoryBean.setLoginUrl("/user/unlogin");
-        shiroFilterFactoryBean.setSuccessUrl("/user/index");
-        shiroFilterFactoryBean.setUnauthorizedUrl("/user/unauth");
+        shiroFilterFactoryBean.setLoginUrl("/pages/auth/login/login");
+//        shiroFilterFactoryBean.setSuccessUrl("/user/index");
+//        shiroFilterFactoryBean.setUnauthorizedUrl("/user/unauth");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;
     }
@@ -68,17 +69,19 @@ public class ShiroConfigurator {
         return advisorAutoProxyCreator;
     }
 
-    /**
-     * 开启shiro aop注解支持 使用代理方式所以需要开启代码支持
-     * 一定要写入上面advisorAutoProxyCreator（）自动代理。不然AOP注解不会生效
-     *
-     * @param securityManager
-     * @return
-     */
+
     @Bean
     public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(org.apache.shiro.web.mgt.DefaultWebSecurityManager securityManager) {
         AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();
         authorizationAttributeSourceAdvisor.setSecurityManager(securityManager);
         return authorizationAttributeSourceAdvisor;
     }
+
+
+    @Bean
+    public SessionManager sessionManager() {
+        CustomSessionManage customSessionManage = new CustomSessionManage();
+        return customSessionManage;
+    }
+
 }

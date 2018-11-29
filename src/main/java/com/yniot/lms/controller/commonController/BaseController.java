@@ -3,6 +3,7 @@ package com.yniot.lms.controller.commonController;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.yniot.lms.db.entity.User;
+import com.yniot.lms.enums.ErrorMsgEnum;
 import com.yniot.lms.enums.UserTypeEnum;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
@@ -20,7 +21,7 @@ import java.util.List;
  * @Author wanggl
  * @Description 通用方法
  * @create 10:55 2018-8-15
- * @modify 15:2 2018-11-22
+ * @modify 15:2 2018-11-29
  **/
 public class BaseController {
     protected static Logger logger = Logger.getLogger(BaseController.class);
@@ -90,6 +91,10 @@ public class BaseController {
         return this.getResult(false, null, msg, status, 0, 0, 0);
     }
 
+    public String getErrorMsg(ErrorMsgEnum errorMsgEnum) {
+        return this.getResult(false, null, errorMsgEnum.getName(), errorMsgEnum.getCode(), 0, 0, 0);
+    }
+
     public String getError() {
         return this.getResult(false, null, null, 0, 0, 0);
     }
@@ -121,6 +126,12 @@ public class BaseController {
         return JSONObject.toJSONString(this.result, SerializerFeature.WriteMapNullValue);
     }
 
+
+    public String tokenAndUser(String token, Object user) {
+        this.result.put("token", token);
+        this.result.put("userInfo", user);
+        return JSONObject.toJSONString(this.result, SerializerFeature.WriteMapNullValue);
+    }
 
     public ResponseEntity<byte[]> getFile(String path, String fileName) throws IOException {
         File file = new File(path + "/" + fileName);

@@ -85,7 +85,7 @@
             deleteAllMenu() {
                 this.$http.post("/WeChat/menu/delete").then(res => {
                     if (res.data.result) {
-                        console.log(res.data);
+                        // console.log(res.data);
                     }
                 });
             }

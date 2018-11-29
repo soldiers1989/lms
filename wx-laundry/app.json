@@ -9,7 +9,6 @@
     "pages/ucenter/footprint/footprint",
     "pages/ucenter/order/order",
     "pages/ucenter/orderDetail/orderDetail",
-    "pages/ucenter/feedback/feedback",
     "pages/ucenter/coupon/coupon",
     "pages/ucenter/collect/collect",
     "pages/auth/login/login",
@@ -34,8 +33,6 @@
     "pages/topicDetail/topicDetail",
     "pages/auth/mobile/mobile",
     "pages/shopping/selCoupon/selCoupon",
-    "pages/ucenter/help/help",
-    "pages/ucenter/helpInfo/helpInfo",
     "pages/auth/btnAuth/btnAuth"
   ],
   "window": {
@@ -56,6 +53,12 @@
         "iconPath": "static/images/ic_menu_choice_nor.png",
         "selectedIconPath": "static/images/ic_menu_choice_pressed.png",
         "text": "首页"
+      },
+      {
+        "pagePath": "pages/catalog/catalog",
+        "iconPath": "static/images/type_empty.png",
+        "selectedIconPath": "static/images/type_pressed.png",
+        "text": "分类"
       },
       {
         "pagePath": "pages/cart/cart",

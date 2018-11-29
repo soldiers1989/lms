@@ -29,6 +29,7 @@ Page({
     },
     bindGetUserInfo: function (e) {
         let that = this;
+        // console.log(e);
         wx.login({
             success: function (res) {
                 if (res.code) {
@@ -37,18 +38,29 @@ Page({
                         code: res.code,
                         userInfo: e.detail
                     }).then(res => {
-                        if (res.errno === 0) {
-                            //存储用户信息
-                            wx.setStorageSync('userInfo', res.data.userInfo);
-                            wx.setStorageSync('token', res.data.token);
-                            wx.setStorageSync('userId', res.data.userId);
-                        } else {
-                            wx.showModal({
-                                title: '提示',
-                                content: res.errmsg,
-                                showCancel: false
-                            });
-                        }
+                        //存储用户信息
+                        wx.setStorageSync('userInfo', res.data.userInfo);
+                        wx.setStorageSync('token', res.data.token);
+                        wx.setStorageSync('userId', res.data.userId);
+
+
+                        wx.getSetting({
+                            success(res) {
+                                if (res.authSetting['scope.userInfo']) {
+                                    // 已经授权，可以直接调用 getUserInfo 获取头像昵称
+                                    wx.getUserInfo({
+                                        success: function (res) {
+                                            // console.log(res.userInfo)
+                                        }
+                                    })
+                                }
+                            },
+                          fail(res) {
+                            // console.log(res);
+                              
+                            }
+                        })
+
                     });
                 }
             }

@@ -1,8 +1,5 @@
 package com.yniot.lms.db.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-
-@TableName("rel_user_app")
 public class RelUserApp {
     private Integer id;
 
@@ -11,6 +8,8 @@ public class RelUserApp {
     private String appId;
 
     private Integer userId;
+
+    private String phone;
 
     public Integer getId() {
         return id;
@@ -42,5 +41,13 @@ public class RelUserApp {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone == null ? null : phone.trim();
     }
 }

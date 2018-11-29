@@ -6,11 +6,9 @@ import com.yniot.lms.db.dao.UserMapper;
 import com.yniot.lms.db.entity.User;
 import com.yniot.lms.service.UserService;
 import com.yniot.lms.utils.CommonUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
-import java.util.List;
 
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
@@ -23,8 +21,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         return baseMapper.selectOne(userQueryWrapper);
     }
 
-    public User selectByAppIdNOpenId(String appId,String openId) {
-        return baseMapper.selectByAppIdNOpenId(appId,openId);
+    @Override
+    public User selectByPhoneOrUsername(String phone) {
+        return baseMapper.selectByPhoneOrUsername(phone);
+    }
+
+    public User selectByAppIdNOpenId(String appId, String openId) {
+        return baseMapper.selectByAppIdNOpenId(appId, openId);
     }
 
 

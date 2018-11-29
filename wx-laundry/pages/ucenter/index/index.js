@@ -17,17 +17,19 @@ Page({
     onShow: function () {
         let userInfo = wx.getStorageSync('userInfo');
         let token = wx.getStorageSync('token');
-
+        // console.log(userInfo);
+        // console.log(token);
         // 页面显示
         if (userInfo && token) {//
             app.globalData.userInfo = userInfo;
             app.globalData.token = token;
+        }else{
+            // console.log("wwww");
         }
 
         this.setData({
             userInfo: app.globalData.userInfo,
         });
-        console.log(userInfo);
     },
     onHide: function () {
         // 页面隐藏
@@ -37,12 +39,12 @@ Page({
         // 页面关闭
     },
     bindGetUserInfo(e) {
-      let userInfo = wx.getStorageSync('userInfo');
-      let token = wx.getStorageSync('token');
-      if (userInfo && token) {
-        return;
-      }
-        if (e.detail.userInfo){
+        let userInfo = wx.getStorageSync('userInfo');
+        let token = wx.getStorageSync('token');
+        if (userInfo && token) {
+            return;
+        }
+        if (e.detail.userInfo) {
             //用户按了允许授权按钮
             user.loginByWeixin(e.detail).then(res => {
                 this.setData({
@@ -51,7 +53,7 @@ Page({
                 app.globalData.userInfo = res.data.userInfo;
                 app.globalData.token = res.data.token;
             }).catch((err) => {
-                console.log(err)
+                // console.log(err)
             });
         } else {
             //用户按了拒绝按钮
@@ -70,7 +72,7 @@ Page({
                                         app.globalData.userInfo = res.data.userInfo;
                                         app.globalData.token = res.data.token;
                                     }).catch((err) => {
-                                        console.log(err)
+                                        // console.log(err)
                                     });
                                 }
                             }

@@ -9,6 +9,7 @@ import org.w3c.dom.Document;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.*;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
@@ -238,6 +239,14 @@ public class CommonUtil {
             }
             return val;
         }
+
+        public static java.lang.String RandomCheckCode(int length) {
+            Timestamp ts = new Timestamp(System.currentTimeMillis());
+            java.lang.String val = ts.toString();
+            length = length > 13 ? 13 : length;
+            return val.substring(val.length() - length, val.length() - 1);
+        }
+
 
         public static boolean equalsAll(java.lang.String target, java.lang.String... str) {
             for (java.lang.String temp : str) {

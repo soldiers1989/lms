@@ -1,5 +1,5 @@
 const root = '/platform/api/';
-
+const APP_ID = "wx935f4f8a4ba9454b";
 const API_BASE_URL = 'http://fly2you.cn' + root;
 // const API_BASE_URL = 'http://localhost:8080' + root;
 module.exports = {
@@ -10,11 +10,13 @@ module.exports = {
     IndexUrlCategory: API_BASE_URL + 'index/category', //首页底部的分类及商品列表
     IndexUrlBanner: API_BASE_URL + 'index/banner', //首页banner
     IndexUrlChannel: API_BASE_URL + 'index/channel', //banner下的分类
-    CatalogList: API_BASE_URL + 'catalog/index',  //分类目录全部分类数据接口
-    CatalogCurrent: API_BASE_URL + 'catalog/current',  //分类目录当前分类数据接口
+    // CatalogList: API_BASE_URL + 'catalog/index',  //分类目录全部分类数据接口
+    CatalogList: "http://localhost:8080/" + 'catalog/select',  //分类目录全部分类数据接口
+    // CatalogCurrent: API_BASE_URL + 'catalog/current',  //分类目录当前分类数据接口
+    CatalogCurrent: "http://localhost:8080/" + 'goodsType/selectByCatalogId',  //分类目录当前分类数据接口
 
-    AuthLoginByWeixin: "http://localhost:8080/" + 'SmallAppApi/wx935f4f8a4ba9454b/login', //微信登录
-    AuthUserInfo: "http://localhost:8080/" + 'SmallAppApi/wx935f4f8a4ba9454b/info', //微信登录
+    AuthLoginByWeixin: "http://localhost:8080/" + APP_ID + '/SmallAppApi/login', //微信登录
+    AuthUserInfo: "http://localhost:8080/" + APP_ID + '/SmallAppApi/info', //微信登录
 
 
     GoodsCount: API_BASE_URL + 'goods/count',  //统计商品总数
@@ -72,7 +74,7 @@ module.exports = {
     FeedbackAdd: API_BASE_URL + 'feedback/save', //添加反馈
     SmsCode: API_BASE_URL + 'user/smscode', //发送短信
     BindMobile: API_BASE_URL + 'user/bindMobile', //绑定手机
-    Login: API_BASE_URL + 'auth/login', //账号登录
+    Login: "http://localhost:8080/" + '/user/login', //账号登录
     Register: API_BASE_URL + 'auth/register', //注册
     CouponList: API_BASE_URL + 'coupon/list', // 优惠券列表
     GoodsCouponList: API_BASE_URL + 'coupon/listByGoods', // 商品优惠券列表   

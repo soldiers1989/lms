@@ -37,7 +37,7 @@ public class CustomInterceptor implements HandlerInterceptor {
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        logger.info("request uri:["+request.getRequestURI()+"]");
+        logger.info("request uri:"+request.getRequestURI());
         String origin = request.getHeader("Origin");
         //允许跨域请求
         response.setHeader("Access-Control-Allow-Origin", origin != null && !origin.isEmpty() ? "*" : origin);

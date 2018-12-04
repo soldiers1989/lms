@@ -79,7 +79,6 @@ public class OrderController extends BaseControllerT<Order> {
             order.setLaundryId(laundry.getId());
             order.setExpiredTime(expiredTime);
             order.setCreateTime(now);
-            order.setNextOperator(-1);
             result1 = orderService.save(order);
             //这里还需要获得订单id
         }
@@ -96,6 +95,7 @@ public class OrderController extends BaseControllerT<Order> {
                     orderGoods.setOrderId(order.getId());
                     orderGoods.setStorageCellId(cellId);
                     orderGoods.setCreateTime(new Date());
+                    orderGoods.setWardrobeId(wardrobeId);
                     orderGoods.setDeleted(false);
                     orderGoodsList.add(orderGoods);
                 }
@@ -103,7 +103,7 @@ public class OrderController extends BaseControllerT<Order> {
             }
         }
         //3.如果商品插入失败,则订单也需要删除
-        if (result2) {
+        if (!result2) {
             QueryWrapper<Order> orderQueryWrapper = new QueryWrapper<>();
             orderQueryWrapper.eq("code", orderCode);
             orderService.remove(orderQueryWrapper);
@@ -112,8 +112,10 @@ public class OrderController extends BaseControllerT<Order> {
             orderStateHistoryService.saveOrderState(order, super.getUser().getId());
         }
         boolean re = result1 && result2;
-        //3.1清空购物车
-        cartService.cleanMyCart(getId());
+        if (re) {
+            //3.1清空购物车
+            cartService.cleanMyCart(getId());
+        }
         //4.发送提示信息到商家微信和PC端
 
 
@@ -121,7 +123,6 @@ public class OrderController extends BaseControllerT<Order> {
         if (re && laundry.getAutoAccept()) {
             this.receiveOrder(order.getId());
         }
-
         //5.生成二维码
 
 
@@ -153,7 +154,7 @@ public class OrderController extends BaseControllerT<Order> {
             orderStateHistoryService.saveOrderState(order, super.getUser().getId());
             return super.expired();
         }
-        if (!(order.getState() == OrderStateEnum.COMMITTED.getState())) {
+        if (order.getState() != OrderStateEnum.COMMITTED.getState()) {
             return super.wrongState();
         }
         //更改状态
@@ -161,6 +162,23 @@ public class OrderController extends BaseControllerT<Order> {
         order.setAcceptedTime(new Date());
         order.setState(OrderStateEnum.ACCEPTED.getState());
         return super.getSuccessResult(orderService.saveOrUpdate(order) && orderStateHistoryService.saveOrderState(order, super.getUser().getId()));
+    }
+
+
+    private boolean expiredOrder(Order order) {
+        //设置过期标志
+        order.setExpired(true);
+        orderService.saveOrUpdate(order);
+        orderStateHistoryService.saveOrderState(order, super.getUser().getId());
+
+        //设置货物无效
+        orderGoodsService.cancelOrder(order.getId());
+
+        //格子设置为可用,释放格子
+        cellService.releaseCellByOrderId(order.getId());
+
+
+        return false;
     }
 
 

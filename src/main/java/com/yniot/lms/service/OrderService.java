@@ -23,4 +23,6 @@ public interface OrderService extends IService<Order> {
 
     Order getByOrderCode(String orderNo);
 
+    boolean expiredOrder(int orderId);
+
 }

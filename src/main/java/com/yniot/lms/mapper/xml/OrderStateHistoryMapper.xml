@@ -10,12 +10,11 @@
         <result column="modifier" property="modifier" />
         <result column="create_time" property="createTime" />
         <result column="deleted" property="deleted" />
-        <result column="next_operator" property="nextOperator" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, order_id, state, modifier, create_time, deleted, next_operator
+        id, order_id, state, modifier, create_time, deleted
     </sql>
 
 </mapper>

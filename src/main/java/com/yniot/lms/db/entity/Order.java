@@ -43,8 +43,6 @@ public class Order {
 
     private Date finishedTime;
 
-    private Integer nextOperator;
-
     private Integer canceledBy;
 
     private Boolean deleted;
@@ -185,13 +183,6 @@ public class Order {
         this.finishedTime = finishedTime;
     }
 
-    public Integer getNextOperator() {
-        return nextOperator;
-    }
-
-    public void setNextOperator(Integer nextOperator) {
-        this.nextOperator = nextOperator;
-    }
 
     public Integer getCanceledBy() {
         return canceledBy;

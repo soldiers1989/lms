@@ -3,8 +3,8 @@ package com.yniot.lms.db.entity;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
-import java.time.LocalDateTime;
 import com.baomidou.mybatisplus.annotation.TableId;
+import java.time.LocalDateTime;
 import java.io.Serializable;
 
 /**
@@ -32,8 +32,6 @@ public class OrderStateHistory extends Model<OrderStateHistory> {
     private LocalDateTime createTime;
 
     private Boolean deleted;
-
-    private Integer nextOperator;
 
 
     public Integer getId() {
@@ -84,14 +82,6 @@ public class OrderStateHistory extends Model<OrderStateHistory> {
         this.deleted = deleted;
     }
 
-    public Integer getNextOperator() {
-        return nextOperator;
-    }
-
-    public void setNextOperator(Integer nextOperator) {
-        this.nextOperator = nextOperator;
-    }
-
     @Override
     protected Serializable pkVal() {
         return this.id;
@@ -106,7 +96,6 @@ public class OrderStateHistory extends Model<OrderStateHistory> {
         ", modifier=" + modifier +
         ", createTime=" + createTime +
         ", deleted=" + deleted +
-        ", nextOperator=" + nextOperator +
         "}";
     }
 }

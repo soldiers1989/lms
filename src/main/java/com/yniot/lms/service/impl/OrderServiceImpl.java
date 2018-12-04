@@ -6,7 +6,10 @@ import com.yniot.lms.db.dao.OrderMapper;
 import com.yniot.lms.db.entity.Order;
 import com.yniot.lms.db.entity.User;
 import com.yniot.lms.service.OrderService;
+import com.yniot.lms.service.OrderStateHistoryService;
 import com.yniot.lms.utils.CommonUtil;
+import net.sf.ehcache.search.expression.Or;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -17,6 +20,9 @@ import org.springframework.stereotype.Service;
  **/
 @Service
 public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements OrderService {
+    @Autowired
+    OrderStateHistoryService orderStateHistoryService;
+
     @Override
     public int markExpiredOrder() {
         return baseMapper.markExpiredOrder();
@@ -29,5 +35,11 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         return getOne(orderQueryWrapper);
     }
 
-    //7.检查订单编号
+    @Override
+    public boolean expiredOrder(int orderId) {
+        Order order = getById(orderId);
+        order.setExpired(true);
+        return saveOrUpdate(order);
+    }
+
 }

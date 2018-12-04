@@ -1,10 +1,15 @@
 package com.yniot.lms.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yniot.lms.db.dao.OrderGoodsMapper;
 import com.yniot.lms.db.entity.OrderGoods;
+import com.yniot.lms.enums.OrderStateEnum;
 import com.yniot.lms.service.OrderGoodsService;
+import net.sf.ehcache.search.expression.Or;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @project: lms
@@ -18,11 +23,21 @@ public class OrderGoodsServiceImpl extends ServiceImpl<OrderGoodsMapper, OrderGo
 
     @Override
     public boolean finishOrder(Integer orderId) {
-        return false;
+        QueryWrapper<OrderGoods> orderGoodsQueryWrapper = new QueryWrapper<>();
+        List<OrderGoods> orderGoodsList = list(orderGoodsQueryWrapper);
+        for (OrderGoods orderGoods : orderGoodsList) {
+            orderGoods.setState(OrderStateEnum.FINISHED.getState());
+        }
+        return saveOrUpdateBatch(orderGoodsList);
     }
 
     @Override
     public boolean cancelOrder(Integer orderId) {
-        return false;
+        QueryWrapper<OrderGoods> orderGoodsQueryWrapper = new QueryWrapper<>();
+        List<OrderGoods> orderGoodsList = list(orderGoodsQueryWrapper);
+        for (OrderGoods orderGoods : orderGoodsList) {
+            orderGoods.setCanceled(true);
+        }
+        return saveOrUpdateBatch(orderGoodsList);
     }
 }

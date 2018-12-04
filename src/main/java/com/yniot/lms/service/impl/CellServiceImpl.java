@@ -40,4 +40,26 @@ public class CellServiceImpl extends ServiceImpl<CellMapper, Cell> implements Ce
         cell.setOrderId(orderId);
         return super.saveOrUpdate(cell);
     }
+
+    @Override
+    public boolean releaseCellByCellId(int cellId) {
+        QueryWrapper<Cell> cellQueryWrapper = new QueryWrapper<>();
+        cellQueryWrapper.eq("id", cellId);
+        Cell cell = super.getOne(cellQueryWrapper);
+        cell.setInUsed(false);
+        cell.setOrderId(null);
+        return super.saveOrUpdate(cell);
+    }
+
+    @Override
+    public boolean releaseCellByOrderId(int orderId) {
+        QueryWrapper<Cell> cellQueryWrapper = new QueryWrapper<>();
+        cellQueryWrapper.eq("order_id", orderId);
+        List<Cell> cellList = super.list(cellQueryWrapper);
+        for (Cell cell : cellList) {
+            cell.setInUsed(false);
+            cell.setOrderId(null);
+        }
+        return super.saveOrUpdateBatch(cellList);
+    }
 }

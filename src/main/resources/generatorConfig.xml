@@ -45,7 +45,7 @@
         <!--<table tableName="biz_order" domainObjectName="Order">-->
             <!--<columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>-->
         <!--</table>-->
-        <table tableName="biz_cart" domainObjectName="Cart">
+        <table tableName="biz_order" domainObjectName="Order">
             <columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>
         </table>
         <!--<table tableName="biz_cart_goods" domainObjectName="CartGoods">-->

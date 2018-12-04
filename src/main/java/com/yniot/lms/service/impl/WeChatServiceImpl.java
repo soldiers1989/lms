@@ -4,7 +4,10 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yniot.lms.db.cachce.CacheDao;
 import com.yniot.lms.db.dao.WeChatConfigMapper;
+import com.yniot.lms.db.entity.Order;
 import com.yniot.lms.db.entity.WeChatConfig;
+import com.yniot.lms.service.OrderService;
+import com.yniot.lms.service.UserService;
 import com.yniot.lms.service.WeChatService;
 import com.yniot.lms.utils.CommonUtil;
 import me.chanjar.weixin.common.error.WxErrorException;
@@ -33,6 +36,10 @@ public class WeChatServiceImpl extends ServiceImpl<WeChatConfigMapper, WeChatCon
     CacheDao cacheDao;
     @Autowired
     WxMpService wxMpService;
+    @Autowired
+    OrderService orderService;
+    @Autowired
+    UserService userService;
 
     @Override
     public WeChatConfig getConfig() {
@@ -60,6 +67,38 @@ public class WeChatServiceImpl extends ServiceImpl<WeChatConfigMapper, WeChatCon
         this.sendWeChatMessage("你的账户进行了登陆操作", "若为本人操作,可忽略本条消息",
                 null, openId, LOGIN_MSG_TEMPLATE_ID, CommonUtil.Date.getNowDate(), host);
     }
+
+    @Override
+    public void sendOrderGenerateNotice(String orderNo) throws WxErrorException {
+        Order order = orderService.getByOrderNo(orderNo);
+        this.sendWeChatMessage("你的订单已经生成", "订单生成通知",
+                null, order.getOpenId(), ORDER_GENERATED, CommonUtil.Date.getNowDate());
+    }
+
+    @Override
+    public void sendMailManTookNotice(String orderNo) {
+
+    }
+
+    @Override
+    public void sendUserTookNotice(String orderNo) {
+
+    }
+
+    @Override
+    public void sendMailManPutNotice(String orderNo) {
+
+    }
+
+    @Override
+    public void sendUserPutNotice(String orderNo) {
+
+    }
+
+    @Override
+    public void sendCleanedNotice(String orderNo) {
+
+    }
     //订单完成通知  通知用户、洗衣店
     //配送员已放回  通知用户、洗衣店
     //配送员已取走  通知用户、洗衣店
@@ -71,6 +110,7 @@ public class WeChatServiceImpl extends ServiceImpl<WeChatConfigMapper, WeChatCon
 
 
     /**
+     * @return void
      * @Author wanggl(lane)
      * @Description //TODO 通用微信推送消息方法
      * 适用于以下以下形式
@@ -79,13 +119,11 @@ public class WeChatServiceImpl extends ServiceImpl<WeChatConfigMapper, WeChatCon
      * 名称2：{{keyword2.DATA}}
      * 名称3：{{keyword3.DATA}}
      * 名称4：{{keyword4.DATA}}
-     *  .........
+     * .........
      * 名称N：{{keywordN.DATA}}
      * {{remark.DATA}}
-     *
      * @Date 下午7:55 2018/11/26
      * @Param [first, remark, url, openId, templateId, keywords]
-     * @return void
      **/
     private void sendWeChatMessage(String first, String remark, String url, String openId, String templateId, String... keywords) throws WxErrorException {
         WxMpTemplateMessage wxMpTemplateMessage = new WxMpTemplateMessage();
@@ -104,7 +142,7 @@ public class WeChatServiceImpl extends ServiceImpl<WeChatConfigMapper, WeChatCon
         wxMpTemplateDataList.add(wxMpTemplateDataLast);
         for (int i = 0; i < keywords.length; i++) {
             WxMpTemplateData wxMpTemplateDataTemp = new WxMpTemplateData();
-            wxMpTemplateDataTemp.setName(KEYWORD_KEY + (i+1));
+            wxMpTemplateDataTemp.setName(KEYWORD_KEY + (i + 1));
             wxMpTemplateDataTemp.setValue(keywords[i]);
             wxMpTemplateDataList.add(wxMpTemplateDataTemp);
         }

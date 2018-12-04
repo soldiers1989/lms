@@ -55,7 +55,6 @@ public class SmallAppAPIController extends BaseController {
      */
     @RequestMapping("/login")
     public String login(@PathVariable String appId, String code) throws ClientException {
-//        logger.info(userInfo.toJSONString());/**/
         if (StringUtils.isBlank(code)) {
             return getErrorMsg("code为空!");
         }
@@ -104,16 +103,6 @@ public class SmallAppAPIController extends BaseController {
     }
 
 
-//    @RequestMapping("/loginByCode")
-//    public String loginByCode(@PathVariable String appId, String phone, String checkCode) {
-//
-//    }
-
-    /**
-     * <pre>
-     * 获取用户信息接口
-     * </pre>
-     */
     @RequestMapping("/info")
     public String info(@PathVariable String appId,
                        String token,

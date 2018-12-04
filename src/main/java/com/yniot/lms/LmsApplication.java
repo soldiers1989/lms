@@ -2,6 +2,7 @@ package com.yniot.lms;
 
 import com.yniot.lms.db.interceptor.ModifyInterceptor;
 import org.apache.ibatis.plugin.Interceptor;
+import org.apache.shiro.web.servlet.AdviceFilter;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -18,9 +19,9 @@ public class LmsApplication {
     }
 
 
-
     /**
      * mybatis拦截器
+     *
      * @return
      */
     @Deprecated
@@ -31,6 +32,16 @@ public class LmsApplication {
     }
 
 
+//    @Bean
+//    public AdviceFilter getSCustomAdviceFilter() {
+//        CustomAdviceFilter customAdviceFilter = new CustomAdviceFilter();
+//        return customAdviceFilter;
+//    }
+
+//    @Bean
+//    public FormAuthenticationFilter getShiroFormAuthenticationFilter() {
+//        return new ShiroFormAuthenticationFilter();
+//    }
 
 
 }

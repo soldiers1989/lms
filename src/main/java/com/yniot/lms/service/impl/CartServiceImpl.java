@@ -1,5 +1,6 @@
 package com.yniot.lms.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yniot.lms.db.dao.CartMapper;
 import com.yniot.lms.db.entity.Cart;
@@ -14,4 +15,10 @@ import org.springframework.stereotype.Service;
  **/
 @Service
 public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements CartService {
+    @Override
+    public boolean cleanMyCart(int userId) {
+        QueryWrapper<Cart> cartQueryWrapper = new QueryWrapper<>();
+        cartQueryWrapper.eq("user_id", userId);
+        return super.remove(cartQueryWrapper);
+    }
 }

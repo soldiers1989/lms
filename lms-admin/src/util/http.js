@@ -37,8 +37,12 @@ axios.interceptors.request.use(
 
 axios.interceptors.response.use(
     response => {
-        // if (response.status > 200 && response.status < 300) {
+        if (response.data.status == 401) {
+            this.$router.push({path: "/"});
+            location.reload(true);
+        }
         let message = codeMessage[response.status];
+        // if (response.status > 200 && response.status < 300) {
         if (response.data && response.data.status) {
             message = codeMessage[response.data.status];
             Notification({

@@ -22,5 +22,12 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         return baseMapper.markExpiredOrder();
     }
 
+    @Override
+    public Order getByOrderNo(String orderNo) {
+        QueryWrapper<Order> orderQueryWrapper = new QueryWrapper<>();
+        orderQueryWrapper.eq("code", orderNo);
+        return getOne(orderQueryWrapper);
+    }
+
     //7.检查订单编号
 }

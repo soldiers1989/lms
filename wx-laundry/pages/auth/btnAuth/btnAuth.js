@@ -27,7 +27,6 @@ Page({
     },
     bindGetUserInfo: function (e) {
         let that = this;
-        // console.log(e);
         wx.login({
             success: function (res) {
                 if (res.code) {

@@ -24,22 +24,24 @@ import java.util.List;
  * @modify 15:2 2018-11-29
  **/
 public class BaseController {
+
     protected static Logger logger = Logger.getLogger(BaseController.class);
 
     protected JSONObject result = new JSONObject();
-    protected static String DATA_KEY = "data";
+    public static String DATA_KEY = "data";
     public final static String PAGE_SIZE_KEY = "pageSize";
     public final static String PAGE_NUM_KEY = "pageNum";
     public final static String KEY_WORD_KEY = "keyWord";
-    protected static String TOTAL_PAGE_NUM_KEY = "totalPageNum";
-    protected static String TOTAL_NUM_KEY = "totalNum";
+    public static String TOTAL_PAGE_NUM_KEY = "totalPageNum";
+    public static String TOTAL_NUM_KEY = "totalNum";
 
-    protected static String ERROR_MSG_KEY = "errorMsg";
-    protected static String STATUS_KEY = "status";
-    protected static String RESULT_KEY = "result";
-    protected static String DEFAULT_ERROR_MSG = "内部错误!";
-    protected static int DEFAULT_SUCCESS_STATUS = 201;
-    protected static int NEED_LOGIN = 333;
+    public static String ERROR_MSG_KEY = "errorMsg";
+    public static String STATUS_KEY = "status";
+    public static String RESULT_KEY = "result";
+    public static String DEFAULT_ERROR_MSG = "内部错误!";
+    public static int DEFAULT_SUCCESS_STATUS = 200;
+    public static int NEED_LOGIN = 401;
+    public static final String AUTHORIZATION = "Authorization";
 
     /**
      * 返回成功信息

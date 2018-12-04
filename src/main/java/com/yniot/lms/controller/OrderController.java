@@ -49,6 +49,8 @@ public class OrderController extends BaseControllerT<Order> {
         User user = super.getUser();
         boolean result1 = false;
         boolean result2 = false;
+
+
         //0.检查订单编号是否重复,与订单id无关,高并发下小概率会重复
         String orderCode = null;
         for (int i = 0; i < 20; i++) {
@@ -100,11 +102,17 @@ public class OrderController extends BaseControllerT<Order> {
         boolean re = result1 && result2;
         if (re) {
             //4.发送提示信息到商家微信和PC端
+
+
         }
             //5.生成二维码
 
         return super.getSuccessResult(re);
     }
+
+
+
+
 
     //5.付款
 

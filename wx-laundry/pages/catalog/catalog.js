@@ -23,11 +23,13 @@ Page({
             title: '加载中...',
         });
         util.request(api.CatalogList).then(function (res) {
-            that.setData({
-                navList: res.data,
-                currentCategory: res.data[0]
-            });
-            that.getCurrentCategory(res.data[0].id);
+            if (res.data) {
+                that.setData({
+                    navList: res.data,
+                    currentCategory: res.data.length > 0 ? res.data[0] : {}
+                });
+                that.getCurrentCategory(res.data[0].id);
+            }
             wx.hideLoading();
         });
     },

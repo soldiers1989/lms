@@ -11,5 +11,5 @@ import com.yniot.lms.db.entity.Cart;
  **/
 public interface CartService extends IService<Cart> {
 
-
+    boolean cleanMyCart(int userId);
 }

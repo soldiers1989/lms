@@ -24,27 +24,25 @@ function request(url, data = {}, method = "POST", header = "application/x-www-fo
         title: '加载中...',
     });
     return new Promise(function (resolve, reject) {
+        let sessionId = wx.getStorageSync('token');
+        let token = sessionId ? (`Bearer ` + sessionId) : "";
         wx.request({
             url: url,
             data: data,
             method: method,
             header: {
                 'Content-Type': header,
-                'Authorization': wx.getStorageSync('token'),
-                // 'token': wx.getStorageSync('token'),
-                // 'X-Nideshop-Token': wx.getStorageSync('token')
+                'Authorization': token,
             },
             success: function (res) {
                 wx.hideLoading();
                 if (res.statusCode == 200) {
-                    if (!wx.getStorageSync('token') && url != api.AuthLoginByWeixin) {
-                        wx.navigateTo({
-                            url: '/pages/auth/btnAuth/btnAuth',
-                            // url: '/pages/auth/login/login',
-                        })
-                    } else {
-                        resolve(res.data);
+                    if (!token) {
+                        wx.redirectTo({
+                            url: '/pages/auth/login/login',
+                        });
                     }
+                    resolve(res.data);
                 } else {
                     reject(res.errMsg);
                 }

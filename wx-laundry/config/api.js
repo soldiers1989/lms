@@ -59,6 +59,7 @@ module.exports = {
     HelpIssueList: API_BASE_URL + 'helpissue/issueList', //查看问题列表
 
     // CartAdd: API_BASE_URL + 'cart/add', // 添加商品到购物车
+    // CartList: "http://localhost:8080/" + 'cart/select', //获取购物车的数据
     CartList: "http://localhost:8080/" + 'cart/select', //获取购物车的数据
     CartAdd: "http://localhost:8080/" + 'cart/add', //添加到购物车
     CartDel: "http://localhost:8080/" + 'cart/delete', //添加到购物车

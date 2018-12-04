@@ -21,4 +21,6 @@ public interface OrderService extends IService<Order> {
 
     int EXPIRED_IN_MIN = 10;
 
+    Order getByOrderNo(String orderNo);
+
 }

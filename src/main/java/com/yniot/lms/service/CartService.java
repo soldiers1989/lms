@@ -3,6 +3,8 @@ package com.yniot.lms.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.yniot.lms.db.entity.Cart;
 
+import java.util.List;
+
 /**
  * @project: lms
  * @description:
@@ -12,4 +14,6 @@ import com.yniot.lms.db.entity.Cart;
 public interface CartService extends IService<Cart> {
 
     boolean cleanMyCart(int userId);
+
+    List<Cart> getMyCart(int userId);
 }

@@ -1,8 +1,26 @@
 package com.yniot.lms.db.entity;
 
-import java.util.Date;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.baomidou.mybatisplus.annotation.TableId;
+import java.time.LocalDateTime;
+import java.io.Serializable;
 
-public class Cell {
+/**
+ * <p>
+ * 
+ * </p>
+ *
+ * @author wanggl
+ * @since 2018-12-04
+ */
+@TableName("biz_cell")
+public class Cell extends Model<Cell> {
+
+    private static final long serialVersionUID = 1L;
+
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
     private Integer cellNo;
@@ -15,7 +33,8 @@ public class Cell {
 
     private Boolean empty;
 
-    private Date createTime;
+    private LocalDateTime createTime;
+
 
     public Integer getId() {
         return id;
@@ -65,11 +84,29 @@ public class Cell {
         this.empty = empty;
     }
 
-    public Date getCreateTime() {
+    public LocalDateTime getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
+    }
+
+    @Override
+    protected Serializable pkVal() {
+        return this.id;
+    }
+
+    @Override
+    public String toString() {
+        return "Cell{" +
+        "id=" + id +
+        ", cellNo=" + cellNo +
+        ", deleted=" + deleted +
+        ", activated=" + activated +
+        ", wardrobeId=" + wardrobeId +
+        ", empty=" + empty +
+        ", createTime=" + createTime +
+        "}";
     }
 }

@@ -26,15 +26,23 @@ public interface WeChatService {
 
     void sendOrderGenerateNotice(String orderNo) throws WxErrorException;
 
-    void sendMailManTookNotice(String orderNo);
+    void sendMailManTookNotice(String orderNo) throws WxErrorException;
 
-    void sendUserTookNotice(String orderNo);
+    void sendUserTookNotice(String orderNo) throws WxErrorException;
 
-    void sendMailManPutNotice(String orderNo);
+    void sendMailManPutNotice(String orderNo) throws WxErrorException;
 
-    void sendUserPutNotice(String orderNo);
+    void sendUserPutNotice(String orderNo) throws WxErrorException;
 
-    void sendCleanedNotice(String orderNo);
+    void sendCleanedNotice(String orderNo) throws WxErrorException;
+
+    void sendPaidSuccessNotice(String orderNo) throws WxErrorException;
+
+    void sendPaidFailedNotice(String orderNo) throws WxErrorException;
+
+    void sendNeedPayNotice(String orderNo) throws WxErrorException;
+
+    void sendOrderCompleteNotice(String orderNo) throws WxErrorException;
 
     int updateConfig(WeChatConfig weChatConfig);
 

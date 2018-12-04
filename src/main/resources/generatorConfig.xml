@@ -45,9 +45,12 @@
         <!--<table tableName="biz_order" domainObjectName="Order">-->
             <!--<columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>-->
         <!--</table>-->
-        <table tableName="biz_order" domainObjectName="Order">
-            <columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>
-        </table>
+        <!--<table tableName="biz_laundry" domainObjectName="Laundry">-->
+            <!--<columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>-->
+        <!--</table>-->
+        <!--<table tableName="sys_user" domainObjectName="User">-->
+            <!--<columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>-->
+        <!--</table>-->
         <!--<table tableName="biz_cart_goods" domainObjectName="CartGoods">-->
             <!--<columnRenamingRule searchString="^[a-z]{1}_" replaceString=""/>-->
         <!--</table>-->

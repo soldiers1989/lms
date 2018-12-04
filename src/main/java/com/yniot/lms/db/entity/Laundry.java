@@ -1,10 +1,8 @@
 package com.yniot.lms.db.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-
 import java.math.BigDecimal;
 import java.util.Date;
-@TableName("biz_laundry")
+
 public class Laundry {
     private Integer id;
 
@@ -29,6 +27,8 @@ public class Laundry {
     private Boolean contractSigned;
 
     private Boolean inBiz;
+
+    private Boolean autoAccept;
 
     public Integer getId() {
         return id;
@@ -124,5 +124,13 @@ public class Laundry {
 
     public void setInBiz(Boolean inBiz) {
         this.inBiz = inBiz;
+    }
+
+    public Boolean getAutoAccept() {
+        return autoAccept;
+    }
+
+    public void setAutoAccept(Boolean autoAccept) {
+        this.autoAccept = autoAccept;
     }
 }

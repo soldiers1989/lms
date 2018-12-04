@@ -10,4 +10,7 @@ import com.yniot.lms.db.entity.Wardrobe;
  * @Version 1.0.0
  */
 public interface WardrobeService extends IService<Wardrobe> {
+
+
+
 }

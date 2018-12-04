@@ -23,9 +23,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     }
 
     @Override
-    public Order getByOrderNo(String orderNo) {
+    public Order getByOrderCode(String orderCode) {
         QueryWrapper<Order> orderQueryWrapper = new QueryWrapper<>();
-        orderQueryWrapper.eq("code", orderNo);
+        orderQueryWrapper.eq("code", orderCode);
         return getOne(orderQueryWrapper);
     }
 

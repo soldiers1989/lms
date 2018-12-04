@@ -6,17 +6,17 @@ import com.sun.jmx.snmp.Timestamp;
 import com.yniot.lms.annotation.*;
 import com.yniot.lms.controller.commonController.BaseControllerT;
 import com.yniot.lms.db.entity.*;
-import com.yniot.lms.enums.ShipmentEnum;
 import com.yniot.lms.enums.OrderStateEnum;
+import com.yniot.lms.enums.ShipmentEnum;
 import com.yniot.lms.service.*;
 import com.yniot.lms.utils.CommonUtil;
-import net.sf.ehcache.search.expression.Or;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -39,30 +39,33 @@ public class OrderController extends BaseControllerT<Order> {
     OrderCommentService orderCommentService;
     @Autowired
     OrderShipmentService orderShipmentService;
+    @Autowired
+    CartService cartService;
+    @Autowired
+    LaundryService laundryService;
 
 
     //1.提交订单
     @RequestMapping("/commit")
-    public String createOrder(@RequestParam(name = "order") Order order,
-                              @RequestParam(name = "orderGoodsList[]") List<OrderGoods> orderGoodsList) {
+    public String createOrder(@RequestParam(name = "wardrobeId") int wardrobeId) {
         //获取用户
+        Laundry laundry = laundryService.getByWardrobeId(wardrobeId);
+
         User user = super.getUser();
         boolean result1 = false;
         boolean result2 = false;
-
-
-        //0.检查订单编号是否重复,与订单id无关,高并发下小概率会重复
+        List<Cart> cartList = cartService.getMyCart(getId());
+        //0.检查订单编号是否重复,与订单id无关,高并发下极小概率会重复
         String orderCode = null;
         for (int i = 0; i < 20; i++) {
             orderCode = getOrderCode();
-            QueryWrapper<Order> orderQueryWrapper = new QueryWrapper<>();
-            orderQueryWrapper.eq("code", orderCode);
-            Order temp = orderService.getOne(orderQueryWrapper);
+            Order temp = orderService.getByOrderCode(orderCode);
             if (temp == null) {
                 break;
             }
         }
         //1.如果订单编号为空则终止
+        Order order = new Order();
         if (StringUtils.isNotEmpty(orderCode)) {
             Date now = new Date();
             Date expiredTime = new Date(now.getTime() - OrderService.EXPIRED_IN_MIN * 60000);
@@ -71,21 +74,30 @@ public class OrderController extends BaseControllerT<Order> {
             order.setState(OrderStateEnum.COMMITTED.getState());
             order.setCommitTime(now);
             order.setExpired(false);
+            order.setLaundryId(laundry.getId());
             order.setExpiredTime(expiredTime);
             order.setCreateTime(now);
             result1 = orderService.save(order);
+            //是否为自动接单
+            if (laundry.getAutoAccept()) {
+                order.setAccepted(true);
+                order.setAcceptedTime(new Date());
+                order.setState(OrderStateEnum.ACCEPTED.getState());
+            }
             //这里还需要获得订单id
         }
         //2.插入 orderGoods
+        List<OrderGoods> orderGoodsList = new ArrayList<>();
         if (result1) {
-            QueryWrapper<Order> orderQueryWrapper = new QueryWrapper<>();
-            orderQueryWrapper.eq("code", orderCode);
-            order = orderService.getOne(orderQueryWrapper);
+            order = orderService.getByOrderCode(orderCode);
             if (order != null) {
-                for (OrderGoods orderGoods : orderGoodsList) {
+                for (Cart cart : cartList) {
+                    OrderGoods orderGoods = new OrderGoods();
+                    orderGoods.setGoodsId(cart.getGoodsId());
                     orderGoods.setOrderId(order.getId());
                     orderGoods.setCreateTime(new Date());
                     orderGoods.setDeleted(false);
+                    orderGoodsList.add(orderGoods);
                 }
                 result2 = orderGoodsService.saveBatch(orderGoodsList);
             }
@@ -100,23 +112,19 @@ public class OrderController extends BaseControllerT<Order> {
             orderStateHistoryService.saveOrderState(order, super.getUser().getId());
         }
         boolean re = result1 && result2;
-        if (re) {
-            //4.发送提示信息到商家微信和PC端
+        //3.1清空购物车
+        cartService.cleanMyCart(getId());
+        //4.发送提示信息到商家微信和PC端
 
-
-        }
-            //5.生成二维码
+        //5.生成二维码
 
         return super.getSuccessResult(re);
     }
 
 
-
-
-
     //5.付款
 
-    //3.接单
+    //3.接单  现在设置成默认接单
     @LaundryOnly
     @RequestMapping("/accept")
     public String receiveOrder(@RequestParam(name = "orderId") int orderId) {
@@ -129,7 +137,13 @@ public class OrderController extends BaseControllerT<Order> {
         Timestamp nowTimestamp = new Timestamp(new Date().getTime());
         int expireMin = order.getExpireInMin();
         //是否已经过期
+        if (order.getExpired()) {
+            return super.expired();
+        }
         if (nowTimestamp.getDateTime() - commitTimestamp.getDateTime() >= expireMin * 60000) {
+            order.setExpired(true);
+            orderService.saveOrUpdate(order);
+            orderStateHistoryService.saveOrderState(order, super.getUser().getId());
             return super.expired();
         }
         if (!(order.getState() == OrderStateEnum.COMMITTED.getState())) {
@@ -228,8 +242,7 @@ public class OrderController extends BaseControllerT<Order> {
         for (OrderGoods orderGoods : orderGoodsList) {
             orderGoods.setState(ShipmentEnum.PUT_USER.getState());
         }
-        orderGoodsService.saveOrUpdateBatch(orderGoodsList);
-        return "";
+        return getSuccessResult(orderGoodsService.saveOrUpdateBatch(orderGoodsList));
     }
 
     @MailmanOnly
@@ -270,6 +283,11 @@ public class OrderController extends BaseControllerT<Order> {
     @RequestMapping("/selectById")
     public String getOrder(@RequestParam(name = "orderId") int orderId) {
         return super.getSuccessResult(orderService.getById(orderId));
+    }
+
+    @RequestMapping("/selectByCode")
+    public String getOrder(@RequestParam(name = "orderCode") String orderCode) {
+        return super.getSuccessResult(orderService.getByOrderCode(orderCode));
     }
 
     //2.获取订单

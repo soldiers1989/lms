@@ -14,7 +14,8 @@ import org.springframework.stereotype.Service;
  **/
 @Service
 public class LaundryServiceImpl extends ServiceImpl<LaundryMapper, Laundry> implements LaundryService {
-
-
-
+    @Override
+    public Laundry getByWardrobeId(int wardrobeId) {
+        return baseMapper.getByWardrobeId(wardrobeId);
+    }
 }

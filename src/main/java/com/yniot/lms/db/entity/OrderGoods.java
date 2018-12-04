@@ -1,7 +1,9 @@
 package com.yniot.lms.db.entity;
 
-import java.util.Date;
+import com.baomidou.mybatisplus.annotation.TableName;
 
+import java.util.Date;
+@TableName
 public class OrderGoods {
     private Integer id;
 
@@ -26,6 +28,8 @@ public class OrderGoods {
     private Integer state;
 
     private Boolean canceled;
+
+    private Integer goodsId;
 
     public Integer getId() {
         return id;
@@ -121,5 +125,13 @@ public class OrderGoods {
 
     public void setCanceled(Boolean canceled) {
         this.canceled = canceled;
+    }
+
+    public Integer getGoodsId() {
+        return goodsId;
+    }
+
+    public void setGoodsId(Integer goodsId) {
+        this.goodsId = goodsId;
     }
 }

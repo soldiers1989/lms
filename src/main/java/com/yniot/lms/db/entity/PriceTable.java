@@ -1,14 +1,30 @@
 package com.yniot.lms.db.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-
 import java.math.BigDecimal;
-import java.util.Date;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
+import java.time.LocalDateTime;
+import com.baomidou.mybatisplus.annotation.TableId;
+import java.io.Serializable;
+
+/**
+ * <p>
+ * 
+ * </p>
+ *
+ * @author wanggl
+ * @since 2018-12-04
+ */
 @TableName("biz_price_table")
-public class PriceTable {
+public class PriceTable extends Model<PriceTable> {
+
+    private static final long serialVersionUID = 1L;
+
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    private Integer typeId;
+    private Integer goodsId;
 
     private BigDecimal price;
 
@@ -16,9 +32,10 @@ public class PriceTable {
 
     private Boolean deleted;
 
-    private Date modifyTime;
+    private LocalDateTime modifyTime;
 
-    private Date createTime;
+    private LocalDateTime createTime;
+
 
     public Integer getId() {
         return id;
@@ -28,12 +45,12 @@ public class PriceTable {
         this.id = id;
     }
 
-    public Integer getTypeId() {
-        return typeId;
+    public Integer getGoodsId() {
+        return goodsId;
     }
 
-    public void setTypeId(Integer typeId) {
-        this.typeId = typeId;
+    public void setGoodsId(Integer goodsId) {
+        this.goodsId = goodsId;
     }
 
     public BigDecimal getPrice() {
@@ -60,19 +77,37 @@ public class PriceTable {
         this.deleted = deleted;
     }
 
-    public Date getModifyTime() {
+    public LocalDateTime getModifyTime() {
         return modifyTime;
     }
 
-    public void setModifyTime(Date modifyTime) {
+    public void setModifyTime(LocalDateTime modifyTime) {
         this.modifyTime = modifyTime;
     }
 
-    public Date getCreateTime() {
+    public LocalDateTime getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
+    }
+
+    @Override
+    protected Serializable pkVal() {
+        return this.id;
+    }
+
+    @Override
+    public String toString() {
+        return "PriceTable{" +
+        "id=" + id +
+        ", goodsId=" + goodsId +
+        ", price=" + price +
+        ", laundryId=" + laundryId +
+        ", deleted=" + deleted +
+        ", modifyTime=" + modifyTime +
+        ", createTime=" + createTime +
+        "}";
     }
 }

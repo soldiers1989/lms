@@ -43,11 +43,13 @@ public class OrderController extends BaseControllerT<Order> {
     CartService cartService;
     @Autowired
     LaundryService laundryService;
+    @Autowired
+    CellService cellService;
 
 
     //1.提交订单
     @RequestMapping("/commit")
-    public String createOrder(@RequestParam(name = "wardrobeId") int wardrobeId) {
+    public String createOrder(int wardrobeId) {
         //获取用户
         Laundry laundry = laundryService.getByWardrobeId(wardrobeId);
 
@@ -77,29 +79,27 @@ public class OrderController extends BaseControllerT<Order> {
             order.setLaundryId(laundry.getId());
             order.setExpiredTime(expiredTime);
             order.setCreateTime(now);
+            order.setNextOperator(-1);
             result1 = orderService.save(order);
-            //是否为自动接单
-            if (laundry.getAutoAccept()) {
-                order.setAccepted(true);
-                order.setAcceptedTime(new Date());
-                order.setState(OrderStateEnum.ACCEPTED.getState());
-            }
             //这里还需要获得订单id
         }
         //2.插入 orderGoods
         List<OrderGoods> orderGoodsList = new ArrayList<>();
         if (result1) {
             order = orderService.getByOrderCode(orderCode);
-            if (order != null) {
+            List<Cell> cellList = cellService.getCellListByWardrobeId(wardrobeId);
+            if (order != null && !cellList.isEmpty()) {
+                int cellId = cellList.get(0).getId();
                 for (Cart cart : cartList) {
                     OrderGoods orderGoods = new OrderGoods();
                     orderGoods.setGoodsId(cart.getGoodsId());
                     orderGoods.setOrderId(order.getId());
+                    orderGoods.setStorageCellId(cellId);
                     orderGoods.setCreateTime(new Date());
                     orderGoods.setDeleted(false);
                     orderGoodsList.add(orderGoods);
                 }
-                result2 = orderGoodsService.saveBatch(orderGoodsList);
+                result2 = orderGoodsService.saveBatch(orderGoodsList) && cellService.usedCell(cellId, order.getId());
             }
         }
         //3.如果商品插入失败,则订单也需要删除
@@ -116,7 +116,14 @@ public class OrderController extends BaseControllerT<Order> {
         cartService.cleanMyCart(getId());
         //4.发送提示信息到商家微信和PC端
 
+
+        //是否为自动接单
+        if (re && laundry.getAutoAccept()) {
+            this.receiveOrder(order.getId());
+        }
+
         //5.生成二维码
+
 
         return super.getSuccessResult(re);
     }
@@ -274,7 +281,7 @@ public class OrderController extends BaseControllerT<Order> {
     private static synchronized String getOrderCode() {
         String randomWord = CommonUtil.String.RandomWord(4);
         String dateStr = CommonUtil.Date.getNowDate("YYYYMMddHHmmssSSS");
-        return "LO" + dateStr + randomWord;
+        return "LO" + dateStr + randomWord.toUpperCase();
     }
 
 

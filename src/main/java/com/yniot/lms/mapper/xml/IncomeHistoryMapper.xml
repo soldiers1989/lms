@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yniot.lms.db.dao.IncomeHistoryMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.yniot.lms.db.entity.IncomeHistory">
+        <id column="id" property="id" />
+        <result column="profit" property="profit" />
+        <result column="create_time" property="createTime" />
+        <result column="owner_id" property="ownerId" />
+        <result column="order_id" property="orderId" />
+        <result column="deleted" property="deleted" />
+        <result column="laundry_id" property="laundryId" />
+        <result column="description" property="description" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, profit, create_time, owner_id, order_id, deleted, laundry_id, description
+    </sql>
+
+</mapper>

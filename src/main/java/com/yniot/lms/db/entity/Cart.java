@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import java.math.BigDecimal;
 import java.util.Date;
 
-@TableName("cart")
+@TableName("biz_cart")
 public class Cart {
     @TableId(type = IdType.AUTO)
     private Integer id;

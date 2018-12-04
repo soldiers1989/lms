@@ -5,9 +5,14 @@ import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.yniot.lms.db.entity.User;
 import com.yniot.lms.enums.ErrorMsgEnum;
 import com.yniot.lms.enums.UserTypeEnum;
+import com.yniot.lms.security.CustomSessionKey;
+import com.yniot.lms.service.UserService;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.session.mgt.SessionKey;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -147,13 +152,29 @@ public class BaseController {
                 headers, HttpStatus.CREATED);
     }
 
+    @Autowired
+    UserService userService;
 
     public User getUser() {
-        return (User) SecurityUtils.getSubject().getPrincipal();
+
+        return userService.getById(1);
+//        return (User) SecurityUtils.getSubject().getPrincipal();
     }
 
     public int getId() {
-        return getUser().getId();
+//        return getUser().getId();
+        return 1;
+
+    }
+
+    public User getUser(String sessionId) {
+        Session session = SecurityUtils.getSecurityManager().getSession(new CustomSessionKey(sessionId));
+        session.getHost();
+        return (User) SecurityUtils.getSubject().getPrincipal();
+    }
+
+    public int getId(String token) {
+        return getUser(token).getId();
     }
 
     public boolean isUser() {
@@ -219,5 +240,6 @@ public class BaseController {
     public String expired() {
         return this.getErrorMsg("订单已超时!");
     }
+
 
 }

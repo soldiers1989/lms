@@ -1,11 +1,29 @@
 package com.yniot.lms.db.entity;
 
-import java.util.Date;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.baomidou.mybatisplus.annotation.TableId;
+import java.time.LocalDateTime;
+import java.io.Serializable;
 
-public class Wardrobe {
+/**
+ * <p>
+ * 
+ * </p>
+ *
+ * @author wanggl
+ * @since 2018-12-04
+ */
+@TableName("biz_wardrobe")
+public class Wardrobe extends Model<Wardrobe> {
+
+    private static final long serialVersionUID = 1L;
+
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    private Date createTime;
+    private LocalDateTime createTime;
 
     private Boolean deleted;
 
@@ -17,7 +35,7 @@ public class Wardrobe {
 
     private String description;
 
-    private Date modifyTime;
+    private LocalDateTime modifyTime;
 
     private String address;
 
@@ -31,6 +49,11 @@ public class Wardrobe {
 
     private Integer creator;
 
+    private String laundryImgUrl;
+
+    private String laundryName;
+
+
     public Integer getId() {
         return id;
     }
@@ -39,11 +62,11 @@ public class Wardrobe {
         this.id = id;
     }
 
-    public Date getCreateTime() {
+    public LocalDateTime getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
     }
 
@@ -68,7 +91,7 @@ public class Wardrobe {
     }
 
     public void setQrCode(String qrCode) {
-        this.qrCode = qrCode == null ? null : qrCode.trim();
+        this.qrCode = qrCode;
     }
 
     public Integer getSwVersion() {
@@ -84,14 +107,14 @@ public class Wardrobe {
     }
 
     public void setDescription(String description) {
-        this.description = description == null ? null : description.trim();
+        this.description = description;
     }
 
-    public Date getModifyTime() {
+    public LocalDateTime getModifyTime() {
         return modifyTime;
     }
 
-    public void setModifyTime(Date modifyTime) {
+    public void setModifyTime(LocalDateTime modifyTime) {
         this.modifyTime = modifyTime;
     }
 
@@ -100,7 +123,7 @@ public class Wardrobe {
     }
 
     public void setAddress(String address) {
-        this.address = address == null ? null : address.trim();
+        this.address = address;
     }
 
     public Integer getLaundryId() {
@@ -141,5 +164,48 @@ public class Wardrobe {
 
     public void setCreator(Integer creator) {
         this.creator = creator;
+    }
+
+    public String getLaundryImgUrl() {
+        return laundryImgUrl;
+    }
+
+    public void setLaundryImgUrl(String laundryImgUrl) {
+        this.laundryImgUrl = laundryImgUrl;
+    }
+
+    public String getLaundryName() {
+        return laundryName;
+    }
+
+    public void setLaundryName(String laundryName) {
+        this.laundryName = laundryName;
+    }
+
+    @Override
+    protected Serializable pkVal() {
+        return this.id;
+    }
+
+    @Override
+    public String toString() {
+        return "Wardrobe{" +
+        "id=" + id +
+        ", createTime=" + createTime +
+        ", deleted=" + deleted +
+        ", activated=" + activated +
+        ", qrCode=" + qrCode +
+        ", swVersion=" + swVersion +
+        ", description=" + description +
+        ", modifyTime=" + modifyTime +
+        ", address=" + address +
+        ", laundryId=" + laundryId +
+        ", latitude=" + latitude +
+        ", longitude=" + longitude +
+        ", modifier=" + modifier +
+        ", creator=" + creator +
+        ", laundryImgUrl=" + laundryImgUrl +
+        ", laundryName=" + laundryName +
+        "}";
     }
 }

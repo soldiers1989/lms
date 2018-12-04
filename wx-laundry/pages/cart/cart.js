@@ -14,11 +14,11 @@ Page({
         },
         isEditCart: false,
         checkedAllStatus: true,
+        totalPrice: 0.00,
         editCartList: []
     },
     onLoad: function (options) {
         // 页面初始化 options为页面跳转所带来的参数
-
 
     },
     onReady: function () {
@@ -42,10 +42,13 @@ Page({
         util.request(api.CartList).then(function (res) {
             if (res.result) {
                 let cartTotal = 0;
+                let tempTotalPrice = 0.00;
                 for (let i = 0; i < res.data.length; i++) {
+                    tempTotalPrice += (res.data[i].count * res.data[i].price);
                     cartTotal += res.data[i].count;
                 }
                 that.setData({
+                    totalPrice: tempTotalPrice,
                     cartGoods: res.data,
                     cartTotal: cartTotal
                 });
@@ -56,6 +59,11 @@ Page({
         wx.switchTab({
             url: "/pages/index/index"
         });
+    },
+    toWardrobePage: function () {
+        wx.navigateTo({
+            url: '/pages/wardrobe/wardrobe?totalPrice='+this.data.totalPrice
+        })
     },
     updateCart: function (goodsId, add) {
         let that = this;
@@ -79,8 +87,7 @@ Page({
     //下单
     checkoutOrder: function () {
         //获取已选择的商品
-        let that = this;
-
+        //跳转到洗衣店列表
         // var checkedGoods = this.data.cartGoods.filter(function (element, index, array) {
         //     if (element.checked == true) {
         //         return true;

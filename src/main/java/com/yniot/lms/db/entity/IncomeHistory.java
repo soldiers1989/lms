@@ -1,14 +1,32 @@
 package com.yniot.lms.db.entity;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
+import java.time.LocalDateTime;
+import com.baomidou.mybatisplus.annotation.TableId;
+import java.io.Serializable;
 
-public class IncomeHistory {
+/**
+ * <p>
+ * 
+ * </p>
+ *
+ * @author wanggl
+ * @since 2018-12-04
+ */
+@TableName("biz_income_history")
+public class IncomeHistory extends Model<IncomeHistory> {
+
+    private static final long serialVersionUID = 1L;
+
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
     private BigDecimal profit;
 
-    private Date createTime;
+    private LocalDateTime createTime;
 
     private Integer ownerId;
 
@@ -19,6 +37,7 @@ public class IncomeHistory {
     private Integer laundryId;
 
     private String description;
+
 
     public Integer getId() {
         return id;
@@ -36,11 +55,11 @@ public class IncomeHistory {
         this.profit = profit;
     }
 
-    public Date getCreateTime() {
+    public LocalDateTime getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
     }
 
@@ -81,6 +100,25 @@ public class IncomeHistory {
     }
 
     public void setDescription(String description) {
-        this.description = description == null ? null : description.trim();
+        this.description = description;
+    }
+
+    @Override
+    protected Serializable pkVal() {
+        return this.id;
+    }
+
+    @Override
+    public String toString() {
+        return "IncomeHistory{" +
+        "id=" + id +
+        ", profit=" + profit +
+        ", createTime=" + createTime +
+        ", ownerId=" + ownerId +
+        ", orderId=" + orderId +
+        ", deleted=" + deleted +
+        ", laundryId=" + laundryId +
+        ", description=" + description +
+        "}";
     }
 }

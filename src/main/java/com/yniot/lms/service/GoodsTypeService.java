@@ -1,13 +1,16 @@
 package com.yniot.lms.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.yniot.lms.db.entity.GoodsType;
+import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
- * @project: lms
- * @description:
- * @author: wanggl
- * @create: 2018-11-22 20:02
- **/
+ * <p>
+ *  服务类
+ * </p>
+ *
+ * @author wanggl
+ * @since 2018-12-04
+ */
 public interface GoodsTypeService extends IService<GoodsType> {
+
 }

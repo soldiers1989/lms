@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yniot.lms.db.dao.WardrobeMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.yniot.lms.db.entity.Wardrobe">
+        <id column="id" property="id" />
+        <result column="create_time" property="createTime" />
+        <result column="deleted" property="deleted" />
+        <result column="activated" property="activated" />
+        <result column="qr_code" property="qrCode" />
+        <result column="sw_version" property="swVersion" />
+        <result column="description" property="description" />
+        <result column="modify_time" property="modifyTime" />
+        <result column="address" property="address" />
+        <result column="laundry_id" property="laundryId" />
+        <result column="latitude" property="latitude" />
+        <result column="longitude" property="longitude" />
+        <result column="modifier" property="modifier" />
+        <result column="creator" property="creator" />
+        <result column="laundry_img_url" property="laundryImgUrl" />
+        <result column="laundry_name" property="laundryName" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, create_time, deleted, activated, qr_code, sw_version, description, modify_time, address, laundry_id, latitude, longitude, modifier, creator, laundry_img_url, laundry_name
+    </sql>
+
+</mapper>

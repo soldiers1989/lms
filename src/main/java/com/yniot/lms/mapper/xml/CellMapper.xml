@@ -9,13 +9,15 @@
         <result column="deleted" property="deleted" />
         <result column="activated" property="activated" />
         <result column="wardrobe_id" property="wardrobeId" />
-        <result column="empty" property="empty" />
+        <result column="in_used" property="inUsed" />
         <result column="create_time" property="createTime" />
+        <result column="order_id" property="orderId" />
+        <result column="closed" property="closed" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, cell_no, deleted, activated, wardrobe_id, empty, create_time
+        id, cell_no, deleted, activated, wardrobe_id, in_used, create_time, order_id, closed
     </sql>
 
 </mapper>

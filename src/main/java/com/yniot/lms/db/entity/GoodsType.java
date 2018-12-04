@@ -1,25 +1,48 @@
 package com.yniot.lms.db.entity;
 
+import java.math.BigDecimal;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.baomidou.mybatisplus.annotation.TableId;
+import java.time.LocalDateTime;
+import java.io.Serializable;
 
-import java.util.Date;
+/**
+ * <p>
+ * 
+ * </p>
+ *
+ * @author wanggl
+ * @since 2018-12-04
+ */
 @TableName("biz_goods_type")
-public class GoodsType {
+public class GoodsType extends Model<GoodsType> {
+
+    private static final long serialVersionUID = 1L;
+
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
     private String name;
 
     private String description;
 
+    /**
+     * 1.件  2.双 3.套
+     */
     private Integer unitId;
 
     private Boolean deleted;
 
-    private Date modifyTime;
+    private LocalDateTime modifyTime;
 
     private Integer catalogId;
 
     private String bannerImgUrl;
+
+    private BigDecimal avgPrice;
+
 
     public Integer getId() {
         return id;
@@ -34,7 +57,7 @@ public class GoodsType {
     }
 
     public void setName(String name) {
-        this.name = name == null ? null : name.trim();
+        this.name = name;
     }
 
     public String getDescription() {
@@ -42,7 +65,7 @@ public class GoodsType {
     }
 
     public void setDescription(String description) {
-        this.description = description == null ? null : description.trim();
+        this.description = description;
     }
 
     public Integer getUnitId() {
@@ -61,11 +84,11 @@ public class GoodsType {
         this.deleted = deleted;
     }
 
-    public Date getModifyTime() {
+    public LocalDateTime getModifyTime() {
         return modifyTime;
     }
 
-    public void setModifyTime(Date modifyTime) {
+    public void setModifyTime(LocalDateTime modifyTime) {
         this.modifyTime = modifyTime;
     }
 
@@ -82,6 +105,34 @@ public class GoodsType {
     }
 
     public void setBannerImgUrl(String bannerImgUrl) {
-        this.bannerImgUrl = bannerImgUrl == null ? null : bannerImgUrl.trim();
+        this.bannerImgUrl = bannerImgUrl;
+    }
+
+    public BigDecimal getAvgPrice() {
+        return avgPrice;
+    }
+
+    public void setAvgPrice(BigDecimal avgPrice) {
+        this.avgPrice = avgPrice;
+    }
+
+    @Override
+    protected Serializable pkVal() {
+        return this.id;
+    }
+
+    @Override
+    public String toString() {
+        return "GoodsType{" +
+        "id=" + id +
+        ", name=" + name +
+        ", description=" + description +
+        ", unitId=" + unitId +
+        ", deleted=" + deleted +
+        ", modifyTime=" + modifyTime +
+        ", catalogId=" + catalogId +
+        ", bannerImgUrl=" + bannerImgUrl +
+        ", avgPrice=" + avgPrice +
+        "}";
     }
 }

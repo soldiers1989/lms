@@ -7,6 +7,7 @@ import com.yniot.lms.db.entity.Cart;
 import com.yniot.lms.db.entity.GoodsType;
 import com.yniot.lms.service.CartService;
 import com.yniot.lms.service.GoodsTypeService;
+import com.yniot.lms.service.PriceTableService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,6 +28,8 @@ public class CartController extends BaseControllerT<Cart> {
     CartService cartService;
     @Autowired
     GoodsTypeService goodsTypeService;
+    @Autowired
+    PriceTableService priceTableService;
 
     @RequestMapping("/add")
     public String createCart(int goodsId) {
@@ -41,6 +44,8 @@ public class CartController extends BaseControllerT<Cart> {
             cart.setCreateTime(new Date());
             cart.setUserId(userId);
             cart.setImgUrl(goodsType.getBannerImgUrl());
+            //平均价格
+            cart.setPrice(goodsType.getAvgPrice());
             return super.getSuccessResult(cartService.save(cart));
         } else {
             cart.setCount(cart.getCount() + 1);
@@ -79,7 +84,6 @@ public class CartController extends BaseControllerT<Cart> {
         cartQueryWrapper.eq("user_id", getId());
         return getSuccessResult(cartService.list(cartQueryWrapper));
     }
-
 
 
 }

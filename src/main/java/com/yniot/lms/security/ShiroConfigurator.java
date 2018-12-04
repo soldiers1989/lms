@@ -82,7 +82,7 @@ public class ShiroConfigurator {
 
 //    @Bean
 //    public SessionManager sessionManager() {
-//        CustomSessionManage customSessionManage = new CustomSessionManage();
+//        CustomSessionManager customSessionManage = new CustomSessionManager();
 //        return customSessionManage;
 //    }
 

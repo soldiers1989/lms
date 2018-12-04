@@ -232,7 +232,7 @@ page{
 }
 
 .cart-view .item .selnum{
-    display: none;
+    display: block;
 }
 
 .cart-view .item.edit .selnum{

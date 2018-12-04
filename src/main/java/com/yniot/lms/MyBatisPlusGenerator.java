@@ -18,15 +18,12 @@ import java.util.*;
  * @Date 下午4:33 2018/12/4
  **/
 public class MyBatisPlusGenerator {
-    private static final String TABLE_NAME = "tableName";
-    private static final String PREFIX = "prefix";
-
     public static void main(String[] args) throws SQLException {
         Map<String, String> table = new HashMap<>();
 
         //直接在这里添加表名和前缀即可,key为表名,value为前缀
-        table.put("biz_cell_open_history", "biz_");
-
+        table.put("biz_order_state_history", "biz_");
+//        table.put("biz_income_history", "biz_");
 
         MyBatisPlusGenerator myBatisPlusGenerator = new MyBatisPlusGenerator();
         myBatisPlusGenerator.generateCode(table);
@@ -62,14 +59,16 @@ public class MyBatisPlusGenerator {
                 .setController("controller")//controller
                 .setEntity("db.entity");//mapper.xml
 
-        AutoGenerator ag = new AutoGenerator();
 
+        Iterator<String> keySet = table.keySet().iterator();
+
+
+        while (keySet.hasNext()) {
+        AutoGenerator ag = new AutoGenerator();
         ag.setGlobalConfig(config)
                 .setDataSource(dsConfig)
                 .setPackageInfo(pkConfig);
         //3. 策略配置globalConfiguration中
-        Iterator<String> keySet = table.keySet().iterator();
-        while (keySet.hasNext()) {
             String tableName = keySet.next();
             String prefix = table.get(tableName);
             StrategyConfig stConfig = new StrategyConfig();

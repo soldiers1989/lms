@@ -1,13 +1,18 @@
 package com.yniot.lms.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.yniot.lms.db.entity.PriceTable;
+import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.math.BigDecimal;
 
 /**
- * @project: lms
- * @description:
- * @author: wanggl
- * @create: 2018-11-23 15:55
- **/
+ * <p>
+ * 服务类
+ * </p>
+ *
+ * @author wanggl
+ * @since 2018-12-04
+ */
 public interface PriceTableService extends IService<PriceTable> {
+    BigDecimal getAvgPrice(int goodsId);
 }

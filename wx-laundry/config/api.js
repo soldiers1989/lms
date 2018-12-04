@@ -70,5 +70,8 @@ module.exports = {
     AuthLoginByWeixin: "http://localhost:8080/" + APP_ID + '/SmallAppApi/login', //微信登录
     AuthUserInfo: "http://localhost:8080/" + APP_ID + '/SmallAppApi/info', //微信登录
     GetMobileNo: "http://localhost:8080/" + APP_ID + '/SmallAppApi/phone', //绑定手机
+    GetWardrobe: "http://localhost:8080/" + 'wardrobe/selectNearest', //
+    WardrobeChecked: "http://localhost:8080/" + 'wardrobe/selectNearest', //
+    CommitOrder: "http://localhost:8080/" + 'order/commit', //
     Login: "http://localhost:8080/" + '/user/login', //账号登录
 };

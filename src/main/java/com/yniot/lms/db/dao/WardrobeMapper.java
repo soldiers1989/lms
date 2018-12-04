@@ -1,12 +1,16 @@
 package com.yniot.lms.db.dao;
 
-import com.yniot.exclude.CommonMapper;
-import com.yniot.lms.db.entity.Laundry;
 import com.yniot.lms.db.entity.Wardrobe;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
+import com.yniot.exclude.CommonMapper;
 
-@Mapper
+/**
+ * <p>
+ *  Mapper 接口
+ * </p>
+ *
+ * @author wanggl
+ * @since 2018-12-04
+ */
 public interface WardrobeMapper extends CommonMapper<Wardrobe> {
 
 }

@@ -31,9 +31,13 @@ public class Cell extends Model<Cell> {
 
     private Integer wardrobeId;
 
-    private Boolean empty;
+    private Boolean inUsed;
 
     private LocalDateTime createTime;
+
+    private Integer orderId;
+
+    private Boolean closed;
 
 
     public Integer getId() {
@@ -76,12 +80,12 @@ public class Cell extends Model<Cell> {
         this.wardrobeId = wardrobeId;
     }
 
-    public Boolean getEmpty() {
-        return empty;
+    public Boolean getInUsed() {
+        return inUsed;
     }
 
-    public void setEmpty(Boolean empty) {
-        this.empty = empty;
+    public void setInUsed(Boolean inUsed) {
+        this.inUsed = inUsed;
     }
 
     public LocalDateTime getCreateTime() {
@@ -90,6 +94,22 @@ public class Cell extends Model<Cell> {
 
     public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
+    }
+
+    public Integer getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(Integer orderId) {
+        this.orderId = orderId;
+    }
+
+    public Boolean getClosed() {
+        return closed;
+    }
+
+    public void setClosed(Boolean closed) {
+        this.closed = closed;
     }
 
     @Override
@@ -105,8 +125,10 @@ public class Cell extends Model<Cell> {
         ", deleted=" + deleted +
         ", activated=" + activated +
         ", wardrobeId=" + wardrobeId +
-        ", empty=" + empty +
+        ", inUsed=" + inUsed +
         ", createTime=" + createTime +
+        ", orderId=" + orderId +
+        ", closed=" + closed +
         "}";
     }
 }

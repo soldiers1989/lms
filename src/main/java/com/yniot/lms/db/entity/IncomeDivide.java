@@ -1,8 +1,26 @@
 package com.yniot.lms.db.entity;
 
-import java.util.Date;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.baomidou.mybatisplus.annotation.TableId;
+import java.time.LocalDateTime;
+import java.io.Serializable;
 
-public class IncomeDivide {
+/**
+ * <p>
+ * 
+ * </p>
+ *
+ * @author wanggl
+ * @since 2018-12-04
+ */
+@TableName("biz_income_divide")
+public class IncomeDivide extends Model<IncomeDivide> {
+
+    private static final long serialVersionUID = 1L;
+
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
     private Integer laundryId;
@@ -11,7 +29,8 @@ public class IncomeDivide {
 
     private Boolean deleted;
 
-    private Date createTime;
+    private LocalDateTime createTime;
+
 
     public Integer getId() {
         return id;
@@ -45,11 +64,27 @@ public class IncomeDivide {
         this.deleted = deleted;
     }
 
-    public Date getCreateTime() {
+    public LocalDateTime getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
+    }
+
+    @Override
+    protected Serializable pkVal() {
+        return this.id;
+    }
+
+    @Override
+    public String toString() {
+        return "IncomeDivide{" +
+        "id=" + id +
+        ", laundryId=" + laundryId +
+        ", percent=" + percent +
+        ", deleted=" + deleted +
+        ", createTime=" + createTime +
+        "}";
     }
 }

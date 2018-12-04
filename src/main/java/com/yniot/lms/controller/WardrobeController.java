@@ -2,9 +2,10 @@ package com.yniot.lms.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.yniot.lms.annotation.*;
+import com.yniot.lms.annotation.AdminAndLaundry;
+import com.yniot.lms.annotation.AdminOnly;
+import com.yniot.lms.annotation.LoginOnly;
 import com.yniot.lms.controller.commonController.BaseControllerT;
-import com.yniot.lms.db.entity.Order;
 import com.yniot.lms.db.entity.Wardrobe;
 import com.yniot.lms.db.entity.WardrobeProblem;
 import com.yniot.lms.service.WardrobeProblemService;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -37,7 +39,7 @@ public class WardrobeController extends BaseControllerT<Wardrobe> {
     @AdminOnly
     @RequestMapping("/create")
     public String createWardrobe(@RequestBody Wardrobe wardrobe) {
-        wardrobe.setCreateTime(new Date());
+        wardrobe.setCreateTime(LocalDateTime.now());
         wardrobe.setCreator(getId());
         return super.getSuccessResult(wardrobeService.save(wardrobe));
     }
@@ -60,7 +62,7 @@ public class WardrobeController extends BaseControllerT<Wardrobe> {
         if (wardrobe.getActivated() == !activate) {
             return wrongState();
         }
-        wardrobe.setModifyTime(new Date());
+        wardrobe.setModifyTime(LocalDateTime.now());
         wardrobe.setActivated(true);
         wardrobe.setModifier(getId());
         return super.getSuccessResult(wardrobeService.saveOrUpdate(wardrobe));
@@ -88,16 +90,17 @@ public class WardrobeController extends BaseControllerT<Wardrobe> {
     @LoginOnly
     @RequestMapping("/selectNearest")
     public String selectNearest(
-            @RequestParam(name = KEY_WORD_KEY) String keyWord,
-            @RequestParam(name = PAGE_NUM_KEY) int pageNum,
-            @RequestParam(name = PAGE_SIZE_KEY) int pageSize) {
+            @RequestParam(name = KEY_WORD_KEY, required = false, defaultValue = "") String keyWord,
+            @RequestParam(name = PAGE_NUM_KEY, required = false, defaultValue = "1") int pageNum,
+            @RequestParam(name = PAGE_SIZE_KEY, required = false, defaultValue = "200000") int pageSize) {
         QueryWrapper<Wardrobe> wardrobeQueryWrapper = new QueryWrapper<>();
         wardrobeQueryWrapper.eq("deleted", 0);
         wardrobeQueryWrapper.eq("activated", 1);
-        if (isLogin()) {
-            wardrobeQueryWrapper.like("address", keyWord);
-        } else {
+        if (!isLogin()) {
             return noAuth();
+        }
+        if (StringUtils.isNotEmpty(keyWord)) {
+            wardrobeQueryWrapper.like("address", keyWord);
         }
         return super.getSuccessPage(wardrobeService.page(new Page(pageNum, pageSize), wardrobeQueryWrapper));
     }
@@ -119,7 +122,7 @@ public class WardrobeController extends BaseControllerT<Wardrobe> {
             return noAuth();
         }
         wardrobe.setModifier(getId());
-        wardrobe.setModifyTime(new Date());
+        wardrobe.setModifyTime(LocalDateTime.now());
         return getSuccessResult(wardrobeService.saveOrUpdate(wardrobe));
     }
 

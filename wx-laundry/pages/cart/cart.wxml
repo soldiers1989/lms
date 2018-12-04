@@ -24,12 +24,10 @@
                                 <view class="b">
                                     <text class="price">￥{{item.price*item.count}}</text>
                                     <view class="selnum">
-                                        <view class="cut" bindtap="cutNumber" data-goods-id="{{item.goodsId}}"
-                                              data-item-index="{{index}}">-
+                                        <view class="cut" bindtap="cutNumber" data-goodsId="{{item.goodsId}}">-
                                         </view>
                                         <input value="{{item.count}}" class="number" disabled="true" type="number"/>
-                                        <view class="add" bindtap="addNumber" data-goods-id="{{item.goodsId}}"
-                                              data-item-index="{{index}}">+
+                                        <view class="add" bindtap="addNumber" data-goodsId="{{item.goodsId}}">+
                                         </view>
                                     </view>
                                 </view>
@@ -38,10 +36,10 @@
                     </view>
                 </view>
             </view>
-
         </view>
         <view class="cart-bottom">
-            <view class="checkout" bindtap="checkoutOrder" wx:if="{{!isEditCart}}">下单</view>
+            <view class="total">预计价格:￥{{totalPrice}}</view>
+            <view class="checkout" bindtap="toWardrobePage">去下单</view>
         </view>
     </view>
 </view>

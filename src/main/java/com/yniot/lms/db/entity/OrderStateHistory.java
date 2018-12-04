@@ -1,12 +1,26 @@
 package com.yniot.lms.db.entity;
 
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
+import java.time.LocalDateTime;
+import com.baomidou.mybatisplus.annotation.TableId;
+import java.io.Serializable;
 
-import java.util.Date;
+/**
+ * <p>
+ * 
+ * </p>
+ *
+ * @author wanggl
+ * @since 2018-12-04
+ */
 @TableName("biz_order_state_history")
-public class OrderStateHistory {
-    @TableId
+public class OrderStateHistory extends Model<OrderStateHistory> {
+
+    private static final long serialVersionUID = 1L;
+
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
     private Integer orderId;
@@ -15,11 +29,12 @@ public class OrderStateHistory {
 
     private Integer modifier;
 
-    private Date createTime;
+    private LocalDateTime createTime;
 
     private Boolean deleted;
 
     private Integer nextOperator;
+
 
     public Integer getId() {
         return id;
@@ -53,11 +68,11 @@ public class OrderStateHistory {
         this.modifier = modifier;
     }
 
-    public Date getCreateTime() {
+    public LocalDateTime getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
     }
 
@@ -75,5 +90,23 @@ public class OrderStateHistory {
 
     public void setNextOperator(Integer nextOperator) {
         this.nextOperator = nextOperator;
+    }
+
+    @Override
+    protected Serializable pkVal() {
+        return this.id;
+    }
+
+    @Override
+    public String toString() {
+        return "OrderStateHistory{" +
+        "id=" + id +
+        ", orderId=" + orderId +
+        ", state=" + state +
+        ", modifier=" + modifier +
+        ", createTime=" + createTime +
+        ", deleted=" + deleted +
+        ", nextOperator=" + nextOperator +
+        "}";
     }
 }

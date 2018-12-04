@@ -25,7 +25,9 @@ function request(url, data = {}, method = "POST", header = "application/x-www-fo
     });
     return new Promise(function (resolve, reject) {
         let sessionId = wx.getStorageSync('token');
-        let token = sessionId ? (`Bearer ` + sessionId) : "";
+        // let token = sessionId ? (`Bearer ` + sessionId) : "";
+        let token = sessionId;
+        data.token = token;
         wx.request({
             url: url,
             data: data,

@@ -4,6 +4,7 @@ import com.yniot.lms.db.cachce.CacheDao;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -46,6 +47,16 @@ public class CustomInterceptor implements HandlerInterceptor {
         response.setHeader("Access-Control-Allow-Headers", "Origin, No-Cache, X-Requested-With, If-Modified-Since, Pragma, Last-Modified, Cache-Control, Expires, Content-Type, X-E4M-With,userId,token");
         response.setHeader("Access-Control-Allow-Credentials", "true");
         response.setHeader("XDomainRequestAllowed", "1");
+        if (handler instanceof HandlerMethod) {
+//            annotation = ((HandlerMethod) handler).getMethodAnnotation(IgnoreAuth.class);
+        } else {
+            return true;
+        }
+
+        //如果有@IgnoreAuth注解，则不验证token
+//        if (annotation != null) {
+//            return true;
+//        }
         return true;
     }
 

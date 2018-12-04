@@ -210,6 +210,10 @@ public class BaseController {
     }
 
 
+    public String decryptFail() {
+        return this.getErrorMsg("解密失败!");
+    }
+
     public String expired() {
         return this.getErrorMsg("订单已超时!");
     }

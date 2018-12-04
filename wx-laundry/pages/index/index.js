@@ -34,12 +34,7 @@ Page({
       that.setData(data);
       }
     });
-    util.request(api.IndexUrlHotGoods).then(function (res) {
-      if (res.errno === 0) {
-        data.hotGoods = res.data.hotGoodsList
-      that.setData(data);
-      }
-    });
+
     util.request(api.IndexUrlTopic).then(function (res) {
       if (res.errno === 0) {
         data.topics = res.data.topicList

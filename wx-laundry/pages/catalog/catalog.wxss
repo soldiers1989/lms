@@ -139,9 +139,9 @@ page {
 .catalog .bd .item {
   display: block;
   float: left;
-  height: 216rpx;
+  height: 246rpx;
   width: 144rpx;
-  margin-right: 34rpx;
+  margin-right: 24rpx;
 }
 
 .catalog .bd .item.last {
@@ -155,9 +155,17 @@ page {
 
 .catalog .bd .item .txt {
   display: block;
-  text-align: center;
+  text-align: left;
   font-size: 24rpx;
   color: #333;
-  height: 72rpx;
+  height: 32rpx;
+  width: 144rpx;
+}
+.catalog .bd .item .price {
+  display: block;
+  text-align: left;
+  font-size: 24rpx;
+  color: #333;
+  height: 32rpx;
   width: 144rpx;
 }

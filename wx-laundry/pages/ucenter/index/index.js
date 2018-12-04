@@ -17,16 +17,11 @@ Page({
     onShow: function () {
         let userInfo = wx.getStorageSync('userInfo');
         let token = wx.getStorageSync('token');
-        // console.log(userInfo);
-        // console.log(token);
         // 页面显示
         if (userInfo && token) {//
             app.globalData.userInfo = userInfo;
             app.globalData.token = token;
-        }else{
-            // console.log("wwww");
         }
-
         this.setData({
             userInfo: app.globalData.userInfo,
         });

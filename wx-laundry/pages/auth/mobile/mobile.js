@@ -18,12 +18,12 @@ Page({
     },
 
     onLoad: function () {
-        var that = this
+        let that = this
         that.setData({userInfo: app.globalData.userInfo})
 
         if (app.globalData.token) {
         } else {
-            var token = wx.getStorageSync('userToken')
+            let token = wx.getStorageSync('token')
             if (token) {
                 app.globalData.token = token
             }
@@ -134,5 +134,38 @@ Page({
                     })
                 }
             })
-    }
+    },
+    getPhoneNum() {
+
+
+        util.request(api.GetMobileNo, {mobile_code: e.detail.value.code, mobile: mobile})
+            .then(function (res) {
+
+            });
+
+
+    },
+    getPhoneNumber(e) {
+        //encodeURIComponent(
+        wx.checkSession({
+            success: function (res) {
+                console.log(e);
+                util.request(api.GetMobileNo,
+                    {
+                        encryptedData: e.detail.encryptedData,
+                        iv: e.detail.iv,
+                        code: res.code,
+                        rawData: wx.getStorageSync('rawData'),
+                        signature: wx.getStorageSync('signature'),
+                        token: wx.getStorageSync('token')
+                    }).then(function (res) {
+                    console.log(res);
+                });
+            }, fail: function (res) {
+                console.log("未登录!");
+            }
+        });
+
+    },
+
 })

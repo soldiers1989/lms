@@ -28,6 +28,7 @@ public class ShiroConfigurator {
 //        filterChainDefinitionMap.put("/SmallAppApi/**", "anon");//微信
         //SmallAppApi
 //        filterChainDefinitionMap.put("/user/login", "anon");//登陆
+//        filterChainDefinitionMap.put("/user/logout", "logout");//登出
 //        filterChainDefinitionMap.put("/WebSocket/**", "anon");//WebSocket
 //        filterChainDefinitionMap.put("/favicon.ico", "anon");//书签logo
 //        filterChainDefinitionMap.put("/**", "authc");

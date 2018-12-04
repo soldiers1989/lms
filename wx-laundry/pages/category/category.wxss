@@ -26,7 +26,7 @@
 .cate-nav .item .name{
     display: block;
     height: 84rpx;
-    padding: 0 20rpx;
+    padding: 0 5rpx;
     line-height: 84rpx;
     color: #333;
     font-size: 30rpx;

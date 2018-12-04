@@ -32,18 +32,15 @@ function request(url, data = {}, method = "POST", header = "application/x-www-fo
                 'Content-Type': header,
                 'Authorization': wx.getStorageSync('token'),
                 // 'token': wx.getStorageSync('token'),
-                'X-Nideshop-Token': wx.getStorageSync('token')
+                // 'X-Nideshop-Token': wx.getStorageSync('token')
             },
             success: function (res) {
                 wx.hideLoading();
-                console.log(res);
                 if (res.statusCode == 200) {
-
-                    if (!wx.getStorageSync('token')) {
+                    if (!wx.getStorageSync('token') && url != api.AuthLoginByWeixin) {
                         wx.navigateTo({
-                            // url: '/pages/auth/btnAuth/btnAuth',
-                            url: '/pages/auth/login/login',
-
+                            url: '/pages/auth/btnAuth/btnAuth',
+                            // url: '/pages/auth/login/login',
                         })
                     } else {
                         resolve(res.data);
@@ -97,9 +94,8 @@ function login() {
 }
 
 function redirect(url) {
-
     //判断页面是否需要登录
-    if (false) {
+    if (!wx.getStorageSync('token')) {
         wx.redirectTo({
             url: '/pages/auth/login/login'
         });

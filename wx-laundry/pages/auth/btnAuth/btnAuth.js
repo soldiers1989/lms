@@ -25,8 +25,6 @@ Page({
             )
         }
     },
-    getUserUnionId: function () {
-    },
     bindGetUserInfo: function (e) {
         let that = this;
         // console.log(e);
@@ -34,33 +32,26 @@ Page({
             success: function (res) {
                 if (res.code) {
                     //登录远程服务器
+                    wx.setStorageSync("rawData",e.detail.rawData);
+                    wx.setStorageSync("signature",e.detail.signature);
                     util.request(api.AuthLoginByWeixin, {
                         code: res.code,
-                        userInfo: e.detail
-                    }).then(res => {
-                        //存储用户信息
-                        wx.setStorageSync('userInfo', res.data.userInfo);
-                        wx.setStorageSync('token', res.data.token);
-                        wx.setStorageSync('userId', res.data.userId);
+                        userInfo: JSON.stringify(e.detail)
+                    }).then(function (res) {
+                        if (res.result) {
+                            //存储用户信息
+                            wx.setStorageSync('userInfo', res.data.userInfo);
+                            wx.setStorageSync('token', res.data.token);
+                            wx.setStorageSync('userId', res.data.userId);
+                        } else {
+                            wx.showModal({
+                                title: '提示',
+                                content: res.errmsg,
+                                showCancel: false
+                            });
+                        }
 
-
-                        wx.getSetting({
-                            success(res) {
-                                if (res.authSetting['scope.userInfo']) {
-                                    // 已经授权，可以直接调用 getUserInfo 获取头像昵称
-                                    wx.getUserInfo({
-                                        success: function (res) {
-                                            // console.log(res.userInfo)
-                                        }
-                                    })
-                                }
-                            },
-                          fail(res) {
-                            // console.log(res);
-                              
-                            }
-                        })
-
+                    }).catch(function (error) {
                     });
                 }
             }

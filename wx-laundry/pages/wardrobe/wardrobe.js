@@ -8,7 +8,7 @@ Page({
     data: {
         totalPrice: 0.00,
         wardrobeList: [],
-        checkedIndex: 0,
+        checkedIndex: -1,
     },
 
     /**
@@ -77,17 +77,11 @@ Page({
         });
     },
 
-    isCellAvailable: function (wardrobeId) {
-        let that = this;
-        util.request(api.GetWardrobe).then(function (res) {
-            if (res.result) {
-                that.setData({
-                    wardrobeList: res.data,
-                });
-            }
-        });
-    },
     commitOrder: function () {
+        if (this.data.checkedIndex < 0) {
+            util.showErrorToast("没有选择柜子!");
+            return;
+        }
         let that = this;
         wx.showModal({
             title: '',
@@ -96,7 +90,11 @@ Page({
                 if (res.confirm) {
                     let wardrobe = that.data.wardrobeList[that.data.checkedIndex];
                     util.request(api.CommitOrder, {wardrobeId: wardrobe.id}).then(function (res) {
-                        console.log(res);
+                        if(res.result){
+                            wx.navigateTo({
+                                url: '/pages/ucenter/order/order'
+                            })
+                        }
                     });
                 }
             }
@@ -104,10 +102,16 @@ Page({
 
     },
     checkedItem: function (event) {
-        let itemIndex = event.target.dataset.itemIndex;
         let that = this;
-        that.setData({
-            checkedIndex: itemIndex == this.data.checkedIndex ? -1 : itemIndex
-        });
+        let itemIndex = event.target.dataset.itemIndex;
+        let wardrobe = that.data.wardrobeList[itemIndex];
+        if (wardrobe.avaCellNum > 0) {
+            that.setData({
+                checkedIndex: itemIndex == this.data.checkedIndex ? -1 : itemIndex
+            });
+        } else {
+            util.showErrorToast("没有可用的格子!");
+        }
+
     },
 })

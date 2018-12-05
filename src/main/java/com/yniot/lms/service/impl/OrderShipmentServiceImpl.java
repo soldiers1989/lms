@@ -7,6 +7,7 @@ import com.yniot.lms.enums.ShipmentEnum;
 import com.yniot.lms.service.OrderShipmentService;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -29,7 +30,7 @@ public class OrderShipmentServiceImpl extends ServiceImpl<OrderShipmentMapper, O
         OrderShipment orderShipment = new OrderShipment();
         orderShipment.setId(orderId);
         orderShipment.setState(ShipmentEnum.WAITING.getState());
-        orderShipment.setModifyTime(new Date());
+        orderShipment.setModifyTime(LocalDateTime.now());
         orderShipment.setWardrobeId(wardrobeId);
         orderShipment.setModifier(userId);
         return save(orderShipment);

@@ -11,8 +11,8 @@
             <view class="group-item">
                 <view class="goods">
                     <view class="item " wx:for="{{wardrobeList}}" wx:key="{{item.id}}">
-                        <view class="checkbox {{checkedIndex==index && item.avaCellNum>0? 'checked' : ''}}"
-                              disabled="{{item.avaCellNum==0}}" bindtap="checkedItem"
+                        <view class="checkbox {{checkedIndex==index ? 'checked' : ''}}"
+                              bindtap="checkedItem"
                               data-item-index="{{index}}"></view>
                         <view class="laundry-list">
                             <image class="img" src="{{item.laundryImgUrl}}"></image>

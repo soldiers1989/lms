@@ -42,7 +42,6 @@ module.exports = {
     AddressSave: API_BASE_URL + 'address/save',  //保存收货地址
     AddressDelete: API_BASE_URL + 'address/delete',  //删除收货地址
     RegionList: API_BASE_URL + 'region/list',  //获取区域列表
-    OrderDetail: API_BASE_URL + 'order/detail',  //订单详情
     OrderCancel: API_BASE_URL + 'order/cancelOrder',  //取消订单
     OrderConfirm: API_BASE_URL + 'order/confirmOrder',  //确认收货
     FootprintList: API_BASE_URL + 'footprint/list',  //足迹列表
@@ -59,6 +58,10 @@ module.exports = {
 
     // CartAdd: API_BASE_URL + 'cart/add', // 添加商品到购物车
     // CartList: "http://localhost:8080/" + 'cart/select', //获取购物车的数据
+    OrderDetail: "http://localhost:8080/" + 'order/selectById',  //订单详情
+    GetOrderShipmentById:"http://localhost:8080/"+"orderShipment/getByOrderId",
+    GetOrderCostById:"http://localhost:8080/"+"orderCost/getByOrderId",
+    GetOrderGoodsById:"http://localhost:8080/"+"orderGoods/getByOrderId",
     CartList: "http://localhost:8080/" + 'cart/select', //获取购物车的数据
     CartAdd: "http://localhost:8080/" + 'cart/add', //添加到购物车
     CartDel: "http://localhost:8080/" + 'cart/delete', //添加到购物车

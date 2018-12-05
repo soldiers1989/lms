@@ -215,7 +215,7 @@ public class OrderController extends BaseControllerT<Order> {
     @Finished
     @LoginOnly
     @RequestMapping("/selectById")
-    public String getOrder(@RequestParam(name = "orderId") int orderId) {
+    public String getOrder(Integer orderId) {
         return super.getSuccessResult(orderService.getById(orderId));
     }
 

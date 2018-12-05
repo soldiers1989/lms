@@ -1,6 +1,8 @@
 package com.yniot.lms.controller;
 
+import com.yniot.lms.controller.commonController.BaseController;
 import com.yniot.lms.service.OrderGoodsService;
+import com.yniot.lms.service.OrderShipmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,18 +16,13 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/shipment")
-public class ShipmentController {
-    //已存放
-    //已取货
-    //已放回
+public class ShipmentController extends BaseController {
     @Autowired
-    OrderGoodsService orderGoodsService;
+    OrderShipmentService orderShipmentService;
 
-
-    @RequestMapping("/put")
-    public String put1(@RequestParam(name = "") int orderGoodsId) {
-
-        return "";
+    @RequestMapping("/getByOrderId")
+    public String getByOrderId(Integer orderId) {
+        return getSuccessResult(orderShipmentService.getById(orderId));
     }
 
 }

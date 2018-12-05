@@ -1,24 +1,40 @@
 package com.yniot.lms.db.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
+import java.time.LocalDateTime;
+import com.baomidou.mybatisplus.annotation.TableId;
+import java.io.Serializable;
 
-import java.util.Date;
+/**
+ * <p>
+ * 
+ * </p>
+ *
+ * @author wanggl
+ * @since 2018-12-05
+ */
 @TableName("biz_order_shipment")
-public class OrderShipment {
-    @TableId(type= IdType.INPUT)
+public class OrderShipment extends Model<OrderShipment> {
+
+    private static final long serialVersionUID = 1L;
+
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
     private Integer state;
 
-    private Date modifyTime;
+    private LocalDateTime modifyTime;
 
     private Integer modifier;
 
     private String address;
 
     private Integer wardrobeId;
+
+    private String phone;
+
 
     public Integer getId() {
         return id;
@@ -36,11 +52,11 @@ public class OrderShipment {
         this.state = state;
     }
 
-    public Date getModifyTime() {
+    public LocalDateTime getModifyTime() {
         return modifyTime;
     }
 
-    public void setModifyTime(Date modifyTime) {
+    public void setModifyTime(LocalDateTime modifyTime) {
         this.modifyTime = modifyTime;
     }
 
@@ -57,7 +73,7 @@ public class OrderShipment {
     }
 
     public void setAddress(String address) {
-        this.address = address == null ? null : address.trim();
+        this.address = address;
     }
 
     public Integer getWardrobeId() {
@@ -66,5 +82,31 @@ public class OrderShipment {
 
     public void setWardrobeId(Integer wardrobeId) {
         this.wardrobeId = wardrobeId;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    @Override
+    protected Serializable pkVal() {
+        return this.id;
+    }
+
+    @Override
+    public String toString() {
+        return "OrderShipment{" +
+        "id=" + id +
+        ", state=" + state +
+        ", modifyTime=" + modifyTime +
+        ", modifier=" + modifier +
+        ", address=" + address +
+        ", wardrobeId=" + wardrobeId +
+        ", phone=" + phone +
+        "}";
     }
 }

@@ -14,4 +14,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
 public interface WardrobeService extends IService<Wardrobe> {
 
     boolean updateCellNum(int wardrobeId);
+    boolean updateAllCellNum();
 }

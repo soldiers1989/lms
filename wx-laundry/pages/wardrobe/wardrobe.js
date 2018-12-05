@@ -78,7 +78,14 @@ Page({
     },
 
     isCellAvailable: function (wardrobeId) {
-
+        let that = this;
+        util.request(api.GetWardrobe).then(function (res) {
+            if (res.result) {
+                that.setData({
+                    wardrobeList: res.data,
+                });
+            }
+        });
     },
     commitOrder: function () {
         let that = this;

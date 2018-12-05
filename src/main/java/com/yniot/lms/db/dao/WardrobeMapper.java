@@ -15,4 +15,7 @@ import org.apache.ibatis.annotations.Update;
 public interface WardrobeMapper extends CommonMapper<Wardrobe> {
     @Update("update biz_wardrobe set ava_cell_num = ifnull((select sum(1) from biz_cell where wardrobe_id = #{wardrobeId} and activated=1 and deleted=0 and in_used=0),0)")
     int updateCellNum(int wardrobeId);
+
+    @Update("update biz_wardrobe set ava_cell_num = ifnull((select sum(1) from biz_cell where biz_wardrobe.id = biz_cell.wardrobe_id and activated=1 and deleted=0 and in_used=0),0)")
+    int updateAllCellNum();
 }

@@ -19,8 +19,10 @@ public class WardrobeServiceImpl extends ServiceImpl<WardrobeMapper, Wardrobe> i
 
     @Override
     public boolean updateCellNum(int wardrobeId) {
-
-
-        return false;
+        return baseMapper.updateCellNum(wardrobeId) > 0;
+    }
+    @Override
+    public boolean updateAllCellNum() {
+        return baseMapper.updateAllCellNum() > 0;
     }
 }

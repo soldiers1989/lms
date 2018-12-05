@@ -10,4 +10,8 @@ import com.yniot.lms.db.entity.OrderShipment;
  * @create: 2018-11-25 11:15
  **/
 public interface OrderShipmentService extends IService<OrderShipment> {
+
+    boolean updateState(int orderId, int state);
+
+    boolean create(int orderId, int wardrobeId, int userId);
 }

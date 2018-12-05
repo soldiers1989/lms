@@ -1,8 +1,12 @@
 package com.yniot.lms.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.yniot.lms.db.entity.Cart;
 import com.yniot.lms.db.entity.Order;
 import com.yniot.lms.db.entity.User;
+import me.chanjar.weixin.common.error.WxErrorException;
+
+import java.util.List;
 
 /**
  * @project: lms
@@ -24,5 +28,11 @@ public interface OrderService extends IService<Order> {
     Order getByOrderCode(String orderNo);
 
     boolean expiredOrder(int orderId);
+
+    boolean updateState(int orderId, int state);
+
+    boolean generateOrder(int userId, String openId, int wardrobeId) throws WxErrorException;
+
+    boolean removeByCode(String orderCode);
 
 }

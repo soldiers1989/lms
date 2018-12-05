@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.yniot.lms.db.dao.WardrobeMapper">
+<mapper namespace="com.yniot.lms.db.dao_.WardrobeMapper">
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.yniot.lms.db.entity.Wardrobe">
@@ -20,11 +20,12 @@
         <result column="creator" property="creator" />
         <result column="laundry_img_url" property="laundryImgUrl" />
         <result column="laundry_name" property="laundryName" />
+        <result column="ava_cell_num" property="avaCellNum" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, create_time, deleted, activated, qr_code, sw_version, description, modify_time, address, laundry_id, latitude, longitude, modifier, creator, laundry_img_url, laundry_name
+        id, create_time, deleted, activated, qr_code, sw_version, description, modify_time, address, laundry_id, latitude, longitude, modifier, creator, laundry_img_url, laundry_name, ava_cell_num
     </sql>
 
 </mapper>

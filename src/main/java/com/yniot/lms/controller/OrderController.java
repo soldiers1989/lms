@@ -1,24 +1,32 @@
 package com.yniot.lms.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.sun.jmx.snmp.Timestamp;
 import com.yniot.lms.annotation.*;
+import com.yniot.lms.controller.PageVo.OrderPVO;
 import com.yniot.lms.controller.commonController.BaseControllerT;
-import com.yniot.lms.db.entity.*;
+import com.yniot.lms.db.entity.Order;
+import com.yniot.lms.db.entity.OrderComment;
+import com.yniot.lms.db.entity.OrderGoods;
+import com.yniot.lms.db.entity.OrderShipment;
 import com.yniot.lms.enums.OrderStateEnum;
 import com.yniot.lms.enums.ShipmentEnum;
 import com.yniot.lms.service.*;
 import com.yniot.lms.utils.CommonUtil;
+import me.chanjar.weixin.common.error.WxErrorException;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @Auther: lane
@@ -40,93 +48,19 @@ public class OrderController extends BaseControllerT<Order> {
     @Autowired
     OrderShipmentService orderShipmentService;
     @Autowired
-    CartService cartService;
-    @Autowired
-    LaundryService laundryService;
-    @Autowired
     CellService cellService;
-
 
     //1.提交订单
     @RequestMapping("/commit")
-    public String createOrder(int wardrobeId) {
+    public String createOrder(int wardrobeId) throws WxErrorException {
         //获取用户
-        Laundry laundry = laundryService.getByWardrobeId(wardrobeId);
+        boolean result = orderService.generateOrder(getId(), getOpenId(), wardrobeId);
 
-        User user = super.getUser();
-        boolean result1 = false;
-        boolean result2 = false;
-        List<Cart> cartList = cartService.getMyCart(getId());
-        //0.检查订单编号是否重复,与订单id无关,高并发下极小概率会重复
-        String orderCode = null;
-        for (int i = 0; i < 20; i++) {
-            orderCode = getOrderCode();
-            Order temp = orderService.getByOrderCode(orderCode);
-            if (temp == null) {
-                break;
-            }
-        }
-        //1.如果订单编号为空则终止
-        Order order = new Order();
-        if (StringUtils.isNotEmpty(orderCode)) {
-            Date now = new Date();
-            Date expiredTime = new Date(now.getTime() - OrderService.EXPIRED_IN_MIN * 60000);
-            order.setCode(orderCode);
-            order.setUserId(user.getId());
-            order.setState(OrderStateEnum.COMMITTED.getState());
-            order.setCommitTime(now);
-            order.setExpired(false);
-            order.setLaundryId(laundry.getId());
-            order.setExpiredTime(expiredTime);
-            order.setCreateTime(now);
-            result1 = orderService.save(order);
-            //这里还需要获得订单id
-        }
-        //2.插入 orderGoods
-        List<OrderGoods> orderGoodsList = new ArrayList<>();
-        if (result1) {
-            order = orderService.getByOrderCode(orderCode);
-            List<Cell> cellList = cellService.getCellListByWardrobeId(wardrobeId);
-            if (order != null && !cellList.isEmpty()) {
-                int cellId = cellList.get(0).getId();
-                for (Cart cart : cartList) {
-                    OrderGoods orderGoods = new OrderGoods();
-                    orderGoods.setGoodsId(cart.getGoodsId());
-                    orderGoods.setOrderId(order.getId());
-                    orderGoods.setStorageCellId(cellId);
-                    orderGoods.setCreateTime(new Date());
-                    orderGoods.setWardrobeId(wardrobeId);
-                    orderGoods.setDeleted(false);
-                    orderGoodsList.add(orderGoods);
-                }
-                result2 = orderGoodsService.saveBatch(orderGoodsList) && cellService.usedCell(cellId, order.getId());
-            }
-        }
-        //3.如果商品插入失败,则订单也需要删除
-        if (!result2) {
-            QueryWrapper<Order> orderQueryWrapper = new QueryWrapper<>();
-            orderQueryWrapper.eq("code", orderCode);
-            orderService.remove(orderQueryWrapper);
-        } else {
-            //保存订单状态
-            orderStateHistoryService.saveOrderState(order, super.getUser().getId());
-        }
-        boolean re = result1 && result2;
-        if (re) {
-            //3.1清空购物车
-            cartService.cleanMyCart(getId());
-        }
-        //4.发送提示信息到商家微信和PC端
-
-
-        //是否为自动接单
-        if (re && laundry.getAutoAccept()) {
-            this.receiveOrder(order.getId());
-        }
         //5.生成二维码
+        if (result) {
 
-
-        return super.getSuccessResult(re);
+        }
+        return super.getSuccessResult(true);
     }
 
 
@@ -140,45 +74,31 @@ public class OrderController extends BaseControllerT<Order> {
         if (!isLaundry()) {
             return super.noAuth();
         }
-        Date commitTime = order.getCommitTime();
-        Timestamp commitTimestamp = new Timestamp(commitTime.getTime());
-        Timestamp nowTimestamp = new Timestamp(new Date().getTime());
-        int expireMin = order.getExpireInMin();
         //是否已经过期
         if (order.getExpired()) {
             return super.expired();
         }
-        if (nowTimestamp.getDateTime() - commitTimestamp.getDateTime() >= expireMin * 60000) {
-            order.setExpired(true);
-            orderService.saveOrUpdate(order);
-            orderStateHistoryService.saveOrderState(order, super.getUser().getId());
+        //订单过期
+        if (CommonUtil.Date.gt(LocalDateTime.now(), order.getCommitTime(), order.getExpireInMin() * 60)) {
+            //设置订单过期
+            orderService.expiredOrder(orderId);
+            //设置货物无效
+            orderGoodsService.cancelOrder(orderId);
+            //格子设置为可用,释放格子
+            cellService.releaseCellByOrderId(orderId);
+            //保存状态
+            orderStateHistoryService.saveOrderState(order, getId());
             return super.expired();
         }
-        if (order.getState() != OrderStateEnum.COMMITTED.getState()) {
+        if (order.getState() == OrderStateEnum.COMMITTED.getState()) {
+            //更改为接单状态
+            orderService.updateState(orderId, OrderStateEnum.ACCEPTED.getState());
+            //保存状态信息
+            orderStateHistoryService.saveOrderState(orderId, OrderStateEnum.ACCEPTED.getState(), getId());
+            return super.getSuccessResult(1);
+        } else {
             return super.wrongState();
         }
-        //更改状态
-        order.setAccepted(true);
-        order.setAcceptedTime(new Date());
-        order.setState(OrderStateEnum.ACCEPTED.getState());
-        return super.getSuccessResult(orderService.saveOrUpdate(order) && orderStateHistoryService.saveOrderState(order, super.getUser().getId()));
-    }
-
-
-    private boolean expiredOrder(Order order) {
-        //设置过期标志
-        order.setExpired(true);
-        orderService.saveOrUpdate(order);
-        orderStateHistoryService.saveOrderState(order, super.getUser().getId());
-
-        //设置货物无效
-        orderGoodsService.cancelOrder(order.getId());
-
-        //格子设置为可用,释放格子
-        cellService.releaseCellByOrderId(order.getId());
-
-
-        return false;
     }
 
 
@@ -193,7 +113,7 @@ public class OrderController extends BaseControllerT<Order> {
             return super.noAuth();
         }
         order.setCanceled(true);
-        order.setCanceledTime(new Date());
+        order.setCanceledTime(LocalDateTime.now());
         //这里是用户id,没有使用洗衣店id
         order.setCanceledBy(super.getUser().getId());
         order.setState(OrderStateEnum.CANCELED.getState());
@@ -214,7 +134,7 @@ public class OrderController extends BaseControllerT<Order> {
             return noAuth();
         }
         order.setState(OrderStateEnum.FINISHED.getState());
-        order.setFinishedTime(new Date());
+        order.setFinishedTime(LocalDateTime.now());
         return super.getSuccessResult(orderService.saveOrUpdate(order) && orderStateHistoryService.saveOrderState(order, getUser().getId()));
     }
 
@@ -253,21 +173,15 @@ public class OrderController extends BaseControllerT<Order> {
             return noAuth();
         }
         Order order = orderService.getById(orderId);
-        if (order.getState() != OrderStateEnum.COMMITTED.getState()) {
+        List<OrderGoods> orderGoodsList = orderGoodsService.getByOrderId(orderId);
+        if (order.getState() == OrderStateEnum.COMMITTED.getState() && orderGoodsList != null && !orderGoodsList.isEmpty()) {
+            //锁定格子
+            cellService.usedCell(orderGoodsList.get(0).getStorageCellId(), orderId);
+            //更新徐柳状态
+            return getSuccessResult(orderShipmentService.updateState(orderId, ShipmentEnum.PUT_USER.getState()));
+        } else {
             return wrongState();
         }
-        //更改物流状态
-        OrderShipment orderShipment = orderShipmentService.getById(orderId);
-        orderShipment.setState(ShipmentEnum.PUT_USER.getState());
-        orderShipment.setModifyTime(new Date());
-        orderShipmentService.saveOrUpdate(orderShipment);
-        //更改每个物品的状态
-        QueryWrapper<OrderGoods> orderGoodsQueryWrapper = new QueryWrapper<>();
-        List<OrderGoods> orderGoodsList = orderGoodsService.list(orderGoodsQueryWrapper);
-        for (OrderGoods orderGoods : orderGoodsList) {
-            orderGoods.setState(ShipmentEnum.PUT_USER.getState());
-        }
-        return getSuccessResult(orderGoodsService.saveOrUpdateBatch(orderGoodsList));
     }
 
     @MailmanOnly
@@ -276,7 +190,7 @@ public class OrderController extends BaseControllerT<Order> {
         QueryWrapper<OrderGoods> orderGoodsQueryWrapper = new QueryWrapper<>();
         orderGoodsQueryWrapper.eq("storage_cell_id", cellId);
         List<OrderGoods> orderGoodsList = orderGoodsService.list(orderGoodsQueryWrapper);
-        if (orderGoodsList.isEmpty()) {
+        if (orderGoodsList == null || orderGoodsList.isEmpty()) {
             return super.getErrorMsg("没有数据!");
         }
         for (OrderGoods orderGoods : orderGoodsList) {
@@ -288,28 +202,25 @@ public class OrderController extends BaseControllerT<Order> {
         int orderId = orderGoods.getOrderId();
         OrderShipment orderShipment = orderShipmentService.getById(orderId);
         if (orderShipment.getState() == ShipmentEnum.PUT_USER.getState()) {
-            orderShipment.setState(ShipmentEnum.TOOK_MAILMAN.getState());
-            orderShipmentService.saveOrUpdate(orderShipment);
+            //更新物流信息
+            orderShipmentService.updateState(orderId, ShipmentEnum.PUT_USER.getState());
+            //释放格子
+            cellService.releaseCellByCellId(orderId);
         }
         return super.getErrorMsg("");
     }
 
 
-    //6.获取唯一的订单编号
-    private static synchronized String getOrderCode() {
-        String randomWord = CommonUtil.String.RandomWord(4);
-        String dateStr = CommonUtil.Date.getNowDate("YYYYMMddHHmmssSSS");
-        return "LO" + dateStr + randomWord.toUpperCase();
-    }
-
-
     //获取单个订单
     @Finished
+    @LoginOnly
     @RequestMapping("/selectById")
     public String getOrder(@RequestParam(name = "orderId") int orderId) {
         return super.getSuccessResult(orderService.getById(orderId));
     }
 
+
+    @LoginOnly
     @RequestMapping("/selectByCode")
     public String getOrder(@RequestParam(name = "orderCode") String orderCode) {
         return super.getSuccessResult(orderService.getByOrderCode(orderCode));
@@ -317,12 +228,56 @@ public class OrderController extends BaseControllerT<Order> {
 
     //2.获取订单
     @Unfinished
+    @AdminOnly
     @RequestMapping("/select")
     public String select(@RequestParam(name = KEY_WORD_KEY, required = false, defaultValue = "") String keyWord,
-                         @RequestParam(name = PAGE_SIZE_KEY, required = false, defaultValue = "") int pageSize,
-                         @RequestParam(name = PAGE_NUM_KEY, required = false, defaultValue = "") int pageNum) {
+                         @RequestParam(name = PAGE_SIZE_KEY, required = false, defaultValue = "20") int pageSize,
+                         @RequestParam(name = PAGE_NUM_KEY, required = false, defaultValue = "1") int pageNum) {
         QueryWrapper<Order> orderQueryWrapper = new QueryWrapper<>();
-        orderService.page(new Page<>(pageNum, pageSize), orderQueryWrapper);
+        if (StringUtils.isNotEmpty(keyWord)) {
+            orderQueryWrapper.like("code", keyWord)
+                    .or().like("description", keyWord);
+        }
+        return super.getSuccessPage(orderService.page(new Page(pageNum, pageSize), orderQueryWrapper));
+    }
+
+    //2.客户获取订单
+    @Unfinished
+    @UserOnly
+    @RequestMapping("/selectByUserId")
+    public String selectByUserId(@RequestParam(name = KEY_WORD_KEY, required = false, defaultValue = "") String keyWord,
+                                 @RequestParam(name = PAGE_SIZE_KEY, required = false, defaultValue = "20") int pageSize,
+                                 @RequestParam(name = PAGE_NUM_KEY, required = false, defaultValue = "1") int pageNum) {
+        QueryWrapper<Order> orderQueryWrapper = new QueryWrapper<>();
+        orderQueryWrapper.eq("user_id", getId());
+        orderQueryWrapper.orderByDesc("create_time");
+        if (StringUtils.isNotEmpty(keyWord)) {
+            orderQueryWrapper.like("code", keyWord)
+                    .or().like("description", keyWord);
+        }
+        IPage<Order> orderIPage = orderService.page(new Page(pageNum, pageSize), orderQueryWrapper);
+        List<Order> orderList = orderIPage.getRecords();
+        List<Integer> orderIdList = orderList.stream().map(Order::getId).collect(Collectors.toList());
+        List<OrderGoods> orderGoodsList = orderGoodsService.getByOrderIdList(orderIdList);
+        List<OrderPVO> orderPVOList = OrderPVO.combine(orderList, orderGoodsList);
+        return super.getSuccessResult(orderPVOList, orderIPage.getCurrent(), orderIPage.getSize(), orderIPage.getTotal());
+    }
+
+
+    @LaundryOnly
+    @RequestMapping("/selectByLaundryId")
+    public String selectByLaundryId(@RequestParam(name = KEY_WORD_KEY, required = false, defaultValue = "") String keyWord,
+                                    @RequestParam(name = PAGE_SIZE_KEY, required = false, defaultValue = "20") int pageSize,
+                                    @RequestParam(name = PAGE_NUM_KEY, required = false, defaultValue = "1") int pageNum) {
+        if (!isLaundry()) {
+            return noAuth();
+        }
+        QueryWrapper<Order> orderQueryWrapper = new QueryWrapper<>();
+        orderQueryWrapper.eq("laundryId", getLaundryId());
+        if (StringUtils.isNotEmpty(keyWord)) {
+            orderQueryWrapper.like("code", keyWord)
+                    .or().like("description", keyWord);
+        }
         return super.getSuccessPage(orderService.page(new Page(pageNum, pageSize), orderQueryWrapper));
     }
 }

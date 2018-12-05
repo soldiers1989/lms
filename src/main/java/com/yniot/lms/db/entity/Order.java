@@ -1,28 +1,49 @@
 package com.yniot.lms.db.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.baomidou.mybatisplus.annotation.TableId;
+import java.time.LocalDateTime;
+import java.io.Serializable;
 
-import java.util.Date;
-
+/**
+ * <p>
+ * 
+ * </p>
+ *
+ * @author wanggl
+ * @since 2018-12-05
+ */
 @TableName("biz_order")
-public class Order {
-    @TableId(type = IdType.AUTO)
+public class Order extends Model<Order> {
+
+    private static final long serialVersionUID = 1L;
+
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
     private String code;
 
     private Integer userId;
 
-    private String openId;
+    private String userOpenId;
 
     private Integer laundryId;
 
+    /**
+     * 状态：0.创建订单  10.提交订单、未入柜 20.已入柜、待取货  30.已取货、待到店  40.已到店、待确认金额 50.已确认金额并付款、待清洁  60.清洁中 70.完成清洁、待送回  80.已送出、待放回  90.已放回、待取回  100.已取回、待评价 110.已评价（完成订单）
+     */
     private Integer state;
 
+    /**
+     * 备注
+     */
     private String description;
 
+    /**
+     * 0.未接单 1.已接单
+     */
     private Boolean accepted;
 
     private Boolean canceled;
@@ -31,21 +52,26 @@ public class Order {
 
     private Integer expireInMin;
 
-    private Date createTime;
+    private LocalDateTime createTime;
 
-    private Date commitTime;
+    private LocalDateTime commitTime;
 
-    private Date acceptedTime;
+    private LocalDateTime acceptedTime;
 
-    private Date canceledTime;
+    private LocalDateTime canceledTime;
 
-    private Date expiredTime;
+    private LocalDateTime expiredTime;
 
-    private Date finishedTime;
+    private LocalDateTime finishedTime;
 
     private Integer canceledBy;
 
     private Boolean deleted;
+
+    private Integer count;
+
+    private String laundryOpenId;
+
 
     public Integer getId() {
         return id;
@@ -60,7 +86,7 @@ public class Order {
     }
 
     public void setCode(String code) {
-        this.code = code == null ? null : code.trim();
+        this.code = code;
     }
 
     public Integer getUserId() {
@@ -71,12 +97,12 @@ public class Order {
         this.userId = userId;
     }
 
-    public String getOpenId() {
-        return openId;
+    public String getUserOpenId() {
+        return userOpenId;
     }
 
-    public void setOpenId(String openId) {
-        this.openId = openId == null ? null : openId.trim();
+    public void setUserOpenId(String userOpenId) {
+        this.userOpenId = userOpenId;
     }
 
     public Integer getLaundryId() {
@@ -100,7 +126,7 @@ public class Order {
     }
 
     public void setDescription(String description) {
-        this.description = description == null ? null : description.trim();
+        this.description = description;
     }
 
     public Boolean getAccepted() {
@@ -135,54 +161,53 @@ public class Order {
         this.expireInMin = expireInMin;
     }
 
-    public Date getCreateTime() {
+    public LocalDateTime getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
     }
 
-    public Date getCommitTime() {
+    public LocalDateTime getCommitTime() {
         return commitTime;
     }
 
-    public void setCommitTime(Date commitTime) {
+    public void setCommitTime(LocalDateTime commitTime) {
         this.commitTime = commitTime;
     }
 
-    public Date getAcceptedTime() {
+    public LocalDateTime getAcceptedTime() {
         return acceptedTime;
     }
 
-    public void setAcceptedTime(Date acceptedTime) {
+    public void setAcceptedTime(LocalDateTime acceptedTime) {
         this.acceptedTime = acceptedTime;
     }
 
-    public Date getCanceledTime() {
+    public LocalDateTime getCanceledTime() {
         return canceledTime;
     }
 
-    public void setCanceledTime(Date canceledTime) {
+    public void setCanceledTime(LocalDateTime canceledTime) {
         this.canceledTime = canceledTime;
     }
 
-    public Date getExpiredTime() {
+    public LocalDateTime getExpiredTime() {
         return expiredTime;
     }
 
-    public void setExpiredTime(Date expiredTime) {
+    public void setExpiredTime(LocalDateTime expiredTime) {
         this.expiredTime = expiredTime;
     }
 
-    public Date getFinishedTime() {
+    public LocalDateTime getFinishedTime() {
         return finishedTime;
     }
 
-    public void setFinishedTime(Date finishedTime) {
+    public void setFinishedTime(LocalDateTime finishedTime) {
         this.finishedTime = finishedTime;
     }
-
 
     public Integer getCanceledBy() {
         return canceledBy;
@@ -198,5 +223,53 @@ public class Order {
 
     public void setDeleted(Boolean deleted) {
         this.deleted = deleted;
+    }
+
+    public Integer getCount() {
+        return count;
+    }
+
+    public void setCount(Integer count) {
+        this.count = count;
+    }
+
+    public String getLaundryOpenId() {
+        return laundryOpenId;
+    }
+
+    public void setLaundryOpenId(String laundryOpenId) {
+        this.laundryOpenId = laundryOpenId;
+    }
+
+    @Override
+    protected Serializable pkVal() {
+        return this.id;
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+        "id=" + id +
+        ", code=" + code +
+        ", userId=" + userId +
+        ", userOpenId=" + userOpenId +
+        ", laundryId=" + laundryId +
+        ", state=" + state +
+        ", description=" + description +
+        ", accepted=" + accepted +
+        ", canceled=" + canceled +
+        ", expired=" + expired +
+        ", expireInMin=" + expireInMin +
+        ", createTime=" + createTime +
+        ", commitTime=" + commitTime +
+        ", acceptedTime=" + acceptedTime +
+        ", canceledTime=" + canceledTime +
+        ", expiredTime=" + expiredTime +
+        ", finishedTime=" + finishedTime +
+        ", canceledBy=" + canceledBy +
+        ", deleted=" + deleted +
+        ", count=" + count +
+        ", laundryOpenId=" + laundryOpenId +
+        "}";
     }
 }

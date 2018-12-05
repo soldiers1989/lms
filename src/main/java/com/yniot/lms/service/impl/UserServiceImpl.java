@@ -50,5 +50,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         return 0;
     }
 
+    @Override
+    public String getOpenIdByLaundryId(int laundryId) {
+        return getOpenIdByLaundryId(laundryId);
+    }
+
 
 }

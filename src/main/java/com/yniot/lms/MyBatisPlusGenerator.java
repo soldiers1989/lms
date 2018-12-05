@@ -22,7 +22,10 @@ public class MyBatisPlusGenerator {
         Map<String, String> table = new HashMap<>();
 
         //直接在这里添加表名和前缀即可,key为表名,value为前缀
-        table.put("biz_order_state_history", "biz_");
+//        table.put("biz_order", "biz_");
+        table.put("biz_wardrobe", "biz_");
+//        table.put("biz_order_goods", "biz_");
+//        table.put("biz_order", "biz_");
 //        table.put("biz_income_history", "biz_");
 
         MyBatisPlusGenerator myBatisPlusGenerator = new MyBatisPlusGenerator();
@@ -54,9 +57,10 @@ public class MyBatisPlusGenerator {
         //4. 包名策略配置
         PackageConfig pkConfig = new PackageConfig();
         pkConfig.setParent("com.yniot.lms")
-                .setMapper("db.dao")//dao
-                .setService("service")//servcie
-                .setController("controller")//controller
+                .setMapper("db.dao_")//dao
+                .setService("service_")//servcie
+                .setServiceImpl("service_.impl")//
+                .setController("controller_")//controller
                 .setEntity("db.entity");//mapper.xml
 
 
@@ -64,11 +68,11 @@ public class MyBatisPlusGenerator {
 
 
         while (keySet.hasNext()) {
-        AutoGenerator ag = new AutoGenerator();
-        ag.setGlobalConfig(config)
-                .setDataSource(dsConfig)
-                .setPackageInfo(pkConfig);
-        //3. 策略配置globalConfiguration中
+            AutoGenerator ag = new AutoGenerator();
+            ag.setGlobalConfig(config)
+                    .setDataSource(dsConfig)
+                    .setPackageInfo(pkConfig);
+            //3. 策略配置globalConfiguration中
             String tableName = keySet.next();
             String prefix = table.get(tableName);
             StrategyConfig stConfig = new StrategyConfig();

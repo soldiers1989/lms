@@ -48,7 +48,7 @@ logging:
 #      logic-not-delete-value: false # 逻辑删除
 wechat:
   auth:
-    path:wwww
+    path:wechat
   smallapp:
     configs:
     - appid: wx935f4f8a4ba9454b

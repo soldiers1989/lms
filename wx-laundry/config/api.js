@@ -42,7 +42,6 @@ module.exports = {
     AddressSave: API_BASE_URL + 'address/save',  //保存收货地址
     AddressDelete: API_BASE_URL + 'address/delete',  //删除收货地址
     RegionList: API_BASE_URL + 'region/list',  //获取区域列表
-    OrderList: API_BASE_URL + 'order/list',  //订单列表
     OrderDetail: API_BASE_URL + 'order/detail',  //订单详情
     OrderCancel: API_BASE_URL + 'order/cancelOrder',  //取消订单
     OrderConfirm: API_BASE_URL + 'order/confirmOrder',  //确认收货
@@ -72,6 +71,7 @@ module.exports = {
     GetMobileNo: "http://localhost:8080/" + APP_ID + '/SmallAppApi/phone', //绑定手机
     GetWardrobe: "http://localhost:8080/" + 'wardrobe/selectNearest', //
     WardrobeChecked: "http://localhost:8080/" + 'wardrobe/selectNearest', //
+    OrderList: "http://localhost:8080/" + 'order/selectByUserId',  //订单列表
     CommitOrder: "http://localhost:8080/" + 'order/commit', //
     Login: "http://localhost:8080/" + '/user/login', //账号登录
 };

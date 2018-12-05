@@ -32,6 +32,28 @@ public class CellServiceImpl extends ServiceImpl<CellMapper, Cell> implements Ce
     }
 
     @Override
+    public Cell getAvailableCell(int wardrobeId) {
+        List<Cell> cellList = getCellListByWardrobeId(wardrobeId);
+        Cell cell = null;
+        if (cellList != null && !cellList.isEmpty()) {
+            cell = cellList.get(0);
+        }
+        return cell;
+    }
+
+    @Override
+    public int getAvailableCellId(int wardrobeId) {
+        Cell cell = getAvailableCell(wardrobeId);
+        return cell != null ? cell.getId() : -1;
+    }
+
+    @Override
+    public int getAvailableCellNum(int wardrobeId) {
+        List<Cell> cellList = getCellListByWardrobeId(wardrobeId);
+        return cellList != null ? cellList.size() : 0;
+    }
+
+    @Override
     public boolean usedCell(int cellId, int orderId) {
         QueryWrapper<Cell> cellQueryWrapper = new QueryWrapper<>();
         cellQueryWrapper.eq("id", cellId);

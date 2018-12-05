@@ -1,6 +1,7 @@
 package com.yniot.lms.utils;
 
 import com.alibaba.fastjson.JSONObject;
+import com.yniot.lms.service.OrderService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.util.DigestUtils;
@@ -13,6 +14,10 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -535,6 +540,49 @@ public class CommonUtil {
             ParsePosition pos = new ParsePosition(8);
             java.util.Date currentTime_2 = formatter.parse(dateString, pos);
             return currentTime_2;
+        }
+
+
+        public static Timestamp localDateTimeToTimestamp(LocalDateTime localDateTime) {
+            return Timestamp.valueOf(localDateTime);
+        }
+
+        public static LocalDateTime timestampToLocalDateTime(long timestamp) {
+            Instant instant = Instant.ofEpochMilli(timestamp);
+            ZoneId zone = ZoneId.systemDefault();
+            return LocalDateTime.ofInstant(instant, zone);
+        }
+
+
+        public static LocalDateTime nowMinusMs(long ms) {
+            return timestampToLocalDateTime(LocalDateTime.now().toInstant(ZoneOffset.of("+8")).toEpochMilli() - ms);
+        }
+
+        public static LocalDateTime nowMinusSecond(long second) {
+            return timestampToLocalDateTime(LocalDateTime.now().toInstant(ZoneOffset.of("+8")).toEpochMilli() - second * 1000);
+        }
+
+        public static LocalDateTime nowPlusMs(long ms) {
+            return timestampToLocalDateTime(LocalDateTime.now().toInstant(ZoneOffset.of("+8")).toEpochMilli() + ms);
+        }
+
+        public static LocalDateTime nowPlusSecond(long second) {
+            return timestampToLocalDateTime(LocalDateTime.now().toInstant(ZoneOffset.of("+8")).toEpochMilli() + second * 1000);
+        }
+
+
+        public static LocalDateTime plusSecond(LocalDateTime localDateTime, long second) {
+            return timestampToLocalDateTime(localDateTime.toInstant(ZoneOffset.of("+8")).toEpochMilli() + second * 1000);
+        }
+
+
+        public static boolean gt(LocalDateTime localDateTime1, LocalDateTime localDateTime2, long second) {
+            LocalDateTime temp = plusSecond(localDateTime2, second);
+            return localDateTime1.isAfter(temp);
+        }
+
+        public static LocalDateTime minusSecond(LocalDateTime localDateTime, long second) {
+            return timestampToLocalDateTime(localDateTime.toInstant(ZoneOffset.of("+8")).toEpochMilli() - second * 1000);
         }
 
         /**

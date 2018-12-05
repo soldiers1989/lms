@@ -8,6 +8,7 @@ import com.yniot.lms.enums.UserTypeEnum;
 import com.yniot.lms.security.CustomSessionKey;
 import com.yniot.lms.service.UserService;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
@@ -122,7 +123,7 @@ public class BaseController {
             this.result.put(TOTAL_NUM_KEY, totalNum);
         } else {
             logger.info("errorMessage:[" + errorMessage + "]");
-            this.result.put(ERROR_MSG_KEY, errorMessage != null && errorMessage.isEmpty() ? DEFAULT_ERROR_MSG : errorMessage);
+            this.result.put(ERROR_MSG_KEY, StringUtils.isEmpty(errorMessage) ? DEFAULT_ERROR_MSG : errorMessage);
         }
         this.result.put(RESULT_KEY, successFlag);
         return JSONObject.toJSONString(this.result, SerializerFeature.WriteMapNullValue);
@@ -162,6 +163,18 @@ public class BaseController {
     }
 
     public int getId() {
+//        return getUser().getId();
+        return 1;
+
+    }
+
+    public String getOpenId() {
+//        return getUser().getOpenId();
+        return "oaend0YgraAE8JpUNSt4YN4tvZEk";
+
+    }
+
+    public int getLaundryId() {
 //        return getUser().getId();
         return 1;
 

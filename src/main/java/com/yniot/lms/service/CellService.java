@@ -21,4 +21,10 @@ public interface CellService extends IService<Cell> {
     boolean releaseCellByCellId(int cellId);
 
     boolean releaseCellByOrderId(int orderId);
+
+    int getAvailableCellId(int wardrobeId);
+
+    int getAvailableCellNum(int wardrobeId);
+
+    Cell getAvailableCell(int wardrobeId);
 }

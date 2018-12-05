@@ -30,4 +30,15 @@ public class OrderStateHistoryServiceImpl extends ServiceImpl<OrderStateHistoryM
         orderStateHistory.setDeleted(false);
         return super.save(orderStateHistory);
     }
+
+    @Override
+    public boolean saveOrderState(int orderId, int state, Integer userId) {
+        OrderStateHistory orderStateHistory = new OrderStateHistory();
+        orderStateHistory.setOrderId(orderId);
+        orderStateHistory.setState(state);
+        orderStateHistory.setModifier(userId);
+        orderStateHistory.setCreateTime(LocalDateTime.now());
+        orderStateHistory.setDeleted(false);
+        return super.save(orderStateHistory);
+    }
 }

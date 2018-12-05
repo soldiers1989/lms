@@ -76,6 +76,10 @@ Page({
             }
         });
     },
+
+    isCellAvailable: function (wardrobeId) {
+
+    },
     commitOrder: function () {
         let that = this;
         wx.showModal({

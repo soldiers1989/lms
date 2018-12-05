@@ -15,4 +15,6 @@ public interface UserService extends IService<User> {
 
     User selectByAppIdNOpenId(String appId, String openId);
 
+    String getOpenIdByLaundryId(int laundryId);
+
 }

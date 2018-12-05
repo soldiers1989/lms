@@ -1,7 +1,6 @@
 package com.yniot.lms.controller.commonController;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 /**
  * @Author wanggl

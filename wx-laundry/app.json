@@ -34,7 +34,6 @@
     "pages/auth/mobile/mobile",
     "pages/shopping/selCoupon/selCoupon",
     "pages/auth/btnAuth/btnAuth",
-    "pages/wardrobe",
     "pages/wardrobe/wardrobe"
   ],
   "window": {

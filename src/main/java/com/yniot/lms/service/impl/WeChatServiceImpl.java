@@ -68,12 +68,15 @@ public class WeChatServiceImpl extends ServiceImpl<WeChatConfigMapper, WeChatCon
                 null, openId, LOGIN_MSG_TEMPLATE_ID, CommonUtil.Date.getNowDate(), host);
     }
 
+
     //客户.洗衣店
     @Override
     public void sendOrderGenerateNotice(String orderNo) throws WxErrorException {
         Order order = orderService.getByOrderCode(orderNo);
         this.sendWeChatMessage("你的订单已经生成", "订单生成通知",
-                null, order.getOpenId(), ORDER_GENERATED, orderNo);
+                null, order.getUserOpenId(), ORDER_GENERATED, orderNo);
+        this.sendWeChatMessage("有新的订单", "订单生成通知",
+                null, order.getLaundryOpenId(), ORDER_GENERATED, orderNo);
     }
 
 
@@ -82,7 +85,7 @@ public class WeChatServiceImpl extends ServiceImpl<WeChatConfigMapper, WeChatCon
     public void sendMailManTookNotice(String orderNo) throws WxErrorException {
         Order order = orderService.getByOrderCode(orderNo);
         this.sendWeChatMessage("配送员已经取货", "揽收通知",
-                null, order.getOpenId(), ORDER_GENERATED, orderNo);
+                null, order.getUserOpenId(), ORDER_GENERATED, orderNo);
     }
 
     //洗衣店
@@ -90,7 +93,7 @@ public class WeChatServiceImpl extends ServiceImpl<WeChatConfigMapper, WeChatCon
     public void sendUserTookNotice(String orderNo) throws WxErrorException {
         Order order = orderService.getByOrderCode(orderNo);
         this.sendWeChatMessage("客户已经取货", "客户取货通知",
-                null, order.getOpenId(), ORDER_GENERATED, orderNo);
+                null, order.getUserOpenId(), ORDER_GENERATED, orderNo);
     }
 
 
@@ -99,51 +102,57 @@ public class WeChatServiceImpl extends ServiceImpl<WeChatConfigMapper, WeChatCon
     public void sendMailManPutNotice(String orderNo) throws WxErrorException {
         Order order = orderService.getByOrderCode(orderNo);
         this.sendWeChatMessage("配送员已经送货完毕", "送货完毕通知",
-                null, order.getOpenId(), ORDER_GENERATED, orderNo);
+                null, order.getUserOpenId(), ORDER_GENERATED, orderNo);
     }
+
     //洗衣店
     @Override
     public void sendUserPutNotice(String orderNo) throws WxErrorException {
         Order order = orderService.getByOrderCode(orderNo);
         this.sendWeChatMessage("客户已经将衣物放入柜子", "衣物入柜通知",
-                null, order.getOpenId(), ORDER_GENERATED, orderNo);
+                null, order.getUserOpenId(), ORDER_GENERATED, orderNo);
     }
+
     //客户
     @Override
     public void sendCleanedNotice(String orderNo) throws WxErrorException {
         Order order = orderService.getByOrderCode(orderNo);
         this.sendWeChatMessage("您的衣物已经清洗完毕", "清洗完毕通知",
-                null, order.getOpenId(), CLEANED, orderNo);
+                null, order.getUserOpenId(), CLEANED, orderNo);
     }
+
     //洗衣店,客户
     @Override
     public void sendPaidSuccessNotice(String orderNo) throws WxErrorException {
         Order order = orderService.getByOrderCode(orderNo);
         this.sendWeChatMessage("你的订单支付成功", "支付成功通知",
-                null, order.getOpenId(), PAID_NOTICE, orderNo);
+                null, order.getUserOpenId(), PAID_NOTICE, orderNo);
     }
+
     //客户
     @Override
     public void sendPaidFailedNotice(String orderNo) throws WxErrorException {
         Order order = orderService.getByOrderCode(orderNo);
         this.sendWeChatMessage("你的订单支付失败", "支付失败通知",
-                null, order.getOpenId(), PAID_NOTICE, orderNo);
+                null, order.getUserOpenId(), PAID_NOTICE, orderNo);
     }
+
     //客户
     @Override
     public void sendNeedPayNotice(String orderNo) throws WxErrorException {
         Order order = orderService.getByOrderCode(orderNo);
         this.sendWeChatMessage("你的账单已经生成,请将尽快支付", "账单生成通知",
-                null, order.getOpenId(), PAY_NOTICE, orderNo);
+                null, order.getUserOpenId(), PAY_NOTICE, orderNo);
 
     }
+
     //洗衣店,客户
     @Override
     public void sendOrderCompleteNotice(String orderNo) throws WxErrorException {
         Order order = orderService.getByOrderCode(orderNo);
         if (order != null) {
             this.sendWeChatMessage("你的订单已经完成,谢谢光顾!", "订单完成通知",
-                    null, order.getOpenId(), PAY_NOTICE, orderNo);
+                    null, order.getUserOpenId(), PAY_NOTICE, orderNo);
         }
 
     }

@@ -13,7 +13,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author wanggl
- * @since 2018-12-04
+ * @since 2018-12-05
  */
 @TableName("biz_wardrobe")
 public class Wardrobe extends Model<Wardrobe> {
@@ -52,6 +52,8 @@ public class Wardrobe extends Model<Wardrobe> {
     private String laundryImgUrl;
 
     private String laundryName;
+
+    private Integer avaCellNum;
 
 
     public Integer getId() {
@@ -182,6 +184,14 @@ public class Wardrobe extends Model<Wardrobe> {
         this.laundryName = laundryName;
     }
 
+    public Integer getAvaCellNum() {
+        return avaCellNum;
+    }
+
+    public void setAvaCellNum(Integer avaCellNum) {
+        this.avaCellNum = avaCellNum;
+    }
+
     @Override
     protected Serializable pkVal() {
         return this.id;
@@ -206,6 +216,7 @@ public class Wardrobe extends Model<Wardrobe> {
         ", creator=" + creator +
         ", laundryImgUrl=" + laundryImgUrl +
         ", laundryName=" + laundryName +
+        ", avaCellNum=" + avaCellNum +
         "}";
     }
 }

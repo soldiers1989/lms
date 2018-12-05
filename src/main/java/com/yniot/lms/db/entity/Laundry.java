@@ -1,9 +1,27 @@
 package com.yniot.lms.db.entity;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.baomidou.mybatisplus.annotation.TableId;
+import java.time.LocalDateTime;
+import java.io.Serializable;
 
-public class Laundry {
+/**
+ * <p>
+ * 
+ * </p>
+ *
+ * @author wanggl
+ * @since 2018-12-05
+ */
+@TableName("biz_laundry")
+public class Laundry extends Model<Laundry> {
+
+    private static final long serialVersionUID = 1L;
+
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
     private String address;
@@ -18,9 +36,9 @@ public class Laundry {
 
     private Boolean asap;
 
-    private Date modifyTime;
+    private LocalDateTime modifyTime;
 
-    private Date createTime;
+    private LocalDateTime createTime;
 
     private String description;
 
@@ -29,6 +47,13 @@ public class Laundry {
     private Boolean inBiz;
 
     private Boolean autoAccept;
+
+    private String name;
+
+    private String imgUrl;
+
+    private String openId;
+
 
     public Integer getId() {
         return id;
@@ -43,7 +68,7 @@ public class Laundry {
     }
 
     public void setAddress(String address) {
-        this.address = address == null ? null : address.trim();
+        this.address = address;
     }
 
     public String getPhone() {
@@ -51,7 +76,7 @@ public class Laundry {
     }
 
     public void setPhone(String phone) {
-        this.phone = phone == null ? null : phone.trim();
+        this.phone = phone;
     }
 
     public String getQrCode() {
@@ -59,7 +84,7 @@ public class Laundry {
     }
 
     public void setQrCode(String qrCode) {
-        this.qrCode = qrCode == null ? null : qrCode.trim();
+        this.qrCode = qrCode;
     }
 
     public Boolean getDeleted() {
@@ -86,19 +111,19 @@ public class Laundry {
         this.asap = asap;
     }
 
-    public Date getModifyTime() {
+    public LocalDateTime getModifyTime() {
         return modifyTime;
     }
 
-    public void setModifyTime(Date modifyTime) {
+    public void setModifyTime(LocalDateTime modifyTime) {
         this.modifyTime = modifyTime;
     }
 
-    public Date getCreateTime() {
+    public LocalDateTime getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
     }
 
@@ -107,7 +132,7 @@ public class Laundry {
     }
 
     public void setDescription(String description) {
-        this.description = description == null ? null : description.trim();
+        this.description = description;
     }
 
     public Boolean getContractSigned() {
@@ -132,5 +157,56 @@ public class Laundry {
 
     public void setAutoAccept(Boolean autoAccept) {
         this.autoAccept = autoAccept;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
+
+    public String getOpenId() {
+        return openId;
+    }
+
+    public void setOpenId(String openId) {
+        this.openId = openId;
+    }
+
+    @Override
+    protected Serializable pkVal() {
+        return this.id;
+    }
+
+    @Override
+    public String toString() {
+        return "Laundry{" +
+        "id=" + id +
+        ", address=" + address +
+        ", phone=" + phone +
+        ", qrCode=" + qrCode +
+        ", deleted=" + deleted +
+        ", totalIncome=" + totalIncome +
+        ", asap=" + asap +
+        ", modifyTime=" + modifyTime +
+        ", createTime=" + createTime +
+        ", description=" + description +
+        ", contractSigned=" + contractSigned +
+        ", inBiz=" + inBiz +
+        ", autoAccept=" + autoAccept +
+        ", name=" + name +
+        ", imgUrl=" + imgUrl +
+        ", openId=" + openId +
+        "}";
     }
 }

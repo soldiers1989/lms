@@ -44,7 +44,7 @@ public class CustomInterceptor implements HandlerInterceptor {
         response.setHeader("Access-Control-Allow-Origin", StringUtils.isEmpty(origin) ? "*" : origin);
         response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE, PUT, PATCH");
         response.setHeader("Access-Control-Max-Age", "0");
-        response.setHeader("Access-Control-Allow-Headers", "Origin, No-Cache, X-Requested-With, If-Modified-Since, Pragma, Last-Modified, Cache-Control, Expires, Content-Type, X-E4M-With,userId,token");
+        response.setHeader("Access-Control-Allow-Headers", "Origin, application/x-www-form-urlencoded;charset=UTF-8,No-Cache, X-Requested-With, If-Modified-Since, Pragma, Last-Modified, Cache-Control, Expires, Content-Type, X-E4M-With,userId,token");
         response.setHeader("Access-Control-Allow-Credentials", "true");
         response.setHeader("XDomainRequestAllowed", "1");
         if (handler instanceof HandlerMethod) {

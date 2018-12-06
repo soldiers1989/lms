@@ -1,6 +1,5 @@
 package com.yniot.lms.task;
 
-import com.yniot.lms.enums.OrderStateEnum;
 import com.yniot.lms.service.OrderService;
 import com.yniot.lms.service.WardrobeService;
 import org.apache.log4j.Logger;
@@ -20,13 +19,13 @@ public class TimerTask {
     @Autowired
     WardrobeService wardrobeService;
 
+
     @Scheduled(cron = "0 0/1 * * * ? ")
     public void logCacheKeys() {
         //标记超时订单
-        orderService.markExpiredOrder();
+//        orderService.markExpiredOrder();
         //更新柜子的可用格子数
-        wardrobeService.updateAllCellNum();
+//        wardrobeService.updateAllCellNum();
     }
-
 
 }

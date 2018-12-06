@@ -1,6 +1,7 @@
 import axios from "axios";
 import {Notification} from "element-ui";
 import store from "../store";
+import qs from 'qs';
 
 require("../mock");
 
@@ -25,6 +26,11 @@ const codeMessage = {
 axios.interceptors.request.use(
     config => {
         const requestConfig = config;
+        //axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+        // if (requestConfig.method == "post") {
+        // requestConfig.data = qs.stringify(requestConfig.data);
+        // requestConfig.headers['Content-Type'] = 'application/json';
+        // }
         if (store.state.token) {
             requestConfig.headers.Authorization = `Bearer ${store.state.token}`;
         }

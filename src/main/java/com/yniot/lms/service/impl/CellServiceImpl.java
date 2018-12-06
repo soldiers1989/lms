@@ -55,33 +55,33 @@ public class CellServiceImpl extends ServiceImpl<CellMapper, Cell> implements Ce
 
     @Override
     public boolean usedCell(int cellId, int orderId) {
-        QueryWrapper<Cell> cellQueryWrapper = new QueryWrapper<>();
-        cellQueryWrapper.eq("id", cellId);
-        Cell cell = super.getOne(cellQueryWrapper);
-        cell.setInUsed(true);
-        cell.setOrderId(orderId);
-        return super.saveOrUpdate(cell);
+        return baseMapper.usedCell(cellId, orderId) > 0;
     }
 
     @Override
     public boolean releaseCellByCellId(int cellId) {
-        QueryWrapper<Cell> cellQueryWrapper = new QueryWrapper<>();
-        cellQueryWrapper.eq("id", cellId);
-        Cell cell = super.getOne(cellQueryWrapper);
-        cell.setInUsed(false);
-        cell.setOrderId(null);
-        return super.saveOrUpdate(cell);
+//        QueryWrapper<Cell> cellQueryWrapper = new QueryWrapper<>();
+//        cellQueryWrapper.eq("id", cellId);
+//        Cell cell = super.getOne(cellQueryWrapper);
+//        cell.setInUsed(false);
+//        cell.setOrderId(null);
+        return baseMapper.releaseCellByCellId(cellId) > 0;
     }
 
     @Override
     public boolean releaseCellByOrderId(int orderId) {
-        QueryWrapper<Cell> cellQueryWrapper = new QueryWrapper<>();
-        cellQueryWrapper.eq("order_id", orderId);
-        List<Cell> cellList = super.list(cellQueryWrapper);
-        for (Cell cell : cellList) {
-            cell.setInUsed(false);
-            cell.setOrderId(null);
-        }
-        return super.saveOrUpdateBatch(cellList);
+//        QueryWrapper<Cell> cellQueryWrapper = new QueryWrapper<>();
+//        cellQueryWrapper.eq("order_id", orderId);
+//        List<Cell> cellList = super.list(cellQueryWrapper);
+//        for (Cell cell : cellList) {
+//            cell.setInUsed(false);
+//            cell.setOrderId(null);
+//        }
+        return baseMapper.releaseCellByOrderId(orderId) > 0;
+    }
+
+    @Override
+    public void refreshCell() {
+        baseMapper.refreshCellState();
     }
 }

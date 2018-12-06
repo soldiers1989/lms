@@ -27,4 +27,6 @@ public interface CellService extends IService<Cell> {
     int getAvailableCellNum(int wardrobeId);
 
     Cell getAvailableCell(int wardrobeId);
+
+    void refreshCell();
 }

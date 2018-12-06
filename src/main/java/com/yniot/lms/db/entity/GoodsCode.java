@@ -4,12 +4,13 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.annotation.TableId;
+
 import java.time.LocalDateTime;
 import java.io.Serializable;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author wanggl
@@ -35,6 +36,16 @@ public class GoodsCode extends Model<GoodsCode> {
     private LocalDateTime createTime;
 
     private LocalDateTime modifyTime;
+
+    public Integer getOrderGoodsId() {
+        return orderGoodsId;
+    }
+
+    public void setOrderGoodsId(Integer orderGoodsId) {
+        this.orderGoodsId = orderGoodsId;
+    }
+
+    private Integer orderGoodsId;
 
     /**
      * 0.可用 1.使用中  1
@@ -126,15 +137,16 @@ public class GoodsCode extends Model<GoodsCode> {
     @Override
     public String toString() {
         return "GoodsCode{" +
-        "id=" + id +
-        ", laundryId=" + laundryId +
-        ", uniqueCode=" + uniqueCode +
-        ", description=" + description +
-        ", createTime=" + createTime +
-        ", modifyTime=" + modifyTime +
-        ", used=" + used +
-        ", deleted=" + deleted +
-        ", orderId=" + orderId +
-        "}";
+                "id=" + id +
+                ", laundryId=" + laundryId +
+                ", uniqueCode=" + uniqueCode +
+                ", description=" + description +
+                ", createTime=" + createTime +
+                ", modifyTime=" + modifyTime +
+                ", used=" + used +
+                ", orderGoodsId=" + orderGoodsId +
+                ", deleted=" + deleted +
+                ", orderId=" + orderId +
+                "}";
     }
 }

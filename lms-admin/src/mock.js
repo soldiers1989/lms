@@ -96,6 +96,16 @@ const queryUserAuthority = () => ({
             lft: 11,
             rgt: 12,
             depth: 2
+        },
+        {
+            menuId: 11,
+            menuName: "编码列表",
+            menuCode: "codeList",
+            link: "/laundry/codeList",
+            icon: "el-icon-menu",
+            lft: 11,
+            rgt: 12,
+            depth: 2
         }
     ],
     authorities: [

@@ -10,6 +10,7 @@ import "./registerServiceWorker";
 const moment = require("moment");
 require("moment/locale/zh-cn");
 
+
 Vue.config.productionTip = false;
 Vue.use(require("vue-moment"), { moment });
 Vue.use(ElementUI);

@@ -15,10 +15,10 @@ import org.apache.ibatis.annotations.Update;
  */
 public interface GoodsCodeMapper extends CommonMapper<GoodsCode> {
 
-    @Select("select count(1) from biz_goods_code where uniqueCode = #{code}")
+    @Select("select count(1) from biz_goods_code where unique_code = #{code}")
     int isExists(String code);
 
-    @Update("update biz_goods_code set used = #{state} ,order_id = #{orderId},modify_time=sysdate() where uniqueCode = #{code}")
+    @Update("update biz_goods_code set used = #{state} ,order_id = #{orderId},modify_time=sysdate() where unique_code = #{code}")
     int setState(String code, int state, int orderId);
 
 }

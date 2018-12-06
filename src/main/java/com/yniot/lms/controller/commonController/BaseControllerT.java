@@ -11,7 +11,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 public class BaseControllerT<T> extends BaseController {
 
     public String getSuccessPage(IPage<T> page) {
-        return super.getSuccessResult(page.getRecords(), page.getPages(), page.getSize(), page.getTotal());
+        return super.getSuccessResult(page.getRecords(), page.getCurrent(), page.getSize(), page.getTotal());
     }
 
 }

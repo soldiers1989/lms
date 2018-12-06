@@ -78,20 +78,20 @@ const queryUserAuthority = () => ({
             depth: 2
         },
         {
-            menuId: 7,
-            menuName: "主数据管理",
-            menuCode: "mdm",
-            link: "/mdm",
+            menuId: 9,
+            menuName: "洗衣店",
+            menuCode: "laundry",
+            link: "/laundry",
             icon: "el-icon-menu",
             lft: 10,
             rgt: 13,
             depth: 1
         },
         {
-            menuId: 8,
-            menuName: "业务字典",
-            menuCode: "dict",
-            link: "/mdm/dict",
+            menuId: 10,
+            menuName: "订单列表",
+            menuCode: "orderList",
+            link: "/laundry/orderList",
             icon: "el-icon-menu",
             lft: 11,
             rgt: 12,

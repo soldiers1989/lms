@@ -267,7 +267,7 @@ public class OrderController extends BaseControllerT<Order> {
             return noAuth();
         }
         QueryWrapper<Order> orderQueryWrapper = new QueryWrapper<>();
-        orderQueryWrapper.eq("laundryId", getLaundryId());
+        orderQueryWrapper.eq("laundry_id", getLaundryId());
         if (StringUtils.isNotEmpty(keyWord)) {
             orderQueryWrapper.like("code", keyWord)
                     .or().like("description", keyWord);

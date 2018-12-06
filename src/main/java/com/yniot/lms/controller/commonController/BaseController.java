@@ -206,7 +206,7 @@ public class BaseController {
 
     public boolean isLaundry() {
         User user = this.getUser();
-        if (user.getUserType() == UserTypeEnum.LAUNDRY.getType()) {
+        if (user.getUserType() >= UserTypeEnum.LAUNDRY.getType()) {
             return true;
         }
         return false;

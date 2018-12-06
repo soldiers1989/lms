@@ -124,7 +124,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         }
         if (result) {
             //发送提示信息到商家微信和PC端
-//            weChatService.sendOrderGenerateNotice(order.getCode());
+            weChatService.sendOrderGenerateNotice(order.getCode());
             //保存订单状态
             orderStateHistoryService.saveOrderState(order.getId(), OrderStateEnum.COMMITTED.getState(), userId);
         }

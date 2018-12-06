@@ -204,8 +204,8 @@ public class WeChatServiceImpl extends ServiceImpl<WeChatConfigMapper, WeChatCon
             wxMpTemplateDataList.add(wxMpTemplateDataTemp);
         }
         wxMpTemplateMessage.setData(wxMpTemplateDataList);
-        String result = wxMpService.getTemplateMsgService().sendTemplateMsg(wxMpTemplateMessage);
-        logger.info("推送结果:" + result);
+//        String result = wxMpService.getTemplateMsgService().sendTemplateMsg(wxMpTemplateMessage);
+//        logger.info("推送结果:" + result);
     }
 
 

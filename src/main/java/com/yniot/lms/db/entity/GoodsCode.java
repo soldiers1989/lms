@@ -1,21 +1,50 @@
 package com.yniot.lms.db.entity;
 
-import java.util.Date;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.baomidou.mybatisplus.annotation.TableId;
+import java.time.LocalDateTime;
+import java.io.Serializable;
 
-public class GoodsCode {
+/**
+ * <p>
+ * 
+ * </p>
+ *
+ * @author wanggl
+ * @since 2018-12-06
+ */
+@TableName("biz_goods_code")
+public class GoodsCode extends Model<GoodsCode> {
+
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * 洗衣店用于标记衣物的编码
+     */
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
     private Integer laundryId;
 
     private String uniqueCode;
 
-    private Boolean deleted;
-
     private String description;
 
-    private Date createTime;
+    private LocalDateTime createTime;
 
-    private Date modifyTime;
+    private LocalDateTime modifyTime;
+
+    /**
+     * 0.可用 1.使用中  1
+     */
+    private Boolean used;
+
+    private Boolean deleted;
+
+    private Integer orderId;
+
 
     public Integer getId() {
         return id;
@@ -38,7 +67,39 @@ public class GoodsCode {
     }
 
     public void setUniqueCode(String uniqueCode) {
-        this.uniqueCode = uniqueCode == null ? null : uniqueCode.trim();
+        this.uniqueCode = uniqueCode;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public LocalDateTime getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(LocalDateTime createTime) {
+        this.createTime = createTime;
+    }
+
+    public LocalDateTime getModifyTime() {
+        return modifyTime;
+    }
+
+    public void setModifyTime(LocalDateTime modifyTime) {
+        this.modifyTime = modifyTime;
+    }
+
+    public Boolean getUsed() {
+        return used;
+    }
+
+    public void setUsed(Boolean used) {
+        this.used = used;
     }
 
     public Boolean getDeleted() {
@@ -49,27 +110,31 @@ public class GoodsCode {
         this.deleted = deleted;
     }
 
-    public String getDescription() {
-        return description;
+    public Integer getOrderId() {
+        return orderId;
     }
 
-    public void setDescription(String description) {
-        this.description = description == null ? null : description.trim();
+    public void setOrderId(Integer orderId) {
+        this.orderId = orderId;
     }
 
-    public Date getCreateTime() {
-        return createTime;
+    @Override
+    protected Serializable pkVal() {
+        return this.id;
     }
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getModifyTime() {
-        return modifyTime;
-    }
-
-    public void setModifyTime(Date modifyTime) {
-        this.modifyTime = modifyTime;
+    @Override
+    public String toString() {
+        return "GoodsCode{" +
+        "id=" + id +
+        ", laundryId=" + laundryId +
+        ", uniqueCode=" + uniqueCode +
+        ", description=" + description +
+        ", createTime=" + createTime +
+        ", modifyTime=" + modifyTime +
+        ", used=" + used +
+        ", deleted=" + deleted +
+        ", orderId=" + orderId +
+        "}";
     }
 }

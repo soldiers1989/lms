@@ -67,17 +67,13 @@ public class OrderController extends BaseControllerT<Order> {
             return super.noAuth();
         }
         //是否已经过期
-        if (order.getState() == OrderStateEnum.COMMITTED.getState()) {
+        if (order.getState() >= OrderStateEnum.CANCELED.getState() && order.getState() < OrderStateEnum.ACCEPTED.getState()) {
             return super.expired();
         }
         //订单过期
         if (CommonUtil.Date.gt(LocalDateTime.now(), order.getCommitTime(), order.getExpireInMin() * 60)) {
             //设置订单过期
             orderService.expiredOrder(orderId);
-            //设置货物无效
-            orderGoodsService.cancelOrder(orderId);
-            //格子设置为可用,释放格子
-            cellService.releaseCellByOrderId(orderId);
             //保存状态
             orderStateHistoryService.saveOrderState(order, getId());
             return super.expired();

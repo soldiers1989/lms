@@ -58,6 +58,11 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 
     @Override
     public boolean expiredOrder(int orderId) {
+        //设置货物无效
+        orderGoodsService.cancelOrder(orderId);
+        //格子设置为可用,释放格子
+        cellService.releaseCellByOrderId(orderId);
+
         return baseMapper.updateState(orderId, OrderStateEnum.CANCELED.getState()) > 0;
     }
 

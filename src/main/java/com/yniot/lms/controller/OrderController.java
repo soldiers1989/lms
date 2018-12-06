@@ -22,8 +22,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -54,13 +52,7 @@ public class OrderController extends BaseControllerT<Order> {
     @RequestMapping("/commit")
     public String createOrder(int wardrobeId) throws WxErrorException {
         //获取用户
-        boolean result = orderService.generateOrder(getId(), getOpenId(), wardrobeId);
-
-        //5.生成二维码
-        if (result) {
-
-        }
-        return super.getSuccessResult(true);
+        return super.getSuccessResult(orderService.generateOrder(getId(), getOpenId(), wardrobeId));
     }
 
 

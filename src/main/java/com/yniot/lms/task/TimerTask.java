@@ -1,5 +1,6 @@
 package com.yniot.lms.task;
 
+import com.yniot.lms.enums.OrderStateEnum;
 import com.yniot.lms.service.OrderService;
 import com.yniot.lms.service.WardrobeService;
 import org.apache.log4j.Logger;
@@ -21,13 +22,11 @@ public class TimerTask {
 
     @Scheduled(cron = "0 0/1 * * * ? ")
     public void logCacheKeys() {
+        //标记超时订单
+        orderService.markExpiredOrder();
         //更新柜子的可用格子数
         wardrobeService.updateAllCellNum();
     }
 
 
-    private void markExpiredOrder() {// 每分钟查找过期的订单
-        int cnt = orderService.markExpiredOrder();
-        logger.info("过期的订单数量:[" + cnt + "]");
-    }
 }

@@ -23,7 +23,7 @@ public class MyBatisPlusGenerator {
 
         //直接在这里添加表名和前缀即可,key为表名,value为前缀
 //        table.put("biz_order", "biz_");
-        table.put("biz_order_shipment", "biz_");
+        table.put("biz_order", "biz_");
 //        table.put("biz_order_goods", "biz_");
 //        table.put("biz_order", "biz_");
 //        table.put("biz_income_history", "biz_");

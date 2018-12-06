@@ -1,19 +1,24 @@
 <view class="container">
     <view class="order-info">
         <view class="item-a">下单时间：{{orderInfo.commitTime}}</view>
+        <view class="item-a"  wx:if="{{orderInfo.state>=30 && orderInfo.state<40}}">取消时间：{{orderInfo.canceledTime}}</view>
         <view class="item-b">订单编号：{{orderInfo.code}}</view>
         <view class="item-c">
             <view class="r">
-                <view wx:if="{{orderInfo.handleOption.pay}}">
-                    <view class="btn" bindtap="cancelOrder">取消订单</view>
-                    <view class="btn active" bindtap="payOrder">去付款</view>
+                <view wx:if="{{orderInfo.state==10}}">
+                    <view class="btn">等待接单</view>
                 </view>
-                <view wx:elif="{{orderInfo.handleOption.confirm}}">
-                    <view class="btn" bindtap="cancelOrder">取消订单</view>
-                    <view class="btn active" bindtap="confirmOrder">确认收货</view>
+                <view wx:elif="{{orderInfo.state>=30 && orderInfo.state<40}}">
+                    <view class="btn">已取消</view>
                 </view>
-                <view wx:else>
-                    <view class="btn active" bindtap="cancelOrder">取消订单</view>
+                <view wx:elif="{{orderShipment.state==42}}"><!--待存放-->
+                    <view class="btn active" bindtap="storageGoods">放入柜子</view>
+                </view>
+                <view wx:elif="{{orderInfo.state==55}}"><!--待付款-->
+                    <view class="btn active">付款</view>
+                </view>
+                <view wx:elif="{{orderShipment.state==70}}"><!--待付款-->
+                    <view class="btn active">取走衣物</view>
                 </view>
             </view>
         </view>
@@ -33,8 +38,8 @@
                         <text class="name">{{item.name}}</text>
                         <text class="number">x{{item.count}}</text>
                     </view>
-                    <view class="price">预计价格:￥{{item.estTotalCost}}</view>
-                    <view class="price">实际价格:￥{{item.actTotalCost}}</view>
+                    <view class="price">预计:￥{{item.estTotalCost}}</view>
+                    <!--<view class="price">实际:￥{{item.actTotalCost}}</view>-->
                 </view>
             </view>
         </view>
@@ -43,7 +48,7 @@
     <view class="order-bottom">
         <view class="address">
             <view class="t">
-                <text class="name">{{orderShipment.state}}</text>
+                <!--<text class="name">{{orderShipment.state}}</text>-->
                 <text class="mobile">{{orderShipment.phone}}</text>
             </view>
             <view class="b">{{orderShipment.address}}</view>
@@ -58,10 +63,10 @@
                 <text class="txt">￥{{orderCost.actTotalCost}}</text>
             </view>
         </view>
-        <view class="pay-fee">
+        <view class="pay-fee" wx:if="{{orderInfo.state>55}}">
             <text class="label">实付：</text>
             <text class="txt">￥{{orderCost.actPaidCost}}</text>
-            <text class="txt">折扣{{orderCost.discount}}</text>
+            <text class="txt">折扣:{{orderCost.discount}}%</text>
         </view>
     </view>
 </view>

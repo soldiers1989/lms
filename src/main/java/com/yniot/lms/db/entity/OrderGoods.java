@@ -53,8 +53,6 @@ public class OrderGoods extends Model<OrderGoods> {
      */
     private Integer state;
 
-    private Boolean canceled;
-
     private Integer goodsId;
 
     private BigDecimal estTotalCost;
@@ -162,14 +160,6 @@ public class OrderGoods extends Model<OrderGoods> {
         this.state = state;
     }
 
-    public Boolean getCanceled() {
-        return canceled;
-    }
-
-    public void setCanceled(Boolean canceled) {
-        this.canceled = canceled;
-    }
-
     public Integer getGoodsId() {
         return goodsId;
     }
@@ -261,7 +251,6 @@ public class OrderGoods extends Model<OrderGoods> {
         ", count=" + count +
         ", code=" + code +
         ", state=" + state +
-        ", canceled=" + canceled +
         ", goodsId=" + goodsId +
         ", estTotalCost=" + estTotalCost +
         ", actTotalCost=" + actTotalCost +

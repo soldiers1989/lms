@@ -173,6 +173,12 @@ Page({
         });
 
     },
+    storageGoods() {
+
+    },
+    getGoods() {
+
+    },
     confirmOrder() {
 //确认收货
         let that = this;

@@ -46,7 +46,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 
     @Override
     public int markExpiredOrder() {
-        return baseMapper.markExpiredOrder();
+        return baseMapper.markExpiredOrder(OrderStateEnum.CANCELED_TIMEOUT.getState());
     }
 
     @Override
@@ -58,7 +58,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 
     @Override
     public boolean expiredOrder(int orderId) {
-        return expiredOrder(orderId);
+        return baseMapper.updateState(orderId, OrderStateEnum.CANCELED.getState()) > 0;
     }
 
     public boolean removeByCode(String orderCode) {
@@ -100,11 +100,11 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
             order.setUserId(userId);
             order.setState(OrderStateEnum.COMMITTED.getState());
             order.setCommitTime(now);
-            order.setExpired(false);
             order.setLaundryId(laundryId);
             order.setExpiredTime(CommonUtil.Date.plusSecond(now, OrderService.EXPIRED_IN_MIN * 60));
             order.setCreateTime(now);
             order.setUserOpenId(openId);
+            order.setWardrobeId(wardrobeId);
             order.setLaundryOpenId(laundry.getOpenId());
             for (Cart cart : cartList) {
                 int count = cart.getCount();
@@ -121,10 +121,6 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         if (result) {
             //清空购物车
             cartService.cleanMyCart(userId);
-        }
-        if (result) {
-            //更新物流信息
-            orderShipmentService.create(order.getId(), wardrobeId, userId);
         }
         if (result) {
             //发送提示信息到商家微信和PC端

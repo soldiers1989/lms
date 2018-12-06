@@ -4,12 +4,13 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.annotation.TableId;
+
 import java.time.LocalDateTime;
 import java.io.Serializable;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author wanggl
@@ -27,13 +28,20 @@ public class Order extends Model<Order> {
 
     private Integer userId;
 
+    public Integer getWardrobeId() {
+        return wardrobeId;
+    }
+
+    public void setWardrobeId(Integer wardrobeId) {
+        this.wardrobeId = wardrobeId;
+    }
+
+    private Integer wardrobeId;
+
     private String userOpenId;
 
     private Integer laundryId;
 
-    /**
-     * 状态：0.创建订单  10.提交订单、未入柜 20.已入柜、待取货  30.已取货、待到店  40.已到店、待确认金额 50.已确认金额并付款、待清洁  60.清洁中 70.完成清洁、待送回  80.已送出、待放回  90.已放回、待取回  100.已取回、待评价 110.已评价（完成订单）
-     */
     private Integer state;
 
     /**
@@ -44,12 +52,6 @@ public class Order extends Model<Order> {
     /**
      * 0.未接单 1.已接单
      */
-    private Boolean accepted;
-
-    private Boolean canceled;
-
-    private Boolean expired;
-
     private Integer expireInMin;
 
     private LocalDateTime createTime;
@@ -127,30 +129,6 @@ public class Order extends Model<Order> {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public Boolean getAccepted() {
-        return accepted;
-    }
-
-    public void setAccepted(Boolean accepted) {
-        this.accepted = accepted;
-    }
-
-    public Boolean getCanceled() {
-        return canceled;
-    }
-
-    public void setCanceled(Boolean canceled) {
-        this.canceled = canceled;
-    }
-
-    public Boolean getExpired() {
-        return expired;
-    }
-
-    public void setExpired(Boolean expired) {
-        this.expired = expired;
     }
 
     public Integer getExpireInMin() {
@@ -249,27 +227,25 @@ public class Order extends Model<Order> {
     @Override
     public String toString() {
         return "Order{" +
-        "id=" + id +
-        ", code=" + code +
-        ", userId=" + userId +
-        ", userOpenId=" + userOpenId +
-        ", laundryId=" + laundryId +
-        ", state=" + state +
-        ", description=" + description +
-        ", accepted=" + accepted +
-        ", canceled=" + canceled +
-        ", expired=" + expired +
-        ", expireInMin=" + expireInMin +
-        ", createTime=" + createTime +
-        ", commitTime=" + commitTime +
-        ", acceptedTime=" + acceptedTime +
-        ", canceledTime=" + canceledTime +
-        ", expiredTime=" + expiredTime +
-        ", finishedTime=" + finishedTime +
-        ", canceledBy=" + canceledBy +
-        ", deleted=" + deleted +
-        ", count=" + count +
-        ", laundryOpenId=" + laundryOpenId +
-        "}";
+                "id=" + id +
+                ", code=" + code +
+                ", userId=" + userId +
+                ", userOpenId=" + userOpenId +
+                ", laundryId=" + laundryId +
+                ", state=" + state +
+                ", wardrobeId=" + wardrobeId +
+                ", description=" + description +
+                ", expireInMin=" + expireInMin +
+                ", createTime=" + createTime +
+                ", commitTime=" + commitTime +
+                ", acceptedTime=" + acceptedTime +
+                ", canceledTime=" + canceledTime +
+                ", expiredTime=" + expiredTime +
+                ", finishedTime=" + finishedTime +
+                ", canceledBy=" + canceledBy +
+                ", deleted=" + deleted +
+                ", count=" + count +
+                ", laundryOpenId=" + laundryOpenId +
+                "}";
     }
 }

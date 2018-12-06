@@ -25,7 +25,7 @@ public enum OrderStateEnum {
 
     PAID(60, "已付款"),
 
-    CLEANED(70, "已清洁"),
+//    CLEANED(70, "已清洁"),
 
     FINISHED(100, "已完成");
 

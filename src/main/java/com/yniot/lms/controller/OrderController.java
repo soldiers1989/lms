@@ -67,7 +67,7 @@ public class OrderController extends BaseControllerT<Order> {
             return super.noAuth();
         }
         //是否已经过期
-        if (order.getExpired()) {
+        if (order.getState() == OrderStateEnum.COMMITTED.getState()) {
             return super.expired();
         }
         //订单过期
@@ -85,6 +85,8 @@ public class OrderController extends BaseControllerT<Order> {
         if (order.getState() == OrderStateEnum.COMMITTED.getState()) {
             //更改为接单状态
             orderService.updateState(orderId, OrderStateEnum.ACCEPTED.getState());
+            //更新物流信息
+            orderShipmentService.create(order.getId(), order.getWardrobeId(), getId());
             //保存状态信息
             orderStateHistoryService.saveOrderState(orderId, OrderStateEnum.ACCEPTED.getState(), getId());
             return super.getSuccessResult(1);
@@ -104,7 +106,7 @@ public class OrderController extends BaseControllerT<Order> {
         if (!super.isUser() && !super.isLaundry()) {
             return super.noAuth();
         }
-        order.setCanceled(true);
+        order.setState(OrderStateEnum.CANCELED.getState());
         order.setCanceledTime(LocalDateTime.now());
         //这里是用户id,没有使用洗衣店id
         order.setCanceledBy(super.getUser().getId());

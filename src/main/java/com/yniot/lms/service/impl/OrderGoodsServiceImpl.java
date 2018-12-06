@@ -2,9 +2,9 @@ package com.yniot.lms.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.yniot.lms.controller.commonController.BaseController;
 import com.yniot.lms.db.dao.OrderGoodsMapper;
-import com.yniot.lms.db.entity.*;
+import com.yniot.lms.db.entity.Cart;
+import com.yniot.lms.db.entity.OrderGoods;
 import com.yniot.lms.enums.OrderStateEnum;
 import com.yniot.lms.service.CellService;
 import com.yniot.lms.service.OrderCostService;
@@ -38,7 +38,7 @@ public class OrderGoodsServiceImpl extends ServiceImpl<OrderGoodsMapper, OrderGo
 
     @Override
     public boolean cancelOrder(Integer orderId) {
-        return baseMapper.cancelOrder(orderId) > 0;
+        return baseMapper.updateState(orderId,OrderStateEnum.CANCELED.getState()) > 0;
     }
 
     @Override

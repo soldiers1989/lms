@@ -28,6 +28,12 @@ public class OrderShipmentServiceImpl extends ServiceImpl<OrderShipmentMapper, O
 
     @Override
     public boolean create(int orderId, int wardrobeId, int userId) {
+
+        return this.create(orderId, wardrobeId, userId, null, null);
+    }
+
+    @Override
+    public boolean create(int orderId, int wardrobeId, int userId, String address, String phone) {
         OrderShipment orderShipment = new OrderShipment();
         LocalDateTime now = LocalDateTime.now();
         orderShipment.setId(orderId);
@@ -35,12 +41,14 @@ public class OrderShipmentServiceImpl extends ServiceImpl<OrderShipmentMapper, O
         orderShipment.setModifyTime(now);
         orderShipment.setWardrobeId(wardrobeId);
         orderShipment.setModifier(userId);
+        orderShipment.setAddress(address);
+        orderShipment.setPhone(phone);
         orderShipment.setPassword(Integer.valueOf(CommonUtil.String.getRandomNum(6)));
         orderShipment.setPswExpireTime(now);
         orderShipment.setCreateTime(now);
         return save(orderShipment);
     }
-
+    @Override
     public void updatePassword() {
         baseMapper.updatePassword(PSW_EXPIRE_MIN);
     }

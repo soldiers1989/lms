@@ -31,7 +31,7 @@ public class TimerTask {
         //更新柜子的可用格子数
 //        wardrobeService.updateAllCellNum();
         //更新柜子密码
-//        orderShipmentService.updatePassword();
+        orderShipmentService.updatePassword();
     }
 
 }

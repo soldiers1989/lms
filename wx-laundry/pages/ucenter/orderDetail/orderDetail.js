@@ -175,17 +175,8 @@ Page({
         });
 
     },
-    openCloset: function () {
+    showStorageQRCode() {
         let that = this;
-        util.request(api.GetOrderShipmentById, {
-            orderId: that.data.orderId
-        }).then(function (res) {
-            if (res.result && res.result.data) {
-                this.showStorageQRCode(res.result.data.password, res.result.data.expireTime);
-            }
-        });
-    },
-    showStorageQRCode(password, expireTime) {
         if (this.data.showQRCode) {
             this.setData({
                 showQRCode: false
@@ -193,13 +184,12 @@ Page({
         } else {
             this.setData({
                 showQRCode: true,
-                codeExpireTime: expireTime
             });
             drawQrcode({
                 width: 200,
                 height: 200,
                 canvasId: 'storageQRCode',
-                text: password
+                text: that.data.orderShipment.password+""
             });
         }
     },

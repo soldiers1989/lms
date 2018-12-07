@@ -14,7 +14,7 @@
                 </view>
                 <view wx:elif="{{orderInfo.state == 40 && orderShipment.state==42}}">
                     <!--待存放-->
-                    <view class="btn active" bindtap="openCloset">开柜二维码</view>
+                    <view class="btn active" bindtap="showStorageQRCode">开柜二维码</view>
                 </view>
                 <view wx:elif="{{orderInfo.state==55}}"><!--待付款-->
                     <view class="btn active">付款</view>
@@ -27,7 +27,7 @@
     </view>
 
     <view wx:if="{{showQRCode}}" style="text-align: center;padding: 20px">
-        <text>过期时间 {{codeExpireTime}}</text>
+        <text>过期时间 {{orderShipment.pswExpireTime}}</text>
         <canvas style="width: 200px; height: 200px;margin: auto;" canvas-id="storageQRCode"></canvas>
     </view>
 

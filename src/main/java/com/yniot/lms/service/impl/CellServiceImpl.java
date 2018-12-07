@@ -73,10 +73,4 @@ public class CellServiceImpl extends ServiceImpl<CellMapper, Cell> implements Ce
         baseMapper.refreshCellState();
     }
 
-    @Override
-    public Cell getPasswordByOrderId(Integer orderId) {
-
-
-        return null;
-    }
 }

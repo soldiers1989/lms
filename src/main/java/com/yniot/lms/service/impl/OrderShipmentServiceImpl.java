@@ -5,6 +5,7 @@ import com.yniot.lms.db.dao.OrderShipmentMapper;
 import com.yniot.lms.db.entity.OrderShipment;
 import com.yniot.lms.enums.ShipmentEnum;
 import com.yniot.lms.service.OrderShipmentService;
+import com.yniot.lms.utils.CommonUtil;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -28,11 +29,19 @@ public class OrderShipmentServiceImpl extends ServiceImpl<OrderShipmentMapper, O
     @Override
     public boolean create(int orderId, int wardrobeId, int userId) {
         OrderShipment orderShipment = new OrderShipment();
+        LocalDateTime now = LocalDateTime.now();
         orderShipment.setId(orderId);
         orderShipment.setState(ShipmentEnum.WAITING.getState());
-        orderShipment.setModifyTime(LocalDateTime.now());
+        orderShipment.setModifyTime(now);
         orderShipment.setWardrobeId(wardrobeId);
         orderShipment.setModifier(userId);
+        orderShipment.setPassword(Integer.valueOf(CommonUtil.String.getRandomNum(6)));
+        orderShipment.setPswExpireTime(now);
+        orderShipment.setCreateTime(now);
         return save(orderShipment);
+    }
+
+    public void updatePassword() {
+        baseMapper.updatePassword(PSW_EXPIRE_MIN);
     }
 }

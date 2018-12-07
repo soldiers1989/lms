@@ -30,5 +30,4 @@ public interface CellService extends IService<Cell> {
 
     void refreshCell();
 
-    Cell getPasswordByOrderId(Integer orderId);
 }

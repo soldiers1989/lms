@@ -28,10 +28,6 @@ public class CellController extends BaseController {
         return getSuccessResult(cellService.getAvailableCellNum(wardrobeId));
     }
 
-    @RequestMapping("/getPasswordByOrderId")
-    public String getByOrderId(@RequestParam Integer orderId) {
-        return getSuccessResult(cellService.getPasswordByOrderId(orderId));
-    }
 
 }
 

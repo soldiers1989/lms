@@ -1,6 +1,7 @@
 package com.yniot.lms.task;
 
 import com.yniot.lms.service.OrderService;
+import com.yniot.lms.service.OrderShipmentService;
 import com.yniot.lms.service.WardrobeService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,9 @@ public class TimerTask {
     @Autowired
     WardrobeService wardrobeService;
 
+    @Autowired
+    OrderShipmentService orderShipmentService;
+
 
     @Scheduled(cron = "0 0/1 * * * ? ")
     public void logCacheKeys() {
@@ -26,6 +30,8 @@ public class TimerTask {
 //        orderService.markExpiredOrder();
         //更新柜子的可用格子数
 //        wardrobeService.updateAllCellNum();
+        //更新柜子密码
+//        orderShipmentService.updatePassword();
     }
 
 }

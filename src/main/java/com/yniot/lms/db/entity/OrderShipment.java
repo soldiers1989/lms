@@ -3,13 +3,16 @@ package com.yniot.lms.db.entity;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+
 import java.time.LocalDateTime;
+
 import com.baomidou.mybatisplus.annotation.TableId;
+
 import java.io.Serializable;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author wanggl
@@ -35,6 +38,35 @@ public class OrderShipment extends Model<OrderShipment> {
 
     private String phone;
 
+    private Integer password;
+
+    public Integer getPassword() {
+        return password;
+    }
+
+    public void setPassword(Integer password) {
+        this.password = password;
+    }
+
+    public LocalDateTime getPswExpireTime() {
+        return pswExpireTime;
+    }
+
+    public void setPswExpireTime(LocalDateTime pswExpireTime) {
+        this.pswExpireTime = pswExpireTime;
+    }
+
+    private LocalDateTime pswExpireTime;
+
+    public LocalDateTime getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(LocalDateTime createTime) {
+        this.createTime = createTime;
+    }
+
+    private LocalDateTime createTime;
 
     public Integer getId() {
         return id;
@@ -100,13 +132,16 @@ public class OrderShipment extends Model<OrderShipment> {
     @Override
     public String toString() {
         return "OrderShipment{" +
-        "id=" + id +
-        ", state=" + state +
-        ", modifyTime=" + modifyTime +
-        ", modifier=" + modifier +
-        ", address=" + address +
-        ", wardrobeId=" + wardrobeId +
-        ", phone=" + phone +
-        "}";
+                "id=" + id +
+                ", state=" + state +
+                ", modifyTime=" + modifyTime +
+                ", createTime=" + createTime +
+                ", password=" + password +
+                ", pswExpireTime=" + pswExpireTime +
+                ", modifier=" + modifier +
+                ", address=" + address +
+                ", wardrobeId=" + wardrobeId +
+                ", phone=" + phone +
+                "}";
     }
 }

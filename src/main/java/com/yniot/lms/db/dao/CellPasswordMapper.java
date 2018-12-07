@@ -31,6 +31,4 @@ public interface CellPasswordMapper extends CommonMapper<CellPassword> {
     List<Integer> getPasswordExpiredOrderId();
 
 
-    @Update("update biz_cell_password set password= FLOOR(0 + (RAND() * 999999)),expire_time = date_add(sysdate(),INTERVAL #{timeoutMin} MINUTE) where used =0 and expire_time < sysdate()")
-    void generatePassword(int timeoutMin);
 }

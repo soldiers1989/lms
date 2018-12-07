@@ -4,12 +4,13 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.annotation.TableId;
+
 import java.time.LocalDateTime;
 import java.io.Serializable;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author wanggl
@@ -38,7 +39,6 @@ public class Cell extends Model<Cell> {
     private Integer orderId;
 
     private Boolean closed;
-
 
     public Integer getId() {
         return id;
@@ -120,15 +120,15 @@ public class Cell extends Model<Cell> {
     @Override
     public String toString() {
         return "Cell{" +
-        "id=" + id +
-        ", cellNo=" + cellNo +
-        ", deleted=" + deleted +
-        ", activated=" + activated +
-        ", wardrobeId=" + wardrobeId +
-        ", inUsed=" + inUsed +
-        ", createTime=" + createTime +
-        ", orderId=" + orderId +
-        ", closed=" + closed +
-        "}";
+                "id=" + id +
+                ", cellNo=" + cellNo +
+                ", deleted=" + deleted +
+                ", activated=" + activated +
+                ", wardrobeId=" + wardrobeId +
+                ", inUsed=" + inUsed +
+                ", createTime=" + createTime +
+                ", orderId=" + orderId +
+                ", closed=" + closed +
+                "}";
     }
 }

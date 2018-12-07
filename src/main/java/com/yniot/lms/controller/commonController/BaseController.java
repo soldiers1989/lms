@@ -4,15 +4,14 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.yniot.lms.db.entity.User;
 import com.yniot.lms.enums.ErrorMsgEnum;
-import com.yniot.lms.enums.UserTypeEnum;
 import com.yniot.lms.security.CustomSessionKey;
+import com.yniot.lms.service.RoleService;
 import com.yniot.lms.service.UserService;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
-import org.apache.shiro.session.mgt.SessionKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -154,7 +153,7 @@ public class BaseController {
     }
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     public User getUser() {
 
@@ -162,6 +161,8 @@ public class BaseController {
 //        return (User) SecurityUtils.getSubject().getPrincipal();
     }
 
+
+    /***********************后期需要放在缓存中***********************/
     public int getId() {
 //        return getUser().getId();
         return 1;
@@ -191,11 +192,7 @@ public class BaseController {
     }
 
     public boolean isUser() {
-        User user = this.getUser();
-        if (user.getUserType() == UserTypeEnum.USER.getType()) {
-            return true;
-        }
-        return false;
+        return roleService.isUser(getId());
     }
 
     public boolean isLogin() {
@@ -203,13 +200,11 @@ public class BaseController {
         return user != null;
     }
 
+    @Autowired
+    private RoleService roleService;
 
     public boolean isLaundry() {
-        User user = this.getUser();
-        if (user.getUserType() >= UserTypeEnum.LAUNDRY.getType()) {
-            return true;
-        }
-        return false;
+        return roleService.isLaundry(getId());
     }
 
     public boolean isAdminOrLaundry() {
@@ -217,20 +212,12 @@ public class BaseController {
     }
 
     public boolean isMailMan() {
-        User user = this.getUser();
-        if (user.getUserType() == UserTypeEnum.MAIL_MAN.getType()) {
-            return true;
-        }
-        return false;
+        return roleService.isMailMan(getId());
     }
 
 
     public boolean isAdmin() {
-        User user = this.getUser();
-        if (user.getUserType() == UserTypeEnum.ADMIN.getType()) {
-            return true;
-        }
-        return false;
+        return roleService.isAdmin(getId());
     }
 
     public String noAuth() {

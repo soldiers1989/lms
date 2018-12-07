@@ -17,8 +17,6 @@ public class User {
 
     private Integer state;
 
-    private Integer userType;
-
     private Date lastLogin;
 
     private String wxOpenid;
@@ -95,14 +93,6 @@ public class User {
 
     public void setState(Integer state) {
         this.state = state;
-    }
-
-    public Integer getUserType() {
-        return userType;
-    }
-
-    public void setUserType(Integer userType) {
-        this.userType = userType;
     }
 
     public Date getLastLogin() {

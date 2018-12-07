@@ -4,7 +4,7 @@
             <div slot="header">
                 <el-row :gutter="10">
                     <el-col :span="3">
-                        <el-input placeholder="关键字"></el-input>
+                        <el-input v-model="keyWord" placeholder="关键字"></el-input>
                     </el-col>
                     <el-col :span="6" style="float: right;">
                         <el-button type="primary" icon="el-icon-search" @click="query">查询</el-button>
@@ -14,7 +14,7 @@
                 <el-button size="medium" type="primary" icon="el-icon-plus" @click="dialogVisible = true">新增</el-button>
                 <!--<el-button size="medium" icon="el-icon-delete" :disabled="selectedRows.length==0">删除</el-button>-->
             </div>
-            <el-table :data="codeList" style="width: 100%" stripe highlight-current-row
+            <el-table height="550" :data="codeList" style="width: 100%" stripe highlight-current-row
                       v-loading="$store.state.loading">
                 <el-table-column prop="uniqueCode" label="编码"></el-table-column>
                 <el-table-column prop="description" label="描述"></el-table-column>
@@ -74,6 +74,7 @@
         name: "codeList",
         data() {
             return {
+                keyWord: "",
                 dialogVisible: false,
                 state: null,
                 dateRange: null,
@@ -96,7 +97,7 @@
         },
         methods: {
             query() {
-                let params = {pageNum: this.pageNum, pageSize: this.pageSize, keyWord: ""};
+                let params = {pageNum: this.pageNum, pageSize: this.pageSize, keyWord: this.keyWord};
                 // let params = this.pager;
                 this.$http.post("/goodsCode/select", qs.stringify(params)).then(res => {
                     this.codeList = res.data.data;

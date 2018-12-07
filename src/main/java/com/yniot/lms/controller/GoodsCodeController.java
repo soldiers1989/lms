@@ -55,13 +55,13 @@ public class GoodsCodeController extends BaseControllerT<GoodsCode> {
     @RequestMapping("/select")
     public String checkCode(@RequestParam(name = "keyWord", required = false, defaultValue = "") String keyWord,
                             @RequestParam(name = "pageNum", required = false, defaultValue = "1") int pageNum,
-                            @RequestParam(name = "PageSize", required = false, defaultValue = "20") int PageSize) {
+                            @RequestParam(name = "pageSize", required = false, defaultValue = "20") int pageSize) {
         QueryWrapper<GoodsCode> goodsCodeQueryWrapper = new QueryWrapper<>();
         goodsCodeQueryWrapper.eq("laundry_id", getLaundryId());
         if (StringUtils.isNotEmpty(keyWord)) {
-            goodsCodeQueryWrapper.like("unique_code", keyWord);
+            goodsCodeQueryWrapper.like("unique_code", keyWord).or().like("description", keyWord);
         }
-        return getSuccessPage(goodsCodeService.page(new Page<>(pageNum, PageSize), goodsCodeQueryWrapper));
+        return getSuccessPage(goodsCodeService.page(new Page<>(pageNum, pageSize), goodsCodeQueryWrapper));
     }
 
 //    @RequestMapping("/logicDelete")

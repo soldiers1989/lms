@@ -34,11 +34,19 @@ public class CellPassword extends Model<CellPassword> {
         this.orderId = orderId;
     }
 
+    public Integer getWardrobeId() {
+        return wardrobeId;
+    }
+
+    public void setWardrobeId(Integer wardrobeId) {
+        this.wardrobeId = wardrobeId;
+    }
+
+    private Integer wardrobeId;
+
     private Integer orderId;
 
-    private String password;
-
-    private Boolean expired;
+    private Integer password;
 
     private Integer timeout;
 
@@ -56,21 +64,14 @@ public class CellPassword extends Model<CellPassword> {
     }
 
 
-    public String getPassword() {
+    public Integer getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
+    public void setPassword(Integer password) {
         this.password = password;
     }
 
-    public Boolean getExpired() {
-        return expired;
-    }
-
-    public void setExpired(Boolean expired) {
-        this.expired = expired;
-    }
 
     public Integer getTimeout() {
         return timeout;
@@ -106,8 +107,8 @@ public class CellPassword extends Model<CellPassword> {
         return "CellPassword{" +
                 "id=" + id +
                 ", orderId=" + orderId +
+                ", wardrobeId=" + wardrobeId +
                 ", password=" + password +
-                ", expired=" + expired +
                 ", timeout=" + timeout +
                 ", createTime=" + createTime +
                 ", expireTime=" + expireTime +

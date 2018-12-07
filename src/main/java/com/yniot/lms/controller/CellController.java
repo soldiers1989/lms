@@ -5,6 +5,7 @@ import com.yniot.lms.service.CellService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.yniot.lms.controller.commonController.BaseController;
 
@@ -26,5 +27,11 @@ public class CellController extends BaseController {
     public String getAvailable(int wardrobeId) {
         return getSuccessResult(cellService.getAvailableCellNum(wardrobeId));
     }
+
+    @RequestMapping("/getPasswordByOrderId")
+    public String getByOrderId(@RequestParam Integer orderId) {
+        return getSuccessResult(cellService.getPasswordByOrderId(orderId));
+    }
+
 }
 

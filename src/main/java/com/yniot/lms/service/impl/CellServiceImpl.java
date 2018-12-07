@@ -60,28 +60,23 @@ public class CellServiceImpl extends ServiceImpl<CellMapper, Cell> implements Ce
 
     @Override
     public boolean releaseCellByCellId(int cellId) {
-//        QueryWrapper<Cell> cellQueryWrapper = new QueryWrapper<>();
-//        cellQueryWrapper.eq("id", cellId);
-//        Cell cell = super.getOne(cellQueryWrapper);
-//        cell.setInUsed(false);
-//        cell.setOrderId(null);
         return baseMapper.releaseCellByCellId(cellId) > 0;
     }
 
     @Override
     public boolean releaseCellByOrderId(int orderId) {
-//        QueryWrapper<Cell> cellQueryWrapper = new QueryWrapper<>();
-//        cellQueryWrapper.eq("order_id", orderId);
-//        List<Cell> cellList = super.list(cellQueryWrapper);
-//        for (Cell cell : cellList) {
-//            cell.setInUsed(false);
-//            cell.setOrderId(null);
-//        }
         return baseMapper.releaseCellByOrderId(orderId) > 0;
     }
 
     @Override
     public void refreshCell() {
         baseMapper.refreshCellState();
+    }
+
+    @Override
+    public Cell getPasswordByOrderId(Integer orderId) {
+
+
+        return null;
     }
 }

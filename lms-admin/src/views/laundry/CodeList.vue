@@ -118,7 +118,7 @@
             insert() {
                 let that = this;
                 this.codeIsValid(function () {
-                    that.$http.post("/goodsCode/create", qs.stringfy(that.codeObj)).then(res => {
+                    that.$http.post("/goodsCode/create", qs.stringify(that.codeObj)).then(res => {
                         if (res.result) {
 
                         }
@@ -128,7 +128,7 @@
                 });
             },
             codeIsValid: function (callback) {
-                this.$http.post("/goodsCode/checkCode", qs.stringfy(this.codeObj)).then(res => {
+                this.$http.post("/goodsCode/checkCode", qs.stringify(this.codeObj)).then(res => {
                     if (res.data.result && res.data.data == 0) {
                         callback && callback();
                     } else {

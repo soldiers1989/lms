@@ -14,6 +14,6 @@ public interface RoleMapper extends CommonMapper<Role> {
     @Select("select * from sys_role where id in (select role_id from rel_user_role where user_id = #{id})")
     List<Role> selectRoleByUserId(int userId);
 
-    @Select("select count(1) from sys_role where user_id = #{userId} and role_id = #{roleId}")
+    @Select("select count(1) from rel_user_role where user_id = #{userId} and role_id = #{roleId} and deleted = 0")
     int hasRole(int roleId, int userId);
 }

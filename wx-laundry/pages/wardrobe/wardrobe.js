@@ -91,7 +91,7 @@ Page({
                     let wardrobe = that.data.wardrobeList[that.data.checkedIndex];
                     util.request(api.CommitOrder, {wardrobeId: wardrobe.id}).then(function (res) {
                         if(res.result){
-                            wx.navigateTo({
+                            wx.redirectTo({
                                 url: '/pages/ucenter/order/order'
                             })
                         }

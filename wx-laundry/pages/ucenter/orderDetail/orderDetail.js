@@ -1,13 +1,15 @@
 var util = require('../../../utils/util.js');
 var api = require('../../../config/api.js');
-
+let drawQrcode = require('../../../utils/weapp.qrcode.min.js');
 Page({
     data: {
+        showQRCode: false,
         orderId: 0,
         orderInfo: {},
         goodsList: [],
         orderCost: {},
         orderShipment: {},
+        codeExpireTime: "暂无",
         handleOption: {}
     },
     onLoad: function (options) {
@@ -172,6 +174,34 @@ Page({
             }
         });
 
+    },
+    openCloset: function () {
+        let that = this;
+        util.request(api.GetOrderShipmentById, {
+            orderId: that.data.orderId
+        }).then(function (res) {
+            if (res.result && res.result.data) {
+                this.showStorageQRCode(res.result.data.password, res.result.data.expireTime);
+            }
+        });
+    },
+    showStorageQRCode(password, expireTime) {
+        if (this.data.showQRCode) {
+            this.setData({
+                showQRCode: false
+            });
+        } else {
+            this.setData({
+                showQRCode: true,
+                codeExpireTime: expireTime
+            });
+            drawQrcode({
+                width: 200,
+                height: 200,
+                canvasId: 'storageQRCode',
+                text: password
+            });
+        }
     },
     storageGoods() {
 

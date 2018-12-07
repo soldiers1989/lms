@@ -1,0 +1,45 @@
+<view class="container">
+    <view class="no-cart" wx:if="{{cartGoods.length <= 0}}">
+        <view class="c">
+            <view class="title-box">
+                衣篮空空如也～
+            </view>
+            <view class="to-index-btn" bindtap="toIndexPage">
+                去逛逛
+            </view>
+        </view>
+    </view>
+    <view class="cart-view" wx:if="{{cartGoods.length > 0}}">
+        <view class="list">
+            <view class="group-item">
+                <view class="goods">
+                    <view class="item " wx:for="{{cartGoods}}" wx:key="{{item.id}}">
+                        <view class="cart-goods">
+                            <image class="img" src="{{item.imgUrl}}"></image>
+                            <view class="info">
+                                <view class="t">
+                                    <text class="name">{{item.name}}</text>
+                                    <text class="num">x{{item.count}}</text>
+                                </view>
+                                <view class="b">
+                                    <text class="price">￥{{item.price*item.count}}</text>
+                                    <view class="selnum">
+                                        <view class="cut" bindtap="cutNumber" data-goodsId="{{item.goodsId}}">-
+                                        </view>
+                                        <input value="{{item.count}}" class="number" disabled="true" type="number"/>
+                                        <view class="add" bindtap="addNumber" data-goodsId="{{item.goodsId}}">+
+                                        </view>
+                                    </view>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view class="cart-bottom">
+            <view class="total">预计价格:￥{{totalPrice}}</view>
+            <view class="checkout" bindtap="toWardrobePage">去下单</view>
+        </view>
+    </view>
+</view>

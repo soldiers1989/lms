@@ -13,7 +13,6 @@ import com.yniot.lms.db.entity.OrderShipment;
 import com.yniot.lms.enums.OrderStateEnum;
 import com.yniot.lms.enums.ShipmentEnum;
 import com.yniot.lms.service.*;
-import com.yniot.lms.utils.CommonUtil;
 import me.chanjar.weixin.common.error.WxErrorException;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,7 +70,7 @@ public class OrderController extends BaseControllerT<Order> {
             return super.expired();
         }
         //订单过期
-        if (CommonUtil.Date.gt(LocalDateTime.now(), order.getCommitTime(), order.getExpireInMin() * 60)) {
+        if (LocalDateTime.now().isAfter(order.getExpiredTime())) {
             //设置订单过期
             orderService.expiredOrder(orderId);
             //保存状态

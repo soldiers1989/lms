@@ -1,7 +1,8 @@
 <view class="container">
     <view class="order-info">
         <view class="item-a">下单时间：{{orderInfo.commitTime}}</view>
-        <view class="item-a"  wx:if="{{orderInfo.state>=30 && orderInfo.state<40}}">取消时间：{{orderInfo.canceledTime}}</view>
+        <view class="item-a" wx:if="{{orderInfo.state>=30 && orderInfo.state<40}}">取消时间：{{orderInfo.canceledTime}}
+        </view>
         <view class="item-b">订单编号：{{orderInfo.code}}</view>
         <view class="item-c">
             <view class="r">
@@ -11,8 +12,9 @@
                 <view wx:elif="{{orderInfo.state>=30 && orderInfo.state<40}}">
                     <view class="btn">已取消</view>
                 </view>
-                <view wx:elif="{{orderShipment.state==42}}"><!--待存放-->
-                    <view class="btn active" bindtap="storageGoods">放入柜子</view>
+                <view wx:elif="{{orderInfo.state == 40 && orderShipment.state==42}}">
+                    <!--待存放-->
+                    <view class="btn active" bindtap="openCloset">开柜二维码</view>
                 </view>
                 <view wx:elif="{{orderInfo.state==55}}"><!--待付款-->
                     <view class="btn active">付款</view>
@@ -22,6 +24,11 @@
                 </view>
             </view>
         </view>
+    </view>
+
+    <view wx:if="{{showQRCode}}" style="text-align: center;padding: 20px">
+        <text>过期时间 {{codeExpireTime}}</text>
+        <canvas style="width: 200px; height: 200px;margin: auto;" canvas-id="storageQRCode"></canvas>
     </view>
 
     <view class="order-goods">
@@ -44,7 +51,6 @@
             </view>
         </view>
     </view>
-
     <view class="order-bottom">
         <view class="address">
             <view class="t">

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -59,8 +60,7 @@ public class OrderController extends BaseControllerT<Order> {
     //3.接单  现在设置成默认接单
     @LaundryOnly
     @RequestMapping("/accept")
-    public String receiveOrder(@RequestParam(name = "orderId") int orderId
-    ) {
+    public String receiveOrder(@RequestParam(name = "orderId") int orderId) {
         if (!isLaundry()) {
             return super.noAuth();
         } else {
@@ -246,13 +246,13 @@ public class OrderController extends BaseControllerT<Order> {
 
 
     /**
-     * <el-menu-item index="1">待接单</el-menu-item>
-     * <el-menu-item index="2">待存放</el-menu-item>
-     * <el-menu-item index="3">待提货</el-menu-item>
-     * <el-menu-item index="4">已提货</el-menu-item>
-     * <el-menu-item index="5">待付款</el-menu-item>
-     * <el-menu-item index="6">待清洁</el-menu-item>
-     * <el-menu-item index="7">待送出</el-menu-item>
+     * <el-menu-item index="10">待接单</el-menu-item>
+     * <el-menu-item index="42">待存放</el-menu-item>
+     * <el-menu-item index="45">待提货</el-menu-item>
+     * <el-menu-item index="50">已提货</el-menu-item>
+     * <el-menu-item index="55">待付款</el-menu-item>
+     * <el-menu-item index="60">待清洁</el-menu-item>
+     * <el-menu-item index="65">待送出</el-menu-item>
      * <el-menu-item index="8">已失效</el-menu-item>
      *
      * @return java.lang.String
@@ -265,19 +265,21 @@ public class OrderController extends BaseControllerT<Order> {
     @RequestMapping("/selectByLaundryId")
     public String selectByLaundryId(@RequestParam(name = KEY_WORD_KEY, required = false, defaultValue = "") String keyWord,
                                     @RequestParam(name = PAGE_SIZE_KEY, required = false, defaultValue = "20") int pageSize,
-                                    @RequestParam(name = "state", required = false, defaultValue = "20") int state,
+                                    @RequestParam(name = "state", required = false, defaultValue = "10") int state,
                                     @RequestParam(name = PAGE_NUM_KEY, required = false, defaultValue = "1") int pageNum) {
         if (!isLaundry()) {
             return noAuth();
         }
-
-
-        QueryWrapper<Order> orderQueryWrapper = new QueryWrapper<>();
-        orderQueryWrapper.eq("laundry_id", getLaundryId());
-        if (StringUtils.isNotEmpty(keyWord)) {
-            orderQueryWrapper.like("code", keyWord)
-                    .or().like("description", keyWord);
+        List<Integer> stateList = new ArrayList<>();
+        if (state > 0) {
+            stateList.add(state);
+        } else if (state <= 0) {
+            stateList.add(OrderStateEnum.CANCELED.getState());
+            stateList.add(OrderStateEnum.CANCELED_TIMEOUT.getState());
+            stateList.add(OrderStateEnum.CANCELED_CUSTOMER.getState());
+            stateList.add(OrderStateEnum.CANCELED_LAUNDRY.getState());
+            stateList.add(OrderStateEnum.PAY_TIMEOUT.getState());
         }
-        return super.getSuccessPage(orderService.page(new Page(pageNum, pageSize), orderQueryWrapper));
+        return super.getSuccessPage(orderService.selectByLaundryId(pageNum, pageSize, getLaundryId(), keyWord, stateList));
     }
 }

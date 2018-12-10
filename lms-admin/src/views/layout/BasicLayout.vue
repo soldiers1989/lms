@@ -58,10 +58,10 @@
             };
         },
         mounted: function () {
-            this.initWebSocket();
-            this.$http.get("/WeChat/testMessage").then(res => {
-                // console.log(res);
-            });
+            // this.initWebSocket();
+            // this.$http.get("/WeChat/testMessage").then(res => {
+            //     // console.log(res);
+            // });
         },
         methods: {
             handleCommand(command) {

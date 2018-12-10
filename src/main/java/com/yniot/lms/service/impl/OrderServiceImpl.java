@@ -166,10 +166,10 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         return false;
     }
 
-
-    public IPage<Order> selectByLaundryId(int pageNum, int pageSize, int laundryId, String keyWord, int state) {
+    @Override
+    public IPage<Order> selectByLaundryId(int pageNum, int pageSize, int laundryId, String keyWord, List<Integer> stateList) {
         QueryWrapper<Order> orderQueryWrapper = new QueryWrapper<>();
-        orderQueryWrapper.eq("laundry_id", laundryId).eq("state", state);
+        orderQueryWrapper.eq("laundry_id", laundryId).in("state", stateList);
         if (StringUtils.isNotEmpty(keyWord)) {
             orderQueryWrapper.like("code", keyWord)
                     .or().like("description", keyWord);

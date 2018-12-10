@@ -1,8 +1,11 @@
 package com.yniot.lms.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.yniot.lms.db.entity.Order;
 import me.chanjar.weixin.common.error.WxErrorException;
+
+import java.util.List;
 
 /**
  * @project: lms
@@ -32,5 +35,7 @@ public interface OrderService extends IService<Order> {
     boolean removeByCode(String orderCode);
 
     boolean receiveOrder(int userId, int orderId);
+
+    IPage<Order> selectByLaundryId(int pageNum, int pageSize, int laundryId, String keyWord, List<Integer> stateList);
 
 }

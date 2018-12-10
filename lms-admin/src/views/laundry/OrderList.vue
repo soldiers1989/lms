@@ -12,26 +12,35 @@
                     查询
                 </el-button>
             </div>
-            <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
-                <el-menu-item index="1">待接单</el-menu-item>
-                <el-menu-item index="2">待存放</el-menu-item>
-                <el-menu-item index="3">待提货</el-menu-item>
-                <el-menu-item index="4">已提货</el-menu-item>
-                <el-menu-item index="5">待付款</el-menu-item>
-                <el-menu-item index="6">待清洁</el-menu-item>
-                <el-menu-item index="7">待送出</el-menu-item>
-                <el-menu-item index="8">已失效</el-menu-item>
+            <el-menu default-active="10" mode="horizontal" @select="handleSelect">
+                <el-menu-item index="10">待接单</el-menu-item>
+                <el-menu-item index="42">待存放</el-menu-item>
+                <el-menu-item index="45">待提货</el-menu-item>
+                <el-menu-item index="50">已提货</el-menu-item>
+                <el-menu-item index="55">待付款</el-menu-item>
+                <el-menu-item index="60">待清洁</el-menu-item>
+                <el-menu-item index="63">清洁中</el-menu-item>
+                <el-menu-item index="65">待送出</el-menu-item>
+                <el-menu-item index="100">已完成</el-menu-item>
+                <el-menu-item index="0">已失效</el-menu-item>
             </el-menu>
             <el-button-group style="padding: 10px;">
                 <el-button size="mini" type="primary" icon="el-icon-plus" :disabled="selectedRows.length==0"
-                           @click="acceptOrder" v-if="tabIndex==1">接单
+                           @click="acceptOrder" v-if="activeIndex==10">接单
                 </el-button>
-                <el-button size="mini" icon="el-icon-delete" v-if="tabIndex==1">取消订单</el-button>
-                <el-button size="mini" type="primary" v-if="tabIndex==4">提交价格</el-button>
-                <el-button size="mini" type="primary" v-if="tabIndex==6">清洁完成</el-button>
-                <el-button size="mini" type="primary" v-if="tabIndex==7">发出</el-button>
+                <!--<el-button size="mini" icon="el-icon-delete" :disabled="selectedRows.length==0" v-if="activeIndex==10">-->
+                    <!--取消订单-->
+                <!--</el-button>-->
+                <el-button size="mini" type="primary" :disabled="selectedRows.length==0" v-if="activeIndex==50">提交价格
+                </el-button>
+                <el-button size="mini" type="primary" :disabled="selectedRows.length==0" v-if="activeIndex==60">进入清洁
+                </el-button>
+                <el-button size="mini" type="primary" :disabled="selectedRows.length==0" v-if="activeIndex==63">清洁完成
+                </el-button>
+                <el-button size="mini" type="primary" :disabled="selectedRows.length==0" v-if="activeIndex==65">发出
+                </el-button>
             </el-button-group>
-            <el-table :data="pager.data" style="width: 100%" stripe highlight-current-row
+            <el-table :data="orderList" style="width: 100%" stripe highlight-current-row
                       v-loading="$store.state.loading" @selection-change="onSelectionChange">
                 <el-table-column type="selection" width="55" align="center">
                 </el-table-column>
@@ -42,9 +51,15 @@
                 <el-table-column prop="expiredTime" label="超时时间"></el-table-column>
                 <!--<el-table-column prop="commitTime" label="金额"></el-table-column>-->
             </el-table>
-            <el-pagination :current-page="pager.pageNum" :page-size="pager.pageSize" :total="pager.totalNum"
-                           class="pagination text-right" :page-sizes="$store.state.paginationPageSizes"
-                           :layout="$store.state.paginationLayout"></el-pagination>
+            <el-pagination align="center"
+                           @size-change="handleSizeChange"
+                           @current-change="handleCurrentChange"
+                           :current-page="pageNum"
+                           :page-sizes="[10, 20, 50]"
+                           :page-size="pageSize"
+                           layout="total, sizes, prev, pager, next, jumper"
+                           :total="totalNum">
+            </el-pagination>
         </el-card>
     </div>
 </template>
@@ -60,8 +75,7 @@
         name: "orderList",
         data() {
             return {
-                activeIndex: "1",
-                tabIndex: 1,
+                activeIndex: "10",
                 dialogVisible: false,
                 state: null,
                 dateRange: null,
@@ -70,7 +84,10 @@
                 orderTab: "",
                 selectedRows: [],
                 bucketName: "public",
-                pager: {current: 1, size: 10, total: 0, records: []}
+                pageNum: 1,
+                pageSize: 20,
+                totalNum: 0,
+                orderList: [],
             };
         },
         mounted() {
@@ -78,12 +95,15 @@
         },
         methods: {
             handleSelect(index) {
-                this.tabIndex = index;
-                console.log(index);
+                this.activeIndex = index;
+                this.query();
             },
             query() {
-                this.$http.get("/order/selectByLaundryId").then(res => {
-                    this.pager = res.data;
+                let params = {state: this.activeIndex, pageNum: this.pageNum, pageSize: this.pageSize};
+                this.$http.post("/order/selectByLaundryId", qs.stringify(params)).then(res => {
+                    if (res.data.result) {
+                        this.orderList = res.data.data;
+                    }
                 });
             },
             insert() {
@@ -94,14 +114,20 @@
             },
             acceptOrder() {
                 let params = {orderId: this.selectedRows[0].id};
-                console.log(params);
-                console.log(this.selectedRows);
                 this.$http.post("/order/accept", qs.stringify(params)).then(res => {
 
                 });
             },
             onSelectionChange(rows) {
                 this.selectedRows = rows;
+            },
+            handleSizeChange(size) {
+                this.pageSize = size;
+                this.query();
+            },
+            handleCurrentChange(pageNum) {
+                this.pageNum = pageNum;
+                this.query();
             },
             remove() {
                 this.$confirm("此操作将不能恢复, 是否继续?", "提示", {

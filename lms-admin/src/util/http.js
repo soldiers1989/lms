@@ -51,12 +51,12 @@ axios.interceptors.response.use(
         // if (response.status > 200 && response.status < 300) {
         if (response.data && response.data.status) {
             message = codeMessage[response.data.status];
-            Notification({
-                title: "系统提示",
-                type: "success",
-                message,
-                duration: 2000
-            });
+            // Notification({
+            //     title: "系统提示",
+            //     type: "success",
+            //     message,
+            //     duration: 2000
+            // });
         }
         return response;
     },

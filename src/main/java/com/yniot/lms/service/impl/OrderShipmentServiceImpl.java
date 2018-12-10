@@ -6,6 +6,7 @@ import com.yniot.lms.db.entity.OrderGoods;
 import com.yniot.lms.db.entity.OrderShipment;
 import com.yniot.lms.enums.OrderStateEnum;
 import com.yniot.lms.service.OrderGoodsService;
+import com.yniot.lms.service.OrderService;
 import com.yniot.lms.service.OrderShipmentService;
 import com.yniot.lms.utils.CommonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ public class OrderShipmentServiceImpl extends ServiceImpl<OrderShipmentMapper, O
 
     @Override
     public boolean updateState(int orderId, int state) {
-        return baseMapper.updateState(orderId, state) > 0;
+        return baseMapper.updateState(orderId, state) > 0 && orderService.updateState(orderId, state);
     }
 
     @Override
@@ -37,6 +38,8 @@ public class OrderShipmentServiceImpl extends ServiceImpl<OrderShipmentMapper, O
 
     @Autowired
     OrderGoodsService orderGoodsService;
+    @Autowired
+    OrderService orderService;
 
     @Override
     public boolean create(int orderId, int wardrobeId, int userId, String address, String phone) {
@@ -57,7 +60,7 @@ public class OrderShipmentServiceImpl extends ServiceImpl<OrderShipmentMapper, O
         orderShipment.setPswExpireTime(now);
         orderShipment.setCreateTime(now);
         orderShipment.setCellId(orderGoodsList.get(0).getStorageCellId());
-        return save(orderShipment);
+        return save(orderShipment) && orderService.updateState(orderId, OrderStateEnum.WAITING_TO_PUT.getState());
     }
 
     @Override

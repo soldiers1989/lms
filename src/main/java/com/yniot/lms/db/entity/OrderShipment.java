@@ -28,6 +28,16 @@ public class OrderShipment extends Model<OrderShipment> {
 
     private Integer state;
 
+    public Integer getCellId() {
+        return cellId;
+    }
+
+    public void setCellId(Integer cellId) {
+        this.cellId = cellId;
+    }
+
+    private Integer cellId;
+
     private LocalDateTime modifyTime;
 
     private Integer modifier;
@@ -134,6 +144,7 @@ public class OrderShipment extends Model<OrderShipment> {
         return "OrderShipment{" +
                 "id=" + id +
                 ", state=" + state +
+                ", cellId=" + cellId +
                 ", modifyTime=" + modifyTime +
                 ", createTime=" + createTime +
                 ", password=" + password +

@@ -6,8 +6,6 @@ import org.springframework.stereotype.Component;
 import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
-import java.util.Map;
-import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
  * @project: lms
@@ -15,28 +13,35 @@ import java.util.concurrent.CopyOnWriteArraySet;
  * @author: wanggl
  * @create: 2018-11-22 21:11
  **/
-@ServerEndpoint(LmsWebSocketServer.BASE_PATH + "/{receiverId}")
+@ServerEndpoint(LmsWebSocketServer.BASE_PATH + "/{token}")
 @Component
-public class LmsWebSocketServer {
+public class LmsWebSocketServer extends BaseWebsocket {
     private static Logger logger = Logger.getLogger(LmsWebSocketServer.class);
-    private Session session;
-    private static CopyOnWriteArraySet<LmsWebSocketServer> webSockets = new CopyOnWriteArraySet<>();
-    public static final String BASE_PATH = "/WebSocket";
 
     @OnOpen
-    public void onOpen(@PathParam("receiverId") String receiverId, Session session) {
+    public void onOpen(@PathParam("token") String token, Session session) {
         this.session = session;
         webSockets.add(this);
-        logger.info("新建来自receiverId为[" + receiverId + "]的连接,当前连接数:" + webSockets.size());
+        logger.info("新建来自token为[" + token + "]的连接,当前连接数:" + webSockets.size());
     }
 
     @OnClose
     public void onClose() {
         logger.info("关闭连接:" + session.getRequestURI().getPath());
+        this.removeSession(session.getId());
         logger.info("当前连接数:" + webSockets.size());
-
     }
 
+
+    private boolean removeSession(String sessionId) {
+        for (LmsWebSocketServer temp : webSockets) {
+            if (sessionId.equals(temp.session.getId())) {
+                webSockets.remove(temp);
+                return true;
+            }
+        }
+        return false;
+    }
 
     @OnMessage
     public void onMessage(String message, Session session) {
@@ -52,33 +57,5 @@ public class LmsWebSocketServer {
 
     }
 
-    /*
-     * @Author wanggl(lane)
-     * @Description //TODO 发送消息
-     * @Date 上午11:41 2018/11/26
-     * @Param [jsonMessage, receiverId]
-     * @return void
-     **/
-    public void sendWSMessage(String jsonMessage, int receiverId) {
-        for (LmsWebSocketServer webSocket : webSockets) {
-            Session session = webSocket.session;
-            Map<String,String> pathMap = session.getPathParameters();
-//            int id = Integer.valueOf(pathMap.get("receiverId"));
-            if (session.isOpen()) {
-                String path = webSocket.session.getRequestURI().getPath();
-                if (path.equals(BASE_PATH + "/" + receiverId)) {
-                    try {
-                        webSocket.session.getBasicRemote().sendText(jsonMessage);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    } finally {
-                        break;
-                    }
-                }
-            }
-
-
-        }
-    }
 
 }

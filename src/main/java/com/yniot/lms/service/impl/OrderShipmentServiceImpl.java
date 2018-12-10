@@ -2,14 +2,17 @@ package com.yniot.lms.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yniot.lms.db.dao.OrderShipmentMapper;
+import com.yniot.lms.db.entity.OrderGoods;
 import com.yniot.lms.db.entity.OrderShipment;
-import com.yniot.lms.enums.ShipmentEnum;
+import com.yniot.lms.enums.OrderStateEnum;
+import com.yniot.lms.service.OrderGoodsService;
 import com.yniot.lms.service.OrderShipmentService;
 import com.yniot.lms.utils.CommonUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Date;
+import java.util.List;
 
 /**
  * @project: lms
@@ -32,12 +35,19 @@ public class OrderShipmentServiceImpl extends ServiceImpl<OrderShipmentMapper, O
         return this.create(orderId, wardrobeId, userId, null, null);
     }
 
+    @Autowired
+    OrderGoodsService orderGoodsService;
+
     @Override
     public boolean create(int orderId, int wardrobeId, int userId, String address, String phone) {
+        List<OrderGoods> orderGoodsList = orderGoodsService.getByOrderId(orderId);
+        if (orderGoodsList == null || orderGoodsList.isEmpty()) {
+            return false;
+        }
         OrderShipment orderShipment = new OrderShipment();
         LocalDateTime now = LocalDateTime.now();
         orderShipment.setId(orderId);
-        orderShipment.setState(ShipmentEnum.WAITING.getState());
+        orderShipment.setState(OrderStateEnum.WAITING_TO_PUT.getState());
         orderShipment.setModifyTime(now);
         orderShipment.setWardrobeId(wardrobeId);
         orderShipment.setModifier(userId);
@@ -46,8 +56,10 @@ public class OrderShipmentServiceImpl extends ServiceImpl<OrderShipmentMapper, O
         orderShipment.setPassword(Integer.valueOf(CommonUtil.String.getRandomNum(6)));
         orderShipment.setPswExpireTime(now);
         orderShipment.setCreateTime(now);
+        orderShipment.setCellId(orderGoodsList.get(0).getStorageCellId());
         return save(orderShipment);
     }
+
     @Override
     public void updatePassword() {
         baseMapper.updatePassword(PSW_EXPIRE_MIN);

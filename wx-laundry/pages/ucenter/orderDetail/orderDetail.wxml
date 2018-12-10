@@ -27,7 +27,7 @@
     </view>
 
     <view wx:if="{{showQRCode}}" style="text-align: center;padding: 20px">
-        <text>过期时间 {{orderShipment.pswExpireTime}}</text>
+        <text>过期时间:{{orderShipment.pswExpireTime}}</text>
         <canvas style="width: 200px; height: 200px;margin: auto;" canvas-id="storageQRCode"></canvas>
     </view>
 

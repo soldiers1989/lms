@@ -26,6 +26,5 @@ public interface OrderGoodsService extends IService<OrderGoods> {
 
     boolean removeByOrderId(int orderId);
 
-
     List<OrderGoods> getByOrderIdList(List<Integer> orderIdList);
 }

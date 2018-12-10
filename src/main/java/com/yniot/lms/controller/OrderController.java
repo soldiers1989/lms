@@ -11,7 +11,6 @@ import com.yniot.lms.db.entity.OrderComment;
 import com.yniot.lms.db.entity.OrderGoods;
 import com.yniot.lms.db.entity.OrderShipment;
 import com.yniot.lms.enums.OrderStateEnum;
-import com.yniot.lms.enums.ShipmentEnum;
 import com.yniot.lms.service.*;
 import me.chanjar.weixin.common.error.WxErrorException;
 import org.apache.commons.lang3.StringUtils;
@@ -60,36 +59,29 @@ public class OrderController extends BaseControllerT<Order> {
     //3.接单  现在设置成默认接单
     @LaundryOnly
     @RequestMapping("/accept")
-    public String receiveOrder(@RequestParam(name = "orderId") int orderId) {
-        Order order = orderService.getById(orderId);
+    public String receiveOrder(@RequestParam(name = "orderId") int orderId
+    ) {
         if (!isLaundry()) {
             return super.noAuth();
-        }
-        //是否已经过期
-        if (order.getState() >= OrderStateEnum.CANCELED.getState() && order.getState() < OrderStateEnum.ACCEPTED.getState()) {
-            return super.expired();
-        }
-        //订单过期
-        if (LocalDateTime.now().isAfter(order.getExpiredTime())) {
-            //设置订单过期
-            orderService.expiredOrder(orderId);
-            //保存状态
-            orderStateHistoryService.saveOrderState(order, getId());
-            return super.expired();
-        }
-        if (order.getState() == OrderStateEnum.COMMITTED.getState()) {
-            //更改为接单状态
-            orderService.updateState(orderId, OrderStateEnum.ACCEPTED.getState());
-            //更新物流信息
-            orderShipmentService.create(order.getId(), order.getWardrobeId(), getId());
-            //保存状态信息
-            orderStateHistoryService.saveOrderState(orderId, OrderStateEnum.ACCEPTED.getState(), getId());
-            return super.getSuccessResult(1);
         } else {
-            return super.wrongState();
+            return getSuccessResult(orderService.receiveOrder(getId(), orderId));
         }
     }
 
+    //3.接单  现在设置成默认接单
+    @LaundryOnly
+    @RequestMapping("/acceptBatch")
+    public String receiveOrderBatch(@RequestParam(name = "orderIdList[]") List<Integer> orderIdList) {
+        if (!isLaundry()) {
+            return super.noAuth();
+        } else {
+            int cnt = 0;
+            for (Integer orderId : orderIdList) {
+                cnt += orderService.receiveOrder(getId(), orderId) ? 1 : 0;
+            }
+            return getSuccessResult(cnt);
+        }
+    }
 
     //4.拒绝订单
     @RequestMapping("/cancel")
@@ -116,7 +108,7 @@ public class OrderController extends BaseControllerT<Order> {
     public String finishOrder(@RequestParam(name = "orderId") int orderId) {
         Order order = orderService.getById(orderId);
         OrderShipment orderShipment = orderShipmentService.getById(orderId);
-        if (orderShipment.getState() != ShipmentEnum.TOOK_USER.getState()) {
+        if (orderShipment.getState() != OrderStateEnum.TOOK_USER.getState()) {
             return super.wrongState();
         }
         if (!isUser()) {
@@ -167,7 +159,7 @@ public class OrderController extends BaseControllerT<Order> {
             //锁定格子
             cellService.usedCell(orderGoodsList.get(0).getStorageCellId(), orderId);
             //更新徐柳状态
-            return getSuccessResult(orderShipmentService.updateState(orderId, ShipmentEnum.PUT_USER.getState()));
+            return getSuccessResult(orderShipmentService.updateState(orderId, OrderStateEnum.PUT_USER.getState()));
         } else {
             return wrongState();
         }
@@ -183,16 +175,16 @@ public class OrderController extends BaseControllerT<Order> {
             return super.getErrorMsg("没有数据!");
         }
         for (OrderGoods orderGoods : orderGoodsList) {
-            if (orderGoods.getState() == ShipmentEnum.PUT_USER.getState()) {
-                orderGoods.setState(ShipmentEnum.TOOK_MAILMAN.getState());
+            if (orderGoods.getState() == OrderStateEnum.PUT_USER.getState()) {
+                orderGoods.setState(OrderStateEnum.TOOK_MAILMAN.getState());
             }
         }
         OrderGoods orderGoods = orderGoodsList.get(0);
         int orderId = orderGoods.getOrderId();
         OrderShipment orderShipment = orderShipmentService.getById(orderId);
-        if (orderShipment.getState() == ShipmentEnum.PUT_USER.getState()) {
+        if (orderShipment.getState() == OrderStateEnum.PUT_USER.getState()) {
             //更新物流信息
-            orderShipmentService.updateState(orderId, ShipmentEnum.PUT_USER.getState());
+            orderShipmentService.updateState(orderId, OrderStateEnum.PUT_USER.getState());
             //释放格子
             cellService.releaseCellByCellId(orderId);
         }
@@ -253,14 +245,33 @@ public class OrderController extends BaseControllerT<Order> {
     }
 
 
+    /**
+     * <el-menu-item index="1">待接单</el-menu-item>
+     * <el-menu-item index="2">待存放</el-menu-item>
+     * <el-menu-item index="3">待提货</el-menu-item>
+     * <el-menu-item index="4">已提货</el-menu-item>
+     * <el-menu-item index="5">待付款</el-menu-item>
+     * <el-menu-item index="6">待清洁</el-menu-item>
+     * <el-menu-item index="7">待送出</el-menu-item>
+     * <el-menu-item index="8">已失效</el-menu-item>
+     *
+     * @return java.lang.String
+     * @Author wanggl(lane)
+     * @Description //TODO
+     * @Date 13:45 2018-12-10
+     * @Param [keyWord, pageSize, pageNum]
+     **/
     @LaundryOnly
     @RequestMapping("/selectByLaundryId")
     public String selectByLaundryId(@RequestParam(name = KEY_WORD_KEY, required = false, defaultValue = "") String keyWord,
                                     @RequestParam(name = PAGE_SIZE_KEY, required = false, defaultValue = "20") int pageSize,
+                                    @RequestParam(name = "state", required = false, defaultValue = "20") int state,
                                     @RequestParam(name = PAGE_NUM_KEY, required = false, defaultValue = "1") int pageNum) {
         if (!isLaundry()) {
             return noAuth();
         }
+
+
         QueryWrapper<Order> orderQueryWrapper = new QueryWrapper<>();
         orderQueryWrapper.eq("laundry_id", getLaundryId());
         if (StringUtils.isNotEmpty(keyWord)) {

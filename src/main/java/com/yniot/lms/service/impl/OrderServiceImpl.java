@@ -1,13 +1,14 @@
 package com.yniot.lms.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yniot.lms.db.dao.OrderMapper;
 import com.yniot.lms.db.entity.Cart;
 import com.yniot.lms.db.entity.Laundry;
 import com.yniot.lms.db.entity.Order;
 import com.yniot.lms.enums.OrderStateEnum;
-import com.yniot.lms.enums.ShipmentEnum;
 import com.yniot.lms.service.*;
 import com.yniot.lms.utils.CommonUtil;
 import me.chanjar.weixin.common.error.WxErrorException;
@@ -66,6 +67,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         return baseMapper.updateState(orderId, OrderStateEnum.CANCELED.getState()) > 0;
     }
 
+    @Override
     public boolean removeByCode(String orderCode) {
         QueryWrapper<Order> orderQueryWrapper = new QueryWrapper<>();
         orderQueryWrapper.eq("code", orderCode);
@@ -143,4 +145,36 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         return "LO" + dateStr + randomWord.toUpperCase();
     }
 
+    @Override
+    public boolean receiveOrder(int userId, int orderId) {
+        Order order = getById(orderId);
+        //订单过期
+        if (LocalDateTime.now().isAfter(order.getExpiredTime())) {
+            //设置订单过期
+            expiredOrder(orderId);
+            //保存状态
+            orderStateHistoryService.saveOrderState(order, userId);
+        }
+        if (order.getState() == OrderStateEnum.COMMITTED.getState()) {
+            //更改为接单状态
+            updateState(orderId, OrderStateEnum.ACCEPTED.getState());
+            //更新物流信息
+            orderShipmentService.create(order.getId(), order.getWardrobeId(), userId);
+            //保存状态信息
+            return orderStateHistoryService.saveOrderState(orderId, OrderStateEnum.ACCEPTED.getState(), userId);
+        }
+        return false;
+    }
+
+
+    public IPage<Order> selectByLaundryId(int pageNum, int pageSize, int laundryId, String keyWord, int state) {
+        QueryWrapper<Order> orderQueryWrapper = new QueryWrapper<>();
+        orderQueryWrapper.eq("laundry_id", laundryId).eq("state", state);
+        if (StringUtils.isNotEmpty(keyWord)) {
+            orderQueryWrapper.like("code", keyWord)
+                    .or().like("description", keyWord);
+        }
+        orderQueryWrapper.orderByDesc("commit_time");
+        return page(new Page(pageNum, pageSize), orderQueryWrapper);
+    }
 }

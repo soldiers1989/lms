@@ -10,6 +10,7 @@ Page({
         orderCost: {},
         orderShipment: {},
         codeExpireTime: "暂无",
+        socketTask: null,
         handleOption: {}
     },
     onLoad: function (options) {
@@ -21,6 +22,26 @@ Page({
         this.getOrderCost();
         this.getOrderGoodsList();
         this.getOrderShipment();
+        this.initSaveListener();
+    },
+    initSaveListener() {
+        let socketTask = util.initWebsocket(
+            function (res) {
+            },
+            function (res) {
+                if (res.type == "Shipment") {
+                    res.data;
+                }
+            },
+            function (res) {
+            },
+            function (res) {
+            });
+        if (socketTask != null) {
+            this.setData({
+                socketTask: socketTask
+            });
+        }
     },
     getOrderDetail() {
         let that = this;
@@ -176,6 +197,7 @@ Page({
 
     },
     showStorageQRCode() {
+        this.getOrderShipment();
         let that = this;
         if (this.data.showQRCode) {
             this.setData({
@@ -189,11 +211,11 @@ Page({
                 width: 200,
                 height: 200,
                 canvasId: 'storageQRCode',
-                text: that.data.orderShipment.password+""
+                text: that.data.orderShipment.password + ""
             });
         }
     },
-    storageGoods() {
+    goodsSavedToCloset() {
 
     },
     getGoods() {

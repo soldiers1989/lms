@@ -9,6 +9,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -65,16 +67,6 @@ public class CellServiceImpl extends ServiceImpl<CellMapper, Cell> implements Ce
         return baseMapper.releaseCellByCellId(cellId) > 0;
     }
 
-//    @Autowired
-//    CacheDao cacheDao;
-
-//    public boolean validOperation(int wardrobeId, int cellId, String cellToken) {
-//        String cacheCellToken = cacheDao.get(CELL_TOKEN_PREFIX + cellId);
-//        if (cacheCellToken.equals(cellToken)) {
-//
-//        }
-//        return false;
-//    }
 
     @Override
     public boolean releaseCellByOrderId(int orderId) {
@@ -86,4 +78,33 @@ public class CellServiceImpl extends ServiceImpl<CellMapper, Cell> implements Ce
         baseMapper.refreshCellState();
     }
 
+    @Override
+    public boolean createCell(int num, int wardrobeId) {
+        List<Cell> cellList = new ArrayList<>();
+        for (int i = 0; i < num; i++) {
+            Cell cell = new Cell();
+            cell.setWardrobeId(wardrobeId);
+            cell.setActivated(false);
+            cell.setClosed(true);
+            cell.setCreateTime(LocalDateTime.now());
+            cell.setInUsed(false);
+            cellList.add(cell);
+        }
+        return saveBatch(cellList);
+    }
+
+    @Override
+    public boolean activateCellByWardrobeId(int wardrobeId, boolean activate) {
+        return baseMapper.activateCell(wardrobeId, activate ? 1 : 0) > 0;
+    }
+
+    @Override
+    public boolean activateCellByCellId(boolean activate, int cellId) {
+        return baseMapper.activateCellByCellId(activate ? 1 : 0, cellId) > 0;
+    }
+
+    @Override
+    public boolean activateCellByWardrobeIdList(List<Integer> wardrobeIdList, boolean activate) {
+        return baseMapper.activateCellBatch(wardrobeIdList, activate ? 1 : 0) > 0;
+    }
 }

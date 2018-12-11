@@ -20,6 +20,7 @@ public interface CellMapper extends CommonMapper<Cell> {
     @Update("update biz_cell set in_used = 0 ,order_id=0 where order_id = #{orderId}")
     int releaseCellByOrderId(int orderId);
 
+
     @Update("update biz_cell set in_used = 0 ,order_id=0 where id = #{cellId}")
     int releaseCellByCellId(int cellId);
 
@@ -29,4 +30,11 @@ public interface CellMapper extends CommonMapper<Cell> {
     @Update("update biz_cell set in_used = 0 where order_id IN ( SELECT id FROM biz_order WHERE (state >= 30 AND state < 40) or state=58 )")
     int refreshCellState();
 
+    @Update("update biz_cell set activate = #{activate} where wardrobe_id = #{wardrobeId}")
+    int activateCell(int wardrobeId, int activate);
+
+    int activateCellBatch(List<Integer> wardrobeIdList, int activate);
+
+    @Update("update biz_cell set activate = #{activate} where id = #{cellId}")
+    int activateCellByCellId(int activate, int cellId);
 }

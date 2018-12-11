@@ -29,7 +29,7 @@
                            @click="acceptOrder" v-if="activeIndex==10">接单
                 </el-button>
                 <!--<el-button size="mini" icon="el-icon-delete" :disabled="selectedRows.length==0" v-if="activeIndex==10">-->
-                    <!--取消订单-->
+                <!--取消订单-->
                 <!--</el-button>-->
                 <el-button size="mini" type="primary" :disabled="selectedRows.length==0" v-if="activeIndex==50">提交价格
                 </el-button>
@@ -40,7 +40,7 @@
                 <el-button size="mini" type="primary" :disabled="selectedRows.length==0" v-if="activeIndex==65">发出
                 </el-button>
             </el-button-group>
-            <el-table :data="orderList" style="width: 100%" stripe highlight-current-row
+            <el-table height="550" :data="orderList" style="width: 100%" stripe highlight-current-row
                       v-loading="$store.state.loading" @selection-change="onSelectionChange">
                 <el-table-column type="selection" width="55" align="center">
                 </el-table-column>

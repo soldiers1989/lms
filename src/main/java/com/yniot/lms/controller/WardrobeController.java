@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @Auther: lane
@@ -44,28 +45,29 @@ public class WardrobeController extends BaseControllerT<Wardrobe> {
         return super.getSuccessResult(wardrobeService.save(wardrobe));
     }
 
-    /**
-     * 激活或者停用
-     *
-     * @param wardrobeId
-     * @param activate
-     * @return
-     */
-    @AdminAndLaundry
-    @RequestMapping("/activate")
-    public String activateWardrobe(@RequestParam(name = "wardrobeId") int wardrobeId,
-                                   @RequestParam(name = "activate") boolean activate) {
-        if (!isAdminOrLaundry()) {
-            return noAuth();
-        }
-        Wardrobe wardrobe = wardrobeService.getById(wardrobeId);
-        if (wardrobe.getActivated() == !activate) {
-            return wrongState();
-        }
-        wardrobe.setModifyTime(LocalDateTime.now());
-        wardrobe.setActivated(true);
-        wardrobe.setModifier(getId());
-        return super.getSuccessResult(wardrobeService.saveOrUpdate(wardrobe));
+    @AdminOnly
+    @RequestMapping("/insert")
+    public String insert(@RequestParam(name = "latitude", required = false, defaultValue = "0") String latitude,
+                         @RequestParam(name = "swVersion", required = false, defaultValue = "1") int swVersion,
+                         @RequestParam(name = "longitude", required = false, defaultValue = "0") String longitude,
+                         @RequestParam(name = "cellNum", required = false, defaultValue = "16") int cellNum,
+                         @RequestParam String address) {
+        Wardrobe wardrobe = new Wardrobe();
+        wardrobe.setLongitude(Double.valueOf(longitude));
+        wardrobe.setLatitude(Double.valueOf(latitude));
+        wardrobe.setAddress(address);
+        wardrobe.setActivated(false);
+        wardrobe.setSwVersion(swVersion);
+        wardrobe.setCreateTime(LocalDateTime.now());
+        wardrobe.setCreator(getId());
+        return super.getSuccessResult(wardrobeService.save(wardrobe));
+    }
+
+
+    @AdminOnly
+    @RequestMapping("/relateLaundry")
+    public String relateLaundry(@RequestParam boolean relate, @RequestParam int laundryId, @RequestParam(name = "wardrobeIdList[]") List<Integer> wardrobeIdList) {
+        return getSuccessResult(wardrobeService.relateLaundry(relate, laundryId, wardrobeIdList));
     }
 
     //2.获取柜子列表
@@ -76,10 +78,10 @@ public class WardrobeController extends BaseControllerT<Wardrobe> {
             @RequestParam(name = PAGE_SIZE_KEY) int pageSize) {
         QueryWrapper<Wardrobe> wardrobeQueryWrapper = new QueryWrapper<>();
         wardrobeQueryWrapper.eq("deleted", 0);
-        if (isLaundry()) {
-            wardrobeQueryWrapper.eq("laundry_id", getUser().getLaundryId());
-        } else if (isAdmin()) {
+        if (isAdmin()) {
 
+        } else if (isLaundry()) {
+            wardrobeQueryWrapper.eq("laundry_id", getUser().getLaundryId());
         } else {
             return noAuth();
         }
@@ -149,5 +151,10 @@ public class WardrobeController extends BaseControllerT<Wardrobe> {
         return getSuccessPage(wardrobeProblemService.page(new Page(pageNum, pageSize), wardrobeProblemQueryWrapper));
     }
 
+
+    @RequestMapping("/activate")
+    public String activate(@RequestParam boolean activate, @RequestParam(name = "wardrobeIdList[]") List<Integer> wardrobeIdList) {
+        return getSuccessResult(wardrobeService.activate(activate, wardrobeIdList));
+    }
 
 }

@@ -20,6 +20,6 @@ public interface OrderShipmentMapper extends CommonMapper<OrderShipment> {
             "where  sysdate()>psw_expire_time ")
     void updatePassword(int expireMin);
 
-    @Select("select count(1) from biz_order_shipment where password=#{password} and wardrobe_id =#{wardrobeId} and cell_id=#{cellId}")
+    @Select("select count(1) from biz_order_shipment where password=#{password} and wardrobe_id =#{wardrobeId} and cell_id=#{cellId} and sysdate()> psw_expire_time ")
     int checkPassword(int wardrobeId, int cellId, String password);
 }

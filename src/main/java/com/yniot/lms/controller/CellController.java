@@ -28,6 +28,9 @@ public class CellController extends BaseController {
         return getSuccessResult(cellService.getAvailableCellNum(wardrobeId));
     }
 
-
+    @RequestMapping("/createCell")
+    public String createCell(@RequestParam int cellNum, @RequestParam int wardrobeId) {
+        return getSuccessResult(cellService.createCell(cellNum, wardrobeId));
+    }
 }
 

@@ -10,4 +10,5 @@ import org.apache.ibatis.annotations.Select;
 public interface LaundryMapper extends CommonMapper<Laundry> {
     @Select("select * from biz_laundry where id in (select laundry_id from biz_wardrobe where id = #{wardrobeId}) limit 0,1")
     Laundry getByWardrobeId(int wardrobeId);
+
 }

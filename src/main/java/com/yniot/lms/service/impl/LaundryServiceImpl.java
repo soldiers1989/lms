@@ -21,4 +21,5 @@ public class LaundryServiceImpl extends ServiceImpl<LaundryMapper, Laundry> impl
     public Laundry getByWardrobeId(int wardrobeId) {
         return baseMapper.getByWardrobeId(wardrobeId);
     }
+
 }

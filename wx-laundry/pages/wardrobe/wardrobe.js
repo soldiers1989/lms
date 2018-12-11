@@ -9,6 +9,8 @@ Page({
         totalPrice: 0.00,
         wardrobeList: [],
         checkedIndex: -1,
+        latitude: null,
+        longitude: null,
     },
 
     /**
@@ -73,10 +75,34 @@ Page({
                 that.setData({
                     wardrobeList: res.data,
                 });
+                that.calculateDistance();
             }
         });
     },
-
+    ///7627039.251710409
+    calculateDistance: function () {
+        let that = this;
+        wx.getLocation({
+            type: 'wgs84',
+            success: function (res) {
+                that.setData({
+                    latitude: res.latitude,
+                    longitude: res.longitude
+                });
+                let tempData = that.data.wardrobeList;
+                for (let i in tempData) {
+                    //lat1, lng1, lat2, lng2
+                    let temp = util.getDistance(tempData[i].latitude, tempData[i].longitude,
+                        that.data.latitude, that.data.longitude);
+                    console.log(temp);
+                    tempData[i].distance = temp;
+                }
+                that.setData({
+                    wardrobeList: tempData,
+                });
+            }
+        })
+    },
     commitOrder: function () {
         if (this.data.checkedIndex < 0) {
             util.showErrorToast("没有选择柜子!");
@@ -90,7 +116,7 @@ Page({
                 if (res.confirm) {
                     let wardrobe = that.data.wardrobeList[that.data.checkedIndex];
                     util.request(api.CommitOrder, {wardrobeId: wardrobe.id}).then(function (res) {
-                        if(res.result){
+                        if (res.result) {
                             wx.redirectTo({
                                 url: '/pages/ucenter/order/order'
                             })

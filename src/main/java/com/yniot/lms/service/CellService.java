@@ -32,4 +32,12 @@ public interface CellService extends IService<Cell> {
 
     void refreshCell();
 
+    boolean createCell(int num, int wardrobeId);
+
+    boolean activateCellByWardrobeId(int wardrobeId, boolean activate);
+
+    boolean activateCellByWardrobeIdList(List<Integer> wardrobeIdList, boolean activate);
+
+    boolean activateCellByCellId(boolean activate, int cellId);
+
 }

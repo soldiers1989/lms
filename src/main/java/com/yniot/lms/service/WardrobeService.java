@@ -3,6 +3,8 @@ package com.yniot.lms.service;
 import com.yniot.lms.db.entity.Wardrobe;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
  * <p>
  * 服务类
@@ -14,5 +16,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
 public interface WardrobeService extends IService<Wardrobe> {
 
     boolean updateCellNum(int wardrobeId);
+
     boolean updateAllCellNum();
+
+    int relateLaundry(boolean relate, int laundryId, List<Integer> wardrobeIdList);
+
+    int activate(boolean activate, List<Integer> wardrobeIdList);
 }

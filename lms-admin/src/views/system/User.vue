@@ -9,28 +9,28 @@
                     <el-col :span="3">
                         <el-input placeholder="手机号码"></el-input>
                     </el-col>
-                    <el-col :span="3">
-                        <el-select v-model="userType" placeholder="用户类型">
-                            <el-option :label="'普通用户'" :value="0"></el-option>
-                            <el-option :label="'配送员'" :value="10"></el-option>
-                            <el-option :label="'洗衣店'" :value="20"></el-option>
-                            <el-option :label="'运营人员'" :value="30"></el-option>
-                        </el-select>
-                    </el-col>
-                    <el-col :span="3">
-                        <el-select v-model="activated" placeholder="用户状态">
-                            <el-option :label="'启用'" :value="0"></el-option>
-                            <el-option :label="'禁用'" :value="1"></el-option>
-                        </el-select>
-                    </el-col>
-                    <el-col :span="6">
-                        <el-date-picker type="daterange" v-model="dateRange" align="right" unlink-panels
-                                        range-separator="至"
-                                        start-placeholder="注册开始日期"
-                                        end-placeholder="注册结束日期"
-                                        :picker-options="$store.state.dateRangePickerOptions">
-                        </el-date-picker>
-                    </el-col>
+                    <!--<el-col :span="3">-->
+                        <!--<el-select v-model="userType" placeholder="用户类型">-->
+                            <!--<el-option :label="'普通用户'" :value="0"></el-option>-->
+                            <!--<el-option :label="'配送员'" :value="10"></el-option>-->
+                            <!--<el-option :label="'洗衣店'" :value="20"></el-option>-->
+                            <!--<el-option :label="'运营人员'" :value="30"></el-option>-->
+                        <!--</el-select>-->
+                    <!--</el-col>-->
+                    <!--<el-col :span="3">-->
+                        <!--<el-select v-model="activated" placeholder="用户状态">-->
+                            <!--<el-option :label="'启用'" :value="0"></el-option>-->
+                            <!--<el-option :label="'禁用'" :value="1"></el-option>-->
+                        <!--</el-select>-->
+                    <!--</el-col>-->
+                    <!--<el-col :span="6">-->
+                        <!--<el-date-picker type="daterange" v-model="dateRange" align="right" unlink-panels-->
+                                        <!--range-separator="至"-->
+                                        <!--start-placeholder="注册开始日期"-->
+                                        <!--end-placeholder="注册结束日期"-->
+                                        <!--:picker-options="$store.state.dateRangePickerOptions">-->
+                        <!--</el-date-picker>-->
+                    <!--</el-col>-->
                     <el-col :span="6" style="float: right;">
                         <el-button type="primary" icon="el-icon-search" @click="query">查询</el-button>
                     </el-col>

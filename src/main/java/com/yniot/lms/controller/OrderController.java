@@ -49,9 +49,9 @@ public class OrderController extends BaseControllerT<Order> {
 
     //1.提交订单
     @RequestMapping("/commit")
-    public String createOrder(int wardrobeId) throws WxErrorException {
+    public String createOrder(int wardrobeId, String description) throws WxErrorException {
         //获取用户
-        return super.getSuccessResult(orderService.generateOrder(getId(), getOpenId(), wardrobeId));
+        return super.getSuccessResult(orderService.generateOrder(getId(), getOpenId(), wardrobeId, description));
     }
 
 
@@ -147,51 +147,6 @@ public class OrderController extends BaseControllerT<Order> {
     }
 
 
-    @UserOnly
-    @RequestMapping("/user/put")
-    public String storageByUser(@RequestParam(name = "orderId") int orderId) {
-        if (!isUser()) {
-            return noAuth();
-        }
-        Order order = orderService.getById(orderId);
-        List<OrderGoods> orderGoodsList = orderGoodsService.getByOrderId(orderId);
-        if (order.getState() == OrderStateEnum.COMMITTED.getState() && orderGoodsList != null && !orderGoodsList.isEmpty()) {
-            //锁定格子
-            cellService.usedCell(orderGoodsList.get(0).getStorageCellId(), orderId);
-            //更新徐柳状态
-            return getSuccessResult(orderShipmentService.updateState(orderId, OrderStateEnum.PUT_USER.getState()));
-        } else {
-            return wrongState();
-        }
-    }
-
-    @MailmanOnly
-    @RequestMapping("/mailman/take")
-    public String tookByMailman(@RequestParam(name = "cellId") int cellId) {
-        QueryWrapper<OrderGoods> orderGoodsQueryWrapper = new QueryWrapper<>();
-        orderGoodsQueryWrapper.eq("storage_cell_id", cellId);
-        List<OrderGoods> orderGoodsList = orderGoodsService.list(orderGoodsQueryWrapper);
-        if (orderGoodsList == null || orderGoodsList.isEmpty()) {
-            return super.getErrorMsg("没有数据!");
-        }
-        for (OrderGoods orderGoods : orderGoodsList) {
-            if (orderGoods.getState() == OrderStateEnum.PUT_USER.getState()) {
-                orderGoods.setState(OrderStateEnum.TOOK_MAILMAN.getState());
-            }
-        }
-        OrderGoods orderGoods = orderGoodsList.get(0);
-        int orderId = orderGoods.getOrderId();
-        OrderShipment orderShipment = orderShipmentService.getById(orderId);
-        if (orderShipment.getState() == OrderStateEnum.PUT_USER.getState()) {
-            //更新物流信息
-            orderShipmentService.updateState(orderId, OrderStateEnum.PUT_USER.getState());
-            //释放格子
-            cellService.releaseCellByCellId(orderId);
-        }
-        return super.getErrorMsg("");
-    }
-
-
     //获取单个订单
     @Finished
     @LoginOnly
@@ -246,7 +201,7 @@ public class OrderController extends BaseControllerT<Order> {
 
 
     /**
-     *               @return java.lang.String
+     * @return java.lang.String
      * @Author wanggl(lane)
      * @Description //TODO
      * @Date 13:45 2018-12-10

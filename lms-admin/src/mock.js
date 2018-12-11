@@ -1,8 +1,8 @@
 const Mock = require("mockjs");
 
 const signIn = () => ({
-    token:""
-        // "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTUzMDMyODY2MywiaWF0IjoxNTI5NzIzODYzfQ.cgmhRgLhy8P0U2l1oLhZqHwlsetp4tUGWjxaDRjHq2uKYOKSveZikhsl_r1drbNQ8lg8ErviShknFVgo-nXg1g"
+    token: ""
+    // "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTUzMDMyODY2MywiaWF0IjoxNTI5NzIzODYzfQ.cgmhRgLhy8P0U2l1oLhZqHwlsetp4tUGWjxaDRjHq2uKYOKSveZikhsl_r1drbNQ8lg8ErviShknFVgo-nXg1g"
 });
 
 const queryUserAuthority = () => ({
@@ -65,6 +65,15 @@ const queryUserAuthority = () => ({
             icon: "el-icon-menu",
             lft: 7,
             rgt: 8,
+            depth: 2
+        }, {
+            menuId: 50,
+            menuName: "柜子列表",
+            menuCode: "codeList",
+            link: "/system/wardrobeList",
+            icon: "el-icon-menu",
+            lft: 11,
+            rgt: 12,
             depth: 2
         },
         {

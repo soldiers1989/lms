@@ -21,6 +21,12 @@
                                     <text class="name">{{item.laundryName}}</text>
                                     <text class="name">(可用格子:{{item.avaCellNum}})</text>
                                 </view>
+                                <view class="b">
+                                    <text class="price">距离:{{item.distance}}米</text>
+                                </view>
+                                <view class="b">
+                                    <text class="price">编号:{{item.laundryId}}</text>
+                                </view>
                             </view>
                         </view>
                     </view>

@@ -3,11 +3,13 @@ package com.yniot.lms.controller;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.yniot.lms.annotation.AdminOnly;
 import com.yniot.lms.annotation.Unfinished;
 import com.yniot.lms.controller.commonController.BaseControllerT;
 import com.yniot.lms.db.entity.Laundry;
 import com.yniot.lms.service.CouponService;
 import com.yniot.lms.service.LaundryService;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -38,7 +40,7 @@ public class LaundryController extends BaseControllerT<Laundry> {
      * @Param [pageSize, pageNum, latitude, longitude]
      **/
     @Unfinished
-    @RequestMapping("/select")
+    @RequestMapping("/getNearestLaundryList")
     public String getNearestLaundryList(@RequestParam(name = "pageSize", required = false, defaultValue = "0") int pageSize,
                                         @RequestParam(name = "pageNum", required = false, defaultValue = "1") int pageNum,
                                         @RequestParam(name = "latitude") float latitude,
@@ -50,6 +52,21 @@ public class LaundryController extends BaseControllerT<Laundry> {
             laundryPage.setSize(pageSize);
         }
         laundryPage.setPages(pageNum);
+        return super.getSuccessPage(laundryService.page(laundryPage, laundryWrapper));
+    }
+
+    @AdminOnly
+    @RequestMapping("/select")
+    public String getLaundryList(@RequestParam(name = "keyWord", required = false, defaultValue = "") String keyWord,
+                                 @RequestParam(name = "pageSize", required = false, defaultValue = "20") int pageSize,
+                                 @RequestParam(name = "pageNum", required = false, defaultValue = "1") int pageNum) {
+        QueryWrapper<Laundry> laundryWrapper = new QueryWrapper<Laundry>();
+        if (StringUtils.isNotEmpty(keyWord)) {
+            laundryWrapper.like("name", keyWord)
+                    .or().like("address", keyWord)
+                    .or().like("phone", keyWord);
+        }
+        Page<Laundry> laundryPage = new Page<>(pageNum, pageSize);
         return super.getSuccessPage(laundryService.page(laundryPage, laundryWrapper));
     }
 

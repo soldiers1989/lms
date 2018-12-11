@@ -82,7 +82,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 
     @Override
     @Transactional
-    public boolean generateOrder(int userId, String openId, int wardrobeId) throws WxErrorException {
+    public boolean generateOrder(int userId, String openId, int wardrobeId, String description) throws WxErrorException {
         if (cellService.getAvailableCellId(wardrobeId) < 0) {
             return false;
         }
@@ -110,6 +110,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
             order.setLaundryId(laundryId);
             order.setExpiredTime(CommonUtil.Date.plusSecond(now, OrderService.EXPIRED_IN_MIN * 60));
             order.setCreateTime(now);
+            order.setDescription(description);
             order.setUserOpenId(openId);
             order.setWardrobeId(wardrobeId);
             order.setLaundryOpenId(laundry.getOpenId());

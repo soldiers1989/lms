@@ -48,6 +48,11 @@ export const asyncRouter = [
                 path: "/system/role",
                 name: "role",
                 component: () => import("@/views/system/Role.vue")
+            },
+            {
+                path: "/system/wardrobeList",
+                name: "role",
+                component: () => import("@/views/wardrobe/WardrobeList.vue")
             }
         ]
     },

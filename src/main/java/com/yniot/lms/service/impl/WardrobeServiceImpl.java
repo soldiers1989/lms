@@ -8,6 +8,8 @@ import com.yniot.lms.service.WardrobeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * <p>
  * 服务实现类
@@ -32,5 +34,15 @@ public class WardrobeServiceImpl extends ServiceImpl<WardrobeMapper, Wardrobe> i
         //更新可用格子状态
         cellService.refreshCell();
         return baseMapper.updateAllCellNum() > 0;
+    }
+
+    @Override
+    public int relateLaundry(boolean relate, int laundryId, List<Integer> wardrobeIdList) {
+        return baseMapper.relateLaundry(relate, laundryId, wardrobeIdList);
+    }
+
+    @Override
+    public int activate(boolean activate, List<Integer> wardrobeIdList) {
+        return baseMapper.activate(activate ? 1 : 0, wardrobeIdList);
     }
 }

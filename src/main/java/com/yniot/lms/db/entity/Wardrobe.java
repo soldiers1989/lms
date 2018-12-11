@@ -4,12 +4,13 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.annotation.TableId;
+
 import java.time.LocalDateTime;
 import java.io.Serializable;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author wanggl
@@ -30,6 +31,16 @@ public class Wardrobe extends Model<Wardrobe> {
     private Boolean activated;
 
     private String qrCode;
+
+    public String getWardrobeCode() {
+        return wardrobeCode;
+    }
+
+    public void setWardrobeCode(String wardrobeCode) {
+        this.wardrobeCode = wardrobeCode;
+    }
+
+    private String wardrobeCode;
 
     private Integer swVersion;
 
@@ -54,6 +65,16 @@ public class Wardrobe extends Model<Wardrobe> {
     private String laundryName;
 
     private Integer avaCellNum;
+
+    public Integer getTotalCellNum() {
+        return totalCellNum;
+    }
+
+    public void setTotalCellNum(Integer totalCellNum) {
+        this.totalCellNum = totalCellNum;
+    }
+
+    private Integer totalCellNum;
 
 
     public Integer getId() {
@@ -200,23 +221,25 @@ public class Wardrobe extends Model<Wardrobe> {
     @Override
     public String toString() {
         return "Wardrobe{" +
-        "id=" + id +
-        ", createTime=" + createTime +
-        ", deleted=" + deleted +
-        ", activated=" + activated +
-        ", qrCode=" + qrCode +
-        ", swVersion=" + swVersion +
-        ", description=" + description +
-        ", modifyTime=" + modifyTime +
-        ", address=" + address +
-        ", laundryId=" + laundryId +
-        ", latitude=" + latitude +
-        ", longitude=" + longitude +
-        ", modifier=" + modifier +
-        ", creator=" + creator +
-        ", laundryImgUrl=" + laundryImgUrl +
-        ", laundryName=" + laundryName +
-        ", avaCellNum=" + avaCellNum +
-        "}";
+                "id=" + id +
+                ", createTime=" + createTime +
+                ", deleted=" + deleted +
+                ", activated=" + activated +
+                ", qrCode=" + qrCode +
+                ", swVersion=" + swVersion +
+                ", description=" + description +
+                ", modifyTime=" + modifyTime +
+                ", address=" + address +
+                ", wardrobeCode=" + wardrobeCode +
+                ", laundryId=" + laundryId +
+                ", totalCellNum=" + totalCellNum +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
+                ", modifier=" + modifier +
+                ", creator=" + creator +
+                ", laundryImgUrl=" + laundryImgUrl +
+                ", laundryName=" + laundryName +
+                ", avaCellNum=" + avaCellNum +
+                "}";
     }
 }

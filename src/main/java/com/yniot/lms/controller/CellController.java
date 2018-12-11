@@ -30,7 +30,11 @@ public class CellController extends BaseController {
 
     @RequestMapping("/createCell")
     public String createCell(@RequestParam int cellNum, @RequestParam int wardrobeId) {
-        return getSuccessResult(cellService.createCell(cellNum, wardrobeId));
+        if (wardrobeId > 0 && cellNum > 0) {
+            return getSuccessResult(cellService.createCell(cellNum, wardrobeId));
+        } else {
+            return getErrorMsg("请输入正确的格子数");
+        }
     }
 }
 

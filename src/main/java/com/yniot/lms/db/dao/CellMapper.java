@@ -2,6 +2,7 @@ package com.yniot.lms.db.dao;
 
 import com.yniot.lms.db.entity.Cell;
 import com.yniot.exclude.CommonMapper;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
@@ -16,6 +17,7 @@ import java.util.List;
  * @author wanggl
  * @since 2018-12-04
  */
+@Mapper
 public interface CellMapper extends CommonMapper<Cell> {
     @Update("update biz_cell set in_used = 0 ,order_id=0 where order_id = #{orderId}")
     int releaseCellByOrderId(int orderId);

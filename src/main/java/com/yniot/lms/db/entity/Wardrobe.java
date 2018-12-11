@@ -66,6 +66,16 @@ public class Wardrobe extends Model<Wardrobe> {
 
     private Integer avaCellNum;
 
+    public Integer getUsedCellNum() {
+        return usedCellNum;
+    }
+
+    public void setUsedCellNum(Integer usedCellNum) {
+        this.usedCellNum = usedCellNum;
+    }
+
+    private Integer usedCellNum;
+
     public Integer getTotalCellNum() {
         return totalCellNum;
     }
@@ -231,6 +241,7 @@ public class Wardrobe extends Model<Wardrobe> {
                 ", modifyTime=" + modifyTime +
                 ", address=" + address +
                 ", wardrobeCode=" + wardrobeCode +
+                ", usedCellNum=" + usedCellNum +
                 ", laundryId=" + laundryId +
                 ", totalCellNum=" + totalCellNum +
                 ", latitude=" + latitude +

@@ -6,6 +6,7 @@ import com.yniot.lms.db.entity.Cell;
 import com.yniot.lms.db.dao.CellMapper;
 import com.yniot.lms.service.CellService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.yniot.lms.service.WardrobeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -78,19 +79,22 @@ public class CellServiceImpl extends ServiceImpl<CellMapper, Cell> implements Ce
         baseMapper.refreshCellState();
     }
 
+    @Autowired
+    WardrobeService wardrobeService;
+
     @Override
     public boolean createCell(int num, int wardrobeId) {
         List<Cell> cellList = new ArrayList<>();
         for (int i = 0; i < num; i++) {
             Cell cell = new Cell();
             cell.setWardrobeId(wardrobeId);
-            cell.setActivated(false);
+            cell.setActivated(true);
             cell.setClosed(true);
             cell.setCreateTime(LocalDateTime.now());
             cell.setInUsed(false);
             cellList.add(cell);
         }
-        return saveBatch(cellList);
+        return saveBatch(cellList) && wardrobeService.updateAllCellNum();
     }
 
     @Override

@@ -34,7 +34,9 @@
     "pages/auth/mobile/mobile",
     "pages/shopping/selCoupon/selCoupon",
     "pages/auth/btnAuth/btnAuth",
-    "pages/wardrobe/wardrobe"
+    "pages/wardrobe/wardrobe",
+    "pages/mailman/order/order",
+    "pages/mailman/orderDetail/orderDetail"
   ],
   "window": {
     "backgroundTextStyle": "dark",

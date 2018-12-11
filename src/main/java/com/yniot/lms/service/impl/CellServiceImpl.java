@@ -1,10 +1,12 @@
 package com.yniot.lms.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.yniot.lms.db.cachce.CacheDao;
 import com.yniot.lms.db.entity.Cell;
 import com.yniot.lms.db.dao.CellMapper;
 import com.yniot.lms.service.CellService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -62,6 +64,17 @@ public class CellServiceImpl extends ServiceImpl<CellMapper, Cell> implements Ce
     public boolean releaseCellByCellId(int cellId) {
         return baseMapper.releaseCellByCellId(cellId) > 0;
     }
+
+//    @Autowired
+//    CacheDao cacheDao;
+
+//    public boolean validOperation(int wardrobeId, int cellId, String cellToken) {
+//        String cacheCellToken = cacheDao.get(CELL_TOKEN_PREFIX + cellId);
+//        if (cacheCellToken.equals(cellToken)) {
+//
+//        }
+//        return false;
+//    }
 
     @Override
     public boolean releaseCellByOrderId(int orderId) {

@@ -20,4 +20,5 @@ public interface OrderShipmentService extends IService<OrderShipment> {
 
     boolean create(int orderId, int wardrobeId, int userId, String address, String phone);
 
+    boolean checkPassword(int wardrobeId, int cellId, String password)
 }

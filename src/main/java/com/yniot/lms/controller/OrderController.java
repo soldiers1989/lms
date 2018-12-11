@@ -246,16 +246,7 @@ public class OrderController extends BaseControllerT<Order> {
 
 
     /**
-     * <el-menu-item index="10">待接单</el-menu-item>
-     * <el-menu-item index="42">待存放</el-menu-item>
-     * <el-menu-item index="45">待提货</el-menu-item>
-     * <el-menu-item index="50">已提货</el-menu-item>
-     * <el-menu-item index="55">待付款</el-menu-item>
-     * <el-menu-item index="60">待清洁</el-menu-item>
-     * <el-menu-item index="65">待送出</el-menu-item>
-     * <el-menu-item index="8">已失效</el-menu-item>
-     *
-     * @return java.lang.String
+     *               @return java.lang.String
      * @Author wanggl(lane)
      * @Description //TODO
      * @Date 13:45 2018-12-10

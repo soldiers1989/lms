@@ -14,6 +14,8 @@ import java.util.List;
  * @since 2018-12-04
  */
 public interface CellService extends IService<Cell> {
+    String CELL_TOKEN_PREFIX = "CELL_TOKEN_";
+
     List<Cell> getCellListByWardrobeId(int wardrobeId);
 
     boolean usedCell(int cellId, int orderId);

@@ -64,6 +64,12 @@ public class OrderShipmentServiceImpl extends ServiceImpl<OrderShipmentMapper, O
     }
 
     @Override
+    public boolean checkPassword(int wardrobeId, int cellId, String password) {
+        return baseMapper.checkPassword(wardrobeId, cellId, password) > 0;
+    }
+
+
+    @Override
     public void updatePassword() {
         baseMapper.updatePassword(PSW_EXPIRE_MIN);
     }

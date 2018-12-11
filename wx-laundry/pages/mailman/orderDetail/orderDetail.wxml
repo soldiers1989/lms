@@ -1,0 +1,49 @@
+<view class="container">
+    <view class="order-info">
+        <view class="item-a">下单时间：{{orderInfo.commitTime}}</view>
+        <view class="item-a" wx:if="{{orderInfo.state>=30 && orderInfo.state<40}}">取消时间：{{orderInfo.canceledTime}}
+        </view>
+        <view class="item-b">订单编号：{{orderInfo.code}}</view>
+        <view class="item-c">
+            <view class="r">
+                <view wx:if="{{orderInfo.state == 45 || orderInfo.state == 70 || true}}">
+                    <!--待存放-->
+                    <view class="btn active" bindtap="showStorageQRCode">开柜二维码</view>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view wx:if="{{showQRCode}}" style="text-align: center;padding: 20px">
+        <text>过期时间:{{orderShipment.pswExpireTime}}</text>
+        <canvas style="width: 200px; height: 200px;margin: auto;" canvas-id="storageQRCode"></canvas>
+        <text>柜子编号:{{orderInfo.wardrobeId}}</text>
+    </view>
+
+    <view class="order-goods">
+        <view class="h">
+            <view class="label">商品信息</view>
+        </view>
+        <view class="goods">
+            <view class="item" wx:for="{{goodsList}}" wx:key="{{item.id}}">
+                <view class="img">
+                    <image src="{{item.imgUrl}}"></image>
+                </view>
+                <view class="info">
+                    <view class="t">
+                        <text class="name">{{item.name}}</text>
+                        <text class="number">x{{item.count}}</text>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view class="order-bottom">
+        <view class="address">
+            <view class="t">
+                <!--<text class="name">{{orderShipment.state}}</text>-->
+                <text class="mobile">{{orderShipment.phone}}</text>
+            </view>
+            <view class="b">{{orderShipment.address}}</view>
+        </view>
+    </view>
+</view>

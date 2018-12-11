@@ -1,0 +1,30 @@
+<view class="container">
+    <view class="orders">
+        <navigator url="../orderDetail/orderDetail?id={{item.order.id}}" class="order" wx:for="{{orderList}}"
+                   wx:key="{{item.order.id}}">
+            <view class="h">
+                <view class="l">订单编号：{{item.order.code}}</view>
+            </view>
+            <view class="goods" wx:for="{{item.orderGoodsList}}" wx:key="{{gitem.id}}" wx:for-item="gitem">
+                <view class="img">
+                    <image src="{{gitem.imgUrl}}"></image>
+                </view>
+                <view class="info">
+                    <text class="name">{{gitem.name}}</text>
+                    <view class="l"> x {{gitem.count}}</view>
+                </view>
+                <view class="status"></view>
+            </view>
+        </navigator>
+    </view>
+
+    <view wx:if="{{orderList.length>6}}" class="loadmore">
+        <block wx:if="{{nomore}}">
+            <text>{{nomoreText}}</text>
+        </block>
+        <block wx:else>
+            <text class="iconfont icon-loading loading" space="nbsp"></text>
+            <text> {{loadmoreText}}</text>
+        </block>
+    </view>
+</view>

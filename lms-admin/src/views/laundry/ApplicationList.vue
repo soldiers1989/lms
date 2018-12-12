@@ -27,6 +27,12 @@
                 <el-table-column prop="phone" label="手机号" width="100"></el-table-column>
                 <el-table-column prop="userId" label="用户id" width="100"></el-table-column>
                 <el-table-column prop="description" label="申请内容"></el-table-column>
+                <el-table-column label="类型" width="120">
+                    <template slot-scope="scope">
+                        <el-tag v-if="scope.row.reqType==2">洗衣店</el-tag>
+                        <el-tag v-if="scope.row.reqType==1">配送员</el-tag>
+                    </template>
+                </el-table-column>
                 <!--<el-table-column prop="reason" label="拒绝理由" width="120"></el-table-column>-->
                 <el-table-column label="状态" width="120">
                     <template slot-scope="scope">
@@ -90,7 +96,17 @@
                 return idList;
             },
             acceptApplication(accept) {
-
+                let operation = accept ? "approve" : "deny";
+                let params = {applicationIdList: this.getIdList()};
+                this.$http.post("/application/" + operation, qs.stringify(params)).then(res => {
+                    if (res.data.result && res.data.data > 0) {
+                        this.$message({
+                            type: "success",
+                            message: "操作成功"
+                        });
+                        this.query();
+                    }
+                });
             },
             query() {
                 let params = {pageNum: this.pageNum, pageSize: this.pageSize, keyWord: this.keyWord};

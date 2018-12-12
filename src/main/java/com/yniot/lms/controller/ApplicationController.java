@@ -2,6 +2,7 @@ package com.yniot.lms.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.yniot.lms.annotation.AdminAndLaundry;
 import com.yniot.lms.annotation.Unfinished;
 import com.yniot.lms.controller.commonController.BaseControllerT;
 import com.yniot.lms.db.entity.Application;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @project: lms
@@ -46,30 +48,14 @@ public class ApplicationController extends BaseControllerT<Application> {
 
 
     @RequestMapping("/approve")
-    public String approveApplication(@RequestParam(name = "applicationId") int applicationId,
-                                     @RequestParam(name = "assessorId") int assessorId) {
-        Application application = applicationService.getById(applicationId);
-        if (application != null && assessorId == application.getAssessorId()) {
-            application.setState(PASSED);
-            int userId = application.getUserId();
-        } else {
-            return super.getErrorMsg("没有权限!");
-        }
-        return super.getSuccessResult(applicationService.saveOrUpdate(application));
+    public String approveApplication(@RequestParam(name = "applicationIdList[]") List<Integer> applicationIdList) {
+        return super.getSuccessResult(applicationService.approveOrDeny(true, applicationIdList));
     }
 
-    @RequestMapping("/denied")
-    public String deniedApplication(@RequestParam(name = "applicationId") int applicationId,
-                                    @RequestParam(name = "reason") String reason,
-                                    @RequestParam(name = "assessorId") int assessorId) {
-        Application application = applicationService.getById(applicationId);
-        if (application != null && assessorId == application.getAssessorId()) {
-            application.setState(DENIED);
-            application.setReason(reason);
-        } else {
-            return super.getErrorMsg("没有权限!");
-        }
-        return super.getSuccessResult(applicationService.saveOrUpdate(application));
+    @AdminAndLaundry
+    @RequestMapping("/deny")
+    public String deniedApplication(@RequestParam(name = "applicationIdList[]") List<Integer> applicationIdList) {
+        return super.getSuccessResult(applicationService.approveOrDeny(false, applicationIdList));
     }
 
     @RequestMapping("/select")

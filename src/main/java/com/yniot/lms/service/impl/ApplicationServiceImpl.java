@@ -6,6 +6,8 @@ import com.yniot.lms.db.entity.Application;
 import com.yniot.lms.service.ApplicationService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @project: lms
  * @description:
@@ -14,4 +16,8 @@ import org.springframework.stereotype.Service;
  **/
 @Service
 public class ApplicationServiceImpl extends ServiceImpl<ApplicationMapper, Application> implements ApplicationService {
+    @Override
+    public int approveOrDeny(boolean approve, List<Integer> applicationIdList) {
+        return baseMapper.approveOrDeny(approve, applicationIdList);
+    }
 }

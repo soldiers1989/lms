@@ -6,6 +6,7 @@ import com.yniot.lms.annotation.AdminOnly;
 import com.yniot.lms.controller.commonController.BaseControllerT;
 import com.yniot.lms.db.entity.GoodsType;
 import com.yniot.lms.service.GoodsTypeService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,14 +27,28 @@ public class GoodsTypeController extends BaseControllerT<GoodsType> {
     GoodsTypeService goodsTypeService;
 
     @RequestMapping("/select")
-    public String select(@RequestParam(name = KEY_WORD_KEY, required = false, defaultValue = "0") String keyWord,
-                         @RequestParam(name = PAGE_SIZE_KEY, required = false, defaultValue = "0") int pageSize,
+    public String select(@RequestParam(name = KEY_WORD_KEY, required = false, defaultValue = "") String keyWord,
+                         @RequestParam(name = PAGE_SIZE_KEY, required = false, defaultValue = "20") int pageSize,
+                         @RequestParam(name = "catalogId", required = false, defaultValue = "0") int catalogId,
                          @RequestParam(name = PAGE_NUM_KEY, required = false, defaultValue = "1") int pageNum) {
         QueryWrapper<GoodsType> queryWrapper = new QueryWrapper<>();
-        queryWrapper.like("type_name", keyWord).or()
-                .like("description", keyWord);
-        return super.getSuccessPage(goodsTypeService.page(new Page(pageNum, pageSize), queryWrapper));
+
+        if (catalogId > 0) {
+            queryWrapper.eq("catalogId", catalogId);
+        } else {
+            if (StringUtils.isNotEmpty(keyWord)) {
+                queryWrapper.like("name", keyWord).or()
+                        .like("avgPrice", keyWord).or()
+                        .like("description", keyWord);
+            }
+        }
+        if (pageSize <= 0) {
+            return super.getSuccessResult(goodsTypeService.list(queryWrapper));
+        } else {
+            return super.getSuccessPage(goodsTypeService.page(new Page(pageNum, pageSize), queryWrapper));
+        }
     }
+
 
     @RequestMapping("/create")
     public String createGoodsType(@RequestBody GoodsType goodsType) {

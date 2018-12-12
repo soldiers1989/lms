@@ -72,8 +72,23 @@ export const asyncRouter = [
             },
             {
                 path: "/laundry/wardrobeList",
-                name: "laundryList",
+                name: "wardrobeList",
                 component: () => import("@/views/laundry/WardrobeList.vue")
+            },
+            {
+                path: "/laundry/priceTableList",
+                name: "priceTableList",
+                component: () => import("@/views/laundry/PriceTableList.vue")
+            },
+            {
+                path: "/laundry/goodsTypeList",
+                name: "goodsTypeList",
+                component: () => import("@/views/laundry/GoodsTypeList.vue")
+            },
+            {
+                path: "/laundry/applicationList",
+                name: "applicationList",
+                component: () => import("@/views/laundry/ApplicationList.vue")
             }
         ]
     }

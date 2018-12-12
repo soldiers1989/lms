@@ -100,7 +100,7 @@ const queryUserAuthority = () => ({
         },
         {
             menuId: 32,
-            menuName: "编码列表",
+            menuName: "标记列表",
             menuCode: "codeList",
             link: "/laundry/codeList",
             icon: "el-icon-menu",
@@ -123,6 +123,36 @@ const queryUserAuthority = () => ({
             menuName: "洗衣店列表",
             menuCode: "laundryList",
             link: "/laundry/laundryList",
+            icon: "el-icon-menu",
+            lft: 11,
+            rgt: 12,
+            depth: 2
+        },
+        {
+            menuId: 35,
+            menuName: "价格列表",
+            menuCode: "priceTableList",
+            link: "/laundry/priceTableList",
+            icon: "el-icon-menu",
+            lft: 11,
+            rgt: 12,
+            depth: 2
+        },
+        {
+            menuId: 36,
+            menuName: "衣物列表",
+            menuCode: "goodsTypeList",
+            link: "/laundry/goodsTypeList",
+            icon: "el-icon-menu",
+            lft: 11,
+            rgt: 12,
+            depth: 2
+        },
+        {
+            menuId: 37,
+            menuName: "申请列表",
+            menuCode: "applicationList",
+            link: "/laundry/applicationList",
             icon: "el-icon-menu",
             lft: 11,
             rgt: 12,

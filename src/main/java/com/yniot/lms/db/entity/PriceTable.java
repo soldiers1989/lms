@@ -1,16 +1,20 @@
 package com.yniot.lms.db.entity;
 
 import java.math.BigDecimal;
+
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+
 import java.time.LocalDateTime;
+
 import com.baomidou.mybatisplus.annotation.TableId;
+
 import java.io.Serializable;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author wanggl
@@ -27,6 +31,45 @@ public class PriceTable extends Model<PriceTable> {
     private Integer goodsId;
 
     private BigDecimal price;
+
+    public String getGoodsTypeName() {
+        return goodsTypeName;
+    }
+
+    public void setGoodsTypeName(String goodsTypeName) {
+        this.goodsTypeName = goodsTypeName;
+    }
+
+    public String getLaundryName() {
+        return laundryName;
+    }
+
+    public void setLaundryName(String laundryName) {
+        this.laundryName = laundryName;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    private String description;
+    private String goodsTypeName;
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
+
+    private String imgUrl;
+
+    private String laundryName;
 
     private Integer laundryId;
 
@@ -101,13 +144,17 @@ public class PriceTable extends Model<PriceTable> {
     @Override
     public String toString() {
         return "PriceTable{" +
-        "id=" + id +
-        ", goodsId=" + goodsId +
-        ", price=" + price +
-        ", laundryId=" + laundryId +
-        ", deleted=" + deleted +
-        ", modifyTime=" + modifyTime +
-        ", createTime=" + createTime +
-        "}";
+                "id=" + id +
+                ", goodsId=" + goodsId +
+                ", price=" + price +
+                ", laundryId=" + laundryId +
+                ", deleted=" + deleted +
+                ", description=" + description +
+                ", imgUrl=" + imgUrl +
+                ", laundryName=" + laundryName +
+                ", goodsTypeName=" + goodsTypeName +
+                ", modifyTime=" + modifyTime +
+                ", createTime=" + createTime +
+                "}";
     }
 }

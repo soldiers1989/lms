@@ -76,6 +76,13 @@ public class LaundryController extends BaseControllerT<Laundry> {
         return super.getSuccessResult(laundryService.updateById(laundry));
     }
 
+    @RequestMapping("/create")
+    public String create(@RequestBody Laundry laundry) {
+
+
+
+        return super.getSuccessResult(laundryService.updateById(laundry));
+    }
 
     //8.发放优惠劵
     @RequestMapping("/coupon/send")

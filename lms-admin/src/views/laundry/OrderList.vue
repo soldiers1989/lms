@@ -103,6 +103,9 @@
                 this.$http.post("/order/selectByLaundryId", qs.stringify(params)).then(res => {
                     if (res.data.result) {
                         this.orderList = res.data.data;
+                        this.pageNum = res.data.pageNum;
+                        this.pageSize = res.data.pageSize;
+                        this.totalNum = res.data.totalNum;
                     }
                 });
             },

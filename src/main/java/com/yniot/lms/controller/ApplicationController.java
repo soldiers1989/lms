@@ -74,23 +74,32 @@ public class ApplicationController extends BaseControllerT<Application> {
 
     @RequestMapping("/select")
     public String selectApplication(
-            @RequestParam(name = "userId", required = false, defaultValue = "") int userId,
-            @RequestParam(name = "state", required = false, defaultValue = "10") int state,
+            @RequestParam(name = "userId", required = false, defaultValue = "0") int userId,
+            @RequestParam(name = "state", required = false, defaultValue = "0") int state,
             @RequestParam(name = "type", required = false, defaultValue = "0") int type,
-            @RequestParam(name = PAGE_SIZE_KEY, required = false, defaultValue = "0") int pageSize,
+            @RequestParam(name = PAGE_SIZE_KEY, required = false, defaultValue = "20") int pageSize,
             @RequestParam(name = PAGE_NUM_KEY, required = false, defaultValue = "1") int pageNum) {
         QueryWrapper<Application> applicationWrapper = new QueryWrapper<Application>();
         applicationWrapper.eq("deleted", "false");
-        applicationWrapper.eq("state", state);
-        applicationWrapper.eq("user_id", userId);
+        if (userId > 0) {
+            applicationWrapper.eq("user_id", userId);
+        }
+        if (state > 0) {
+            applicationWrapper.eq("state", state);
+        }
         if (type > 0) {
             applicationWrapper.eq("req_type", type);
         }
-        Page<Application> applicationPage = new Page();
-        applicationPage.setSize(pageSize);
-        applicationPage.setPages(pageNum);
-        applicationPage.setDesc("create_time");
-        return super.getSuccessPage(applicationService.page(applicationPage, applicationWrapper));
+        if (pageSize > 0) {
+            Page<Application> applicationPage = new Page();
+            applicationPage.setSize(pageSize);
+            applicationPage.setPages(pageNum);
+            applicationPage.setDesc("create_time");
+            return super.getSuccessPage(applicationService.page(applicationPage, applicationWrapper));
+        } else {
+            return super.getSuccessResult(applicationService.list(applicationWrapper));
+        }
+
     }
 
     @RequestMapping("/selectByOpenId")

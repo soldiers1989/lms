@@ -65,6 +65,7 @@
                 this.$http.post("/user/login", this.user).then(res => {
                     if (res.data.token) {
                         this.$store.commit("setToken", res.data.token);
+                        this.sessionStorage("userInfo", res.data.userInfo)
                         this.$router.push({path: "/dashboard"});
                     }
                 });

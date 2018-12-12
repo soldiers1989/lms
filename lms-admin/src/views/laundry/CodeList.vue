@@ -101,6 +101,8 @@
                 // let params = this.pager;
                 this.$http.post("/goodsCode/select", qs.stringify(params)).then(res => {
                     this.codeList = res.data.data;
+                    this.pageNum = res.data.pageNum;
+                    this.pageSize = res.data.pageSize;
                     this.totalNum = res.data.totalNum;
                 });
             },

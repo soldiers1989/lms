@@ -37,7 +37,11 @@ public class CatalogController extends BaseControllerT<Catalog> {
             queryWrapper.like("type_name", keyWord).or()
                     .like("description", keyWord);
         }
-        return super.getSuccessPage(catalogService.page(new Page(pageNum, pageSize), queryWrapper));
+        if (pageSize <= 0) {
+            return super.getSuccessResult(catalogService.list(queryWrapper));
+        } else {
+            return super.getSuccessPage(catalogService.page(new Page(pageNum, pageSize), queryWrapper));
+        }
     }
 
     @RequestMapping("/create")

@@ -9,5 +9,4 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @modify 11:09 2018-11-23
  **/
 public interface CommonMapper<T> extends BaseMapper<T> {
-
 }

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yniot.lms.db.dao.ApplicationMapper">
+    <update id="approveOrDeny">
+        upddate biz_application
+        set state =
+        <if test="approve">
+          20
+        </if>
+        <if test="!approve">
+            30
+        </if>
+        where id in
+        <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+
+
+    </update>
+</mapper>

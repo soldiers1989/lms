@@ -28,7 +28,7 @@ const queryUserAuthority = () => ({
             depth: 1
         },
         {
-            menuId: 3,
+            menuId: 20,
             menuName: "系统管理",
             menuCode: "system",
             link: "/system",
@@ -38,7 +38,7 @@ const queryUserAuthority = () => ({
             depth: 1
         },
         {
-            menuId: 4,
+            menuId: 21,
             menuName: "个人设定",
             menuCode: "profile",
             link: "/system/profile",
@@ -48,7 +48,7 @@ const queryUserAuthority = () => ({
             depth: 2
         },
         {
-            menuId: 5,
+            menuId: 22,
             menuName: "用户管理",
             menuCode: "user",
             link: "/system/user",
@@ -58,7 +58,7 @@ const queryUserAuthority = () => ({
             depth: 2
         },
         {
-            menuId: 6,
+            menuId: 23,
             menuName: "角色管理",
             menuCode: "role",
             link: "/system/role",
@@ -66,18 +66,10 @@ const queryUserAuthority = () => ({
             lft: 7,
             rgt: 8,
             depth: 2
-        }, {
-            menuId: 50,
-            menuName: "柜子列表",
-            menuCode: "codeList",
-            link: "/system/wardrobeList",
-            icon: "el-icon-menu",
-            lft: 11,
-            rgt: 12,
-            depth: 2
-        },
+        }
+        ,
         {
-            menuId: 77,
+            menuId: 24,
             menuName: "微信配置",
             menuCode: "WeChat",
             link: "/system/WeChat",
@@ -87,7 +79,7 @@ const queryUserAuthority = () => ({
             depth: 2
         },
         {
-            menuId: 9,
+            menuId: 30,
             menuName: "洗衣店",
             menuCode: "laundry",
             link: "/laundry",
@@ -97,7 +89,7 @@ const queryUserAuthority = () => ({
             depth: 1
         },
         {
-            menuId: 10,
+            menuId: 31,
             menuName: "订单列表",
             menuCode: "orderList",
             link: "/laundry/orderList",
@@ -107,10 +99,30 @@ const queryUserAuthority = () => ({
             depth: 2
         },
         {
-            menuId: 11,
+            menuId: 32,
             menuName: "编码列表",
             menuCode: "codeList",
             link: "/laundry/codeList",
+            icon: "el-icon-menu",
+            lft: 11,
+            rgt: 12,
+            depth: 2
+        },
+        {
+            menuId: 33,
+            menuName: "柜子列表",
+            menuCode: "wardrobeList",
+            link: "/laundry/wardrobeList",
+            icon: "el-icon-menu",
+            lft: 11,
+            rgt: 12,
+            depth: 2
+        },
+        {
+            menuId: 34,
+            menuName: "洗衣店列表",
+            menuCode: "laundryList",
+            link: "/laundry/laundryList",
             icon: "el-icon-menu",
             lft: 11,
             rgt: 12,
@@ -154,22 +166,6 @@ const queryUser = () => ({
             gender: null,
             birthday: "2018-07-16T00:50:31.000+0000",
             enabled: false,
-            type: 1,
-            createDate: "2018-07-16T00:50:31.000+0000",
-            lastDate: "2018-07-16T00:50:31.000+0000",
-            signInDate: "2018-07-16T00:50:31.000+0000"
-        },
-        {
-            userId: 2,
-            userName: "user",
-            password: "$2a$10$llOd5/mvInD.OTVkPr/hqeFaa6wX4DCbtKIJwRq5vhKLd3mJNtLqi",
-            nation: 86,
-            phone: 15985859933,
-            avatar: null,
-            email: "test@test.com",
-            gender: null,
-            birthday: "2018-07-16T00:50:31.000+0000",
-            enabled: true,
             type: 1,
             createDate: "2018-07-16T00:50:31.000+0000",
             lastDate: "2018-07-16T00:50:31.000+0000",

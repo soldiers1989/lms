@@ -65,6 +65,19 @@ public class Wardrobe extends Model<Wardrobe> {
     private String laundryName;
 
     private Integer avaCellNum;
+    private Integer usedCellNum;
+    private Integer totalCellNum;
+    private Integer closedCellNum;
+
+    public Integer getActivatedCellNum() {
+        return activatedCellNum;
+    }
+
+    public void setActivatedCellNum(Integer activatedCellNum) {
+        this.activatedCellNum = activatedCellNum;
+    }
+
+    private Integer activatedCellNum;
 
     public Integer getUsedCellNum() {
         return usedCellNum;
@@ -74,7 +87,6 @@ public class Wardrobe extends Model<Wardrobe> {
         this.usedCellNum = usedCellNum;
     }
 
-    private Integer usedCellNum;
 
     public Integer getTotalCellNum() {
         return totalCellNum;
@@ -84,7 +96,14 @@ public class Wardrobe extends Model<Wardrobe> {
         this.totalCellNum = totalCellNum;
     }
 
-    private Integer totalCellNum;
+
+    public Integer getClosedCellNum() {
+        return closedCellNum;
+    }
+
+    public void setClosedCellNum(Integer closedCellNum) {
+        this.closedCellNum = closedCellNum;
+    }
 
 
     public Integer getId() {

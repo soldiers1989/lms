@@ -9,6 +9,7 @@ import com.yniot.lms.service.WardrobeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,17 +25,19 @@ public class WardrobeServiceImpl extends ServiceImpl<WardrobeMapper, Wardrobe> i
 
     @Override
     public boolean updateCellNum(int wardrobeId) {
-        return baseMapper.updateCellNum(wardrobeId) > 0;
+        List<Integer> wardrobeIdList = new ArrayList<>();
+        wardrobeIdList.add(wardrobeId);
+        return updateAllCellNum(wardrobeIdList);
     }
 
     @Autowired
     CellService cellService;
 
     @Override
-    public boolean updateAllCellNum() {
+    public boolean updateAllCellNum(List<Integer> wardrobeIdList) {
         //更新可用格子状态
         cellService.refreshCell();
-        return baseMapper.updateAllCellNum() > 0;
+        return baseMapper.updateAllCellNum(wardrobeIdList) > 0;
     }
 
     @Override

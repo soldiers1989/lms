@@ -29,7 +29,7 @@ public class TimerTask {
         //标记超时订单
 //        orderService.markExpiredOrder();
 //        更新柜子的可用格子数
-        wardrobeService.updateAllCellNum();
+        wardrobeService.updateAllCellNum(null);
         //更新柜子密码
         orderShipmentService.updatePassword();
     }

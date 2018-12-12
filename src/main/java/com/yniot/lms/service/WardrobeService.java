@@ -17,7 +17,7 @@ public interface WardrobeService extends IService<Wardrobe> {
 
     boolean updateCellNum(int wardrobeId);
 
-    boolean updateAllCellNum();
+    boolean updateAllCellNum(List<Integer> wardrobeIdLisst);
 
     int relateLaundry(boolean relate, int laundryId, List<Integer> wardrobeIdList);
 

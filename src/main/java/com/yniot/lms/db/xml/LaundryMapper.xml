@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yniot.lms.db.dao.LaundryMapper">
+    <update id="updateWardrobeNum">
+        UPDATE biz_laundry bl
+		INNER JOIN (
+			SELECT
+				sum( 1 ) total_num,
+				sum( CASE WHEN activated = 1 THEN 1 ELSE 0 END ) activated_num,
+				laundry_id
+			FROM
+				biz_wardrobe
+			WHERE
+				1 = 1
+			GROUP BY
+				laundry_id
+			) c ON bl.id = c.laundry_id
+			SET
+			bl.wardrobe_num = c.total_num,
+			bl.activated_wardrobe_num = c.activated_num
+		WHERE
+			1 =1
+    </update>
+</mapper>

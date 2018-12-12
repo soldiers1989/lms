@@ -8,6 +8,7 @@ import com.yniot.lms.annotation.LoginOnly;
 import com.yniot.lms.controller.commonController.BaseControllerT;
 import com.yniot.lms.db.entity.Wardrobe;
 import com.yniot.lms.db.entity.WardrobeProblem;
+import com.yniot.lms.service.CellService;
 import com.yniot.lms.service.WardrobeProblemService;
 import com.yniot.lms.service.WardrobeService;
 import org.apache.commons.lang3.StringUtils;
@@ -50,7 +51,7 @@ public class WardrobeController extends BaseControllerT<Wardrobe> {
     public String insert(@RequestParam(name = "latitude", required = false, defaultValue = "0") String latitude,
                          @RequestParam(name = "swVersion", required = false, defaultValue = "1") int swVersion,
                          @RequestParam(name = "longitude", required = false, defaultValue = "0") String longitude,
-                         @RequestParam(name = "cellNum", required = false, defaultValue = "16") int cellNum,
+                         @RequestParam(name = "wardrobeCode", required = false, defaultValue = "") String wardrobeCode,
                          @RequestParam String address) {
         Wardrobe wardrobe = new Wardrobe();
         wardrobe.setLongitude(Double.valueOf(longitude));
@@ -60,6 +61,9 @@ public class WardrobeController extends BaseControllerT<Wardrobe> {
         wardrobe.setSwVersion(swVersion);
         wardrobe.setCreateTime(LocalDateTime.now());
         wardrobe.setCreator(getId());
+        if (StringUtils.isNotEmpty(wardrobeCode)) {
+            wardrobe.setWardrobeCode(wardrobeCode);
+        }
         return super.getSuccessResult(wardrobeService.save(wardrobe));
     }
 
@@ -155,6 +159,18 @@ public class WardrobeController extends BaseControllerT<Wardrobe> {
     @RequestMapping("/activate")
     public String activate(@RequestParam boolean activate, @RequestParam(name = "wardrobeIdList[]") List<Integer> wardrobeIdList) {
         return getSuccessResult(wardrobeService.activate(activate, wardrobeIdList));
+    }
+
+
+    @RequestMapping("/checkCode")
+    public String checkCode(@RequestParam String wardrobeCode) {
+        if (StringUtils.isNotEmpty(wardrobeCode)) {
+            QueryWrapper<Wardrobe> wardrobeQueryWrapper = new QueryWrapper<>();
+            wardrobeQueryWrapper.eq("wardrobe_code", wardrobeCode);
+            List<Wardrobe> wardrobeIdList = wardrobeService.list(wardrobeQueryWrapper);
+            return getSuccessResult(wardrobeIdList == null ? 0 : wardrobeIdList.size());
+        }
+        return getSuccessResult(0);
     }
 
 }

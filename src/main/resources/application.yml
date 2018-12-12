@@ -41,7 +41,8 @@ spring:
 
 logging:
   config: classpath:logback-boot.xml
-#mybatis-plus:
+mybatis-plus:
+  mapper-locations: classpath*:com/yniot/lms/db/**/*.xml
 #  global-config:
 #    db-config:
 #      logic-delete-value:true # 逻辑删除

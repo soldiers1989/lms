@@ -48,11 +48,6 @@ export const asyncRouter = [
                 path: "/system/role",
                 name: "role",
                 component: () => import("@/views/system/Role.vue")
-            },
-            {
-                path: "/system/wardrobeList",
-                name: "role",
-                component: () => import("@/views/wardrobe/WardrobeList.vue")
             }
         ]
     },
@@ -62,13 +57,23 @@ export const asyncRouter = [
         children: [
             {
                 path: "/laundry/orderList",
-                name: "profile",
+                name: "orderList",
                 component: () => import("@/views/laundry/OrderList.vue")
             },
             {
                 path: "/laundry/codeList",
-                name: "profile",
+                name: "codeList",
                 component: () => import("@/views/laundry/CodeList.vue")
+            },
+            {
+                path: "/laundry/laundryList",
+                name: "laundryList",
+                component: () => import("@/views/laundry/LaundryList.vue")
+            },
+            {
+                path: "/laundry/wardrobeList",
+                name: "laundryList",
+                component: () => import("@/views/laundry/WardrobeList.vue")
             }
         ]
     }

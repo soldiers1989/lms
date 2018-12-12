@@ -43,6 +43,7 @@ public class BaseController {
     public static String ERROR_MSG_KEY = "errorMsg";
     public static String STATUS_KEY = "status";
     public static String RESULT_KEY = "result";
+    public static String TOKEN_KEY = "token";
     public static String DEFAULT_ERROR_MSG = "内部错误!";
     public static int DEFAULT_SUCCESS_STATUS = 200;
     public static int NEED_LOGIN = 401;
@@ -135,8 +136,9 @@ public class BaseController {
 
 
     public String tokenAndUser(String token, Object user) {
-        this.result.put("token", token);
+        this.result.put(TOKEN_KEY, token);
         this.result.put("userInfo", user);
+        this.result.put(RESULT_KEY, true);
         return JSONObject.toJSONString(this.result, SerializerFeature.WriteMapNullValue);
     }
 

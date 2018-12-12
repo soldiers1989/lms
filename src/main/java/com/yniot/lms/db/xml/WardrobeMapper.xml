@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.yniot.lms.db.dao.WardrobeMapper">
+
     <update id="relateLaundry">
         update biz_wardrobe set modify_time = sysdate() ,
         laundry_id =
@@ -15,10 +16,41 @@
             #{item}
         </foreach>
     </update>
+
     <update id="activate">
-        update biz_wardrobe set  modify_time = sysdate() , activate = #{activate} where id in
+        update biz_wardrobe set modify_time = sysdate() , activate = #{activate} where id in
         <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
             #{item}
         </foreach>
+    </update>
+
+    <update id="updateAllCellNum" parameterType="list">
+        UPDATE biz_wardrobe bw
+        INNER JOIN (
+            SELECT
+            sum( CASE WHEN in_used = 0 THEN 1 ELSE 0 END ) ava_num,
+            sum( CASE WHEN in_used = 1 THEN 1 ELSE 0 END ) used_num,
+            sum( CASE WHEN closed = 1 THEN 1 ELSE 0 END ) closed_num,
+            sum( CASE WHEN activated = 1 THEN 1 ELSE 0 END ) activated_num,
+            sum( 1 ) total_num,
+            wardrobe_id
+        FROM
+          biz_cell
+        GROUP BY
+            wardrobe_id
+            ) c ON id = c.wardrobe_id
+        SET
+            bw.total_cell_num = c.total_num,
+            bw.used_cell_num = c.used_num,
+            bw.closed_cell_num = c.closed_num,
+            bw.activated_cell_num = c.activated_num,
+            bw.ava_cell_num = c.ava_num
+        where 1=1
+        <if test="wardrobeIdList!=null and wardrobeIdList.size()>0 ">
+            and wardrobe_id in
+            <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
     </update>
 </mapper>

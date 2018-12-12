@@ -94,7 +94,7 @@ public class CellServiceImpl extends ServiceImpl<CellMapper, Cell> implements Ce
             cell.setInUsed(false);
             cellList.add(cell);
         }
-        return saveBatch(cellList) && wardrobeService.updateAllCellNum();
+        return saveBatch(cellList) && wardrobeService.updateCellNum(wardrobeId);
     }
 
     @Override

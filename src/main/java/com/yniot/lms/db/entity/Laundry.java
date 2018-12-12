@@ -1,16 +1,18 @@
 package com.yniot.lms.db.entity;
 
 import java.math.BigDecimal;
+
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.annotation.TableId;
+
 import java.time.LocalDateTime;
 import java.io.Serializable;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author wanggl
@@ -54,6 +56,15 @@ public class Laundry extends Model<Laundry> {
 
     private String openId;
 
+    public Integer getWardrobeNum() {
+        return wardrobeNum;
+    }
+
+    public void setWardrobeNum(Integer wardrobeNum) {
+        this.wardrobeNum = wardrobeNum;
+    }
+
+    private Integer wardrobeNum;
 
     public Integer getId() {
         return id;
@@ -191,22 +202,23 @@ public class Laundry extends Model<Laundry> {
     @Override
     public String toString() {
         return "Laundry{" +
-        "id=" + id +
-        ", address=" + address +
-        ", phone=" + phone +
-        ", qrCode=" + qrCode +
-        ", deleted=" + deleted +
-        ", totalIncome=" + totalIncome +
-        ", asap=" + asap +
-        ", modifyTime=" + modifyTime +
-        ", createTime=" + createTime +
-        ", description=" + description +
-        ", contractSigned=" + contractSigned +
-        ", inBiz=" + inBiz +
-        ", autoAccept=" + autoAccept +
-        ", name=" + name +
-        ", imgUrl=" + imgUrl +
-        ", openId=" + openId +
-        "}";
+                "id=" + id +
+                ", address=" + address +
+                ", phone=" + phone +
+                ", qrCode=" + qrCode +
+                ", deleted=" + deleted +
+                ", totalIncome=" + totalIncome +
+                ", asap=" + asap +
+                ", modifyTime=" + modifyTime +
+                ", createTime=" + createTime +
+                ", wardrobeNum=" + wardrobeNum +
+                ", description=" + description +
+                ", contractSigned=" + contractSigned +
+                ", inBiz=" + inBiz +
+                ", autoAccept=" + autoAccept +
+                ", name=" + name +
+                ", imgUrl=" + imgUrl +
+                ", openId=" + openId +
+                "}";
     }
 }

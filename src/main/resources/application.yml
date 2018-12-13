@@ -41,6 +41,8 @@ spring:
 
 logging:
   config: classpath:logback-boot.xml
+  level:
+    com.github.binarywang.wxpay: debug
 mybatis-plus:
   mapper-locations: classpath*:com/yniot/lms/db/**/*.xml
 #  global-config:
@@ -52,11 +54,16 @@ wechat:
     path:wechat
   smallapp:
     configs:
-    - appid: wx935f4f8a4ba9454b
-      secret: b3fbd40446090e3b5672caed753ca21d
-      token: lms_token
-      aesKey:
-      msgDataFormat: JSON
+      - appid: wx935f4f8a4ba9454b
+        secret: b3fbd40446090e3b5672caed753ca21d
+        token: lms_token
+        aesKey:
+        msgDataFormat: JSON
+#  pay:
+#    appId: wx935f4f8a4ba9454b
+#    mchId: #微信支付商户号
+#    mchKey: #微信支付商户密钥
+#    keyPath: # p12证书的位置，可以指定绝对路径，也可以指定类路径（以classpath:开头）
 message:
   aliyun:
     accessKeyId: LTAI6zmwosr9fzp9

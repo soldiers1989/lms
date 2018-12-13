@@ -2,19 +2,15 @@
     <div>
         <el-card shadow="never" :body-style="{ padding: '0px' }">
             <div slot="header">
-                <el-row :gutter="10">
-                    <el-col :span="3">
-                        <el-input v-model="keyWord" placeholder="关键字"></el-input>
-                    </el-col>
-                    <el-col :span="6" style="float: right;">
-                        <el-button type="primary" icon="el-icon-search" @click="query">查询</el-button>
-                    </el-col>
-                </el-row>
-                <br>
-                <el-button size="medium" type="primary" icon="el-icon-plus" @click="dialogVisible = true">新增</el-button>
-                <!--<el-button size="medium" icon="el-icon-delete" :disabled="selectedRows.length==0">删除</el-button>-->
+                <el-input size="mini" style="width: 200px;" v-model="keyWord" placeholder="关键字"></el-input>
+                <el-button size="mini" style="margin-left: 20px;" type="primary" icon="el-icon-search" @click="query">查询
+                </el-button>
+                <el-button size="mini" style="margin-left: 20px;" type="primary" icon="el-icon-plus"
+                           @click="dialogVisible = true">新增
+                </el-button>
+                <!--<el-button size="mini" icon="el-icon-delete" :disabled="selectedRows.length==0">删除</el-button>-->
             </div>
-            <el-table height="550" :data="codeList" style="width: 100%" stripe highlight-current-row
+            <el-table height="650" :data="codeList" style="width: 100%" stripe highlight-current-row
                       v-loading="$store.state.loading">
                 <el-table-column prop="uniqueCode" label="编码"></el-table-column>
                 <el-table-column prop="description" label="描述"></el-table-column>

@@ -70,7 +70,7 @@
 
         <el-dialog title="新增柜子" :visible.sync="wardrobeDialogVisible" @close="closeEditDialog">
             <el-form v-model="wardrobe" :label-position="'right'" label-width="80px">
-                <el-form-item label="地址">
+                <el-form-item label="编号">
                     <el-input v-model="wardrobe.wardrobeCode" placeholder="请输入编号"></el-input>
                 </el-form-item>
                 <el-form-item label="地址">
@@ -178,7 +178,7 @@
                     return;
                 }
                 this.$http.post("/wardrobe/checkCode", qs.stringify(this.wardrobe)).then(res => {
-                    if (!res.data.result || res.data.data > 0) {
+                    if (!res.data.result && res.data.data > 0) {
                         this.$message.error("该编号已存在!");
                         this.wardrobe.wardrobeCode = "";
                     }

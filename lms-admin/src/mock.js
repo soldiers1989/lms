@@ -158,6 +158,17 @@ const queryUserAuthority = () => ({
             rgt: 12,
             depth: 2
         }
+        ,
+        {
+            menuId: 38,
+            menuName: "收入列表",
+            menuCode: "incomeList",
+            link: "/laundry/incomeList",
+            icon: "el-icon-menu",
+            lft: 11,
+            rgt: 12,
+            depth: 2
+        }
     ],
     authorities: [
         {authority_id: 1, authority_code: "AddUser", authority_name: "新增用户"},

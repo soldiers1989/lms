@@ -1,14 +1,11 @@
 package com.yniot.lms.controller;
 
-import com.yniot.lms.controller.commonController.BaseController;
+import com.yniot.lms.controller.commonController.BaseWxController;
 import com.yniot.lms.db.entity.WeChatConfig;
 import com.yniot.lms.service.WeChatService;
 import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.bean.menu.WxMenu;
 import me.chanjar.weixin.common.error.WxErrorException;
-import me.chanjar.weixin.mp.api.WxMpInMemoryConfigStorage;
-import me.chanjar.weixin.mp.api.WxMpMessageRouter;
-import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.menu.WxMpMenu;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlMessage;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlOutMessage;
@@ -31,7 +28,7 @@ import java.io.IOException;
  **/
 @RestController
 @RequestMapping(value = WeChatAPIController.WECHAT_PATH, produces = "text/plain;charset=UTF-8")
-public class WeChatAPIController extends BaseController {
+public class WeChatAPIController extends BaseWxController {
     public static final String WECHAT_PATH = "/WeChat";
     private static String TIMESTAMP_KEY = "timestamp";
     private static String SIGNATURE_KEY = "signature";
@@ -43,12 +40,7 @@ public class WeChatAPIController extends BaseController {
     private static String AES_KEY = "aes";
     @Autowired
     WeChatService weChatService;
-    @Autowired
-    WxMpInMemoryConfigStorage config;
-    @Autowired
-    WxMpService wxMpService;
-    @Autowired
-    WxMpMessageRouter wxMpMessageRouter;
+
 
     /**
      * @return void
@@ -87,13 +79,13 @@ public class WeChatAPIController extends BaseController {
             return;
         } else if (AES_KEY.equals(encryptType)) {
             String msgSignature = request.getParameter(MSG_SIGNATURE_KEY);
-            WxMpXmlMessage inMessage = WxMpXmlMessage.fromEncryptedXml(request.getInputStream(), config, timestamp, nonce, msgSignature);
+            WxMpXmlMessage inMessage = WxMpXmlMessage.fromEncryptedXml(request.getInputStream(), wxMpInMemoryConfigStorage, timestamp, nonce, msgSignature);
             WxMpXmlOutMessage outMessage = wxMpMessageRouter.route(inMessage);
             if (outMessage == null) {
                 response.getWriter().write("outMessage == null");
                 return;
             }
-            response.getWriter().write(outMessage.toEncryptedXml(config));
+            response.getWriter().write(outMessage.toEncryptedXml(wxMpInMemoryConfigStorage));
             return;
         }
     }
@@ -105,8 +97,6 @@ public class WeChatAPIController extends BaseController {
         WxMenu menu = WxMenu.fromJson(jsonMenu);
         return super.getSuccessResult(wxMpService.getMenuService().menuCreate(menu));
     }
-
-
 
 
     @RequestMapping("/menu/update")
@@ -207,7 +197,6 @@ public class WeChatAPIController extends BaseController {
     }
 
 
-
     @RequestMapping("/auth2")
     public String auth2() throws WxErrorException {
         String callbackUrl = weChatService.getConfig().getCallbackDomain() + WeChatAPIController.WECHAT_PATH + WeChatAPIController.CALLBACK_PATH;
@@ -215,8 +204,8 @@ public class WeChatAPIController extends BaseController {
     }
 
 
-//    @Value("${wechat.auth.path}")
-    private String authFilePath="/tmp";
+    //    @Value("${wechat.auth.path}")
+    private String authFilePath = "/tmp";
 
     /**
      * @Author wanggl
@@ -243,8 +232,6 @@ public class WeChatAPIController extends BaseController {
     //    登陆时间：2015年5月22日9:04:56
     //    登陆Ip：183.185.98.240
     //    如果不是您本人操作请联系系统管理员。
-
-
 
 
 }

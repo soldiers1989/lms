@@ -66,6 +66,25 @@ public class Laundry extends Model<Laundry> {
 
     private Integer wardrobeNum;
 
+    public Integer getDividePercent() {
+        return dividePercent;
+    }
+
+    public void setDividePercent(Integer dividePercent) {
+        this.dividePercent = dividePercent;
+    }
+
+    public Integer getDivideType() {
+        return divideType;
+    }
+
+    public void setDivideType(Integer divideType) {
+        this.divideType = divideType;
+    }
+
+    private Integer dividePercent;
+    private Integer divideType;
+
     public Integer getId() {
         return id;
     }
@@ -210,6 +229,8 @@ public class Laundry extends Model<Laundry> {
                 ", totalIncome=" + totalIncome +
                 ", asap=" + asap +
                 ", modifyTime=" + modifyTime +
+                ", dividePercent=" + dividePercent +
+                ", divideType=" + divideType +
                 ", createTime=" + createTime +
                 ", wardrobeNum=" + wardrobeNum +
                 ", description=" + description +

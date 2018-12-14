@@ -29,6 +29,14 @@
                 <el-table-column prop="name" label="名称" width="100"></el-table-column>
                 <el-table-column prop="phone" label="电话" width="130"></el-table-column>
                 <el-table-column prop="wardrobeNum" label="柜子数" width="70"></el-table-column>
+                <el-table-column prop="dividePercent" label="提成(%)" width="140"></el-table-column>
+                <el-table-column label="收费方式" width="120">
+                    <template slot-scope="scope">
+                        <el-tag v-if="scope.row.divideType==0">租金</el-tag>
+                        <el-tag v-if="scope.row.divideType==1">提成</el-tag>
+                        <el-tag v-if="scope.row.divideType==2">提成+租金</el-tag>
+                    </template>
+                </el-table-column>
                 <el-table-column prop="address" label="地址"></el-table-column>
                 <!--<el-table-column label="状态" width="80">-->
                 <!--<template slot-scope="scope">-->
@@ -53,13 +61,23 @@
             </el-pagination>
         </el-card>
 
-        <el-dialog title="新增柜子" :visible.sync="laundryDialogVisible" @close="closeEditDialog">
-            <el-form v-model="laundry" :label-position="'right'" label-width="80px">
+        <el-dialog :title="editMode?'编辑洗衣店':'新增洗衣店'" :visible.sync="laundryDialogVisible" @close="closeEditDialog">
+            <el-form v-model="laundry" :label-position="'right'" label-width="100px">
                 <!--<el-form-item label="管理人员账户">-->
                 <!--<el-input v-model="laundry.phone" placeholder="请输入编号"></el-input>-->
                 <!--</el-form-item>-->
                 <el-form-item label="电话">
                     <el-input v-model="laundry.phone" placeholder="请输入编号"></el-input>
+                </el-form-item>
+                <el-form-item label="提成比例(%)">
+                    <el-input v-model="laundry.dividePercent" placeholder="请输入比例" max="100" min="10"></el-input>
+                </el-form-item>
+                <el-form-item label="收费方式">
+                    <el-select v-model="laundry.divideType" placeholder="请选择软件版本">
+                        <el-option label="租金" :value="0"></el-option>
+                        <el-option label="提成" :value="1"></el-option>
+                        <el-option label="租金+提成" :value="2"></el-option>
+                    </el-select>
                 </el-form-item>
                 <el-form-item label="地址">
                     <el-input v-model="laundry.address" placeholder="请输入地址"></el-input>
@@ -166,7 +184,7 @@
             },
             insertOrUpdate() {
                 let operation = this.editMode ? "update" : "insert";
-                this.$http.post("/laundry/" + operation, qs.stringify(this.laundry)).then(res => {
+                this.$http.post("/laundry/" + operation, this.laundry).then(res => {
                     if (res.data.result && res.data.data) {
                         this.$message({
                             type: "success",

@@ -40,8 +40,6 @@ public class StartedTask implements ApplicationRunner {
             logger.info("微信配置加载失败,退出程序!");
             System.exit(0);
         }
-
-
     }
 
 

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yniot.lms.db.dao.IncomeMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.yniot.lms.db.entity.Income">
+        <id column="id" property="id" />
+        <result column="divide_percent" property="dividePercent" />
+        <result column="act_income" property="actIncome" />
+        <result column="laundry_id" property="laundryId" />
+        <result column="owner_id" property="ownerId" />
+        <result column="owner_open_id" property="ownerOpenId" />
+        <result column="sys_income" property="sysIncome" />
+        <result column="act_cost" property="actCost" />
+        <result column="customer_id" property="customerId" />
+        <result column="order_code" property="orderCode" />
+        <result column="withdrew" property="withdrew" />
+        <result column="laundry_name" property="laundryName" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, divide_percent, act_income, laundry_id, owner_id, owner_open_id, sys_income, act_cost, customer_id, order_code, withdrew, laundry_name
+    </sql>
+    <update id="saveIncome">
+--         insert into biz_income (id,customerId,orderCode)
+
+
+
+    </update>
+
+</mapper>

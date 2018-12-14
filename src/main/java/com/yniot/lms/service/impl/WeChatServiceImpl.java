@@ -11,7 +11,6 @@ import com.yniot.lms.service.UserService;
 import com.yniot.lms.service.WeChatService;
 import com.yniot.lms.utils.CommonUtil;
 import me.chanjar.weixin.common.error.WxErrorException;
-import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateData;
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage;
 import org.apache.log4j.Logger;
@@ -34,8 +33,6 @@ public class WeChatServiceImpl extends ServiceImpl<WeChatConfigMapper, WeChatCon
 
     @Autowired
     CacheDao cacheDao;
-    @Autowired
-    WxMpService wxMpService;
     @Autowired
     OrderService orderService;
     @Autowired

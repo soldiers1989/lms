@@ -1,16 +1,20 @@
 package com.yniot.lms.db.entity;
 
 import java.math.BigDecimal;
+
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+
 import java.time.LocalDateTime;
+
 import com.baomidou.mybatisplus.annotation.TableId;
+
 import java.io.Serializable;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author wanggl
@@ -151,18 +155,18 @@ public class OrderCost extends Model<OrderCost> {
     @Override
     public String toString() {
         return "OrderCost{" +
-        "id=" + id +
-        ", generateTime=" + generateTime +
-        ", confirmTime=" + confirmTime +
-        ", expiredInMin=" + expiredInMin +
-        ", expiredTime=" + expiredTime +
-        ", confirmed=" + confirmed +
-        ", discount=" + discount +
-        ", extCost=" + extCost +
-        ", asap=" + asap +
-        ", estTotalCost=" + estTotalCost +
-        ", actTotalCost=" + actTotalCost +
-        ", actPaidCost=" + actPaidCost +
-        "}";
+                "id=" + id +
+                ", generateTime=" + generateTime +
+                ", confirmTime=" + confirmTime +
+                ", expiredInMin=" + expiredInMin +
+                ", expiredTime=" + expiredTime +
+                ", confirmed=" + confirmed +
+                ", discount=" + discount +
+                ", extCost=" + extCost +
+                ", asap=" + asap +
+                ", estTotalCost=" + estTotalCost +
+                ", actTotalCost=" + actTotalCost +
+                ", actPaidCost=" + actPaidCost +
+                "}";
     }
 }

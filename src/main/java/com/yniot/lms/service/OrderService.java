@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.yniot.lms.db.entity.Order;
 import me.chanjar.weixin.common.error.WxErrorException;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -37,5 +38,13 @@ public interface OrderService extends IService<Order> {
     boolean receiveOrder(int userId, int orderId);
 
     IPage<Order> selectByLaundryId(int pageNum, int pageSize, int laundryId, String keyWord, List<Integer> stateList);
+
+    boolean paid_procedure(int userId, String orderCode, BigDecimal price);
+
+    boolean paid(int userId, String orderCode, BigDecimal price);
+
+    boolean paid_procedure(int userId, int orderId, BigDecimal price);
+
+    boolean paid(int userId, int orderId, BigDecimal price);
 
 }

@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -177,5 +178,33 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         }
         orderQueryWrapper.orderByDesc("commit_time");
         return page(new Page(pageNum, pageSize), orderQueryWrapper);
+    }
+
+    @Override
+    public boolean paid(int userId, String orderCode, BigDecimal price) {
+        Order order = getByOrderCode(orderCode);
+        int orderId = order.getId();
+        return paid(userId, orderId, price);
+    }
+
+    @Override
+    public boolean paid(int userId, int orderId, BigDecimal price) {
+        int result = baseMapper.paid(orderId);
+        if (result > 0) {
+            result = orderCostService.paid(orderId, price) ? 1 : 0;
+        }
+        return result > 0 && orderStateHistoryService.saveOrderState(orderId, OrderStateEnum.PAID.getState(), userId);
+    }
+
+    @Override
+    public boolean paid_procedure(int userId, String orderCode, BigDecimal price) {
+        Order order = getByOrderCode(orderCode);
+        int orderId = order.getId();
+        return paid_procedure(userId, orderId, price);
+    }
+
+    @Override
+    public boolean paid_procedure(int userId, int orderId, BigDecimal price) {
+        return baseMapper.paid_procedure(orderId, price) > 0 && orderStateHistoryService.saveOrderState(orderId, OrderStateEnum.PAID.getState(), userId);
     }
 }

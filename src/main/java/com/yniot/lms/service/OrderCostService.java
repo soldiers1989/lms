@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 
 /**
  * <p>
- *  服务类
+ * 服务类
  * </p>
  *
  * @author wanggl
@@ -15,4 +15,6 @@ import java.math.BigDecimal;
  */
 public interface OrderCostService extends IService<OrderCost> {
     boolean save(int orderId, BigDecimal estCost);
+
+    boolean paid(int orderId, BigDecimal price);
 }

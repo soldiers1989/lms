@@ -8,7 +8,9 @@ package com.yniot.lms.enums;
  **/
 public enum OrderStateEnum {
 
-
+    /*..................注意:更改数值后,存储过程中相应的值也需要更改!..........*/
+    /*..................注意:更改数值后,存储过程中相应的值也需要更改!..........*/
+    /*..................注意:更改数值后,存储过程中相应的值也需要更改!..........*/
     COMMITTED(10, "订单提交"),
     //订单取消
     CANCELED(30, "已取消"),
@@ -16,6 +18,7 @@ public enum OrderStateEnum {
     CANCELED_CUSTOMER(32, "客户取消"),
     CANCELED_LAUNDRY(33, "商家取消"),
     PAY_TIMEOUT(34, "付款超时,取消订单"),
+    PAY_REFUSE(35, "客户拒绝付款,取消订单"),
     ACCEPTED(40, "已接单"),
     WAITING_TO_PUT(42, "待存放"),
     PUT_USER(45, "用户已存放"),

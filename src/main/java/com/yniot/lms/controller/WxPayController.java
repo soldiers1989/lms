@@ -9,6 +9,7 @@ import com.github.binarywang.wxpay.bean.request.*;
 import com.github.binarywang.wxpay.bean.result.*;
 import com.github.binarywang.wxpay.exception.WxPayException;
 import com.github.binarywang.wxpay.service.WxPayService;
+import com.yniot.lms.annotation.Unfinished;
 import com.yniot.lms.controller.commonController.BaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -95,6 +96,7 @@ public class WxPayController extends BaseController {
    * @param <T>     请使用{@link com.github.binarywang.wxpay.bean.order}包下的类
    * @return 返回 {@link com.github.binarywang.wxpay.bean.order}包下的类对象
    */
+  @Unfinished
   @ApiOperation(value = "统一下单，并组装所需支付参数")
   @PostMapping("/createOrder")
   public <T> T createOrder(@RequestBody WxPayUnifiedOrderRequest request) throws WxPayException {

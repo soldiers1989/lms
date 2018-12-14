@@ -1,56 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.yniot.lms.db.dao.OrderMapper">
-
-    <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.yniot.lms.db.entity.Order">
-        <id column="id" property="id"/>
-        <result column="code" property="code"/>
-        <result column="user_id" property="userId"/>
-        <result column="user_open_id" property="userOpenId"/>
-        <result column="laundry_id" property="laundryId"/>
-        <result column="state" property="state"/>
-        <result column="description" property="description"/>
-        <result column="accepted" property="accepted"/>
-        <result column="canceled" property="canceled"/>
-        <result column="expired" property="expired"/>
-        <result column="expire_in_min" property="expireInMin"/>
-        <result column="create_time" property="createTime"/>
-        <result column="commit_time" property="commitTime"/>
-        <result column="accepted_time" property="acceptedTime"/>
-        <result column="canceled_time" property="canceledTime"/>
-        <result column="expired_time" property="expiredTime"/>
-        <result column="finished_time" property="finishedTime"/>
-        <result column="canceled_by" property="canceledBy"/>
-        <result column="deleted" property="deleted"/>
-        <result column="count" property="count"/>
-        <result column="laundry_open_id" property="laundryOpenId"/>
-    </resultMap>
-
-    <!-- 通用查询结果列 -->
-    <sql id="Base_Column_List">
-        id
-        ,
-        code,
-        user_id,
-        user_open_id,
-        laundry_id,
-        state,
-        description,
-        accepted,
-        canceled,
-        expired,
-        expire_in_min,
-        create_time,
-        commit_time,
-        accepted_time,
-        canceled_time,
-        expired_time,
-        finished_time,
-        canceled_by,
-        deleted,
-        count,
-        laundry_open_id
-    </sql>
-
+    <update id="paid_procedure" statementType="CALLABLE" >
+        call lms_paid(#{orderId},#{price})
+    </update>
 </mapper>

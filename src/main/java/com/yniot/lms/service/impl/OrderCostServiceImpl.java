@@ -32,4 +32,8 @@ public class OrderCostServiceImpl extends ServiceImpl<OrderCostMapper, OrderCost
         orderCost.setExtCost(new BigDecimal(0));
         return save(orderCost);
     }
+    @Override
+    public boolean paid(int orderId, BigDecimal price) {
+        return baseMapper.paid(price, orderId) > 0;
+    }
 }

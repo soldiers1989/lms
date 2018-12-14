@@ -23,7 +23,7 @@ import java.util.List;
  **/
 @AdminOnly
 @RestController
-@RequestMapping(name = "/cart", produces = {"application/json;charset=UTF-8"})
+@RequestMapping("/cart")
 public class CartController extends BaseControllerT<Cart> {
     @Autowired
     CartService cartService;

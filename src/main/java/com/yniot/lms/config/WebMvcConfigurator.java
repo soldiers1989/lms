@@ -8,9 +8,10 @@ import org.springframework.web.servlet.config.annotation.ContentNegotiationConfi
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
-/**字符转码MVC
+/**字符转码MVC,解决中文乱码问题
  * @Auther: lane
  * @Date: 2018/11/29 17:06
  * @Description:
@@ -21,7 +22,7 @@ public class WebMvcConfigurator extends WebMvcConfigurationSupport {
 
     @Bean
     public HttpMessageConverter<String> responseBodyConverter() {
-        return new StringHttpMessageConverter(Charset.forName("UTF-8"));
+        return new StringHttpMessageConverter(Charset.forName(StandardCharsets.UTF_8.name()));
     }
 
     @Override

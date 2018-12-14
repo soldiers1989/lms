@@ -1,5 +1,6 @@
 package com.yniot.lms.task;
 
+import com.yniot.lms.controller.commonController.BaseWxController;
 import com.yniot.lms.db.entity.SmallAppConfig;
 import com.yniot.lms.db.entity.WeChatConfig;
 import com.yniot.lms.service.SmallAppService;
@@ -34,6 +35,7 @@ public class StartedTask implements ApplicationRunner {
     private void initWeChatConfig() {
         WeChatConfig weChatConfig = weChatService.getConfig();
         smallAppService.initConfig();
+        BaseWxController.initConfig(weChatService);
         if (weChatConfig != null) {
             logger.info("微信配置加载完成!");
         } else {

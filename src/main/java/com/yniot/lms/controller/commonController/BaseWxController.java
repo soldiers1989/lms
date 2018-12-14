@@ -1,5 +1,6 @@
 package com.yniot.lms.controller.commonController;
 
+import com.yniot.lms.db.cachce.CacheDao;
 import com.yniot.lms.db.entity.WeChatConfig;
 import com.yniot.lms.service.WeChatService;
 import com.yniot.lms.service.impl.WeChatServiceImpl;
@@ -26,10 +27,6 @@ public class BaseWxController extends BaseController {
     protected static WxMpService wxMpService = null;
     protected static WxMpMessageRouter wxMpMessageRouter = null;
 
-    public BaseWxController() {
-        this.initConfig();
-    }
-
     /**
      * @return me.chanjar.weixin.mp.api.WxMpInMemoryConfigStorage
      * @Author wanggl
@@ -37,10 +34,9 @@ public class BaseWxController extends BaseController {
      * @Date 21:06 2018-11-21
      * @Param []
      **/
-    public void initConfig() {
-        if (this.wxMpInMemoryConfigStorage == null) {
-            WeChatService weChatService = new WeChatServiceImpl();
-            this.wxMpInMemoryConfigStorage = new WxMpInMemoryConfigStorage();
+    public static void initConfig(WeChatService weChatService) {
+        if (wxMpInMemoryConfigStorage == null) {
+            wxMpInMemoryConfigStorage = new WxMpInMemoryConfigStorage();
             WeChatConfig weChatConfig = weChatService.getConfig();
             wxMpInMemoryConfigStorage.setAesKey(weChatConfig.getAesKey());
             wxMpInMemoryConfigStorage.setAppId(weChatConfig.getAppId());
@@ -52,12 +48,12 @@ public class BaseWxController extends BaseController {
 //        config.setSecret("2fb7e814d855d0857cc5c09df2335023");
 //        config.setToken("lms_token");
 //        config.setAesKey("XCaOiGUwuU48Zin8yjHDsk6V1THBbxBmO4CIViZ4nlr");
-        if (this.wxMpService == null) {
-            this.wxMpService = new WxMpServiceHttpClientImpl();
+        if (wxMpService == null) {
+            wxMpService = new WxMpServiceHttpClientImpl();
             wxMpService.setWxMpConfigStorage(wxMpInMemoryConfigStorage);
         }
-        if (this.wxMpMessageRouter == null) {
-            this.wxMpMessageRouter = new WxMpMessageRouter(wxMpService);
+        if (wxMpMessageRouter == null) {
+            wxMpMessageRouter = new WxMpMessageRouter(wxMpService);
             WxMpMessageHandler logHandler = new WeChatLogHandler();
             WxMpMessageHandler textHandler = new WeChatTextHandler();
             WxMpMessageHandler imageHandler = new WeChatImageHandler();

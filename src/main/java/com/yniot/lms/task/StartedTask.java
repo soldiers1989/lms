@@ -1,7 +1,6 @@
 package com.yniot.lms.task;
 
 import com.yniot.lms.controller.commonController.BaseWxController;
-import com.yniot.lms.db.entity.SmallAppConfig;
 import com.yniot.lms.db.entity.WeChatConfig;
 import com.yniot.lms.service.SmallAppService;
 import com.yniot.lms.service.WeChatService;

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @project: lms
@@ -22,7 +23,7 @@ import java.util.Date;
  **/
 @AdminOnly
 @RestController
-@RequestMapping("/cart")
+@RequestMapping(name = "/cart", produces = {"application/json;charset=UTF-8"})
 public class CartController extends BaseControllerT<Cart> {
     @Autowired
     CartService cartService;
@@ -82,7 +83,8 @@ public class CartController extends BaseControllerT<Cart> {
     public String selectCart() {
         QueryWrapper<Cart> cartQueryWrapper = new QueryWrapper<>();
         cartQueryWrapper.eq("user_id", getId());
-        return getSuccessResult(cartService.list(cartQueryWrapper));
+        List result = cartService.list(cartQueryWrapper);
+        return getSuccessResult(result);
     }
 
 

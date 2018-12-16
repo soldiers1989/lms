@@ -3,15 +3,22 @@
 <mapper namespace="com.yniot.lms.db.dao.WardrobeMapper">
 
     <update id="relateLaundry">
-        update biz_wardrobe set modify_time = sysdate() ,
-        laundry_id =
+        UPDATE biz_wardrobe bw
+        INNER JOIN biz_laundry bl ON bl.id = #{laundryId}
+        SET bw.modify_time = SYSDATE( ),
         <if test="relate">
-            #{laundryId}
+            bw.laundry_name = bl.name,
+            bw.laundry_img_url = bl.img_url,
+            bw.laundry_phone = bl.phone,
+            bw.laundry_id = bl.id
         </if>
         <if test="!relate">
-            null
+            bw.laundry_name = null,
+            bw.laundry_img_url = null,
+            bw.laundry_phone = null,
+            bw.laundry_id =null
         </if>
-        where id in
+        where bw.id  in
         <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
             #{item}
         </foreach>

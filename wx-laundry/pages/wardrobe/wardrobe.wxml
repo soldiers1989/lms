@@ -18,7 +18,7 @@
                             <image class="img" src="{{item.laundryImgUrl}}"></image>
                             <view class="info">
                                 <view class="t">
-                                    <text class="name">{{item.laundryName}}</text>
+                                    <text class="name">{{item.laundryName}}({{item.laundryPhone}})</text>
                                     <text class="name">(可用格子:{{item.avaCellNum}})</text>
                                 </view>
                                 <view class="b">

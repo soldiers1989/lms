@@ -34,9 +34,9 @@ public class StartedTask implements ApplicationRunner {
     private void initWeChatConfig() {
         WeChatConfig weChatConfig = weChatService.getConfig();
         smallAppService.initConfig();
-        BaseWxController.initConfig(weChatService);
         if (weChatConfig != null) {
             logger.info("微信配置加载完成!");
+            BaseWxController.initConfig(weChatConfig);
         } else {
             logger.info("微信配置加载失败,退出程序!");
             System.exit(0);

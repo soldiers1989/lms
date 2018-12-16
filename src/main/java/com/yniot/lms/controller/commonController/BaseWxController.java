@@ -31,10 +31,9 @@ public class BaseWxController extends BaseController {
      * @Date 21:06 2018-11-21
      * @Param []
      **/
-    public static void initConfig(WeChatService weChatService) {
+    public static void initConfig(WeChatConfig weChatConfig) {
         if (wxMpInMemoryConfigStorage == null) {
             wxMpInMemoryConfigStorage = new WxMpInMemoryConfigStorage();
-            WeChatConfig weChatConfig = weChatService.getConfig();
             wxMpInMemoryConfigStorage.setAesKey(weChatConfig.getAesKey());
             wxMpInMemoryConfigStorage.setAppId(weChatConfig.getAppId());
             wxMpInMemoryConfigStorage.setToken(weChatConfig.getToken());

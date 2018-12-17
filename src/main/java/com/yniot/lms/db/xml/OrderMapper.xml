@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.yniot.lms.db.dao.OrderMapper">
-    <update id="paid_procedure" statementType="CALLABLE" >
+    <update id="paid_procedure" statementType="CALLABLE">
         call lms_paid(#{orderId},#{price})
+    </update>
+    <update id="updateState">
+        UPDATE biz_order bo ,biz_order_goods bog SET bo.state=#{state},bog.state =#{state}  where bo.id = #{orderId} and bo.id = bog.order_id;
     </update>
 </mapper>

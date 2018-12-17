@@ -28,11 +28,6 @@
                 <el-button size="mini" type="primary" icon="el-icon-plus" :disabled="selectedRows.length==0"
                            @click="acceptOrder" v-if="activeIndex==10">接单
                 </el-button>
-                <!--<el-button size="mini" icon="el-icon-delete" :disabled="selectedRows.length==0" v-if="activeIndex==10">-->
-                <!--取消订单-->
-                <!--</el-button>-->
-                <el-button size="mini" type="primary" :disabled="selectedRows.length==0" v-if="activeIndex==50">提交价格
-                </el-button>
                 <el-button size="mini" type="primary" :disabled="selectedRows.length==0" v-if="activeIndex==60">进入清洁
                 </el-button>
                 <el-button size="mini" type="primary" :disabled="selectedRows.length==0" v-if="activeIndex==63">清洁完成
@@ -50,6 +45,12 @@
                 <el-table-column prop="commitTime" label="提交时间"></el-table-column>
                 <el-table-column prop="expiredTime" label="超时时间"></el-table-column>
                 <!--<el-table-column prop="commitTime" label="金额"></el-table-column>-->
+                <el-table-column label="操作" width="120" align="center" v-if="activeIndex==50">
+                    <template slot-scope="scope">
+                        <el-button type="text" size="small" @click="openCommitPriceDialog(scope.row)">提交价格
+                        </el-button>
+                    </template>
+                </el-table-column>
             </el-table>
             <el-pagination align="center"
                            @size-change="handleSizeChange"
@@ -61,6 +62,22 @@
                            :total="totalNum">
             </el-pagination>
         </el-card>
+
+
+        <el-dialog :visible.sync="commitPriceDialogVisible" @close="targetOrder=null">
+            <el-form :model="targetOrderCost" :label-position="'right'" label-width="80px">
+                <el-form-item label="总价格:">
+                    <el-input v-model="targetOrderCost.actTotalCost"></el-input>
+                </el-form-item>
+                <el-form-item label="描述">
+                    <el-input type="textarea" v-model="targetOrderCost.description"></el-input>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="commitPriceDialogVisible = false">取 消</el-button>
+                <el-button type="primary" @click="commitPrice">确 定</el-button>
+            </div>
+        </el-dialog>
     </div>
 </template>
 <style>
@@ -85,8 +102,14 @@
                 selectedRows: [],
                 bucketName: "public",
                 pageNum: 1,
+                targetOrderCost: {
+                    actTotalCost: 0,
+                    description: ""
+                },
+                targetOrder: null,
                 pageSize: 20,
                 totalNum: 0,
+                commitPriceDialogVisible: false,
                 orderList: [],
             };
         },
@@ -97,6 +120,41 @@
             handleSelect(index) {
                 this.activeIndex = index;
                 this.query();
+            },
+            commitPrice() {
+                if (!this.targetOrder || !this.targetOrderCost) {
+                    return;
+                }
+                this.$confirm('确定提交价格吗?[' + this.targetOrderCost.actTotalCost + ']', '订单号:' + this.targetOrder.code, {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    let params = {
+                        orderId: this.targetOrder.id,
+                        orderCode: this.targetOrder.code,
+                        totalPrice: this.targetOrderCost.actTotalCost
+                    };
+                    this.$http.post("/orderCost/commitPrice", qs.stringify(params)).then(res => {
+                        if (res.data.result && res.data.data) {
+                            this.$message({
+                                type: "success",
+                                message: "操作成功"
+                            });
+                            this.commitPriceDialogVisible = false;
+                            this.query();
+                        }
+                    });
+
+
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消'
+                    });
+                });
+
+
             },
             query() {
                 let params = {state: this.activeIndex, pageNum: this.pageNum, pageSize: this.pageSize};
@@ -114,6 +172,25 @@
             },
             openEditOrInsertDialog() {
                 this.dialogVisible = true;
+            },
+            openCommitPriceDialog(row) {
+                if (row) {
+                    this.commitPriceDialogVisible = true;
+                    this.targetOrder = row;
+                    this.getOrderCost();
+                }
+            },
+            //String orderCode, Integer orderId, BigDecimal totalPrice
+            getOrderCost() {
+                if (this.targetOrder) {
+                    let params = {orderId: this.targetOrder.id};
+                    this.$http.post("/orderCost/getByOrderId", qs.stringify(params)).then(res => {
+                        if (res.data.result && res.data.data) {
+                            this.targetOrderCost = res.data.data;
+                        }
+                    });
+                }
+
             },
             acceptOrder() {
                 let params = {orderId: this.selectedRows[0].id};

@@ -95,7 +95,7 @@ public class OrderGoodsServiceImpl extends ServiceImpl<OrderGoodsMapper, OrderGo
         }
         result = saveBatch(orderGoodsList);
         result = result && cellService.usedCell(cellId, orderId);
-        result = result && orderCostService.save(orderId, estCost);
+        result = result && orderCostService.saveEstCost(orderId, estCost);
         return result;
     }
 

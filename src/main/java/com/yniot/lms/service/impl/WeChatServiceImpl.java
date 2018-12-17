@@ -149,7 +149,7 @@ public class WeChatServiceImpl extends ServiceImpl<WeChatConfigMapper, WeChatCon
         Order order = orderService.getByOrderCode(orderNo);
         if (order != null) {
             this.sendWeChatMessage("你的订单已经完成,谢谢光顾!", "订单完成通知",
-                    null, order.getUserOpenId(), PAY_NOTICE, orderNo);
+                    null, order.getUserOpenId(), ORDER_FINISHED_TEMPLATE_ID, orderNo);
         }
 
     }

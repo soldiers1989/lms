@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yniot.lms.controller.commonController.BaseControllerT;
 import com.yniot.lms.db.entity.GoodsCode;
-import com.yniot.lms.db.entity.Order;
 import com.yniot.lms.service.GoodsCodeService;
 import com.yniot.lms.service.OrderService;
 import org.apache.commons.lang3.StringUtils;

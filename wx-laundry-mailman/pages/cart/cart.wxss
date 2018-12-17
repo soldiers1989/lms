@@ -187,6 +187,15 @@ page{
     overflow: hidden;
 }
 
+ .delete-item{
+    height: 28rpx;
+    line-height: 28rpx;
+    font-size: 25rpx;
+    color: #333;
+    overflow: hidden;
+    background-color:orangered!important;
+}
+
 .cart-view .item .price{
     float: left;
 }

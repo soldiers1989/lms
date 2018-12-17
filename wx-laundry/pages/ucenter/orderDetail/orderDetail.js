@@ -22,7 +22,7 @@ Page({
         this.getOrderCost();
         this.getOrderGoodsList();
         this.getOrderShipment();
-        this.initSaveListener();
+        // this.initSaveListener();
     },
     initSaveListener() {
         let socketTask = util.initWebsocket(

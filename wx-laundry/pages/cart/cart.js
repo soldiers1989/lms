@@ -62,27 +62,29 @@ Page({
     },
     toWardrobePage: function () {
         wx.navigateTo({
-            url: '/pages/wardrobe/wardrobe?totalPrice='+this.data.totalPrice
+            url: '/pages/wardrobe/wardrobe?totalPrice=' + this.data.totalPrice
         })
     },
-    updateCart: function (goodsId, add) {
+    deleteItem: function (event) {
+        let cartId = event.target.dataset.cartId;
         let that = this;
-        let url = add ? api.CartAdd : api.CartDel;
-        util.request(url, {
-            goodsId: goodsId,
-        }).then(function (res) {
-            if (res.result) {
-
+        wx.showModal({
+            title: '',
+            content: '确定要删除吗？',
+            success: function (res) {
+                if (res.confirm) {
+                    util.request(api.CartDel, {
+                        cartId: cartId,
+                    }).then(function (res) {
+                        if (res.result && res.data) {
+                            that.getCartList();
+                        }
+                    });
+                }
             }
         });
-    },
-    cutNumber: function (event) {
-        let goodsId = event.target.dataset.goodsId;
-        this.updateCart(goodsId, false);
-    },
-    addNumber: function (event) {
-        let goodsId = event.target.dataset.goodsId;
-        this.updateCart(goodsId, true);
+
+
     },
     //下单
     checkoutOrder: function () {

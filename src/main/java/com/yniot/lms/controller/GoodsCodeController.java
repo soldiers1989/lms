@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * <p>
@@ -64,10 +65,23 @@ public class GoodsCodeController extends BaseControllerT<GoodsCode> {
         return getSuccessPage(goodsCodeService.page(new Page<>(pageNum, pageSize), goodsCodeQueryWrapper));
     }
 
-//    @RequestMapping("/logicDelete")
-//    public String logicDelete(Integer id) {
-//        return getSuccessResult(goodsCodeService.removeById(id));
-//    }
+    @RequestMapping("/relateCode")
+    public String relateOrderGoods(@RequestParam(name = "codeList[]") List<String> codeList,
+                                   @RequestParam(name = "orderGoodsId") int orderGoodsId) {
+        return getSuccessResult(goodsCodeService.relateCode(codeList, orderGoodsId));
+    }
+
+    @RequestMapping("/releaseCode")
+    public String releaseCodeByCode(@RequestParam(name = "codeList[]") List<String> codeList) {
+        return getSuccessResult(goodsCodeService.releaseCode(codeList));
+    }
+
+
+    @RequestMapping("getByOrderGoodsId")
+    public String getByOrderGoodsId(@RequestParam(name = "orderGoodsIdList[]") List<Integer> orderGoodsIdList) {
+        return getSuccessResult(goodsCodeService.getByOrderGoodsId(orderGoodsIdList));
+    }
+
 
 }
 

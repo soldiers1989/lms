@@ -23,13 +23,9 @@
                                 </view>
                                 <view class="b">
                                     <text class="price">￥{{item.price*item.count}}</text>
-                                    <view class="selnum">
-                                        <view class="cut" bindtap="cutNumber" data-goodsId="{{item.goodsId}}">-
-                                        </view>
-                                        <input value="{{item.count}}" class="number" disabled="true" type="number"/>
-                                        <view class="add" bindtap="addNumber" data-goodsId="{{item.goodsId}}">+
-                                        </view>
-                                    </view>
+                                </view>
+                                <view class="b">
+                                    <text class="delete-item" data-cart-id="{{item.id}}" bindtap="deleteItem">删除</text>
                                 </view>
                             </view>
                         </view>

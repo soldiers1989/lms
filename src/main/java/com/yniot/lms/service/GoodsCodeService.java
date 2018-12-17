@@ -3,6 +3,8 @@ package com.yniot.lms.service;
 import com.yniot.lms.db.entity.GoodsCode;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
  * <p>
  * 服务类
@@ -14,8 +16,13 @@ import com.baomidou.mybatisplus.extension.service.IService;
 public interface GoodsCodeService extends IService<GoodsCode> {
     int isExists(String code);
 
-    boolean useCode(String code, int orderId);
+    int relateCode(List<String> codeList, int orderGoodsId);
 
-    boolean releaseCode(String code);
+
+    int releaseCode(List<String> codeList);
+
+    List<GoodsCode> getByOrderGoodsId(int orderGoodsId);
+
+    List<GoodsCode> getByOrderGoodsId(List<Integer> orderGoodsIdList);
 
 }

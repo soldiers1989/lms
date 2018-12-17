@@ -20,7 +20,6 @@ module.exports = {
     BrandDetail: API_BASE_URL + 'brand/detail',  //品牌详情
     BuyAdd: API_BASE_URL + 'buy/add', // 直接购买
     CartUpdate: API_BASE_URL + 'cart/update', // 更新购物车的商品
-    CartDelete: API_BASE_URL + 'cart/delete', // 删除购物车的商品
     CartChecked: API_BASE_URL + 'cart/checked', // 选择或取消选择商品
     CartGoodsCount: API_BASE_URL + 'cart/goodscount', // 获取购物车商品件数
     CartCheckout: API_BASE_URL + 'cart/checkout', // 下单前信息确认
@@ -65,6 +64,7 @@ module.exports = {
     CartList: "http://localhost:8080/" + 'cart/select', //获取购物车的数据
     CartAdd: "http://localhost:8080/" + 'cart/add', //添加到购物车
     CartDel: "http://localhost:8080/" + 'cart/delete', //添加到购物车
+    // CartDelete: API_BASE_URL + 'cart/delete', // 删除购物车的商品
     // CatalogList: API_BASE_URL + 'catalog/index',  //分类目录全部分类数据接口
     CatalogList: "http://localhost:8080/" + 'catalog/select',  //分类目录全部分类数据接口
     // CatalogCurrent: API_BASE_URL + 'catalog/current',  //分类目录当前分类数据接口

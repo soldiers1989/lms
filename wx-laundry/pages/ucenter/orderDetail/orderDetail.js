@@ -92,7 +92,7 @@ Page({
             }
         });
     },
-    getOrderShipment() {
+    getOrderShipment(callback) {
         let that = this;
         util.request(api.GetOrderShipmentById, {
             orderId: that.data.orderId
@@ -101,6 +101,7 @@ Page({
                 that.setData({
                     orderShipment: res.data,
                 });
+                callback && callback();
             }
         });
     },
@@ -197,22 +198,24 @@ Page({
 
     },
     showStorageQRCode() {
-        this.getOrderShipment();
         let that = this;
         if (this.data.showQRCode) {
             this.setData({
                 showQRCode: false
             });
         } else {
+            this.getOrderShipment(function () {
+                drawQrcode({
+                    width: 200,
+                    height: 200,
+                    canvasId: 'storageQRCode',
+                    text: that.data.orderShipment.password + ""
+                });
+            });
             this.setData({
                 showQRCode: true,
             });
-            drawQrcode({
-                width: 200,
-                height: 200,
-                canvasId: 'storageQRCode',
-                text: that.data.orderShipment.password + ""
-            });
+
         }
     },
     goodsSavedToCloset() {

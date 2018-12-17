@@ -1,16 +1,18 @@
 package com.yniot.lms.db.entity;
 
 import java.math.BigDecimal;
+
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.annotation.TableId;
+
 import java.time.LocalDateTime;
 import java.io.Serializable;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author wanggl
@@ -46,8 +48,6 @@ public class OrderGoods extends Model<OrderGoods> {
 
     private Integer count;
 
-    private String code;
-
     /**
      * 与订单状态一致
      */
@@ -71,6 +71,15 @@ public class OrderGoods extends Model<OrderGoods> {
 
     private String imgUrl;
 
+    public String getTagCode() {
+        return tagCode;
+    }
+
+    public void setTagCode(String tagCode) {
+        this.tagCode = tagCode;
+    }
+
+    private String tagCode;
 
     public Integer getId() {
         return id;
@@ -144,13 +153,6 @@ public class OrderGoods extends Model<OrderGoods> {
         this.count = count;
     }
 
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
 
     public Integer getState() {
         return state;
@@ -240,26 +242,26 @@ public class OrderGoods extends Model<OrderGoods> {
     @Override
     public String toString() {
         return "OrderGoods{" +
-        "id=" + id +
-        ", orderId=" + orderId +
-        ", storageCellId=" + storageCellId +
-        ", putCellId=" + putCellId +
-        ", deleted=" + deleted +
-        ", wardrobeId=" + wardrobeId +
-        ", createTime=" + createTime +
-        ", launderType=" + launderType +
-        ", count=" + count +
-        ", code=" + code +
-        ", state=" + state +
-        ", goodsId=" + goodsId +
-        ", estTotalCost=" + estTotalCost +
-        ", actTotalCost=" + actTotalCost +
-        ", description=" + description +
-        ", extCost=" + extCost +
-        ", estUnitPrice=" + estUnitPrice +
-        ", actUnitPrice=" + actUnitPrice +
-        ", name=" + name +
-        ", imgUrl=" + imgUrl +
-        "}";
+                "id=" + id +
+                ", orderId=" + orderId +
+                ", storageCellId=" + storageCellId +
+                ", putCellId=" + putCellId +
+                ", deleted=" + deleted +
+                ", wardrobeId=" + wardrobeId +
+                ", createTime=" + createTime +
+                ", launderType=" + launderType +
+                ", count=" + count +
+                ", tagCode=" + tagCode +
+                ", state=" + state +
+                ", goodsId=" + goodsId +
+                ", estTotalCost=" + estTotalCost +
+                ", actTotalCost=" + actTotalCost +
+                ", description=" + description +
+                ", extCost=" + extCost +
+                ", estUnitPrice=" + estUnitPrice +
+                ", actUnitPrice=" + actUnitPrice +
+                ", name=" + name +
+                ", imgUrl=" + imgUrl +
+                "}";
     }
 }

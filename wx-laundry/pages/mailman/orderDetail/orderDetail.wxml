@@ -33,6 +33,11 @@
                         <text class="name">{{item.name}}</text>
                         <text class="number">x{{item.count}}</text>
                     </view>
+                    <view class="t">
+                        <text class="name" wx:if="{{item.tagCode}}">使用编号:{{item.tagCode}}</text>
+                        <button class="name" data-order-goods-id="{{item.id}}" bindtap="openBindCodeDialog" wx:else>添加编号
+                        </button>
+                    </view>
                 </view>
             </view>
         </view>

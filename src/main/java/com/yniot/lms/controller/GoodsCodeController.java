@@ -5,7 +5,9 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yniot.lms.controller.commonController.BaseControllerT;
 import com.yniot.lms.db.entity.GoodsCode;
+import com.yniot.lms.db.entity.Order;
 import com.yniot.lms.service.GoodsCodeService;
+import com.yniot.lms.service.OrderService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -65,15 +67,23 @@ public class GoodsCodeController extends BaseControllerT<GoodsCode> {
         return getSuccessPage(goodsCodeService.page(new Page<>(pageNum, pageSize), goodsCodeQueryWrapper));
     }
 
+    @Autowired
+    OrderService orderService;
+
+    @RequestMapping("/getUnusedCode")
+    public String getUnusedCodeByOrderGoodsId(@RequestParam(name = "orderId") int orderId) {
+        return getSuccessResult(goodsCodeService.getUnused(orderId, -1));
+    }
+
     @RequestMapping("/relateCode")
-    public String relateOrderGoods(@RequestParam(name = "codeList[]") List<String> codeList,
+    public String relateOrderGoods(@RequestParam(name = "code") String code,
                                    @RequestParam(name = "orderGoodsId") int orderGoodsId) {
-        return getSuccessResult(goodsCodeService.relateCode(codeList, orderGoodsId));
+        return getSuccessResult(goodsCodeService.relateCode(code, orderGoodsId));
     }
 
     @RequestMapping("/releaseCode")
-    public String releaseCodeByCode(@RequestParam(name = "codeList[]") List<String> codeList) {
-        return getSuccessResult(goodsCodeService.releaseCode(codeList));
+    public String releaseCodeByCode(@RequestParam(name = "code") String code) {
+        return getSuccessResult(goodsCodeService.releaseCode(code));
     }
 
 

@@ -112,4 +112,5 @@ public class OrderGoodsServiceImpl extends ServiceImpl<OrderGoodsMapper, OrderGo
         orderGoodsQueryWrapper.in("order_id", orderIdList);
         return list(orderGoodsQueryWrapper);
     }
+
 }

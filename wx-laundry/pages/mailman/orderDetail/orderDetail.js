@@ -9,6 +9,7 @@ Page({
         goodsList: [],
         orderCost: {},
         orderShipment: {},
+        codeList: [],
         codeExpireTime: "暂无",
         socketTask: null,
         handleOption: {}
@@ -56,6 +57,36 @@ Page({
             }
         });
     },
+    getUnusedCode() {
+        let that = this;
+        util.request(api.GoodsGetUnused, {
+            orderId: that.data.orderId
+        }).then(function (res) {
+            if (res.result) {
+                that.setData({
+                    codeList: res.data,
+                });
+            }
+        });
+    },
+    openBindCodeDialog(event) {
+        this.getUnusedCode();
+    },
+    relateCode(relate, code, orderGoodsId) {
+        let that = this;
+        let url = api.GoodsCodeRelate;
+        if (!relate) {
+            url = api.GoodsCodeRelease;
+        }
+        util.request(url, {
+            orderGoodsId: orderGoodsId,
+            code: code
+        }).then(function (res) {
+            if (res.result) {
+                that.getOrderDetail();
+            }
+        });
+    },
     getOrderGoodsList() {
         let that = this;
         util.request(api.GetOrderGoodsById, {
@@ -68,7 +99,7 @@ Page({
             }
         });
     },
-    getOrderShipment() {
+    getOrderShipment(callback) {
         let that = this;
         util.request(api.GetOrderShipmentById, {
             orderId: that.data.orderId
@@ -77,26 +108,30 @@ Page({
                 that.setData({
                     orderShipment: res.data,
                 });
+                callback && callback();
             }
         });
     },
     showStorageQRCode() {
-        this.getOrderShipment();
         let that = this;
         if (this.data.showQRCode) {
             this.setData({
                 showQRCode: false
             });
         } else {
+            that.getOrderShipment(function () {
+                drawQrcode({
+                    width: 200,
+                    height: 200,
+                    canvasId: 'storageQRCode',
+                    text: that.data.orderShipment.password + ""
+                });
+            });
             this.setData({
                 showQRCode: true,
             });
-            drawQrcode({
-                width: 200,
-                height: 200,
-                canvasId: 'storageQRCode',
-                text: that.data.orderShipment.password + ""
-            });
+
+
         }
     },
     goodsSavedToCloset() {

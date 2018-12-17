@@ -20,6 +20,6 @@ public interface GoodsCodeMapper extends CommonMapper<GoodsCode> {
     @Select("select count(1) from biz_goods_code where unique_code = #{code}")
     int isExists(String code);
 
-    int setState(List<String> codeList, int state, int orderGoodsId);
+    int setState(String code, int state, int orderGoodsId);
 
 }

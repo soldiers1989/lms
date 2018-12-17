@@ -16,13 +16,17 @@ import java.util.List;
 public interface GoodsCodeService extends IService<GoodsCode> {
     int isExists(String code);
 
-    int relateCode(List<String> codeList, int orderGoodsId);
+    int relateCode(String code, int orderGoodsId);
 
 
-    int releaseCode(List<String> codeList);
+    int releaseCode(String code);
 
     List<GoodsCode> getByOrderGoodsId(int orderGoodsId);
 
     List<GoodsCode> getByOrderGoodsId(List<Integer> orderGoodsIdList);
+
+    int autoRelate(int orderId);
+
+    List<GoodsCode> getUnused(int orderId, int cnt);
 
 }

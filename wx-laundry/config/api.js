@@ -58,9 +58,12 @@ module.exports = {
     // CartAdd: API_BASE_URL + 'cart/add', // 添加商品到购物车
     // CartList: "http://localhost:8080/" + 'cart/select', //获取购物车的数据
     OrderDetail: "http://localhost:8080/" + 'order/selectById',  //订单详情
-    GetOrderShipmentById:"http://localhost:8080/"+"orderShipment/getByOrderId",
-    GetOrderCostById:"http://localhost:8080/"+"orderCost/getByOrderId",
-    GetOrderGoodsById:"http://localhost:8080/"+"orderGoods/getByOrderId",
+    GetOrderShipmentById: "http://localhost:8080/" + "orderShipment/getByOrderId",
+    GetOrderCostById: "http://localhost:8080/" + "orderCost/getByOrderId",
+    GetOrderGoodsById: "http://localhost:8080/" + "orderGoods/getByOrderId",
+    GoodsCodeRelate: "http://localhost:8080/" + "goodsCode/relate",
+    GoodsCodeRelease: "http://localhost:8080/" + "goodsCode/release",
+    GoodsGetUnused: "http://localhost:8080/" + "goodsCode/getUnusedCode",
     CartList: "http://localhost:8080/" + 'cart/select', //获取购物车的数据
     CartAdd: "http://localhost:8080/" + 'cart/add', //添加到购物车
     CartDel: "http://localhost:8080/" + 'cart/delete', //添加到购物车
@@ -77,5 +80,5 @@ module.exports = {
     OrderList: "http://localhost:8080/" + 'order/selectByUserId',  //订单列表
     CommitOrder: "http://localhost:8080/" + 'order/commit', //
     Login: "http://localhost:8080/" + '/user/login', //账号登录
-    WebsocketUrl:"ws://localhost:8080/WebSocket/"
+    WebsocketUrl: "ws://localhost:8080/WebSocket/"
 };

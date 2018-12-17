@@ -3,22 +3,23 @@
 <mapper namespace="com.yniot.lms.db.dao.GoodsCodeMapper">
 
     <update id="setState">
-        update biz_goods_code bgc
-        inner JOIN biz_order_goods bog on bog.id = bgc.order_goods_id
-         set
+        update biz_goods_code bgc,
+        biz_order_goods bog
+        set
         <if test="state ==0">
             bgc.used = 0,
-            bgc.order_id = 0,
-            bgc.order_goods_id = 0,
+            bgc.order_id = null,
+            bgc.order_goods_id = null,
+            bog.tag_code = null
         </if>
         <if test="state !=0">
             bgc.used = 1,
             bgc.order_id = bog.order_id,
             bgc.order_goods_id = #{orderGoodsId},
+            bog.tag_code = bgc.code
         </if>
-        where unique_code in
-        <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
-            #{item}
-        </foreach>
+        where
+        bog.tag_code = bgc.unique_code
+        bgc.unique_code = #{code}
     </update>
 </mapper>

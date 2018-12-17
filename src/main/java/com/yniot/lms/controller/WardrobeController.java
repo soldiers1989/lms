@@ -76,15 +76,22 @@ public class WardrobeController extends BaseControllerT<Wardrobe> {
     //2.获取柜子列表
     @AdminAndLaundry
     @RequestMapping("/select")
-    public String selectByUserId(
+    public String select(
+            @RequestParam(name = "keyWord") String keyWord,
             @RequestParam(name = PAGE_NUM_KEY) int pageNum,
             @RequestParam(name = PAGE_SIZE_KEY) int pageSize) {
         QueryWrapper<Wardrobe> wardrobeQueryWrapper = new QueryWrapper<>();
         wardrobeQueryWrapper.eq("deleted", 0);
+        if (StringUtils.isNotEmpty(keyWord)) {
+            wardrobeQueryWrapper.like("laundry_phone", keyWord).or()
+                    .like("laundry_name", keyWord).or()
+                    .like("address", keyWord).or()
+                    .like("wardrobe_code", keyWord);
+        }
         if (isAdmin()) {
 
         } else if (isLaundry()) {
-            wardrobeQueryWrapper.eq("laundry_id", getUser().getLaundryId());
+            wardrobeQueryWrapper.eq("laundry_id", getLaundryId());
         } else {
             return noAuth();
         }

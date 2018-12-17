@@ -69,6 +69,16 @@ public class Wardrobe extends Model<Wardrobe> {
     private Integer totalCellNum;
     private Integer closedCellNum;
 
+    public String getLaundryPhone() {
+        return laundryPhone;
+    }
+
+    public void setLaundryPhone(String laundryPhone) {
+        this.laundryPhone = laundryPhone;
+    }
+
+    private String laundryPhone;
+
     public Integer getActivatedCellNum() {
         return activatedCellNum;
     }

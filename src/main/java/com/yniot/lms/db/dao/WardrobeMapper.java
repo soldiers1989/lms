@@ -19,7 +19,9 @@ public interface WardrobeMapper extends CommonMapper<Wardrobe> {
 
     int updateAllCellNum(List<Integer> wardrobeIdList);
 
-    int relateLaundry(boolean relate, int wardrobeId, List<Integer> wardrobeIdList);
+    int relateLaundry(boolean relate, int laundryId, List<Integer> wardrobeIdList);
 
     int activate(int activate, List<Integer> wardrobeIdList);
+
+    int updateWardrobeInfo();
 }

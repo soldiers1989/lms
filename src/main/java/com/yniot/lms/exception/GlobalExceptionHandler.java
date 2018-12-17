@@ -24,7 +24,9 @@ public class GlobalExceptionHandler extends BaseController {
     @ExceptionHandler(value = Exception.class)
     @ResponseBody
     public String errorRecorder(Exception e) throws InterruptedException {
+        e.printStackTrace();
         String errorMsg = e.getMessage();
+        logger.info(errorMsg);
         return super.getErrorMsg(errorMsg);
     }
 }

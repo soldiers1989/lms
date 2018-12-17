@@ -18,11 +18,23 @@
             bw.laundry_phone = null,
             bw.laundry_id =null
         </if>
-        where bw.id  in
+        where bw.id in
         <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
             #{item}
         </foreach>
     </update>
+
+    <update id="updateWardrobeInfo">
+        UPDATE biz_wardrobe bw
+        INNER JOIN biz_laundry bl ON bl.id = bw.laundry_id
+        SET bw.modify_time = SYSDATE( ),
+            bw.laundry_name = bl.name,
+            bw.laundry_img_url = bl.img_url,
+            bw.laundry_phone = bl.phone,
+            bw.laundry_id = bl.id
+        where bw.laundry_id  is not null
+    </update>
+
 
     <update id="activate">
         update biz_wardrobe set modify_time = sysdate() , activate = #{activate} where id in
@@ -34,24 +46,24 @@
     <update id="updateAllCellNum" parameterType="list">
         UPDATE biz_wardrobe bw
         INNER JOIN (
-            SELECT
-            sum( CASE WHEN in_used = 0 THEN 1 ELSE 0 END ) ava_num,
-            sum( CASE WHEN in_used = 1 THEN 1 ELSE 0 END ) used_num,
-            sum( CASE WHEN closed = 1 THEN 1 ELSE 0 END ) closed_num,
-            sum( CASE WHEN activated = 1 THEN 1 ELSE 0 END ) activated_num,
-            sum( 1 ) total_num,
-            wardrobe_id
+        SELECT
+        sum( CASE WHEN in_used = 0 THEN 1 ELSE 0 END ) ava_num,
+        sum( CASE WHEN in_used = 1 THEN 1 ELSE 0 END ) used_num,
+        sum( CASE WHEN closed = 1 THEN 1 ELSE 0 END ) closed_num,
+        sum( CASE WHEN activated = 1 THEN 1 ELSE 0 END ) activated_num,
+        sum( 1 ) total_num,
+        wardrobe_id
         FROM
-          biz_cell
+        biz_cell
         GROUP BY
-            wardrobe_id
-            ) c ON id = c.wardrobe_id
+        wardrobe_id
+        ) c ON id = c.wardrobe_id
         SET
-            bw.total_cell_num = c.total_num,
-            bw.used_cell_num = c.used_num,
-            bw.closed_cell_num = c.closed_num,
-            bw.activated_cell_num = c.activated_num,
-            bw.ava_cell_num = c.ava_num
+        bw.total_cell_num = c.total_num,
+        bw.used_cell_num = c.used_num,
+        bw.closed_cell_num = c.closed_num,
+        bw.activated_cell_num = c.activated_num,
+        bw.ava_cell_num = c.ava_num
         where 1=1
         <if test="wardrobeIdList!=null and wardrobeIdList.size()>0 ">
             and wardrobe_id in

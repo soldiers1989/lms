@@ -4,14 +4,11 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.yniot.lms.db.entity.User;
 import com.yniot.lms.enums.ErrorMsgEnum;
-import com.yniot.lms.security.CustomSessionKey;
 import com.yniot.lms.service.RoleService;
 import com.yniot.lms.service.UserService;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -181,16 +178,6 @@ public class BaseController {
 //        return getUser().getId();
         return 1;
 
-    }
-
-    public User getUser(String sessionId) {
-        Session session = SecurityUtils.getSecurityManager().getSession(new CustomSessionKey(sessionId));
-        session.getHost();
-        return (User) SecurityUtils.getSubject().getPrincipal();
-    }
-
-    public int getId(String token) {
-        return getUser(token).getId();
     }
 
     public boolean isUser() {

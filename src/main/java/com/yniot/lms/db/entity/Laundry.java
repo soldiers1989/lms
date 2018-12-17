@@ -50,16 +50,6 @@ public class Laundry extends Model<Laundry> {
 
     private Boolean autoAccept;
 
-    public String getLaundryPhone() {
-        return laundryPhone;
-    }
-
-    public void setLaundryPhone(String laundryPhone) {
-        this.laundryPhone = laundryPhone;
-    }
-
-    private String laundryPhone;
-
     private String name;
 
     private String imgUrl;
@@ -240,7 +230,6 @@ public class Laundry extends Model<Laundry> {
                 ", asap=" + asap +
                 ", modifyTime=" + modifyTime +
                 ", dividePercent=" + dividePercent +
-                ", laundryPhone=" + laundryPhone +
                 ", divideType=" + divideType +
                 ", createTime=" + createTime +
                 ", wardrobeNum=" + wardrobeNum +

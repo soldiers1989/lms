@@ -1,5 +1,6 @@
 package com.yniot.lms.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -24,6 +25,8 @@ import java.util.List;
  */
 @Service
 public class WardrobeServiceImpl extends ServiceImpl<WardrobeMapper, Wardrobe> implements WardrobeService {
+    @Autowired
+    CellService cellService;
 
     @Override
     public boolean updateCellNum(int wardrobeId) {
@@ -32,8 +35,20 @@ public class WardrobeServiceImpl extends ServiceImpl<WardrobeMapper, Wardrobe> i
         return updateAllCellNum(wardrobeIdList);
     }
 
-    @Autowired
-    CellService cellService;
+    @Override
+    public boolean createWardrobe(Wardrobe wardrobe) {
+        return save(wardrobe) && cellService.createCell(wardrobe.getTotalCellNum(), wardrobe.getId());
+    }
+
+
+    @Override
+    public boolean exists(String wardrobeCode) {
+        QueryWrapper<Wardrobe> wardrobeQueryWrapper = new QueryWrapper<>();
+        wardrobeQueryWrapper.eq("wardrobe_code", wardrobeCode);
+        List<Wardrobe> wardrobeIdList = this.list(wardrobeQueryWrapper);
+        return wardrobeIdList != null && !wardrobeIdList.isEmpty();
+    }
+
 
     @Override
     public boolean updateAllCellNum(List<Integer> wardrobeIdList) {

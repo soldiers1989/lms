@@ -35,7 +35,7 @@ public interface CellMapper extends CommonMapper<Cell> {
     @Update("update biz_cell set activate = #{activate} where wardrobe_id = #{wardrobeId}")
     int activateCell(int wardrobeId, int activate);
 
-    int activateCellBatch(List<Integer> wardrobeIdList, int activate);
+    int activateCellBatch(@Param("list") List<Integer> wardrobeIdList, int activate);
 
     @Update("update biz_cell set activate = #{activate} where id = #{cellId}")
     int activateCellByCellId(int activate, int cellId);

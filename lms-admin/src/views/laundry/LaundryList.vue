@@ -71,9 +71,9 @@
             <!--</el-button>-->
             <el-table height="500px" :data="wardrobeList" style="width: 100%;text-align: center" stripe
                       highlight-current-row
-                      v-loading="$store.state.loading" @selection-change="onSelectionChange">
-                <el-table-column type="selection" width="55">
-                </el-table-column>
+                      v-loading="$store.state.loading" >
+                <!--<el-table-column type="selection" width="55">-->
+                <!--</el-table-column>-->
                 <el-table-column prop="wardrobeCode" label="编号"></el-table-column>
                 <el-table-column prop="address" label="地址"></el-table-column>
                 <el-table-column prop="longitude" label="经度" width="120"></el-table-column>
@@ -96,7 +96,7 @@
                                    v-if="targetRelateLaundryId==scope.row.laundryId ">取消关联
                         </el-button>
                         <el-button type="text" size="small" @click="relateLaundry(scope.row,true)"
-                                   v-if="!targetRelateLaundryId">关联
+                                   v-if="!scope.row.laundryId">关联
                         </el-button>
                     </template>
                 </el-table-column>
@@ -225,8 +225,7 @@
                 });
             },
             relateLaundry: function (row, relate) {
-                let params = {relate: relate, laundryId: this.targetRelateLaundryId, "wardrobeIdList": [row.id]};
-                console.log(params);
+                let params = {relate: relate, laundryId: this.targetRelateLaundryId, wardrobeId: row.id};
                 this.$http.post("/wardrobe/relateLaundry", qs.stringify(params)).then(res => {
                     if (res.data.result && res.data.data) {
                         this.$message({

@@ -20,13 +20,20 @@
                 </el-button-group>
             </div>
 
-            <el-table height="600px"  :data="wardrobeList" style="width: 100%;text-align: center" stripe
+            <el-table height="600px" :data="wardrobeList" style="width: 100%;text-align: center" stripe
                       highlight-current-row
                       v-loading="$store.state.loading" @selection-change="onSelectionChange">
                 <el-table-column type="selection" width="55">
                 </el-table-column>
                 <el-table-column prop="wardrobeCode" label="编号"></el-table-column>
-                <el-table-column prop="laundryName" label="洗衣店"></el-table-column>
+                <el-table-column label="洗衣店">
+                    <template slot-scope="scope">
+                        <el-tag v-if="scope.row.laundryId" :type="'success'">{{scope.row.laundryName}}
+                            (编号:{{scope.row.laundryId}})
+                        </el-tag>
+                        <el-tag v-else :type="'danger'">未关联</el-tag>
+                    </template>
+                </el-table-column>
                 <el-table-column prop="address" label="地址"></el-table-column>
                 <el-table-column prop="longitude" label="经度" width="120"></el-table-column>
                 <el-table-column prop="latitude" label="纬度" width="120"></el-table-column>
@@ -36,24 +43,18 @@
                         <el-tag v-else :type="'danger'">已停用</el-tag>
                     </template>
                 </el-table-column>
-                <el-table-column label="洗衣店编号" width="100">
-                    <template slot-scope="scope">
-                        <el-tag v-if="scope.row.laundryId" :type="'success'">{{scope.row.laundryId}}</el-tag>
-                        <el-tag v-else :type="'danger'">未关联</el-tag>
-                    </template>
-                </el-table-column>
                 <el-table-column label="格子" align="center">
                     <el-table-column prop="totalCellNum" label="总数" width="70"></el-table-column>
                     <el-table-column prop="activatedCellNum" label="已激活" width="70"></el-table-column>
                     <el-table-column prop="usedCellNum" label="已使用" width="70"></el-table-column>
                     <el-table-column prop="avaCellNum" label="可用" width="70"></el-table-column>
                 </el-table-column>
-                <el-table-column label="操作" width="120" align="center">
+                <el-table-column label="操作" width="70" align="center">
                     <template slot-scope="scope">
                         <el-button type="text" size="small" @click="openEditOrInsertDialog(scope.row)">编辑
                         </el-button>
-                        <el-button type="text" size="small" @click="openCellDialog(scope.row.id)">添加格子
-                        </el-button>
+                        <!--<el-button type="text" size="small" @click="openCellDialog(scope.row.id)">添加格子-->
+                        <!--</el-button>-->
                     </template>
                 </el-table-column>
             </el-table>
@@ -81,6 +82,9 @@
                 </el-form-item>
                 <el-form-item label="纬度">
                     <el-input v-model="wardrobe.latitude" placeholder="请输入纬度"></el-input>
+                </el-form-item>
+                <el-form-item label="格子数">
+                    <el-input v-model="wardrobe.totalCellNum" placeholder="请输入格子数" :disabled="editMode"></el-input>
                 </el-form-item>
                 <el-form-item label="版本">
                     <el-select v-model="wardrobe.swVersion" placeholder="请选择软件版本">

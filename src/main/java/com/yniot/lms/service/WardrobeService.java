@@ -22,4 +22,8 @@ public interface WardrobeService extends IService<Wardrobe> {
     int relateLaundry(boolean relate, int laundryId, List<Integer> wardrobeIdList);
 
     int activate(boolean activate, List<Integer> wardrobeIdList);
+
+    boolean exists(String wardrobeCode);
+
+    boolean createWardrobe(Wardrobe wardrobe);
 }

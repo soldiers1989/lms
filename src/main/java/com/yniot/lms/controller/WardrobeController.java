@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -37,33 +38,24 @@ public class WardrobeController extends BaseControllerT<Wardrobe> {
     WardrobeProblemService wardrobeProblemService;
 
     //1.创建柜子
-    @AdminOnly
-    @RequestMapping("/create")
-    public String createWardrobe(@RequestBody Wardrobe wardrobe) {
-        wardrobe.setCreateTime(LocalDateTime.now());
-        wardrobe.setCreator(getId());
-        return super.getSuccessResult(wardrobeService.save(wardrobe));
-    }
+//    @AdminOnly
+//    @RequestMapping("/create")
+//    public String createWardrobe(@RequestBody Wardrobe wardrobe) {
+//        wardrobe.setCreateTime(LocalDateTime.now());
+//        wardrobe.setCreator(getId());
+//        return super.getSuccessResult(wardrobeService.save(wardrobe));
+//    }
 
     @AdminOnly
     @RequestMapping("/insert")
-    public String insert(@RequestParam(name = "latitude", required = false, defaultValue = "0") String latitude,
-                         @RequestParam(name = "swVersion", required = false, defaultValue = "1") int swVersion,
-                         @RequestParam(name = "longitude", required = false, defaultValue = "0") String longitude,
-                         @RequestParam(name = "wardrobeCode", required = false, defaultValue = "") String wardrobeCode,
-                         @RequestParam String address) {
-        Wardrobe wardrobe = new Wardrobe();
-        wardrobe.setLongitude(Double.valueOf(longitude));
-        wardrobe.setLatitude(Double.valueOf(latitude));
-        wardrobe.setAddress(address);
+    public String insert(@RequestBody Wardrobe wardrobe) {
+        if (StringUtils.isNotEmpty(wardrobe.getWardrobeCode()) && wardrobeService.exists(wardrobe.getWardrobeCode())) {
+            return getErrorMsg("编号已存在!");
+        }
         wardrobe.setActivated(false);
-        wardrobe.setSwVersion(swVersion);
         wardrobe.setCreateTime(LocalDateTime.now());
         wardrobe.setCreator(getId());
-        if (StringUtils.isNotEmpty(wardrobeCode)) {
-            wardrobe.setWardrobeCode(wardrobeCode);
-        }
-        return super.getSuccessResult(wardrobeService.save(wardrobe));
+        return super.getSuccessResult(wardrobeService.createWardrobe(wardrobe));
     }
 
 
@@ -71,10 +63,9 @@ public class WardrobeController extends BaseControllerT<Wardrobe> {
     @RequestMapping("/relateLaundry")
     public String relateLaundry(@RequestParam boolean relate,
                                 @RequestParam int laundryId,
-                                @RequestParam(value = "wardrobeIdList[]", required = false) List<Integer> wardrobeIdList) {
-        if(wardrobeIdList==null || wardrobeIdList.isEmpty()){
-            return getErrorMsg("wardrobeIdList is empty!");
-        }
+                                @RequestParam(value = "wardrobeId") int wardrobeId) {
+        List<Integer> wardrobeIdList = new ArrayList<>();
+        wardrobeIdList.add(wardrobeId);
         return getSuccessResult(wardrobeService.relateLaundry(relate, laundryId, wardrobeIdList));
     }
 

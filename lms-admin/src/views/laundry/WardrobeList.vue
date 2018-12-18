@@ -198,7 +198,7 @@
             },
             insertOrUpdate() {
                 let operation = this.editMode ? "update" : "insert";
-                this.$http.post("/wardrobe/" + operation, qs.stringify(this.wardrobe)).then(res => {
+                this.$http.post("/wardrobe/" + operation, this.wardrobe).then(res => {
                     if (res.data.result && res.data.data) {
                         this.$message({
                             type: "success",

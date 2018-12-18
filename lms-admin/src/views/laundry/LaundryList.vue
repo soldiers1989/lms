@@ -47,7 +47,8 @@
                 <el-table-column label="操作" width="180" align="center">
                     <template slot-scope="scope">
                         <el-button type="text" size="small" @click="openEditOrInsertDialog(scope.row)">编辑</el-button>
-                        <el-button type="text" size="small" @click="openRelateWardrobeDialog(scope.row)">关联柜子</el-button>
+                        <el-button type="text" size="small" @click="openRelateWardrobeDialog(scope.row)">关联柜子
+                        </el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -63,11 +64,11 @@
         </el-card>
 
         <el-dialog :visible.sync="wardrobeDialogVisible" @open="queryWardrobe">
-            <el-input style="width: 200px" size="mini" v-model="wardrobeKeyWord" placeholder="关键字"></el-input>
-            <el-button type="primary" size="mini" style="margin-left: 20px;" icon="el-icon-search"
-                       @click="queryWardrobe">
-                查询
-            </el-button>
+            <!--<el-input style="width: 200px" size="mini" v-model="wardrobeKeyWord" placeholder="关键字"></el-input>-->
+            <!--<el-button type="primary" size="mini" style="margin-left: 20px;" icon="el-icon-search"-->
+            <!--@click="queryWardrobe">-->
+            <!--查询-->
+            <!--</el-button>-->
             <el-table height="500px" :data="wardrobeList" style="width: 100%;text-align: center" stripe
                       highlight-current-row
                       v-loading="$store.state.loading" @selection-change="onSelectionChange">
@@ -91,10 +92,11 @@
                 </el-table-column>
                 <el-table-column label="操作" width="120" align="center">
                     <template slot-scope="scope">
-                        <el-button type="text" size="small" @click="relateLaundry(scope.row,true)"
-                                   v-if="!scope.row.laundryId">关联
+                        <el-button type="text" size="small" @click="relateLaundry(scope.row,false)"
+                                   v-if="targetRelateLaundryId==scope.row.laundryId ">取消关联
                         </el-button>
-                        <el-button type="text" size="small" @click="relateLaundry(scope.row,false)" v-else>取消关联
+                        <el-button type="text" size="small" @click="relateLaundry(scope.row,true)"
+                                   v-if="!targetRelateLaundryId">关联
                         </el-button>
                     </template>
                 </el-table-column>
@@ -120,7 +122,8 @@
                     <el-input v-model="laundry.phone" placeholder="请输入编号"></el-input>
                 </el-form-item>
                 <el-form-item label="提成比例(%)">
-                    <el-input v-model="laundry.dividePercent" placeholder="请输入比例" max="100" min="10" :disabled="laundry.divideType==0"></el-input>
+                    <el-input v-model="laundry.dividePercent" placeholder="请输入比例" max="100" min="10"
+                              :disabled="laundry.divideType==0"></el-input>
                 </el-form-item>
                 <el-form-item label="收费方式">
                     <el-select v-model="laundry.divideType" placeholder="请选择软件版本">
@@ -207,25 +210,31 @@
             },
             queryWardrobe() {
                 let params = {
+                    laundryId: this.targetRelateLaundryId,
                     pageNum: this.wardrobePageNum,
                     pageSize: this.wardrobePageSize,
                     keyWord: this.wardrobeKeyWord
                 };
-                this.$http.post("/wardrobe/select", qs.stringify(params)).then(res => {
+                this.$http.post("/wardrobe/selectForRelate", qs.stringify(params)).then(res => {
                     if (res.data.result) {
                         this.wardrobeList = res.data.data;
+                        this.wardrobePageNum = res.data.pageNum;
+                        this.wardrobePageSize = res.data.pageSize;
+                        this.wardrobeTotalNum = res.data.totalNum;
                     }
                 });
             },
             relateLaundry: function (row, relate) {
-                let params = {relate: relate, laundryId: this.targetRelateLaundryId, wardrobeIdList: [row.id]};
+                let params = {relate: relate, laundryId: this.targetRelateLaundryId, "wardrobeIdList": [row.id]};
+                console.log(params);
                 this.$http.post("/wardrobe/relateLaundry", qs.stringify(params)).then(res => {
                     if (res.data.result && res.data.data) {
                         this.$message({
                             type: "success",
                             message: "操作成功"
                         });
-                        this.wardrobeDialogVisible = false;
+                        // this.wardrobeDialogVisible = false;
+                        this.queryWardrobe();
                     }
                 });
             },
@@ -271,10 +280,6 @@
                         this.laundryDialogVisible = false;
                     }
                 });
-            },
-            openCellDialog(laundryId) {
-                this.cellDialogVisible = true;
-                this.targetLaundryId = laundryId;
             },
             openEditOrInsertDialog(row) {
                 if (row) {

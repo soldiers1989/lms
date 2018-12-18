@@ -1,5 +1,7 @@
 package com.yniot.lms.service.impl;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yniot.lms.db.dao.CellMapper;
 import com.yniot.lms.db.dao.WardrobeMapper;
@@ -57,4 +59,12 @@ public class WardrobeServiceImpl extends ServiceImpl<WardrobeMapper, Wardrobe> i
         }
         return re1;
     }
+
+//    IPage selectForRelate(String keyWord, int pageNum, int pageSize, int laundryId) {
+//        IPage page = new Page(pageNum, pageSize);
+//        List<Wardrobe> wardrobeList = baseMapper.selectForRelate(keyWord, pageNum, pageSize, laundryId);
+//        page.setRecords(baseMapper.selectForRelate(keyWord, pageNum, pageSize, laundryId));
+//        return page;
+//    }
+
 }

@@ -69,7 +69,12 @@ public class WardrobeController extends BaseControllerT<Wardrobe> {
 
     @AdminOnly
     @RequestMapping("/relateLaundry")
-    public String relateLaundry(@RequestParam boolean relate, @RequestParam int laundryId, @RequestParam(name = "wardrobeIdList[]") List<Integer> wardrobeIdList) {
+    public String relateLaundry(@RequestParam boolean relate,
+                                @RequestParam int laundryId,
+                                @RequestParam(value = "wardrobeIdList[]", required = false) List<Integer> wardrobeIdList) {
+        if(wardrobeIdList==null || wardrobeIdList.isEmpty()){
+            return getErrorMsg("wardrobeIdList is empty!");
+        }
         return getSuccessResult(wardrobeService.relateLaundry(relate, laundryId, wardrobeIdList));
     }
 
@@ -82,21 +87,45 @@ public class WardrobeController extends BaseControllerT<Wardrobe> {
             @RequestParam(name = PAGE_SIZE_KEY) int pageSize) {
         QueryWrapper<Wardrobe> wardrobeQueryWrapper = new QueryWrapper<>();
         wardrobeQueryWrapper.eq("deleted", 0);
-        if (StringUtils.isNotEmpty(keyWord)) {
+        if (StringUtils.isNotEmpty(keyWord)) {///&& laundryId == 0
             wardrobeQueryWrapper.like("laundry_phone", keyWord).or()
                     .like("laundry_name", keyWord).or()
                     .like("address", keyWord).or()
                     .like("wardrobe_code", keyWord);
         }
         if (isAdmin()) {
-
         } else if (isLaundry()) {
-            wardrobeQueryWrapper.eq("laundry_id", getLaundryId());
+            wardrobeQueryWrapper.in("laundry_id", getLaundryIdList());
         } else {
             return noAuth();
         }
         return super.getSuccessPage(wardrobeService.page(new Page(pageNum, pageSize), wardrobeQueryWrapper));
     }
+
+    @AdminOnly
+    @RequestMapping("/selectForRelate")
+    public String selectForRelate(
+            @RequestParam(name = "laundryId", required = false, defaultValue = "0") int laundryId,
+            @RequestParam(name = "keyWord") String keyWord,
+            @RequestParam(name = PAGE_NUM_KEY) int pageNum,
+            @RequestParam(name = PAGE_SIZE_KEY) int pageSize) {
+        if (!isAdmin()) {
+            return noAuth();
+        }
+        QueryWrapper<Wardrobe> wardrobeQueryWrapper = new QueryWrapper<>();
+//        QueryWrapper<Wardrobe> commonQueryWrapper = new QueryWrapper<>();
+
+        wardrobeQueryWrapper.isNull("laundry_id").or().eq("laundry_id", laundryId);
+//        if (StringUtils.isNotEmpty(keyWord)) {///&& laundryId == 0
+//            commonQueryWrapper.like("laundry_phone", keyWord).or()
+//                    .like("laundry_name", keyWord).or()
+//                    .like("address", keyWord).or()
+//                    .like("wardrobe_code", keyWord);
+//        }
+
+        return super.getSuccessPage(wardrobeService.page(new Page(pageNum, pageSize), wardrobeQueryWrapper));
+    }
+
 
     //2.获取可用的柜子列表
     @LoginOnly
@@ -104,7 +133,7 @@ public class WardrobeController extends BaseControllerT<Wardrobe> {
     public String selectNearest(
             @RequestParam(name = KEY_WORD_KEY, required = false, defaultValue = "") String keyWord,
             @RequestParam(name = PAGE_NUM_KEY, required = false, defaultValue = "1") int pageNum,
-            @RequestParam(name = PAGE_SIZE_KEY, required = false, defaultValue = "200000") int pageSize) {
+            @RequestParam(name = PAGE_SIZE_KEY, required = false, defaultValue = "-1") int pageSize) {
         QueryWrapper<Wardrobe> wardrobeQueryWrapper = new QueryWrapper<>();
         wardrobeQueryWrapper.eq("deleted", 0);
         wardrobeQueryWrapper.eq("activated", 1);
@@ -114,7 +143,11 @@ public class WardrobeController extends BaseControllerT<Wardrobe> {
         if (StringUtils.isNotEmpty(keyWord)) {
             wardrobeQueryWrapper.like("address", keyWord);
         }
-        return super.getSuccessPage(wardrobeService.page(new Page(pageNum, pageSize), wardrobeQueryWrapper));
+        if (pageSize > 0) {
+            return super.getSuccessPage(wardrobeService.page(new Page(pageNum, pageSize), wardrobeQueryWrapper));
+        } else {
+            return super.getSuccessResult(wardrobeService.list(wardrobeQueryWrapper));
+        }
     }
 
     //更新柜子信息

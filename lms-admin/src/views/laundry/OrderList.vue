@@ -51,6 +51,12 @@
                         </el-button>
                     </template>
                 </el-table-column>
+                <el-table-column label="操作" width="120" align="center" v-if="activeIndex==45">
+                    <template slot-scope="scope">
+                        <el-button type="text" size="small" @click="autoRelateCode(scope.row)">自动编号
+                        </el-button>
+                    </template>
+                </el-table-column>
             </el-table>
             <el-pagination align="center"
                            @size-change="handleSizeChange"
@@ -179,6 +185,9 @@
                     this.targetOrder = row;
                     this.getOrderCost();
                 }
+            },
+            autoRelateCode() {
+
             },
             //String orderCode, Integer orderId, BigDecimal totalPrice
             getOrderCost() {

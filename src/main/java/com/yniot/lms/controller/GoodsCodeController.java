@@ -59,7 +59,7 @@ public class GoodsCodeController extends BaseControllerT<GoodsCode> {
                             @RequestParam(name = "pageNum", required = false, defaultValue = "1") int pageNum,
                             @RequestParam(name = "pageSize", required = false, defaultValue = "20") int pageSize) {
         QueryWrapper<GoodsCode> goodsCodeQueryWrapper = new QueryWrapper<>();
-        goodsCodeQueryWrapper.eq("laundry_id", getLaundryId());
+        goodsCodeQueryWrapper.in("laundry_id", getLaundryIdList());
         if (StringUtils.isNotEmpty(keyWord)) {
             goodsCodeQueryWrapper.like("unique_code", keyWord).or().like("description", keyWord);
         }

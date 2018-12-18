@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,7 +30,7 @@ public class BaseController {
 
     protected static Logger logger = Logger.getLogger(BaseController.class);
 
-    protected JSONObject result = new JSONObject();
+    protected JSONObject result;
     public static String DATA_KEY = "data";
     public final static String PAGE_SIZE_KEY = "pageSize";
     public final static String PAGE_NUM_KEY = "pageNum";
@@ -110,6 +111,7 @@ public class BaseController {
     }
 
     private String getResult(boolean successFlag, Object data, String errorMessage, int status, long pageNum, long pageSize, long totalNum) {
+        this.result = new JSONObject();
         if (successFlag) {
             this.result.put(STATUS_KEY, status);
             this.result.put(DATA_KEY, data);
@@ -120,6 +122,9 @@ public class BaseController {
             this.result.put(TOTAL_NUM_KEY, totalNum);
         } else {
             logger.info("errorMessage:[" + errorMessage + "]");
+            this.result.put(DATA_KEY, null);
+            this.result.put(PAGE_SIZE_KEY, pageSize);
+            this.result.put(PAGE_NUM_KEY, pageNum);
             this.result.put(ERROR_MSG_KEY, StringUtils.isEmpty(errorMessage) ? DEFAULT_ERROR_MSG : errorMessage);
         }
         this.result.put(RESULT_KEY, successFlag);
@@ -127,12 +132,14 @@ public class BaseController {
     }
 
     public String getToken(String token) {
+        this.result = new JSONObject();
         this.result.put("token", token);
         return JSONObject.toJSONString(this.result, SerializerFeature.WriteMapNullValue);
     }
 
 
     public String tokenAndUser(String token, Object user) {
+        this.result = new JSONObject();
         this.result.put(TOKEN_KEY, token);
         this.result.put("userInfo", user);
         this.result.put(RESULT_KEY, true);
@@ -177,6 +184,14 @@ public class BaseController {
     public int getLaundryId() {
 //        return getUser().getId();
         return 1;
+
+    }
+
+    public List<Integer> getLaundryIdList() {
+//        return getUser().getId();
+        List<Integer> idList = new ArrayList<>();
+        idList.add(1);
+        return idList;
 
     }
 

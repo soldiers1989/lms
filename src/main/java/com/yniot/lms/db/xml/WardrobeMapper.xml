@@ -1,7 +1,31 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.yniot.lms.db.dao.WardrobeMapper">
-
+    <resultMap id="BaseResultMap" type="com.yniot.lms.db.entity.Wardrobe">
+        <id column="id" property="id"/>
+        <result column="create_time" property="createTime"/>
+        <result column="deleted" property="deleted"/>
+        <result column="activated" property="activated"/>
+        <result column="qr_code" property="qrCode"/>
+        <result column="sw_version" property="swVersion"/>
+        <result column="description" property="description"/>
+        <result column="modify_time" property="modifyTime"/>
+        <result column="address" property="address"/>
+        <result column="latitude" property="latitude"/>
+        <result column="longitude" property="longitude"/>
+        <result column="modifier" property="modifier"/>
+        <result column="creator" property="creator"/>
+        <result column="laundry_id" property="laundryId"/>
+        <result column="laundry_img_url" property="laundryImgUrl"/>
+        <result column="laundry_name" property="laundryName"/>
+        <result column="laundry_phone" property="laundryPhone"/>
+        <result column="wardrobe_code" property="wardrobeCode"/>
+        <result column="ava_cell_num" property="avaCellNum"/>
+        <result column="total_cell_num" property="totalCellNum"/>
+        <result column="used_cell_num" property="usedCellNum"/>
+        <result column="closed_cell_num" property="closedCellNum"/>
+        <result column="activated_cell_num" property="activatedCellNum"/>
+    </resultMap>
     <update id="relateLaundry">
         UPDATE biz_wardrobe bw
         INNER JOIN biz_laundry bl ON bl.id = #{laundryId}
@@ -72,4 +96,27 @@
             </foreach>
         </if>
     </update>
+    <select id="selectForRelate" resultType="com.yniot.lms.db.entity.Wardrobe" resultMap="BaseResultMap">
+        SELECT
+            *
+        FROM
+            biz_wardrobe
+        WHERE
+            deleted = 0
+            AND (
+                (
+                    ( description LIKE "%#{keyWord}%" OR
+                        wardrobe_code LIKE "%#{keyWord}%" OR
+                        address LIKE "%#{keyWord}%" OR
+                        latitude LIKE "%#{keyWord}%" OR
+                        longitude LIKE "%#{keyWord}%" OR
+                        laundry_name LIKE "%#{keyWord}%" OR
+                        laundry_phone LIKE "%#{keyWord}%" )
+                    AND (laundry_id is null or  laundry_id = 0)
+                )
+            OR ( laundry_id = #{laundryId} )
+            )
+
+            limit #{pageNum}-1 * #{pageSize},#{pageNum}*#{pageSize}
+    </select>
 </mapper>

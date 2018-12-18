@@ -24,4 +24,6 @@ public interface WardrobeMapper extends CommonMapper<Wardrobe> {
     int activate(int activate, List<Integer> wardrobeIdList);
 
     int updateWardrobeInfo();
+
+    List<Wardrobe> selectForRelate(String keyWord,int pageNum,int pageSize,int laundryId);
 }

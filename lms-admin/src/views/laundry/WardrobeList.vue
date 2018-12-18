@@ -208,6 +208,7 @@
                             type: "success",
                             message: "操作成功"
                         });
+                        this.query();
                         this.wardrobeDialogVisible = false;
                     }
                 });

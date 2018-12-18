@@ -123,7 +123,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
             result = save(order);
         }
         if (result) {
-            //此时order已经有id 无需再查找数据库
+            //此时order已经有id,无需再查找数据库,暂时保留
             order = getByOrderCode(orderCode);
             //保存到订单-商品表
             result = orderGoodsService.save(cartList, wardrobeId, order.getId());

@@ -18,7 +18,7 @@ import java.util.List;
 @Mapper
 public interface WardrobeMapper extends CommonMapper<Wardrobe> {
 
-    int updateAllCellNum(List<Integer> wardrobeIdList);
+    int updateAllCellNum(@Param("list") List<Integer> wardrobeIdList);
 
     int relateLaundry(boolean relate, int laundryId, @Param("list") List<Integer> wardrobeIdList);
 

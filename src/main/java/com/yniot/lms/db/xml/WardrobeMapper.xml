@@ -75,7 +75,6 @@
         sum( CASE WHEN in_used = 1 THEN 1 ELSE 0 END ) used_num,
         sum( CASE WHEN closed = 1 THEN 1 ELSE 0 END ) closed_num,
         sum( CASE WHEN activated = 1 THEN 1 ELSE 0 END ) activated_num,
-        sum( 1 ) total_num,
         wardrobe_id
         FROM
         biz_cell
@@ -83,13 +82,12 @@
         wardrobe_id
         ) c ON id = c.wardrobe_id
         SET
-        bw.total_cell_num = c.total_num,
         bw.used_cell_num = c.used_num,
         bw.closed_cell_num = c.closed_num,
         bw.activated_cell_num = c.activated_num,
         bw.ava_cell_num = c.ava_num
         where 1=1
-        <if test="wardrobeIdList!=null and wardrobeIdList.size()>0 ">
+        <if test="list!=null and list.size()>0 ">
             and wardrobe_id in
             <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
                 #{item}

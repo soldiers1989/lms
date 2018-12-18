@@ -1,10 +1,9 @@
 package com.yniot.lms.db.dao;
 
-import com.yniot.lms.db.entity.Cell;
 import com.yniot.exclude.CommonMapper;
+import com.yniot.lms.db.entity.Cell;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import java.util.List;

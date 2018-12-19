@@ -7,4 +7,57 @@
     <update id="updateState">
         UPDATE biz_order bo ,biz_order_goods bog SET bo.state=#{state},bog.state =#{state}  where bo.id = #{orderId} and bo.id = bog.order_id;
     </update>
+
+    <update id="updateStateBatch">
+        UPDATE biz_order bo ,biz_order_goods bog
+        SET
+        bo.state=#{state},bog.state =#{state}
+        where bo.id in
+
+        <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        and bo.id = bog.order_id;
+    </update>
+    <select id="getFullDetail" resultType="java.util.Map">
+        select
+        bo.id id,
+        bo.state state,
+        bo.code code,
+        bo.user_id userId,
+        bo.laundry_id laundryId,
+        bo.description description,
+        boc.est_total_cost estTotalCost,
+        boc.act_total_cost actTotalCost,
+        boc.act_paid_cost actPaidCost,
+        DATE_FORMAT(boc.confirm_time,'%Y-%m-%d %H:%i:%s') confirmTime,
+        boc.confirmed confirmed,
+        boc.asap asap,
+        boc.description costDescription,
+        boc.discount diacount,
+        boc.ext_cost extCost,
+        DATE_FORMAT(boc.expired_time,'%Y-%m-%d %H:%i:%s') expiredTime,
+        DATE_FORMAT(boc.generate_time,'%Y-%m-%d %H:%i:%s') generateTime,
+        bos.wardrobe_id wardrobeId,
+        bos.address address,
+        bos.cell_id cellId,
+        bos.phone phone,
+        bos.password password
+        from biz_order bo
+        left join biz_order_shipment bos on bos.id = bo.id
+        left join biz_order_cost boc on boc.id = bo.id
+        where bo.id in
+        <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+    <select id="getStatisticInfo" resultType="java.util.Map">
+        select count(1) cnt,state from biz_order
+         where 1=1
+         <if test="laundryId>0">
+             and
+              laundry_id=#{laundryId}
+         </if>
+         group by state
+    </select>
 </mapper>

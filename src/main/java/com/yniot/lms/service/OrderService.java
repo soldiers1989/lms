@@ -2,11 +2,13 @@ package com.yniot.lms.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.github.pagehelper.Page;
 import com.yniot.lms.db.entity.Order;
 import me.chanjar.weixin.common.error.WxErrorException;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @project: lms
@@ -16,11 +18,6 @@ import java.util.List;
  **/
 public interface OrderService extends IService<Order> {
 
-    // 状态：0.创建订单  10.提交订单、待接单 15.已接单.待入柜 20.已接单、待取货
-    // 30.已取货、待到店  40.已到店、待确认金额 50.已确认金额并付款、待清洁
-    // 60.清洁中 70.完成清洁、待送回  80.已送出、待放回
-    // 90.已放回、待取回  100.已取回、待评价（完成订单）
-    // 110.评价
     int markExpiredOrder();
 
     int EXPIRED_IN_MIN = 10;
@@ -46,5 +43,15 @@ public interface OrderService extends IService<Order> {
     boolean paid_procedure(int userId, int orderId, BigDecimal price);
 
     boolean paid(int userId, int orderId, BigDecimal price);
+
+    int startCleaning(List<Integer> orderIdList);
+
+    int cleaned(List<Integer> orderIdList);
+
+    int send(List<Integer> orderIdList);
+
+    Page getFullDetail(List<Integer> orderIdList, int pageNum, int pageSize);
+
+    List<Map<String, Integer>> getStatisticInfo(int laundryId);
 
 }

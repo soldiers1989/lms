@@ -87,7 +87,7 @@ public class OrderShipmentController extends BaseController {
             //释放格子
             cellService.releaseCellByCellId(orderId);
         }
-        return super.getErrorMsg("");
+        return super.getErrorMsg("未知错误");
     }
 }
 

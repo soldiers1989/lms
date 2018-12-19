@@ -1,5 +1,8 @@
 package com.yniot.lms.enums;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+
 /**
  * @project: lms
  * @description:
@@ -27,6 +30,7 @@ public enum OrderStateEnum {
     PAID(60, "已付款"),
     CLEANING(63, "清洁中"),
     CLEANED(65, "衣物已清洁"),
+    LAUNDRY_SEND(67, "配送员已出发"),
     PUT_MAILMAN(70, "配送员已放回"),
     TOOK_USER(75, "用户已取回"),
     FINISHED(100, "已完成");
@@ -55,6 +59,25 @@ public enum OrderStateEnum {
             }
         }
         return null;
+    }
+
+    public static String toJson() {
+        JSONArray jsonArray = new JSONArray();
+        for (OrderStateEnum e : OrderStateEnum.values()) {
+            JSONObject object = new JSONObject();
+            object.put("state", e.getState());
+            object.put("name", e.getName());
+            jsonArray.add(object);
+        }
+        return jsonArray.toString();
+    }
+
+    @Override
+    public String toString() {
+        JSONObject object = new JSONObject();
+        object.put("state", state);
+        object.put("name", name);
+        return object.toString();
     }
 
 }

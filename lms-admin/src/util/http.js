@@ -26,7 +26,7 @@ const codeMessage = {
 axios.interceptors.request.use(
     config => {
         const requestConfig = config;
-        //axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+        // axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
         // if (requestConfig.method == "post") {
         // requestConfig.data = qs.stringify(requestConfig.data);
         // requestConfig.headers['Content-Type'] = 'application/json';

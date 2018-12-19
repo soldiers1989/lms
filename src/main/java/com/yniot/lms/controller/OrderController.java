@@ -119,6 +119,52 @@ public class OrderController extends BaseControllerT<Order> {
         return super.getSuccessResult(orderService.saveOrUpdate(order) && orderStateHistoryService.saveOrderState(order, getUser().getId()));
     }
 
+    @RequestMapping("/startCleaning")
+    public String startCleaning(List<Integer> orderIdList) {
+        if (orderIdList == null || orderIdList.isEmpty()) {
+            return getErrorMsg("订单id为空");
+        }
+        if (!isLaundry()) {
+            return noAuth();
+        }
+        return getSuccessResult(orderService.startCleaning(orderIdList));
+    }
+
+    @RequestMapping("/cleaned")
+    public String cleaned(List<Integer> orderIdList) {
+        if (orderIdList == null || orderIdList.isEmpty()) {
+            return getErrorMsg("订单id为空");
+        }
+        if (!isLaundry()) {
+            return noAuth();
+        }
+        return getSuccessResult(orderService.cleaned(orderIdList));
+    }
+
+    @RequestMapping("/send")
+    public String send(List<Integer> orderIdList) {
+        if (orderIdList == null || orderIdList.isEmpty()) {
+            return getErrorMsg("订单id为空");
+        }
+        if (!isLaundry()) {
+            return noAuth();
+        }
+        return getSuccessResult(orderService.send(orderIdList));
+    }
+
+
+    @RequestMapping(value = "/getFullDetail", produces = {"application/json;charset=UTF-8"})
+    public String getFullDetail(@RequestParam(name = "orderId") int orderId,
+//                                @RequestParam(name = "orderIdList[]") List<Integer> orderIdList,
+                                @RequestParam(name = PAGE_SIZE_KEY, required = false, defaultValue = "20") int pageSize,
+                                @RequestParam(name = PAGE_NUM_KEY, required = false, defaultValue = "1") int pageNum) {
+//        if (orderIdList == null || orderIdList.isEmpty()) {
+//            return getErrorMsg("订单id为空");
+//        }
+        List<Integer> orderIdList = new ArrayList<>();
+        orderIdList.add(orderId);
+        return getSuccessResult(orderService.getFullDetail(orderIdList, pageNum, pageSize));
+    }
 
     //7.评价
     @UserOnly
@@ -160,6 +206,12 @@ public class OrderController extends BaseControllerT<Order> {
     @RequestMapping("/selectByCode")
     public String getOrder(@RequestParam(name = "orderCode") String orderCode) {
         return super.getSuccessResult(orderService.getByOrderCode(orderCode));
+    }
+
+    @AdminAndLaundry
+    @RequestMapping("/getStatisticInfo")
+    public String getStatisticInfo(@RequestParam(name = "laundryId", required = false, defaultValue = "-1") int laundryId) {
+        return super.getSuccessResult(orderService.getStatisticInfo(laundryId));
     }
 
     //2.获取订单

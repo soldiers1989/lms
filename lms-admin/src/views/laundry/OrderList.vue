@@ -13,14 +13,14 @@
                 </el-button>
             </div>
             <el-menu default-active="10" mode="horizontal" @select="handleSelect">
-                <el-menu-item index="10">待接单</el-menu-item>
-                <el-menu-item index="42">待存放</el-menu-item>
-                <el-menu-item index="45">待提货</el-menu-item>
-                <el-menu-item index="50">已提货</el-menu-item>
-                <el-menu-item index="55">待付款</el-menu-item>
-                <el-menu-item index="60">待清洁</el-menu-item>
-                <el-menu-item index="63">清洁中</el-menu-item>
-                <el-menu-item index="65">待送出</el-menu-item>
+                <el-menu-item index="10">待接单({{getCntByState(10)}})</el-menu-item>
+                <el-menu-item index="42">待存放({{getCntByState(42)}})</el-menu-item>
+                <el-menu-item index="45">待提货({{getCntByState(45)}})</el-menu-item>
+                <el-menu-item index="50">已提货({{getCntByState(50)}})</el-menu-item>
+                <el-menu-item index="55">待付款({{getCntByState(55)}})</el-menu-item>
+                <el-menu-item index="60">待清洁({{getCntByState(60)}})</el-menu-item>
+                <el-menu-item index="63">清洁中({{getCntByState(63)}})</el-menu-item>
+                <el-menu-item index="65">待送出({{getCntByState(65)}})</el-menu-item>
                 <el-menu-item index="100">已完成</el-menu-item>
                 <el-menu-item index="0">已失效</el-menu-item>
             </el-menu>
@@ -36,7 +36,8 @@
                 </el-button>
             </el-button-group>
             <el-table height="550" :data="orderList" style="width: 100%" stripe highlight-current-row
-                      v-loading="$store.state.loading" @selection-change="onSelectionChange">
+                      v-loading="$store.state.loading" @selection-change="onSelectionChange"
+                      @cell-dblclick="showOrderDetailDialog">
                 <el-table-column type="selection" width="55" align="center">
                 </el-table-column>
                 <el-table-column prop="code" label="订单编号"></el-table-column>
@@ -69,6 +70,126 @@
             </el-pagination>
         </el-card>
 
+        <el-dialog :title="'订单:'+orderDetail.code" width="55%" label-position="top"
+                   :visible.sync="orderDetailDialogVisible"
+                   @close="targetOrderShipment={};targetOrder={}">
+            <el-form :model="orderDetail" :label-position="'right'" label-width="100px" size="mini">
+                <el-row :gutter="20">
+                    <el-col :span="12">
+                        <el-form-item label="状态:">
+                            <el-input :readonly='true' v-model="orderDetail.stateName"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="地址:">
+                            <el-input :readonly='true' v-model="orderDetail.address"></el-input>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row :gutter="20">
+                    <el-col :span="12">
+                        <el-form-item label="电话:">
+                            <el-input :readonly='true' v-model="orderDetail.phone"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="开柜密码:">
+                            <el-input :readonly='true' v-model="orderDetail.password"></el-input>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row :gutter="20">
+                    <el-col :span="12">
+                        <el-form-item label="柜子id:">
+                            <el-input :readonly='true' v-model="orderDetail.wardrobeId"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="格子id:">
+                            <el-input :readonly='true' v-model="orderDetail.cellId"></el-input>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row :gutter="20">
+                    <el-col :span="12">
+                        <el-form-item label="过期时间:">
+                            <el-input :readonly='true' v-model="orderDetail.expiredTime"></el-input>
+                        </el-form-item>
+
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="账单生成时间:">
+                            <el-input :readonly='true' v-model="orderDetail.generateTime"></el-input>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row :gutter="20">
+                    <el-col :span="12">
+                        <el-form-item label="预计总价:">
+                            <el-input :readonly='true' v-model="orderDetail.estTotalCost"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="实际总价:">
+                            <el-input :readonly='true' v-model="orderDetail.actTotalCost"></el-input>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row :gutter="20">
+                    <el-col :span="12">
+                        <el-form-item label="折扣:">
+                            <el-input :readonly='true' v-model="orderDetail.diacount"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="其他费用:">
+                            <el-input :readonly='true' v-model="orderDetail.extCost"></el-input>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row :gutter="20">
+                    <el-col :span="12">
+                        <el-form-item label="已付款:">
+                            {{orderDetail.confirmed?'是':'否'}}
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="加急:">
+                            {{orderDetail.asap?'是':'否'}}
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row :gutter="20" v-if="orderDetail.confirmed">
+                    <el-col :span="12">
+                        <el-form-item label="实付:">
+                            <el-input :readonly='true' v-model="orderDetail.actPaidCost"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="付款时间:">
+                            <el-input :readonly='true' v-model="orderDetail.confirmTime"></el-input>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row :gutter="20">
+                    <el-col :span="12">
+                        <el-form-item label="订单备注:">
+                            <el-input type="textarea" :readonly='true' v-model="orderDetail.description"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="价格备注:">
+                            <el-input type="textarea" :readonly='true' v-model="orderDetail.description"></el-input>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+            </el-form>
+
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="orderDetailDialogVisible = false">关闭</el-button>
+            </div>
+        </el-dialog>
+
 
         <el-dialog :visible.sync="commitPriceDialogVisible" @close="targetOrder=null">
             <el-form :model="targetOrderCost" :label-position="'right'" label-width="80px">
@@ -90,6 +211,7 @@
     .input-with-select .el-input-group__prepend {
         background-color: #fff;
     }
+
 </style>
 <script>
     import qs from 'qs'
@@ -105,6 +227,7 @@
                 test: null,
                 test1: null,
                 orderTab: "",
+                orderDetailDialogVisible: false,
                 selectedRows: [],
                 bucketName: "public",
                 pageNum: 1,
@@ -112,20 +235,35 @@
                     actTotalCost: 0,
                     description: ""
                 },
+                laundryId: 1,
+                orderDetail: {},
+                orderStateEnums: [],
                 targetOrder: null,
                 pageSize: 20,
                 totalNum: 0,
+                statisticInfo: {},
+                targetOrderShipment: {},
                 commitPriceDialogVisible: false,
                 orderList: [],
             };
         },
         mounted() {
             this.query();
+            this.getOrderState();
+            this.getStatisticInfo();
         },
         methods: {
             handleSelect(index) {
                 this.activeIndex = index;
                 this.query();
+            },
+            getCntByState(state) {
+                for (let index in this.statisticInfo) {
+                    if (this.statisticInfo[index].state == state) {
+                        return this.statisticInfo[index].cnt;
+                    }
+                }
+                return 0;
             },
             commitPrice() {
                 if (!this.targetOrder || !this.targetOrderCost) {
@@ -173,6 +311,10 @@
                     }
                 });
             },
+            showOrderDetailDialog(row, column, cell, event) {
+                this.getOrderFullDetail(row.id);
+                this.orderDetailDialogVisible = true;
+            },
             insert() {
 
             },
@@ -189,7 +331,17 @@
             autoRelateCode() {
 
             },
-            //String orderCode, Integer orderId, BigDecimal totalPrice
+            getStatisticInfo() {
+                let params = {};
+                if (this.laundryId) {
+                    params = {laundryId: this.laundryId};
+                }
+                this.$http.post("/order/getStatisticInfo", qs.stringify(params)).then(res => {
+                    if (res.data.result && res.data.data) {
+                        this.statisticInfo = res.data.data;
+                    }
+                });
+            },
             getOrderCost() {
                 if (this.targetOrder) {
                     let params = {orderId: this.targetOrder.id};
@@ -199,13 +351,41 @@
                         }
                     });
                 }
-
+            },
+            //String orderCode, Integer orderId, BigDecimal totalPrice
+            getOrderFullDetail(orderId) {
+                if (orderId) {
+                    // let orderIdList = [];
+                    // orderIdList.push(orderId);
+                    // let params = {orderIdList: orderIdList};
+                    let params = {orderId: orderId};
+                    this.$http.post("/order/getFullDetail", qs.stringify(params)).then(res => {
+                        if (res.data.result && res.data.data) {
+                            res.data.data[0].stateName = this.getStateName(res.data.data[0].state);
+                            this.orderDetail = res.data.data[0];
+                        }
+                    });
+                }
             },
             acceptOrder() {
                 let params = {orderId: this.selectedRows[0].id};
                 this.$http.post("/order/accept", qs.stringify(params)).then(res => {
 
                 });
+            },
+            getOrderState() {
+                this.$http.post("/enums/order/state", {}).then(res => {
+                    if (res.data.result && res.data.data) {
+                        this.orderStateEnums = JSON.parse(res.data.data);
+                    }
+                });
+            },
+            getStateName(state) {
+                for (let index in this.orderStateEnums) {
+                    if (this.orderStateEnums[index].state == state) {
+                        return this.orderStateEnums[index].name;
+                    }
+                }
             },
             onSelectionChange(rows) {
                 this.selectedRows = rows;
@@ -217,16 +397,6 @@
             handleCurrentChange(pageNum) {
                 this.pageNum = pageNum;
                 this.query();
-            },
-            remove() {
-                this.$confirm("此操作将不能恢复, 是否继续?", "提示", {
-                    confirmButtonText: "确定",
-                    cancelButtonText: "取消",
-                    type: "warning"
-                });
-            },
-            onRemoveFile(file) {
-                this.$http.delete(`/oss/remove/${this.bucketName}/${file.response}`);
             }
         }
     };

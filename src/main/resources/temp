@@ -1,3 +1,90 @@
-
-    @Select("select * from sys_role where id in (select role_id from rel_user_role where user_id = #{id})")
-    List<Role> selectRoleByUserId(int userId);
+            <el-row :gutter="10">
+                <el-col :span="24">
+                    订单编号:{{orderDetail.code}}
+                </el-col>
+            </el-row>
+            <el-row :gutter="10">
+                <el-col :span="24">
+                    状态:{{orderDetail.state}}
+                </el-col>
+            </el-row>
+            <el-row :gutter="10">
+                <el-col :span="24">
+                    预估总价:{{orderDetail.estTotalCost}}
+                </el-col>
+            </el-row>
+            <el-row :gutter="10">
+                <el-col :span="24">
+                    实际总价:{{orderDetail.actTotalCost}}
+                </el-col>
+            </el-row>
+            <el-row :gutter="10" v-if="orderDetail.confirmed">
+                <el-col :span="24">
+                    实付:{{orderDetail.actPaidCost}}
+                </el-col>
+            </el-row>
+            <el-row :gutter="10">
+                <el-col :span="24">
+                    已支付:{{orderDetail.confirmed?'是':'否'}}
+                </el-col>
+            </el-row>
+            <el-row :gutter="10" v-if="orderDetail.confirmed">
+                <el-col :span="24">
+                    支付时间:{{orderDetail.confirmTime}}
+                </el-col>
+            </el-row>
+            <el-row :gutter="10">
+                <el-col :span="24">
+                    加急: {{orderDetail.asap?'是':'否'}}
+                </el-col>
+            </el-row>
+            <el-row :gutter="10">
+                <el-col :span="24">
+                    折扣:{{orderDetail.diacount}}
+                </el-col>
+            </el-row>
+            <el-row :gutter="10">
+                <el-col :span="24">
+                    其他支出:{{orderDetail.extCost}}
+                </el-col>
+            </el-row>
+            <el-row :gutter="10">
+                <el-col :span="24">
+                    过期时间:{{orderDetail.expiredTime}}
+                </el-col>
+            </el-row>
+            <el-row :gutter="10">
+                <el-col :span="24">
+                    账单生成时间:{{orderDetail.generateTime}}
+                </el-col>
+            </el-row>
+            <el-row :gutter="10">
+                <el-col :span="24">
+                    柜子id:{{orderDetail.wardrobeId}}
+                </el-col>
+            </el-row>
+            <el-row :gutter="10">
+                <el-col :span="24">
+                    地址:{{orderDetail.address}}
+                </el-col>
+            </el-row>
+            <el-row :gutter="10">
+                <el-col :span="24">
+                    格子id:{{orderDetail.cellId}}
+                </el-col>
+            </el-row>
+            <el-row :gutter="10">
+                <el-col :span="24">
+                    电话:{{orderDetail.phone}}
+                </el-col>
+            </el-row>
+            <el-row :gutter="10">
+                <el-col :span="24">
+                    当前开柜密码:{{orderDetail.password}}
+                </el-col>
+            </el-row>
+            <el-row :gutter="10">
+                <el-col :span="24">
+                    备注:{{orderDetail.description}}
+                </el-col>
+            </el-row>

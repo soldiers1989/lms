@@ -2,8 +2,9 @@ package com.yniot.lms.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.yniot.lms.db.dao.OrderMapper;
 import com.yniot.lms.db.entity.Cart;
 import com.yniot.lms.db.entity.Laundry;
@@ -20,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @project: lms
@@ -178,7 +180,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
                     .or().like("description", keyWord);
         }
         orderQueryWrapper.orderByDesc("commit_time");
-        return page(new Page(pageNum, pageSize), orderQueryWrapper);
+        return (IPage<Order>) page(new com.baomidou.mybatisplus.extension.plugins.pagination.Page(pageNum, pageSize), orderQueryWrapper);
     }
 
     @Override
@@ -207,5 +209,36 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     @Override
     public boolean paid_procedure(int userId, int orderId, BigDecimal price) {
         return baseMapper.paid_procedure(orderId, price) > 0 && orderStateHistoryService.saveOrderState(orderId, OrderStateEnum.PAID.getState(), userId);
+    }
+
+    @Override
+    public int startCleaning(List<Integer> orderIdList) {
+        return baseMapper.updateStateBatch(orderIdList, OrderStateEnum.CLEANING.getState());
+
+    }
+
+    @Override
+    public int cleaned(List<Integer> orderIdList) {
+        return baseMapper.updateStateBatch(orderIdList, OrderStateEnum.CLEANED.getState());
+
+    }
+
+    @Override
+    public int send(List<Integer> orderIdList) {
+        return baseMapper.updateStateBatch(orderIdList, OrderStateEnum.LAUNDRY_SEND.getState());
+
+    }
+
+    @Override
+    public Page getFullDetail(List<Integer> orderIdList, int pageNum, int pageSize) {
+        Page page = PageHelper.startPage(pageNum, pageSize);
+        baseMapper.getFullDetail(orderIdList);
+        return page;
+    }
+
+
+    @Override
+    public List<Map<String ,Integer>> getStatisticInfo(int laundryId){
+        return baseMapper.getStatisticInfo(laundryId);
     }
 }

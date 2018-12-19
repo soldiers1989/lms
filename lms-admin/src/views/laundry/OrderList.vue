@@ -55,15 +55,13 @@
                 <el-table-column prop="commitTime" label="提交时间"></el-table-column>
                 <el-table-column prop="expiredTime" label="超时时间"></el-table-column>
                 <!--<el-table-column prop="commitTime" label="金额"></el-table-column>-->
-                <el-table-column label="操作" width="120" align="center" v-if="activeIndex==50">
+                <el-table-column label="操作" width="120" align="center">
                     <template slot-scope="scope">
-                        <el-button type="text" size="small" @click="openCommitPriceDialog(scope.row)">提交价格
+                        <el-button type="text" size="small" @click="openCommitPriceDialog(scope.row)"
+                                   v-if="activeIndex==50">提交价格
                         </el-button>
-                    </template>
-                </el-table-column>
-                <el-table-column label="操作" width="120" align="center" v-if="activeIndex==45">
-                    <template slot-scope="scope">
-                        <el-button type="text" size="small" @click="autoRelateCode(scope.row)">自动编号
+                        <el-button type="text" size="small" @click="autoRelateCode(scope.row)" v-if="activeIndex==45">
+                            自动编号
                         </el-button>
                     </template>
                 </el-table-column>

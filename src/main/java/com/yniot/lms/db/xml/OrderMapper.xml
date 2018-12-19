@@ -46,18 +46,22 @@
         from biz_order bo
         left join biz_order_shipment bos on bos.id = bo.id
         left join biz_order_cost boc on boc.id = bo.id
-        where bo.id in
-        <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
-            #{item}
-        </foreach>
+        where 1=1
+        <if test="list!=null and list.size()>0">
+            bo.id in
+            <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
     </select>
     <select id="getStatisticInfo" resultType="java.util.Map">
         select count(1) cnt,state from biz_order
-         where 1=1
-         <if test="laundryId>0">
-             and
-              laundry_id=#{laundryId}
-         </if>
-         group by state
+        where 1=1
+        <if test="laundryId>0">
+            and
+            laundry_id=#{laundryId}
+        </if>
+        group by state
     </select>
 </mapper>

@@ -34,7 +34,7 @@ public class UserController extends BaseControllerT<User> {
     //0.登陆
     @RequestMapping("/login")
     public String login(@RequestBody User user) throws Exception {
-        if (user == null) {
+        if (user == null || !CommonUtil.String.validStr(user.getPassword(),user.getUsername())) {
             return super.getErrorMsg("请正确输入账号密码");
         }
         String password = user.getPassword();

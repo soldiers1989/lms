@@ -1,10 +1,8 @@
 package com.yniot.lms;
 
 import com.yniot.lms.db.interceptor.ModifyInterceptor;
-import com.yniot.lms.security.CustomSessionManager;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.shiro.session.mgt.DefaultSessionManager;
-import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.apache.shiro.web.session.mgt.WebSessionManager;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
@@ -34,27 +32,5 @@ public class LmsApplication {
         return modifyInterceptor;
     }
 
-
-//    @Bean
-//    public AdviceFilter getSCustomAdviceFilter() {
-//        CustomAdviceFilter customAdviceFilter = new CustomAdviceFilter();
-//        return customAdviceFilter;
-//    }
-
-//    @Bean
-//    public FormAuthenticationFilter getShiroFormAuthenticationFilter() {
-//        return new ShiroFormAuthenticationFilter();
-//    }
-
-    @Bean
-    public DefaultSessionManager getCustomSessionManager() {
-        return new CustomSessionManager();
-    }
-
-
-    @Bean
-    public WebSessionManager getWebSessionManager() {
-        return new CustomSessionManager();
-    }
 
 }

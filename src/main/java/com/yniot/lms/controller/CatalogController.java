@@ -23,7 +23,7 @@ import java.util.Date;
  **/
 @AdminOnly
 @RestController
-@RequestMapping(value = "/catalog", produces = {"application/json;charset=UTF-8"})
+@RequestMapping(value = "/catalog")
 public class CatalogController extends BaseControllerT<Catalog> {
     @Autowired
     CatalogService catalogService;
@@ -55,12 +55,12 @@ public class CatalogController extends BaseControllerT<Catalog> {
     }
 
     @RequestMapping("/delete")
-    public String deleteCatalog(@RequestParam(name = "catalogId") int catalogId) {
+    public String deleteCatalog(@RequestParam(value = "catalogId") int catalogId) {
         return super.getSuccessResult(catalogService.removeById(catalogId));
     }
 
     @RequestMapping("/selectById")
-    public String select(@RequestParam(name = "id") int catalogId) {
+    public String select(@RequestParam(value = "id") int catalogId) {
         return super.getSuccessResult(catalogService.getById(catalogId));
     }
 

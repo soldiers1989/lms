@@ -2,6 +2,7 @@ package com.yniot.lms.security;
 
 import org.apache.log4j.Logger;
 import org.apache.shiro.session.mgt.SessionManager;
+import org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
@@ -22,15 +23,15 @@ public class ShiroConfigurator {
         shiroFilterFactoryBean.setSecurityManager(securityManager);
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
         filterChainDefinitionMap.put("/**", "anon");//全部放行
-//        filterChainDefinitionMap.put("/static/**", "anon");//静态资源
-//        filterChainDefinitionMap.put("/druid/**", "anon");//druid管理页面
-//        filterChainDefinitionMap.put("/WeChat/**", "anon");//微信
-//        filterChainDefinitionMap.put("/SmallAppApi/**", "anon");//微信
-//        filterChainDefinitionMap.put("/user/login", "anon");//登陆
-//        filterChainDefinitionMap.put("/user/logout", "logout");//登出
-//        filterChainDefinitionMap.put("/WebSocket/**", "anon");//WebSocket
-//        filterChainDefinitionMap.put("/favicon.ico", "anon");//书签logo
-//        filterChainDefinitionMap.put("/**", "authc");
+        filterChainDefinitionMap.put("/static/**", "anon");//静态资源
+        filterChainDefinitionMap.put("/druid/**", "anon");//druid管理页面
+        filterChainDefinitionMap.put("/WeChat/**", "anon");//微信
+        filterChainDefinitionMap.put("/SmallAppApi/**", "anon");//微信
+        filterChainDefinitionMap.put("/user/login", "anon");//登陆
+        filterChainDefinitionMap.put("/user/logout", "logout");//登出
+        filterChainDefinitionMap.put("/WebSocket/**", "anon");//WebSocket
+        filterChainDefinitionMap.put("/favicon.ico", "anon");//书签logo
+        filterChainDefinitionMap.put("/**", "authc");
 
 
         shiroFilterFactoryBean.setLoginUrl("/user/login");//CustomAdviceFilter.LOGIN
@@ -61,7 +62,15 @@ public class ShiroConfigurator {
     public org.apache.shiro.web.mgt.DefaultWebSecurityManager securityManager() {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         securityManager.setRealm(shiroRealm());
+        securityManager.setSessionManager(getSessionManager());
         return securityManager;
+    }
+
+    @Bean
+    public SessionManager getSessionManager() {
+        CustomSessionManager customSessionManager = new CustomSessionManager();
+        customSessionManager.setSessionDAO(new EnterpriseCacheSessionDAO());
+        return customSessionManager;
     }
 
 
@@ -79,11 +88,5 @@ public class ShiroConfigurator {
         return authorizationAttributeSourceAdvisor;
     }
 
-
-//    @Bean
-//    public SessionManager sessionManager() {
-//        CustomSessionManager customSessionManage = new CustomSessionManager();
-//        return customSessionManage;
-//    }
 
 }

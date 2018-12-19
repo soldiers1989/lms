@@ -27,12 +27,12 @@ axios.interceptors.request.use(
     config => {
         const requestConfig = config;
         // axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
-        // if (requestConfig.method == "post") {
+        // if (requestConfig、.method == "post") {
         // requestConfig.data = qs.stringify(requestConfig.data);
         // requestConfig.headers['Content-Type'] = 'application/json';
         // }
         if (store.state.token) {
-            requestConfig.headers.Authorization = `Bearer ${store.state.token}`;
+            requestConfig.headers.Authorization = `${store.state.token}`;
         }
         return requestConfig;
     },

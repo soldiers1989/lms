@@ -23,45 +23,32 @@ function initWebsocket(onOpen, onMessage, onError, onClose) {
     let sessionId = wx.getStorageSync('token');
     let socketTask = wx.connectSocket({
         url: api.WebsocketUrl + sessionId,
-        // data: data,
-        // header: {
-        //     'content-type': 'application/json'
-        // },
-        // protocols: [protocol],
-        // method: "POST"
     });
     if (!socketTask) {
         return null;
     }
-
     onMessage && socketTask.onMessage(onMessage(res));
     onClose && socketTask.onClose(onClose(res));
     onOpen && socketTask.onOpen(onOpen(res));
     onError && socketTask.onMessage(onError(res));
-
     return socketTask;
 }
 
 
-// function initShipmentWS(onOpen, onMessage, onError, onClose) {
-//     return initWebsocket(onOpen, onMessage, onError, onClose);
-// }
 
 function request(url, data = {}, method = "POST", header = "application/x-www-form-urlencoded") {
     wx.showLoading({
         title: '加载中...',
     });
     return new Promise(function (resolve, reject) {
-        let sessionId = wx.getStorageSync('token');
-        let token = sessionId;
-        data.token = token;
+        let token = wx.getStorageSync('token');
         wx.request({
             url: url,
             data: data,
             method: method,
             header: {
                 'Content-Type': header,
-                'Authorization': token,
+                'Authorization': token,//'Bearer '+
             },
             success: function (res) {
                 wx.hideLoading();

@@ -61,17 +61,17 @@ public class GoodsTypeController extends BaseControllerT<GoodsType> {
     }
 
     @RequestMapping("/delete")
-    public String deleteGoodsType(@RequestParam(name = "goodsTypeId") int goodsTypeId) {
+    public String deleteGoodsType(@RequestParam(name = "goodsTypeId") Integer goodsTypeId) {
         return super.getSuccessResult(goodsTypeService.removeById(goodsTypeId));
     }
 
     @RequestMapping("/selectById")
-    public String select(@RequestParam(name = "id") int goodsTypeId) {
+    public String select(@RequestParam(name = "id") Integer goodsTypeId) {
         return super.getSuccessResult(goodsTypeService.getById(goodsTypeId));
     }
 
     @RequestMapping("/selectByCatalogId")
-    public String selectByCatalogId(int catalogId) {
+    public String selectByCatalogId(Integer catalogId) {
         QueryWrapper<GoodsType> goodsTypeQueryWrapper = new QueryWrapper<>();
         goodsTypeQueryWrapper.eq("catalog_id", catalogId);
         return super.getSuccessResult(goodsTypeService.list(goodsTypeQueryWrapper));

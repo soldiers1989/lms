@@ -49,9 +49,6 @@ Page({
         let goodsId = event.currentTarget.dataset.id;
         util.request(api.CartAdd, {goodsId: goodsId})
             .then(function (res) {
-                console.log(res);
-
-
             });
     },
     getCurrentCategory: function (id) {

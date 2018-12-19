@@ -4,12 +4,15 @@
             <div style="margin:10px;">
                 <el-date-picker size="mini" type="daterange" v-model="dateRange" align="right" unlink-panels
                                 range-separator="至"
-                                start-placeholder="订单开始日期"
-                                end-placeholder="订单结束日期"
+                                start-placeholder="开始日期"
+                                end-placeholder="结束日期"
                                 :picker-options="$store.state.dateRangePickerOptions">
                 </el-date-picker>
                 <el-button style="margin-left: 10px;" type="primary" size="mini" icon="el-icon-search" @click="query">
                     查询
+                </el-button>
+                <el-button style="margin-left: 10px;" type="primary" size="mini" icon="el-icon-search" @click="query">
+                    刷新
                 </el-button>
             </div>
             <el-menu default-active="10" mode="horizontal" @select="handleSelect">
@@ -21,18 +24,24 @@
                 <el-menu-item index="60">待清洁({{getCntByState(60)}})</el-menu-item>
                 <el-menu-item index="63">清洁中({{getCntByState(63)}})</el-menu-item>
                 <el-menu-item index="65">待送出({{getCntByState(65)}})</el-menu-item>
+                <el-menu-item index="67">已送出({{getCntByState(67)}})</el-menu-item>
                 <el-menu-item index="100">已完成</el-menu-item>
                 <el-menu-item index="0">已失效</el-menu-item>
             </el-menu>
             <el-button-group style="padding: 10px;">
+                <!--@click="acceptOrder"-->
                 <el-button size="mini" type="primary" icon="el-icon-plus" :disabled="selectedRows.length==0"
-                           @click="acceptOrder" v-if="activeIndex==10">接单
+                           @click="invokeMethod('acceptBatch')"
+                           v-if="activeIndex==10">接单
                 </el-button>
-                <el-button size="mini" type="primary" :disabled="selectedRows.length==0" v-if="activeIndex==60">进入清洁
+                <el-button size="mini" type="primary" :disabled="selectedRows.length==0" v-if="activeIndex==60"
+                           @click="invokeMethod('startCleaning')">进入清洁
                 </el-button>
-                <el-button size="mini" type="primary" :disabled="selectedRows.length==0" v-if="activeIndex==63">清洁完成
+                <el-button size="mini" type="primary" :disabled="selectedRows.length==0" v-if="activeIndex==63"
+                           @click="invokeMethod('cleaned')">清洁完成
                 </el-button>
-                <el-button size="mini" type="primary" :disabled="selectedRows.length==0" v-if="activeIndex==65">发出
+                <el-button size="mini" type="primary" :disabled="selectedRows.length==0" v-if="activeIndex==65"
+                           @click="invokeMethod('send')">发出
                 </el-button>
             </el-button-group>
             <el-table height="550" :data="orderList" style="width: 100%" stripe highlight-current-row
@@ -250,7 +259,6 @@
         mounted() {
             this.query();
             this.getOrderState();
-            this.getStatisticInfo();
         },
         methods: {
             handleSelect(index) {
@@ -289,8 +297,6 @@
                             this.query();
                         }
                     });
-
-
                 }).catch(() => {
                     this.$message({
                         type: 'info',
@@ -309,6 +315,7 @@
                         this.pageSize = res.data.pageSize;
                         this.totalNum = res.data.totalNum;
                     }
+                    this.getStatisticInfo();
                 });
             },
             showOrderDetailDialog(row, column, cell, event) {
@@ -327,6 +334,33 @@
                     this.targetOrder = row;
                     this.getOrderCost();
                 }
+            },
+            invokeMethod(method) {
+                let idList = this.getSelectedOrderIdList();
+                if (!idList || idList.length == 0) {
+                    return;
+                }
+                this.$confirm('确定执行吗?', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    this.$http.post("/order/" + method, qs.stringify({orderIdList: idList.join(",")})).then(res => {
+                        if (res.data.result && res.data.data) {
+                            this.$message({
+                                type: "success",
+                                message: "操作成功"
+                            });
+                            this.query();
+                        }
+                    });
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消'
+                    });
+                });
+
             },
             autoRelateCode() {
 
@@ -372,6 +406,13 @@
                 this.$http.post("/order/accept", qs.stringify(params)).then(res => {
 
                 });
+            },
+            getSelectedOrderIdList() {
+                let orderIdList = [];
+                this.selectedRows.forEach(item => {
+                    orderIdList.push(item.id);
+                });
+                return orderIdList;
             },
             getOrderState() {
                 this.$http.post("/enums/order/state", {}).then(res => {

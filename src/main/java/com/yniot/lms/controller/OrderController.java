@@ -71,7 +71,7 @@ public class OrderController extends BaseControllerT<Order> {
     //3.接单  现在设置成默认接单
     @LaundryOnly
     @RequestMapping("/acceptBatch")
-    public String receiveOrderBatch(@RequestParam(name = "orderIdList[]") List<Integer> orderIdList) {
+    public String receiveOrderBatch(@RequestParam(name = "orderIdList") List<Integer> orderIdList) {
         if (!isLaundry()) {
             return super.noAuth();
         } else {
@@ -120,7 +120,9 @@ public class OrderController extends BaseControllerT<Order> {
     }
 
     @RequestMapping("/startCleaning")
-    public String startCleaning(List<Integer> orderIdList) {
+    public String startCleaning(@RequestParam(name = "orderIdList") List<Integer> orderIdList) {
+//        System.out.println(orderIds.length());
+//        List<Integer> orderIdList = new ArrayList<>();
         if (orderIdList == null || orderIdList.isEmpty()) {
             return getErrorMsg("订单id为空");
         }
@@ -131,7 +133,8 @@ public class OrderController extends BaseControllerT<Order> {
     }
 
     @RequestMapping("/cleaned")
-    public String cleaned(List<Integer> orderIdList) {
+    public String cleaned(@RequestParam(name = "orderIdList") List<Integer> orderIdList) {
+
         if (orderIdList == null || orderIdList.isEmpty()) {
             return getErrorMsg("订单id为空");
         }
@@ -142,7 +145,7 @@ public class OrderController extends BaseControllerT<Order> {
     }
 
     @RequestMapping("/send")
-    public String send(List<Integer> orderIdList) {
+    public String send(@RequestParam(name = "orderIdList") List<Integer> orderIdList) {
         if (orderIdList == null || orderIdList.isEmpty()) {
             return getErrorMsg("订单id为空");
         }
@@ -153,16 +156,25 @@ public class OrderController extends BaseControllerT<Order> {
     }
 
 
-    @RequestMapping(value = "/getFullDetail", produces = {"application/json;charset=UTF-8"})
-    public String getFullDetail(@RequestParam(name = "orderId") int orderId,
-//                                @RequestParam(name = "orderIdList[]") List<Integer> orderIdList,
-                                @RequestParam(name = PAGE_SIZE_KEY, required = false, defaultValue = "20") int pageSize,
-                                @RequestParam(name = PAGE_NUM_KEY, required = false, defaultValue = "1") int pageNum) {
-//        if (orderIdList == null || orderIdList.isEmpty()) {
-//            return getErrorMsg("订单id为空");
-//        }
+    @RequestMapping(value = "/getFullDetail")
+    public String getFullDetail(@RequestParam(name = "orderId") int orderId) {
         List<Integer> orderIdList = new ArrayList<>();
-        orderIdList.add(orderId);
+        if (orderId > 0) {
+            orderIdList.add(orderId);
+        } else {
+            return getErrorMsg("没有输入订单ID");
+        }
+        return getSuccessResult(orderService.getFullDetail(orderIdList, 1, 1));
+    }
+
+    @RequestMapping(value = "/getFullDetailBatch")
+    public String getFullDetailBatch(
+            @RequestParam(name = "orderIdList") List<Integer> orderIdList,
+            @RequestParam(name = PAGE_SIZE_KEY, required = false, defaultValue = "20") int pageSize,
+            @RequestParam(name = PAGE_NUM_KEY, required = false, defaultValue = "1") int pageNum) {
+        if (orderIdList == null || orderIdList.isEmpty()) {
+            return getErrorMsg("没有输入订单ID");
+        }
         return getSuccessResult(orderService.getFullDetail(orderIdList, pageNum, pageSize));
     }
 

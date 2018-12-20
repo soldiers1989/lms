@@ -45,8 +45,8 @@ axios.interceptors.response.use(
     response => {
         console.log(response.data);
         if (response.data.status == 401) {
-            this.$router.push({path: "/"});
-            location.reload(true);
+            window.location = "/";
+            // location.reload(true);
         }
         let message = codeMessage[response.status];
         // if (response.status > 200 && response.status < 300) {

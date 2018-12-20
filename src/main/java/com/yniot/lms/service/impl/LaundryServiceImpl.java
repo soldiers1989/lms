@@ -61,7 +61,7 @@ public class LaundryServiceImpl extends ServiceImpl<LaundryMapper, Laundry> impl
         QueryWrapper<Laundry> laundryQueryWrapper = new QueryWrapper<>();
         laundryQueryWrapper.eq("user_id", userId)
                 .or().isNull("user_id")
-                .or().le("user_id", -1);
+                .or().le("user_id", 0);
         return this.page(new Page<>(pageNum, pageSize), laundryQueryWrapper);
     }
 

@@ -43,6 +43,7 @@ axios.interceptors.request.use(
 
 axios.interceptors.response.use(
     response => {
+        console.log(response.data);
         if (response.data.status == 401) {
             this.$router.push({path: "/"});
             location.reload(true);

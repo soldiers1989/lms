@@ -37,8 +37,6 @@ public class User {
 
     private Boolean isLaundry;
 
-    private Integer laundryId;
-
     private Integer gender;
 
     private String nickName;
@@ -173,14 +171,6 @@ public class User {
 
     public void setIsLaundry(Boolean isLaundry) {
         this.isLaundry = isLaundry;
-    }
-
-    public Integer getLaundryId() {
-        return laundryId;
-    }
-
-    public void setLaundryId(Integer laundryId) {
-        this.laundryId = laundryId;
     }
 
     public Integer getGender() {

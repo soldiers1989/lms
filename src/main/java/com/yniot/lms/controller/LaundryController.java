@@ -3,7 +3,9 @@ package com.yniot.lms.controller;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.yniot.lms.annotation.AdminAndLaundry;
 import com.yniot.lms.annotation.AdminOnly;
+import com.yniot.lms.annotation.LaundryOnly;
 import com.yniot.lms.annotation.Unfinished;
 import com.yniot.lms.controller.commonController.BaseControllerT;
 import com.yniot.lms.db.entity.Laundry;
@@ -55,7 +57,7 @@ public class LaundryController extends BaseControllerT<Laundry> {
         return super.getSuccessPage(laundryService.page(laundryPage, laundryWrapper));
     }
 
-    @AdminOnly
+    @AdminAndLaundry
     @RequestMapping("/select")
     public String getLaundryList(@RequestParam(name = "keyWord", required = false, defaultValue = "") String keyWord,
                                  @RequestParam(name = "pageSize", required = false, defaultValue = "20") int pageSize,
@@ -66,8 +68,44 @@ public class LaundryController extends BaseControllerT<Laundry> {
                     .or().like("address", keyWord)
                     .or().like("phone", keyWord);
         }
-        Page<Laundry> laundryPage = new Page<>(pageNum, pageSize);
-        return super.getSuccessPage(laundryService.page(laundryPage, laundryWrapper));
+        if (!isAdmin()) {
+            laundryWrapper.in("id", super.getLaundryIdList());
+        }
+        return super.getSuccessPage(laundryService.page(new Page<>(pageNum, pageSize), laundryWrapper));
+    }
+
+
+    @AdminOnly
+    @RequestMapping("/getForRelate")
+    public String getForRelate(@RequestParam(name = "userId") int userId,
+                               @RequestParam(name = "keyWord", required = false, defaultValue = "") String keyWord,
+                               @RequestParam(name = "pageSize", required = false, defaultValue = "20") int pageSize,
+                               @RequestParam(name = "pageNum", required = false, defaultValue = "1") int pageNum) {
+        return super.getSuccessPage(laundryService.getForRelate(userId, keyWord, pageSize, pageNum));
+    }
+
+    @AdminOnly
+    @RequestMapping("/relate")
+    public String getForRelate(@RequestParam(name = "laundryIdList") List<Integer> laundryIdList,
+                               @RequestParam(name = "relate") boolean relate,
+                               @RequestParam(name = "userId") int userId) {
+        if (!isAdmin()) {
+            return noAuth();
+        }
+        return super.getSuccessResult(laundryService.relate(laundryIdList, relate ? userId : 0));
+    }
+
+
+    @LaundryOnly
+    @RequestMapping("/getMyLaundry")
+    public String getMyLaundry(@RequestParam(name = "keyWord", required = false, defaultValue = "") String keyWord,
+                               @RequestParam(name = "pageSize", required = false, defaultValue = "20") int pageSize,
+                               @RequestParam(name = "pageNum", required = false, defaultValue = "1") int pageNum) {
+        if (isAdmin()) {
+            return super.getSuccessPage(laundryService.getAllLaundry(keyWord, pageSize, pageNum));
+        } else {
+            return super.getSuccessPage(laundryService.getMyLaundryList(getUserId(), keyWord, pageNum, pageSize));
+        }
     }
 
     //7.洗衣店信息修改
@@ -78,9 +116,6 @@ public class LaundryController extends BaseControllerT<Laundry> {
 
     @RequestMapping("/create")
     public String create(@RequestBody Laundry laundry) {
-
-
-
         return super.getSuccessResult(laundryService.updateById(laundry));
     }
 

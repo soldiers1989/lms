@@ -51,7 +51,7 @@ public class OrderController extends BaseControllerT<Order> {
     @RequestMapping("/commit")
     public String createOrder(int wardrobeId, String description) throws WxErrorException {
         //获取用户
-        return super.getSuccessResult(orderService.generateOrder(getId(), getOpenId(), wardrobeId, description));
+        return super.getSuccessResult(orderService.generateOrder(getUserId(), getOpenId(), wardrobeId, description));
     }
 
 
@@ -61,10 +61,10 @@ public class OrderController extends BaseControllerT<Order> {
     @LaundryOnly
     @RequestMapping("/accept")
     public String receiveOrder(@RequestParam(name = "orderId") int orderId) {
-        if (!isLaundry()) {
+        if (!hasLaundry()) {
             return super.noAuth();
         } else {
-            return getSuccessResult(orderService.receiveOrder(getId(), orderId));
+            return getSuccessResult(orderService.receiveOrder(getUserId(), orderId));
         }
     }
 
@@ -72,12 +72,12 @@ public class OrderController extends BaseControllerT<Order> {
     @LaundryOnly
     @RequestMapping("/acceptBatch")
     public String receiveOrderBatch(@RequestParam(name = "orderIdList") List<Integer> orderIdList) {
-        if (!isLaundry()) {
+        if (!hasLaundry()) {
             return super.noAuth();
         } else {
             int cnt = 0;
             for (Integer orderId : orderIdList) {
-                cnt += orderService.receiveOrder(getId(), orderId) ? 1 : 0;
+                cnt += orderService.receiveOrder(getUserId(), orderId) ? 1 : 0;
             }
             return getSuccessResult(cnt);
         }
@@ -90,7 +90,7 @@ public class OrderController extends BaseControllerT<Order> {
         if (order.getState() == OrderStateEnum.COMMITTED.getState()) {
             return super.wrongState();
         }
-        if (!super.isUser() && !super.isLaundry()) {
+        if (!super.isUser() && !super.hasLaundry()) {
             return super.noAuth();
         }
         order.setState(OrderStateEnum.CANCELED.getState());
@@ -126,7 +126,7 @@ public class OrderController extends BaseControllerT<Order> {
         if (orderIdList == null || orderIdList.isEmpty()) {
             return getErrorMsg("订单id为空");
         }
-        if (!isLaundry()) {
+        if (!hasLaundry()) {
             return noAuth();
         }
         return getSuccessResult(orderService.startCleaning(orderIdList));
@@ -138,7 +138,7 @@ public class OrderController extends BaseControllerT<Order> {
         if (orderIdList == null || orderIdList.isEmpty()) {
             return getErrorMsg("订单id为空");
         }
-        if (!isLaundry()) {
+        if (!hasLaundry()) {
             return noAuth();
         }
         return getSuccessResult(orderService.cleaned(orderIdList));
@@ -149,7 +149,7 @@ public class OrderController extends BaseControllerT<Order> {
         if (orderIdList == null || orderIdList.isEmpty()) {
             return getErrorMsg("订单id为空");
         }
-        if (!isLaundry()) {
+        if (!hasLaundry()) {
             return noAuth();
         }
         return getSuccessResult(orderService.send(orderIdList));
@@ -249,7 +249,7 @@ public class OrderController extends BaseControllerT<Order> {
                                  @RequestParam(name = PAGE_SIZE_KEY, required = false, defaultValue = "20") int pageSize,
                                  @RequestParam(name = PAGE_NUM_KEY, required = false, defaultValue = "1") int pageNum) {
         QueryWrapper<Order> orderQueryWrapper = new QueryWrapper<>();
-        orderQueryWrapper.eq("user_id", getId());
+        orderQueryWrapper.eq("user_id", getUserId());
         orderQueryWrapper.orderByDesc("create_time");
         if (StringUtils.isNotEmpty(keyWord)) {
             orderQueryWrapper.like("code", keyWord)
@@ -275,9 +275,10 @@ public class OrderController extends BaseControllerT<Order> {
     @RequestMapping("/selectByLaundryId")
     public String selectByLaundryId(@RequestParam(name = KEY_WORD_KEY, required = false, defaultValue = "") String keyWord,
                                     @RequestParam(name = PAGE_SIZE_KEY, required = false, defaultValue = "20") int pageSize,
+                                    @RequestParam(name = "laundryId") int laundryId,
                                     @RequestParam(name = "state", required = false, defaultValue = "10") int state,
                                     @RequestParam(name = PAGE_NUM_KEY, required = false, defaultValue = "1") int pageNum) {
-        if (!isLaundry()) {
+        if (!hasLaundry()) {
             return noAuth();
         }
         List<Integer> stateList = new ArrayList<>();
@@ -290,6 +291,6 @@ public class OrderController extends BaseControllerT<Order> {
             stateList.add(OrderStateEnum.CANCELED_LAUNDRY.getState());
             stateList.add(OrderStateEnum.PAY_TIMEOUT.getState());
         }
-        return super.getSuccessPage(orderService.selectByLaundryId(pageNum, pageSize, getLaundryId(), keyWord, stateList));
+        return super.getSuccessPage(orderService.selectByLaundryId(pageNum, pageSize, laundryId, keyWord, stateList));
     }
 }

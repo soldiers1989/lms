@@ -4,11 +4,12 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.yniot.lms.db.entity.User;
 import com.yniot.lms.enums.ErrorMsgEnum;
+import com.yniot.lms.service.LaundryService;
 import com.yniot.lms.service.RoleService;
-import com.yniot.lms.service.UserService;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -17,7 +18,6 @@ import org.springframework.http.ResponseEntity;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -158,45 +158,39 @@ public class BaseController {
                 headers, HttpStatus.CREATED);
     }
 
-    @Autowired
-    private UserService userService;
 
     public User getUser() {
-
-        return userService.getById(1);
-//        return (User) SecurityUtils.getSubject().getPrincipal();
+        return (User) SecurityUtils.getSubject().getPrincipal();
     }
 
 
     /***********************后期需要放在缓存中***********************/
-    public int getId() {
-//        return getUser().getId();
-        return 1;
+    public int getUserId() {
+        return getUser().getId();
+//        return 1;
 
     }
 
     public String getOpenId() {
-//        return getUser().getOpenId();
-        return "oaend0YgraAE8JpUNSt4YN4tvZEk";
+        return getUser().getWxOpenid();
+//        return "oaend0YgraAE8JpUNSt4YN4tvZEk";
 
     }
 
-    public int getLaundryId() {
-//        return getUser().getId();
-        return 1;
 
-    }
+    @Autowired
+    LaundryService laundryService;
 
     public List<Integer> getLaundryIdList() {
-//        return getUser().getId();
-        List<Integer> idList = new ArrayList<>();
-        idList.add(1);
-        return idList;
+        if (hasLaundry()) {
+            return laundryService.getMyLaundryIdList(getUserId());
+        }
+        return null;
 
     }
 
     public boolean isUser() {
-        return roleService.isUser(getId());
+        return roleService.isUser(getUserId());
     }
 
     public boolean isLogin() {
@@ -207,21 +201,21 @@ public class BaseController {
     @Autowired
     private RoleService roleService;
 
-    public boolean isLaundry() {
-        return roleService.isLaundry(getId());
+    public boolean hasLaundry() {
+        return roleService.hasLaundry(getUserId());
     }
 
     public boolean isAdminOrLaundry() {
-        return isLaundry() || isAdmin();
+        return hasLaundry() || isAdmin();
     }
 
     public boolean isMailMan() {
-        return roleService.isMailMan(getId());
+        return roleService.isMailMan(getUserId());
     }
 
 
     public boolean isAdmin() {
-        return roleService.isAdmin(getId());
+        return roleService.isAdmin(getUserId());
     }
 
     public String noAuth() {

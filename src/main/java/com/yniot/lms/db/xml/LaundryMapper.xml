@@ -21,4 +21,17 @@
 		WHERE
 			1 =1
     </update>
+    <update id="relate">
+        UPDATE biz_laundry bl
+        set user_id = #{userId}
+        where id in
+        <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+
+    </update>
+    <select id="getMyLaundryIdList" resultType="java.lang.Integer">
+        select id from biz_laundry where user_id = #{userId}
+    </select>
+
 </mapper>

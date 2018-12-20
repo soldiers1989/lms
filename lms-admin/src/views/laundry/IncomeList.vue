@@ -10,6 +10,8 @@
                 <el-button type="primary" size="mini" style="margin-left: 20px;" @click="query">
                     刷新
                 </el-button>
+                <my-laundry-selector style="margin-left: 10px; float: right;"
+                                     @change="laundryChange"></my-laundry-selector>
                 <el-button size="mini" :disabled="selectedRows.length==0" @click="withdraw">结算</el-button>
             </div>
 
@@ -53,6 +55,7 @@
 </style>
 <script>
     import qs from 'qs';
+    import MyLaundrySelector from "../coms/MyLaundrySelector"
 
     export default {
         name: "IncomeList",
@@ -68,6 +71,9 @@
                 incomeList: [],
             };
         },
+        components: {
+            MyLaundrySelector
+        },
         mounted() {
             this.query();
         },
@@ -81,6 +87,9 @@
             },
             query() {
                 let params = {pageNum: this.pageNum, pageSize: this.pageSize, keyWord: this.keyWord};
+                if (this.laundryId) {
+                    params.laundryId = this.laundryId;
+                }
                 this.$http.post("/income/select", qs.stringify(params)).then(res => {
                     if (res.data.result) {
                         this.incomeList = res.data.data;
@@ -113,6 +122,10 @@
                         });
                     }
                 });
+            },
+            laundryChange(laundryId) {
+                this.laundryId = laundryId;
+                this.query();
             },
             onSelectionChange(rows) {
                 this.selectedRows = rows;

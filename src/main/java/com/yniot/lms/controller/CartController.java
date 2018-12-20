@@ -34,7 +34,7 @@ public class CartController extends BaseControllerT<Cart> {
 
     @RequestMapping("/add")
     public String createCart(int goodsId) {
-        int userId = getId();
+        int userId = getUserId();
         Cart cart = this.getCartByGoodsIdNUserId(userId, goodsId);
         if (cart == null || true) {
             GoodsType goodsType = goodsTypeService.getById(goodsId);
@@ -63,15 +63,15 @@ public class CartController extends BaseControllerT<Cart> {
 
 //    @RequestMapping("/delete")
 //    public String deleteCart(int goodsId) {
-//        Cart cart = this.getCartByGoodsIdNUserId(getId(), goodsId);
+//        Cart cart = this.getCartByGoodsIdNUserId(getUserId(), goodsId);
 //        QueryWrapper<Cart> cartQueryWrapper = new QueryWrapper<>();
-//        cartQueryWrapper.eq("user_id", getId());
+//        cartQueryWrapper.eq("user_id", getUserId());
 //        if (cart == null) {
 //            return wrongState();
 //        } else {
 //            int left = cart.getCount() - 1;
 //            if (left <= 1) {
-//                return getSuccessResult(cartService.removeById(cart.getId()));
+//                return getSuccessResult(cartService.removeById(cart.getUserId()));
 //            } else {
 //                cart.setCount(left);
 //                return getSuccessResult(cartService.saveOrUpdate(cart));
@@ -88,7 +88,7 @@ public class CartController extends BaseControllerT<Cart> {
     @RequestMapping("/select")
     public String selectCart() {
         QueryWrapper<Cart> cartQueryWrapper = new QueryWrapper<>();
-        cartQueryWrapper.eq("user_id", getId());
+        cartQueryWrapper.eq("user_id", getUserId());
         List result = cartService.list(cartQueryWrapper);
         return getSuccessResult(result);
     }

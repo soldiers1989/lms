@@ -18,7 +18,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     }
 
     @Override
-    public boolean isLaundry(int userId) {
+    public boolean hasLaundry(int userId) {
         return baseMapper.hasRole(RoleEnum.LAUNDRY.getRoleId(), userId) > 0;
     }
 

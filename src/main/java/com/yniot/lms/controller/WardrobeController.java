@@ -42,7 +42,7 @@ public class WardrobeController extends BaseControllerT<Wardrobe> {
 //    @RequestMapping("/create")
 //    public String createWardrobe(@RequestBody Wardrobe wardrobe) {
 //        wardrobe.setCreateTime(LocalDateTime.now());
-//        wardrobe.setCreator(getId());
+//        wardrobe.setCreator(getUserId());
 //        return super.getSuccessResult(wardrobeService.save(wardrobe));
 //    }
 
@@ -54,7 +54,7 @@ public class WardrobeController extends BaseControllerT<Wardrobe> {
         }
         wardrobe.setActivated(false);
         wardrobe.setCreateTime(LocalDateTime.now());
-        wardrobe.setCreator(getId());
+        wardrobe.setCreator(getUserId());
         return super.getSuccessResult(wardrobeService.createWardrobe(wardrobe));
     }
 
@@ -74,19 +74,25 @@ public class WardrobeController extends BaseControllerT<Wardrobe> {
     @RequestMapping("/select")
     public String select(
             @RequestParam(name = "keyWord") String keyWord,
+            @RequestParam(name = "laundryId", required = false, defaultValue = "0") int laundryId,
             @RequestParam(name = PAGE_NUM_KEY) int pageNum,
             @RequestParam(name = PAGE_SIZE_KEY) int pageSize) {
         QueryWrapper<Wardrobe> wardrobeQueryWrapper = new QueryWrapper<>();
         wardrobeQueryWrapper.eq("deleted", 0);
-        if (StringUtils.isNotEmpty(keyWord)) {///&& laundryId == 0
-            wardrobeQueryWrapper.like("laundry_phone", keyWord).or()
-                    .like("laundry_name", keyWord).or()
-                    .like("address", keyWord).or()
-                    .like("wardrobe_code", keyWord);
-        }
+//        if (StringUtils.isNotEmpty(keyWord)) {///&& laundryId == 0
+//            wardrobeQueryWrapper.like("laundry_phone", keyWord).or()
+//                    .like("laundry_name", keyWord).or()
+//                    .like("address", keyWord).or()
+//                    .like("wardrobe_code", keyWord);
+//        }
         if (isAdmin()) {
-        } else if (isLaundry()) {
-            wardrobeQueryWrapper.in("laundry_id", getLaundryIdList());
+        } else if (hasLaundry()) {
+            if (laundryId > 0) {
+                wardrobeQueryWrapper.eq("laundry_id", laundryId);
+            } else {
+                wardrobeQueryWrapper.in("laundry_id", getLaundryIdList());
+            }
+
         } else {
             return noAuth();
         }
@@ -147,7 +153,7 @@ public class WardrobeController extends BaseControllerT<Wardrobe> {
     public String update(@RequestBody Wardrobe wardrobe) {
         Wardrobe fromDBWardrobe = wardrobeService.getById(wardrobe.getId());
         //部分信息洗衣店没有权限更改
-        if (isLaundry()) {
+        if (hasLaundry()) {
             wardrobe.setCreator(fromDBWardrobe.getCreator());
             wardrobe.setLaundryId(fromDBWardrobe.getLaundryId());
             wardrobe.setCreateTime(fromDBWardrobe.getCreateTime());
@@ -157,7 +163,7 @@ public class WardrobeController extends BaseControllerT<Wardrobe> {
         } else {
             return noAuth();
         }
-        wardrobe.setModifier(getId());
+        wardrobe.setModifier(getUserId());
         wardrobe.setModifyTime(LocalDateTime.now());
         return getSuccessResult(wardrobeService.saveOrUpdate(wardrobe));
     }
@@ -167,7 +173,7 @@ public class WardrobeController extends BaseControllerT<Wardrobe> {
     @RequestMapping("/problem/create")
     public String submitProblem(@RequestBody WardrobeProblem wardrobeProblem) {
         wardrobeProblem.setCreateTime(new Date());
-        wardrobeProblem.setUserId(getId());
+        wardrobeProblem.setUserId(getUserId());
         return getSuccessResult(wardrobeProblemService.save(wardrobeProblem));
     }
 

@@ -14,6 +14,8 @@
                 <el-button style="margin-left: 10px;" type="primary" size="mini" icon="el-icon-search" @click="query">
                     刷新
                 </el-button>
+                <my-laundry-selector style="margin-left: 10px; float: right;"
+                                     @change="laundryChange"></my-laundry-selector>
             </div>
             <el-menu default-active="10" mode="horizontal" @select="handleSelect">
                 <el-menu-item index="10">待接单({{getCntByState(10)}})</el-menu-item>
@@ -222,6 +224,7 @@
 </style>
 <script>
     import qs from 'qs'
+    import MyLaundrySelector from "../coms/MyLaundrySelector"
 
     export default {
         name: "orderList",
@@ -257,6 +260,9 @@
         mounted() {
             this.query();
             this.getOrderState();
+        },
+        components: {
+            MyLaundrySelector
         },
         methods: {
             handleSelect(index) {
@@ -304,8 +310,15 @@
 
 
             },
+            laundryChange(laundryId) {
+                this.laundryId = laundryId;
+                this.query();
+            },
             query() {
                 let params = {state: this.activeIndex, pageNum: this.pageNum, pageSize: this.pageSize};
+                if (this.laundryId) {
+                    params.laundryId = this.laundryId;
+                }
                 this.$http.post("/order/selectByLaundryId", qs.stringify(params)).then(res => {
                     if (res.data.result) {
                         this.orderList = res.data.data;

@@ -8,6 +8,8 @@
                 <el-button size="mini" style="margin-left: 20px;" type="primary" icon="el-icon-plus"
                            @click="dialogVisible = true">新增
                 </el-button>
+                <my-laundry-selector style="margin-left: 10px; float: right;"
+                                     @change="laundryChange"></my-laundry-selector>
                 <!--<el-button size="mini" icon="el-icon-delete" :disabled="selectedRows.length==0">删除</el-button>-->
             </div>
             <el-table height="650" :data="codeList" style="width: 100%" stripe highlight-current-row
@@ -65,6 +67,7 @@
 </style>
 <script>
     import qs from 'qs'
+    import MyLaundrySelector from "../coms/MyLaundrySelector"
 
     export default {
         name: "codeList",
@@ -76,6 +79,7 @@
                 dateRange: null,
                 test: null,
                 test1: null,
+                laundryId: 0,
                 codeObj: {
                     uniqueCode: "",
                     description: ""
@@ -91,10 +95,16 @@
         mounted() {
             this.query();
         },
+        components: {
+            MyLaundrySelector
+        },
         methods: {
             query() {
                 let params = {pageNum: this.pageNum, pageSize: this.pageSize, keyWord: this.keyWord};
                 // let params = this.pager;
+                if (this.laundryId) {
+                    params.laundryId = this.laundryId;
+                }
                 this.$http.post("/goodsCode/select", qs.stringify(params)).then(res => {
                     this.codeList = res.data.data;
                     this.pageNum = res.data.pageNum;
@@ -112,6 +122,10 @@
             },
             generateCode() {
 
+            },
+            laundryChange(laundryId) {
+                this.laundryId = laundryId;
+                this.query();
             },
             insert() {
                 let that = this;

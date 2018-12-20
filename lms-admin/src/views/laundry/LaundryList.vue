@@ -71,7 +71,7 @@
             <!--</el-button>-->
             <el-table height="500px" :data="wardrobeList" style="width: 100%;text-align: center" stripe
                       highlight-current-row
-                      v-loading="$store.state.loading" >
+                      v-loading="$store.state.loading">
                 <!--<el-table-column type="selection" width="55">-->
                 <!--</el-table-column>-->
                 <el-table-column prop="wardrobeCode" label="编号"></el-table-column>
@@ -169,6 +169,7 @@
                 state: null,
                 editMode: false,
                 keyWord: "",
+                userId: localStorage.getItem("userInfo").id,
                 targetRelateLaundryId: 0,
                 selectedRows: [],
                 laundryList: [],
@@ -177,6 +178,7 @@
                 wardrobeTotalNum: 0
             };
         },
+
         mounted() {
             this.query();
         },

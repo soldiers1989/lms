@@ -1,7 +1,10 @@
 package com.yniot.lms.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.yniot.lms.db.entity.Laundry;
+
+import java.util.List;
 
 /**
  * @project: lms
@@ -12,4 +15,13 @@ import com.yniot.lms.db.entity.Laundry;
 public interface LaundryService extends IService<Laundry> {
     Laundry getByWardrobeId(int wardrobeId);
 
+    List<Integer> getMyLaundryIdList(int userId);
+
+    IPage getMyLaundryList(int userId, String keyWord, int pageSize, int pageNum);
+
+    IPage getAllLaundry(String keyWord, int pageSize, int pageNum);
+
+    IPage getForRelate(int userId,String keyWord, int pageSize, int pageNum);
+
+    int relate(List<Integer> laundryIdList, int userId);
 }

@@ -10,7 +10,8 @@
                 <el-button type="primary" size="mini" style="margin-left: 20px;" @click="query">
                     刷新
                 </el-button>
-
+                <my-laundry-selector style="margin-left: 10px; float: right;"
+                                     @change="laundryChange"></my-laundry-selector>
                 <el-button-group style="margin-left: 100px;">
                     <el-button size="mini"
                                @click="openEditOrInsertDialog(false)">新增
@@ -114,6 +115,7 @@
 </style>
 <script>
     import qs from 'qs';
+    import MyLaundrySelector from "../coms/MyLaundrySelector"
 
     export default {
         name: "WardrobeList",
@@ -139,6 +141,9 @@
         },
         mounted() {
             this.query();
+        },
+        components: {
+            MyLaundrySelector
         },
         methods: {
             activate(activate) {
@@ -171,6 +176,9 @@
             },
             query() {
                 let params = {pageNum: this.pageNum, pageSize: this.pageSize, keyWord: this.keyWord};
+                if (this.laundryId) {
+                    params.laundryId = this.laundryId;
+                }
                 this.$http.post("/wardrobe/select", qs.stringify(params)).then(res => {
                     if (res.data.result) {
                         this.wardrobeList = res.data.data;
@@ -216,6 +224,10 @@
             openCellDialog(wardrobeId) {
                 this.cellDialogVisible = true;
                 this.targetWardrobeId = wardrobeId;
+            },
+            laundryChange(laundryId) {
+                this.laundryId = laundryId;
+                this.query();
             },
             openEditOrInsertDialog(row) {
                 if (row) {

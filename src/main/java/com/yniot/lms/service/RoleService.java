@@ -10,7 +10,7 @@ import java.util.List;
 public interface RoleService extends IService<Role> {
     List<Role> selectRoleByUserId(int userId);
 
-    boolean isLaundry(int userId);
+    boolean hasLaundry(int userId);
 
     boolean isMailMan(int userId);
 

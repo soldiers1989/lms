@@ -26,6 +26,16 @@ public class Laundry extends Model<Laundry> {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    private Integer userId;
+
     private String address;
 
     private String phone;
@@ -228,6 +238,7 @@ public class Laundry extends Model<Laundry> {
                 ", deleted=" + deleted +
                 ", totalIncome=" + totalIncome +
                 ", asap=" + asap +
+                ", userId=" + userId +
                 ", modifyTime=" + modifyTime +
                 ", dividePercent=" + dividePercent +
                 ", divideType=" + divideType +

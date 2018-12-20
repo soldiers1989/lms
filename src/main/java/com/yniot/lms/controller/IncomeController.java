@@ -33,6 +33,7 @@ public class IncomeController extends BaseControllerT<Income> {
     @RequestMapping("/select")
     public String select(@RequestParam(name = KEY_WORD_KEY, required = false, defaultValue = "") String keyWord,
                          @RequestParam(name = PAGE_SIZE_KEY, required = false, defaultValue = "20") int pageSize,
+                         @RequestParam(name = "laundryId", required = false, defaultValue = "0") int laundryId,
                          @RequestParam(name = "withdrew", required = false, defaultValue = "-1") int withdrew,
                          @RequestParam(name = "createStartTimestamp", required = false, defaultValue = "0") long createStartTimestamp,
                          @RequestParam(name = "createEndTimestamp", required = false, defaultValue = "0") long createEndTimestamp,
@@ -48,6 +49,9 @@ public class IncomeController extends BaseControllerT<Income> {
                     .like("laundryId", keyWord).or()
                     .like("dividePercent", keyWord).or()
                     .like("orderCode", keyWord);
+        }
+        if (laundryId > 0) {
+            queryWrapper.eq("laundry_id", laundryId);
         }
 //        if (withdrew >= 0) {
 //            queryWrapper.eq("withdrew", withdrew);

@@ -32,12 +32,16 @@ public class PriceTableController extends BaseControllerT<PriceTable> {
 
     @RequestMapping("/select")
     public String select(@RequestParam(name = KEY_WORD_KEY, required = false, defaultValue = "") String keyWord,
+                         @RequestParam(name = "laundryId", required = false, defaultValue = "0") int laundryId,
                          @RequestParam(name = PAGE_SIZE_KEY, required = false, defaultValue = "20") int pageSize,
                          @RequestParam(name = PAGE_NUM_KEY, required = false, defaultValue = "1") int pageNum) {
         QueryWrapper<PriceTable> queryWrapper = new QueryWrapper<>();
         if (StringUtils.isNotEmpty(keyWord)) {
             queryWrapper.like("type_name", keyWord).or()
                     .like("description", keyWord);
+        }
+        if (laundryId > 0) {
+            queryWrapper.eq("laundry_id", laundryId);
         }
         return super.getSuccessPage(priceTableService.page(new Page(pageNum, pageSize), queryWrapper));
     }
@@ -59,8 +63,8 @@ public class PriceTableController extends BaseControllerT<PriceTable> {
 
     @LaundryOnly
     @RequestMapping("/generate")
-    public String generate() {
-        return super.getSuccessResult(priceTableService.generate(getLaundryId()));
+    public String generate(@RequestParam("laundryId") int laundryId) {
+        return super.getSuccessResult(priceTableService.generate(laundryId));
     }
 }
 

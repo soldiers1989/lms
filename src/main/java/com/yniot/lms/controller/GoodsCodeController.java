@@ -33,11 +33,10 @@ public class GoodsCodeController extends BaseControllerT<GoodsCode> {
 
     @RequestMapping("/create")
     public String createCode(@RequestBody GoodsCode goodsCode) {
-        if (isLaundry()) {
+        if (hasLaundry()) {
             if (StringUtils.isNotEmpty(goodsCode.getUniqueCode())) {
                 goodsCode.setCreateTime(LocalDateTime.now());
                 goodsCode.setDeleted(false);
-                goodsCode.setLaundryId(getLaundryId());
                 goodsCode.setUsed(false);
                 goodsCode.setModifyTime(LocalDateTime.now());
                 return getSuccessResult(goodsCodeService.save(goodsCode));
@@ -59,7 +58,9 @@ public class GoodsCodeController extends BaseControllerT<GoodsCode> {
                             @RequestParam(name = "pageNum", required = false, defaultValue = "1") int pageNum,
                             @RequestParam(name = "pageSize", required = false, defaultValue = "20") int pageSize) {
         QueryWrapper<GoodsCode> goodsCodeQueryWrapper = new QueryWrapper<>();
-        goodsCodeQueryWrapper.in("laundry_id", getLaundryIdList());
+        if (hasLaundry()) {
+            goodsCodeQueryWrapper.in("laundry_id", getLaundryIdList());
+        }
         if (StringUtils.isNotEmpty(keyWord)) {
             goodsCodeQueryWrapper.like("unique_code", keyWord).or().like("description", keyWord);
         }

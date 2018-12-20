@@ -14,6 +14,7 @@
                 <el-button style="margin-left: 10px;" type="primary" size="mini" icon="el-icon-search" @click="query">
                     刷新
                 </el-button>
+                <refresh-bar @refresh="refreshData" style="float: right;"></refresh-bar>
                 <my-laundry-selector style="margin-left: 10px; float: right;"
                                      @change="laundryChange"></my-laundry-selector>
             </div>
@@ -225,6 +226,7 @@
 <script>
     import qs from 'qs'
     import MyLaundrySelector from "../coms/MyLaundrySelector"
+    import RefreshBar from "../coms/RefreshBar"
 
     export default {
         name: "orderList",
@@ -262,7 +264,8 @@
             this.getOrderState();
         },
         components: {
-            MyLaundrySelector
+            MyLaundrySelector,
+            RefreshBar
         },
         methods: {
             handleSelect(index) {
@@ -309,6 +312,9 @@
                 });
 
 
+            },
+            refreshData() {
+                this.query();
             },
             laundryChange(laundryId) {
                 this.laundryId = laundryId;

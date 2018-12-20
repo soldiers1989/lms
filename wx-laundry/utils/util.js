@@ -35,7 +35,6 @@ function initWebsocket(onOpen, onMessage, onError, onClose) {
 }
 
 
-
 function request(url, data = {}, method = "POST", header = "application/x-www-form-urlencoded") {
     wx.showLoading({
         title: '加载中...',
@@ -48,12 +47,13 @@ function request(url, data = {}, method = "POST", header = "application/x-www-fo
             method: method,
             header: {
                 'Content-Type': header,
-                'Authorization': token,//'Bearer '+
+                'Authorization': token,
             },
             success: function (res) {
+                console.log(res);
                 wx.hideLoading();
                 if (res.statusCode == 200) {
-                    if (!token) {
+                    if (!token || res.data.status == 401) {
                         wx.redirectTo({
                             url: '/pages/auth/login/login',
                         });
@@ -65,6 +65,7 @@ function request(url, data = {}, method = "POST", header = "application/x-www-fo
 
             },
             fail: function (err) {
+                console.log(err);
                 reject(err)
             }
         })

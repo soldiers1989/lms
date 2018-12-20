@@ -1,5 +1,6 @@
 package com.yniot.lms.security;
 
+import com.yniot.lms.controller.UserController;
 import org.apache.log4j.Logger;
 import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO;
@@ -10,6 +11,7 @@ import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreato
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.servlet.Filter;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -22,6 +24,8 @@ public class ShiroConfigurator {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager);
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
+        Map<String, Filter> filterMap = shiroFilterFactoryBean.getFilters();
+        filterMap.put("authc",new CustomFormAuthFilter());
         filterChainDefinitionMap.put("/**", "anon");//全部放行
         filterChainDefinitionMap.put("/static/**", "anon");//静态资源
         filterChainDefinitionMap.put("/druid/**", "anon");//druid管理页面
@@ -34,11 +38,9 @@ public class ShiroConfigurator {
         filterChainDefinitionMap.put("/**", "authc");
 
 
-        shiroFilterFactoryBean.setLoginUrl("/user/login");//CustomAdviceFilter.LOGIN
-//        shiroFilterFactoryBean.setLoginUrl(CustomAdviceFilter.SMALL_APP_LOGIN);
-//        shiroFilterFactoryBean.setSuccessUrl("/user/index");
-//        shiroFilterFactoryBean.setUnauthorizedUrl("/user/unauth");
+        shiroFilterFactoryBean.setLoginUrl(UserController.LOGIN_FULL_URL);//CustomAdviceFilter.LOGIN
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
+        shiroFilterFactoryBean.setFilters(filterMap);
         return shiroFilterFactoryBean;
     }
 

@@ -19,8 +19,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "/user", produces = "text/plain;charset=UTF-8")
+@RequestMapping(value = UserController.USER_URI, produces = "text/plain;charset=UTF-8")
 public class UserController extends BaseControllerT<User> {
+    public final static String USER_URI = "/user";
     private static Logger logger = Logger.getLogger(UserController.class);
     @Autowired
     UserService userService;
@@ -30,11 +31,13 @@ public class UserController extends BaseControllerT<User> {
     @Autowired
     WeChatService weChatService;
 
+    public final static String LOGIN_URI = "/login";
+    public final static String LOGIN_FULL_URL = USER_URI + LOGIN_URI;
 
     //0.登陆
-    @RequestMapping("/login")
+    @RequestMapping(LOGIN_URI)
     public String login(@RequestBody User user) throws Exception {
-        if (user == null || !CommonUtil.String.validStr(user.getPassword(),user.getUsername())) {
+        if (user == null || !CommonUtil.String.validStr(user.getPassword(), user.getUsername())) {
             return super.getErrorMsg("请正确输入账号密码");
         }
         String password = user.getPassword();

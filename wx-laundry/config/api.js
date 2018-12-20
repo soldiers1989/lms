@@ -79,6 +79,6 @@ module.exports = {
     WardrobeChecked: "http://localhost:8080/" + 'wardrobe/selectNearest', //
     OrderList: "http://localhost:8080/" + 'order/selectByUserId',  //订单列表
     CommitOrder: "http://localhost:8080/" + 'order/commit', //
-    Login: "http://localhost:8080/" + '/user/login', //账号登录
+    Login: "http://localhost:8080/" + 'user/login', //账号登录
     WebsocketUrl: "ws://localhost:8080/WebSocket/"
 };

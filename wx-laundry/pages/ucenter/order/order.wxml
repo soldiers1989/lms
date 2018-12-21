@@ -1,6 +1,6 @@
 <view class="container">
     <view class="orders">
-        <navigator url="../orderDetail/orderDetail?id={{item.order.id}}" class="order" wx:for="{{orderList}}"
+        <navigator url="../orderDetail/orderDetail?id={{item.order.id}}&orderCode={{item.order.code}}" class="order" wx:for="{{orderList}}"
                    wx:key="{{item.order.id}}">
             <view class="h">
                 <view class="l">订单编号：{{item.order.code}}</view>

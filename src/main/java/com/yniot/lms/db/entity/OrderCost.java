@@ -37,6 +37,25 @@ public class OrderCost extends Model<OrderCost> {
     private LocalDateTime expiredTime;
 
     private Boolean confirmed;
+    private String tradeType;
+
+    public String getTradeType() {
+        return tradeType;
+    }
+
+    public void setTradeType(String tradeType) {
+        this.tradeType = tradeType;
+    }
+
+    public String getTransactionId() {
+        return transactionId;
+    }
+
+    public void setTransactionId(String transactionId) {
+        this.transactionId = transactionId;
+    }
+
+    private String transactionId;
 
     private Integer discount;
 
@@ -169,6 +188,8 @@ public class OrderCost extends Model<OrderCost> {
                 ", confirmTime=" + confirmTime +
                 ", expiredInMin=" + expiredInMin +
                 ", expiredTime=" + expiredTime +
+                ", tradeType=" + tradeType +
+                ", transactionId=" + transactionId +
                 ", confirmed=" + confirmed +
                 ", discount=" + discount +
                 ", extCost=" + extCost +

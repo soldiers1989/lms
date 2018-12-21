@@ -24,7 +24,6 @@ module.exports = {
     CartGoodsCount: API_BASE_URL + 'cart/goodscount', // 获取购物车商品件数
     CartCheckout: API_BASE_URL + 'cart/checkout', // 下单前信息确认
     OrderSubmit: API_BASE_URL + 'order/submit', // 提交订单
-    PayPrepayId: API_BASE_URL + 'pay/prepay', //获取微信统一下单prepay_id
     CollectList: API_BASE_URL + 'collect/list',  //收藏列表
     CollectAddOrDelete: API_BASE_URL + 'collect/addordelete',  //添加或取消收藏
     CommentList: API_BASE_URL + 'comment/list',  //评论列表
@@ -55,8 +54,10 @@ module.exports = {
     HelpTypeList: API_BASE_URL + 'helpissue/typeList', //查看帮助类型列表
     HelpIssueList: API_BASE_URL + 'helpissue/issueList', //查看问题列表
 
+
     // CartAdd: API_BASE_URL + 'cart/add', // 添加商品到购物车
     // CartList: "http://localhost:8080/" + 'cart/select', //获取购物车的数据
+    PayPrepayId: "http://localhost:8080/" + 'pay/createOrder', //获取微信统一下单prepay_id
     OrderDetail: "http://localhost:8080/" + 'order/selectById',  //订单详情
     GetOrderShipmentById: "http://localhost:8080/" + "orderShipment/getByOrderId",
     GetOrderCostById: "http://localhost:8080/" + "orderCost/getByOrderId",

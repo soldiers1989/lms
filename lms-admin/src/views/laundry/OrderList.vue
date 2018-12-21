@@ -63,7 +63,8 @@
                         <el-button type="text" size="small" @click="openCommitPriceDialog(scope.row)"
                                    v-if="activeIndex==50">提交价格
                         </el-button>
-                        <el-button type="text" size="small" @click="autoRelateCode(scope.row)" v-if="activeIndex==45">
+                        <el-button type="text" size="small" @click="autoRelateCode(scope.row.id)"
+                                   v-if="activeIndex==45">
                             自动编号
                         </el-button>
                     </template>
@@ -194,7 +195,21 @@
                     </el-col>
                 </el-row>
             </el-form>
-
+            <el-table height="150" :data="orderGoodsList" style="width: 100%" stripe highlight-current-row
+                      v-loading="$store.state.loading">
+                <el-table-column label="图片" width="70">
+                    <template slot-scope="scope">
+                        <img :src="scope.row.imgUrl" style="width: 50px;height: 50px;">
+                    </template>
+                </el-table-column>
+                <el-table-column prop="name" label="名称" align="center"></el-table-column>
+                <el-table-column prop="count" width="90" label="数量" align="center"></el-table-column>
+                <el-table-column prop="launderType" width="100" label="洗涤方式">
+                    <template slot-scope="scope">
+                        <el-tag v-if="!scope.row.launderType">默认</el-tag>
+                    </template>
+                </el-table-column>
+            </el-table>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="orderDetailDialogVisible = false">关闭</el-button>
             </div>
@@ -248,6 +263,7 @@
                     description: ""
                 },
                 laundryId: 1,
+                orderGoodsList: [],
                 orderDetail: {},
                 orderStateEnums: [],
                 targetOrder: null,
@@ -379,8 +395,22 @@
                 });
 
             },
-            autoRelateCode() {
-
+            autoRelateCode(orderId) {
+                this.$http.post("/goodsCode/autoRelate", qs.stringify({orderId: orderId})).then(res => {
+                    if (res.data.result && res.data.data) {
+                        this.$message({
+                            type: "success",
+                            message: "操作成功"
+                        });
+                    }
+                });
+            },
+            getOrderGoods(orderId) {
+                this.$http.post("/orderGoods/getByOrderId", qs.stringify({orderId: orderId})).then(res => {
+                    if (res.data.result && res.data.data) {
+                        this.orderGoodsList = res.data.data;
+                    }
+                });
             },
             getStatisticInfo() {
                 let params = {};
@@ -414,6 +444,7 @@
                         if (res.data.result && res.data.data) {
                             res.data.data[0].stateName = this.getStateName(res.data.data[0].state);
                             this.orderDetail = res.data.data[0];
+                            this.getOrderGoods(orderId);
                         }
                     });
                 }

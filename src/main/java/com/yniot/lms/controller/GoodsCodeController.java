@@ -53,6 +53,12 @@ public class GoodsCodeController extends BaseControllerT<GoodsCode> {
         return getSuccessResult(goodsCodeService.isExists(goodsCode.getUniqueCode()));
     }
 
+
+    @RequestMapping("/autoRelate")
+    public String autoRelate(int orderId) {
+        return getSuccessResult(goodsCodeService.autoRelate(orderId));
+    }
+
     @RequestMapping("/select")
     public String checkCode(@RequestParam(name = "keyWord", required = false, defaultValue = "") String keyWord,
                             @RequestParam(name = "pageNum", required = false, defaultValue = "1") int pageNum,

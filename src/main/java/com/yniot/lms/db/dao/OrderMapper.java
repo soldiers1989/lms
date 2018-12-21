@@ -22,7 +22,7 @@ public interface OrderMapper extends CommonMapper<Order> {
     @Update("UPDATE biz_order SET state = 60 WHERE id = #{orderId} AND state = 55")
     int paid(int orderId);
 
-    int paid_procedure(int orderId, BigDecimal price);
+    int paid_procedure(BigDecimal price, String transactionId, String tradeType);
 
     List<Map<String, Object>> getFullDetail(@Param("list") List<Integer> orderIdList);
 

@@ -36,13 +36,9 @@ public interface OrderService extends IService<Order> {
 
     IPage<Order> selectByLaundryId(int pageNum, int pageSize, int laundryId, String keyWord, List<Integer> stateList);
 
-    boolean paid_procedure(int userId, String orderCode, BigDecimal price);
+    boolean paid_procedure( String orderCode, BigDecimal price, String transactionId, String tradeType);
 
-    boolean paid(int userId, String orderCode, BigDecimal price);
-
-    boolean paid_procedure(int userId, int orderId, BigDecimal price);
-
-    boolean paid(int userId, int orderId, BigDecimal price);
+    boolean paid_procedure( int orderId, BigDecimal price, String transactionId, String tradeType);
 
     int startCleaning(List<Integer> orderIdList);
 

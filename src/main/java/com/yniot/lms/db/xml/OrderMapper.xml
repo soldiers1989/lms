@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.yniot.lms.db.dao.OrderMapper">
     <update id="paid_procedure" statementType="CALLABLE">
-        call lms_paid(#{orderId},#{price})
+        call lms_paid(#{orderId},#{price},#{transactionId},#{tradeType})
     </update>
     <update id="updateState">
         UPDATE biz_order bo ,biz_order_goods bog SET bo.state=#{state},bog.state =#{state}  where bo.id = #{orderId} and bo.id = bog.order_id;
@@ -48,7 +48,7 @@
         left join biz_order_cost boc on boc.id = bo.id
         where 1=1
         <if test="list!=null and list.size()>0">
-            bo.id in
+           and bo.id in
             <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
                 #{item}
             </foreach>

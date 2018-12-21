@@ -16,11 +16,11 @@
                     <!--待存放-->
                     <view class="btn active" bindtap="showStorageQRCode">开柜二维码</view>
                 </view>
-                <view wx:elif="{{orderInfo.state==55}}"><!--待付款-->
-                    <view class="btn active">付款</view>
-                </view>
                 <view wx:elif="{{orderShipment.state==70}}"><!--待付款-->
                     <view class="btn active">取走衣物</view>
+                </view>
+                <view><!--待付款-->
+                    <view class="btn active" bindtap="gotoPay">付款</view>
                 </view>
             </view>
         </view>

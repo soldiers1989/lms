@@ -26,9 +26,9 @@ public class ShiroConfigurator {
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
         Map<String, Filter> filterMap = shiroFilterFactoryBean.getFilters();
         filterMap.put("authc",new CustomFormAuthFilter());
-        filterChainDefinitionMap.put("/**", "anon");//全部放行
         filterChainDefinitionMap.put("/static/**", "anon");//静态资源
         filterChainDefinitionMap.put("/druid/**", "anon");//druid管理页面
+        filterChainDefinitionMap.put("/pay/**", "anon");//支付相关
         filterChainDefinitionMap.put("/WeChat/**", "anon");//微信
         filterChainDefinitionMap.put("/SmallAppApi/**", "anon");//微信
         filterChainDefinitionMap.put("/user/login", "anon");//登陆

@@ -223,7 +223,7 @@
             },
             relateLaundry(laundryId, relate) {
                 let params = {userId: this.targetUserId, relate: relate, laundryIdList: laundryId};//批量this.getLaundryIdList.join(",")
-                console.log(params);
+                // console.log(params);
                 this.$http.post("/laundry/relate", qs.stringify(params)).then(res => {
                     if (res.data.result && res.data.data) {
                         this.$message({

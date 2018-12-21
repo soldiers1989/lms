@@ -205,7 +205,7 @@ public class WeChatAPIController extends BaseWxController {
 
 
     //    @Value("${wechat.auth.path}")
-    private String authFilePath = "/tmp";
+    private String authFilePath = "/usr/local/wechat";
 
     /**
      * @Author wanggl

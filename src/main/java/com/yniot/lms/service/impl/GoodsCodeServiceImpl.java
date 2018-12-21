@@ -64,6 +64,13 @@ public class GoodsCodeServiceImpl extends ServiceImpl<GoodsCodeMapper, GoodsCode
     }
 
 
+    /**
+     * @Author wanggl(lane)
+     * @Description //TODO 自动编号
+     * @Date 16:24 2018-12-20
+     * @Param [orderId]
+     * @return int
+     **/
     @Override
     public int autoRelate(int orderId) {
         List<OrderGoods> orderGoodsList = orderGoodsService.getByOrderId(orderId);

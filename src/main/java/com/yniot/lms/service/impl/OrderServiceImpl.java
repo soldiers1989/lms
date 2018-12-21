@@ -184,31 +184,15 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     }
 
     @Override
-    public boolean paid(int userId, String orderCode, BigDecimal price) {
+    public boolean paid_procedure(String orderCode, BigDecimal price, String transactionId, String tradeType) {
         Order order = getByOrderCode(orderCode);
         int orderId = order.getId();
-        return paid(userId, orderId, price);
+        return paid_procedure(orderId, price, transactionId, tradeType);
     }
 
     @Override
-    public boolean paid(int userId, int orderId, BigDecimal price) {
-        int result = baseMapper.paid(orderId);
-        if (result > 0) {
-            result = orderCostService.paid(orderId, price) ? 1 : 0;
-        }
-        return result > 0 && orderStateHistoryService.saveOrderState(orderId, OrderStateEnum.PAID.getState(), userId);
-    }
-
-    @Override
-    public boolean paid_procedure(int userId, String orderCode, BigDecimal price) {
-        Order order = getByOrderCode(orderCode);
-        int orderId = order.getId();
-        return paid_procedure(userId, orderId, price);
-    }
-
-    @Override
-    public boolean paid_procedure(int userId, int orderId, BigDecimal price) {
-        return baseMapper.paid_procedure(orderId, price) > 0 && orderStateHistoryService.saveOrderState(orderId, OrderStateEnum.PAID.getState(), userId);
+    public boolean paid_procedure(int orderId, BigDecimal price, String transactionId, String tradeType) {
+        return baseMapper.paid_procedure(price, transactionId, tradeType) > 0 && orderStateHistoryService.saveOrderState(orderId, OrderStateEnum.PAID.getState(), 0);
     }
 
     @Override
@@ -238,7 +222,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 
 
     @Override
-    public List<Map<String ,Integer>> getStatisticInfo(int laundryId){
+    public List<Map<String, Integer>> getStatisticInfo(int laundryId) {
         return baseMapper.getStatisticInfo(laundryId);
     }
 }

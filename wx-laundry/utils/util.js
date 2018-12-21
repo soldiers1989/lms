@@ -50,7 +50,7 @@ function request(url, data = {}, method = "POST", header = "application/x-www-fo
                 'Authorization': token,
             },
             success: function (res) {
-                console.log(res);
+                // console.log(res);
                 wx.hideLoading();
                 if (res.statusCode == 200) {
                     if (!token || res.data.status == 401) {
@@ -65,7 +65,7 @@ function request(url, data = {}, method = "POST", header = "application/x-www-fo
 
             },
             fail: function (err) {
-                console.log(err);
+                // console.log(err);
                 reject(err)
             }
         })

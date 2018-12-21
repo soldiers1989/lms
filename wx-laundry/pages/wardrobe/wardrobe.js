@@ -94,7 +94,7 @@ Page({
                     //lat1, lng1, lat2, lng2
                     let temp = util.getDistance(tempData[i].latitude, tempData[i].longitude,
                         that.data.latitude, that.data.longitude);
-                    console.log(temp);
+                    // console.log(temp);
                     tempData[i].distance = temp;
                 }
                 that.setData({

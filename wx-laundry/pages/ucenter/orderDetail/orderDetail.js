@@ -5,6 +5,7 @@ Page({
     data: {
         showQRCode: false,
         orderId: 0,
+        orderCode: "",
         orderInfo: {},
         goodsList: [],
         orderCost: {},
@@ -15,8 +16,10 @@ Page({
     },
     onLoad: function (options) {
         // 页面初始化 options为页面跳转所带来的参数
+        console.log(options);
         this.setData({
-            orderId: options.id
+            orderId: options.id,
+            orderCode: options.orderCode
         });
         this.getOrderDetail();
         this.getOrderCost();
@@ -42,6 +45,14 @@ Page({
                 socketTask: socketTask
             });
         }
+    },
+    gotoPay() {
+        let that = this;
+        wx.redirectTo({
+            url: '/pages/pay/pay?' + "orderId=" + that.data.orderCost.id
+                + "&actTotalCost=" + that.data.orderCost.actTotalCost
+                + "&orderCode=" + that.data.orderCode,
+        })
     },
     getOrderDetail() {
         let that = this;

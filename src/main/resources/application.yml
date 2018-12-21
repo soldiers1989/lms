@@ -51,7 +51,6 @@ pagehelper:
   params: count=countSql
 wechat:
   public:
-    file:classpath:MP_verify_pPsxL5wo4l77Ul4R.txt
   auth:
     path:wechat
   smallapp:

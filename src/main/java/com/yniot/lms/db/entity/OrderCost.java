@@ -62,6 +62,52 @@ public class OrderCost extends Model<OrderCost> {
     private BigDecimal extCost;
 
     private Boolean asap;
+    private String sign;
+    private String prepayId;
+
+    public String getSign() {
+        return sign;
+    }
+
+    public void setSign(String sign) {
+        this.sign = sign;
+    }
+
+    public String getPrepayId() {
+        return prepayId;
+    }
+
+    public void setPrepayId(String prepayId) {
+        this.prepayId = prepayId;
+    }
+
+    public String getPartnerId() {
+        return partnerId;
+    }
+
+    public void setPartnerId(String partnerId) {
+        this.partnerId = partnerId;
+    }
+
+    public String getAppId() {
+        return appId;
+    }
+
+    public void setAppId(String appId) {
+        this.appId = appId;
+    }
+
+    public String getPackageValue() {
+        return packageValue;
+    }
+
+    public void setPackageValue(String packageValue) {
+        this.packageValue = packageValue;
+    }
+
+    private String partnerId;
+    private String appId;
+    private String packageValue;
 
     private BigDecimal estTotalCost;
 

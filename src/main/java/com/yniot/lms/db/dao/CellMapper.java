@@ -26,16 +26,16 @@ public interface CellMapper extends CommonMapper<Cell> {
     int releaseCellByCellId(int cellId);
 
     @Update("update biz_cell set in_used = 0 ,order_id=#{orderId} where id = #{cellId}")
-    int usedCell(int cellId, int orderId);
+    int usedCell(@Param("cellId") int cellId,@Param("orderId") int orderId);
 
     @Update("update biz_cell set in_used = 0 where order_id IN ( SELECT id FROM biz_order WHERE (state >= 30 AND state < 40) or state=58 )")
     int refreshCellState();
 
     @Update("update biz_cell set activate = #{activate} where wardrobe_id = #{wardrobeId}")
-    int activateCell(int wardrobeId, int activate);
+    int activateCell(@Param("wardrobeId")int wardrobeId,@Param("activate") int activate);
 
-    int activateCellBatch(@Param("list") List<Integer> wardrobeIdList, int activate);
+    int activateCellBatch(@Param("list") List<Integer> wardrobeIdList, @Param("activate") int activate);
 
     @Update("update biz_cell set activate = #{activate} where id = #{cellId}")
-    int activateCellByCellId(int activate, int cellId);
+    int activateCellByCellId(@Param("activate")int activate,@Param("cellId") int cellId);
 }

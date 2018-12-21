@@ -50,10 +50,13 @@ function request(url, data = {}, method = "POST", header = "application/x-www-fo
                 'Authorization': token,
             },
             success: function (res) {
-                // console.log(res);
                 wx.hideLoading();
                 if (res.statusCode == 200) {
                     if (!token || res.data.status == 401) {
+                      wx.removeStorage({
+                        key: 'token',
+                        success: function(res) {},
+                      })
                         wx.redirectTo({
                             url: '/pages/auth/login/login',
                         });
@@ -65,8 +68,7 @@ function request(url, data = {}, method = "POST", header = "application/x-www-fo
 
             },
             fail: function (err) {
-                // console.log(err);
-                reject(err)
+                reject(err);
             }
         })
     });

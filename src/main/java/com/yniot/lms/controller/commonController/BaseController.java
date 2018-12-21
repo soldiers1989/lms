@@ -15,7 +15,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.ResourceUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -149,18 +148,6 @@ public class BaseController {
 
     public ResponseEntity<byte[]> getFile(String path, String fileName) throws IOException {
         File file = new File(path + "/" + fileName);
-        if (!file.exists()) {
-            return null;
-        }
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentDispositionFormData("attachment", fileName);
-        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-        return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),
-                headers, HttpStatus.CREATED);
-    }
-
-    public ResponseEntity<byte[]> getFile(String fileName) throws IOException {
-        File file = ResourceUtils.getFile("classpath:"+fileName);
         if (!file.exists()) {
             return null;
         }

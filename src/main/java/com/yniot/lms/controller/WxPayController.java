@@ -5,13 +5,19 @@ import com.github.binarywang.wxpay.bean.notify.WxPayNotifyResponse;
 import com.github.binarywang.wxpay.bean.notify.WxPayOrderNotifyResult;
 import com.github.binarywang.wxpay.bean.notify.WxPayRefundNotifyResult;
 import com.github.binarywang.wxpay.bean.notify.WxScanPayNotifyResult;
+import com.github.binarywang.wxpay.bean.order.WxPayAppOrderResult;
 import com.github.binarywang.wxpay.bean.request.*;
 import com.github.binarywang.wxpay.bean.result.*;
+import com.github.binarywang.wxpay.constant.WxPayConstants;
 import com.github.binarywang.wxpay.exception.WxPayException;
 import com.github.binarywang.wxpay.service.WxPayService;
 import com.yniot.lms.annotation.Unfinished;
 import com.yniot.lms.controller.commonController.BaseController;
+import com.yniot.lms.db.entity.Order;
+import com.yniot.lms.db.entity.OrderCost;
+import com.yniot.lms.service.OrderCostService;
 import com.yniot.lms.service.OrderService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -83,6 +89,12 @@ public class WxPayController extends BaseController {
         return this.wxService.closeOrder(outTradeNo);
     }
 
+    @RequestMapping("/closeOrderById")
+    public WxPayOrderCloseResult closeOrder(@RequestParam("orderId") int orderId) throws WxPayException {
+        Order order = orderService.getById(orderId);
+        return this.wxService.closeOrder(order.getCode());
+    }
+
     //@ApiOperation(value = "关闭订单")
     @PostMapping("/closeOrder")
     public WxPayOrderCloseResult closeOrder(WxPayOrderCloseRequest wxPayOrderCloseRequest) throws WxPayException {
@@ -103,25 +115,52 @@ public class WxPayController extends BaseController {
         return this.wxService.createOrder(request);
     }
 
-
+    @Autowired
+    OrderCostService orderCostService;
     @Autowired
     OrderService orderService;
+
+
+    @Unfinished
+    //@ApiOperation(value = "统一下单，并组装所需支付参数")
+    @PostMapping("/jsapi/payOrder")
+    public String payOrder(@RequestParam("orderId") int orderId,
+                           @RequestParam(name = "ip", required = false, defaultValue = "0.0.0.0") String ip) throws WxPayException {
+//                version: "1.0",
+//                body: "洗涤费用",
+//                outTradeNo: that.data.orderCode,
+//                totalFee: 1,//测试价格
+//                spbillCreateIp: that.data.ipAddress,
+//                notifyUrl: "https://www.yn-iot.cn/notify/order",
+//                tradeType: "JSAPI",//JSAPI  NATIVE  APP
+//                openid: "ofJw-5UbxFGf_Z9dE1k1V9Mu1rX0"
+        Order order = orderService.getById(orderId);
+        WxPayUnifiedOrderRequest request = new WxPayUnifiedOrderRequest();
+        request.setTradeType(WxPayConstants.TradeType.JSAPI);
+        request.setOutTradeNo(order.getCode());
+//        OrderCost orderCost = orderCostService.getById(orderId);
+//        request.setTotalFee(orderCost.getActTotalCost().multiply(new BigDecimal(100)).intValue());//转为分
+        request.setTotalFee(1);//测试价格
+        request.setSpbillCreateIp(ip);
+        request.setBody("洗涤费用");
+        request.setVersion("1.0");
+        request.setOpenid(order.getUserOpenId());
+        request.setNotifyUrl("https://www.yn-iot.cn/notify/order");
+//        WxPayAppOrderResult result = this.wxService.createOrder(request);
+        return getSuccessResult(this.wxService.createOrder(request));
+    }
+
 
     //@ApiOperation(value = "支付回调通知处理")
     @PostMapping("/notify/order")
     public String parseOrderNotifyResult(@RequestBody String xmlData) throws WxPayException {
-        try {
-            final WxPayOrderNotifyResult notifyResult = this.wxService.parseOrderNotifyResult(xmlData);
-            String orderCode = notifyResult.getOutTradeNo();
-            String tradeNo = notifyResult.getTransactionId();
-            String tradeType = notifyResult.getTradeType();
-            String totalFee = BaseWxPayResult.fenToYuan(notifyResult.getTotalFee());
-            //自己处理订单的业务逻辑，需要判断订单是否已经支付过，否则可能会重复调用
-            orderService.paid_procedure(orderCode, BigDecimal.valueOf(Double.valueOf(totalFee)), tradeNo, tradeType);
-            return WxPayNotifyResponse.success("处理成功!");
-        } catch (Exception e) {
-            return WxPayNotifyResponse.fail(e.getMessage());
-        }
+        final WxPayOrderNotifyResult notifyResult = this.wxService.parseOrderNotifyResult(xmlData);
+        String orderCode = notifyResult.getOutTradeNo();
+        String tradeNo = notifyResult.getTransactionId();
+        String tradeType = notifyResult.getTradeType();
+        String totalFee = BaseWxPayResult.fenToYuan(notifyResult.getTotalFee());
+        //自己处理订单的业务逻辑，需要判断订单是否已经支付过，否则可能会重复调用
+        return getSuccessResult(orderService.paid_procedure(orderCode, BigDecimal.valueOf(Double.valueOf(totalFee)), tradeNo, tradeType));
     }
 
 

@@ -214,7 +214,7 @@ public class WeChatAPIController extends BaseWxController {
      **/
     @RequestMapping(value = {"/{fileName:.*}"})//":.*"禁止忽略文件后缀名
     public ResponseEntity<byte[]> authFilePath(@PathVariable(value = "fileName") String fileName) throws IOException {
-        return super.getFile(fileName);
+        return super.getFile(this.authFilePath,fileName);
     }
 
 

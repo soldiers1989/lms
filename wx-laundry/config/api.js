@@ -2,7 +2,8 @@ const root = '/platform/api/';
 const APP_ID = "wx935f4f8a4ba9454b";
 const API_BASE_URL = 'http://fly2you.cn' + root;
 // const DEV_BASE_URL = 'https://localhost:443/';
-const DEV_BASE_URL = 'https://localhost:8443/';
+// const DEV_BASE_URL = 'https://localhost:8443/';
+const DEV_BASE_URL = 'https://www.yn-iot.cn/';
 module.exports = {
     IndexUrlNewGoods: API_BASE_URL + 'index/newGoods', //新品首发
     IndexUrlHotGoods: API_BASE_URL + 'index/hotGoods', //热卖商品
@@ -58,7 +59,8 @@ module.exports = {
 
     // CartAdd: API_BASE_URL + 'cart/add', // 添加商品到购物车
     // CartList: DEV_BASE_URL + 'cart/select', //获取购物车的数据
-    PayPrepayId: DEV_BASE_URL + 'pay/createOrder', //获取微信统一下单prepay_id
+    PayPrepayId: DEV_BASE_URL + 'pay/jsapi/payOrder', //获取微信统一下单prepay_id
+    PayCloseOrder: DEV_BASE_URL + 'pay/closeOrderById', //获取微信统一下单prepay_id
     OrderDetail: DEV_BASE_URL + 'order/selectById',  //订单详情
     GetOrderShipmentById: DEV_BASE_URL + "orderShipment/getByOrderId",
     GetOrderCostById: DEV_BASE_URL + "orderCost/getByOrderId",

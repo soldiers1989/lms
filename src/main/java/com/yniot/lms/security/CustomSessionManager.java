@@ -1,12 +1,14 @@
 package com.yniot.lms.security;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 import org.apache.shiro.web.servlet.ShiroHttpServletRequest;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.apache.shiro.web.util.WebUtils;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 
 /**
@@ -25,6 +27,7 @@ public class CustomSessionManager extends DefaultWebSessionManager {
      */
     public final static String HEADER_TOKEN_NAME = "Authorization";
     private static final String REFERENCED_SESSION_ID_SOURCE = "Stateless request";
+    private static Logger logger = Logger.getLogger(CustomSessionManager.class);
 
     /**
      * 重写getSessionId,分析请求头中的指定参数，做用户凭证sessionId
@@ -32,6 +35,9 @@ public class CustomSessionManager extends DefaultWebSessionManager {
     @Override
     protected Serializable getSessionId(ServletRequest request, ServletResponse response) {
         String id = WebUtils.toHttp(request).getHeader(HEADER_TOKEN_NAME);
+        HttpServletRequest httpServletRequest = (HttpServletRequest) request;
+        String url = httpServletRequest.getRequestURI();
+        logger.info("request uri:" + url);
         if (StringUtils.isEmpty(id)) {
             //如果没有携带id参数则按照父类的方式在cookie进行获取
             return super.getSessionId(request, response);

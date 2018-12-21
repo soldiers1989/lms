@@ -27,10 +27,11 @@ public class ShiroConfigurator {
         Map<String, Filter> filterMap = shiroFilterFactoryBean.getFilters();
         filterMap.put("authc",new CustomFormAuthFilter());
         filterChainDefinitionMap.put("/static/**", "anon");//静态资源
-        filterChainDefinitionMap.put("/druid/**", "anon");//druid管理页面
+        filterChainDefinitionMap.put("/druid/**", "anon");//druid管理
+        filterChainDefinitionMap.put("/enums/**", "anon");//枚举相关
         filterChainDefinitionMap.put("/pay/**", "anon");//支付相关
         filterChainDefinitionMap.put("/WeChat/**", "anon");//微信
-        filterChainDefinitionMap.put("/SmallAppApi/**", "anon");//微信
+        filterChainDefinitionMap.put("/SmallAppApi/**", "anon");//小程序
         filterChainDefinitionMap.put("/user/login", "anon");//登陆
         filterChainDefinitionMap.put("/user/logout", "logout");//登出
         filterChainDefinitionMap.put("/WebSocket/**", "anon");//WebSocket

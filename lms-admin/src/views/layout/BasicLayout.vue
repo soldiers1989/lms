@@ -53,7 +53,7 @@
         data() {
             return {
                 isCollapse: false,
-                webSocketUrl: "ws://localhost:8080/WebSocket/9527",
+                webSocketUrl: "ws://localhost:443/WebSocket/9527",
                 webSocket: null,
             };
         },

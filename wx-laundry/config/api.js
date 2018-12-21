@@ -1,7 +1,8 @@
 const root = '/platform/api/';
 const APP_ID = "wx935f4f8a4ba9454b";
 const API_BASE_URL = 'http://fly2you.cn' + root;
-// const API_BASE_URL = 'http://localhost:8080' + root;
+// const DEV_BASE_URL = 'https://localhost:443/';
+const DEV_BASE_URL = 'http://localhost:8080/';
 module.exports = {
     IndexUrlNewGoods: API_BASE_URL + 'index/newGoods', //新品首发
     IndexUrlHotGoods: API_BASE_URL + 'index/hotGoods', //热卖商品
@@ -56,30 +57,30 @@ module.exports = {
 
 
     // CartAdd: API_BASE_URL + 'cart/add', // 添加商品到购物车
-    // CartList: "http://localhost:8080/" + 'cart/select', //获取购物车的数据
-    PayPrepayId: "http://localhost:8080/" + 'pay/createOrder', //获取微信统一下单prepay_id
-    OrderDetail: "http://localhost:8080/" + 'order/selectById',  //订单详情
-    GetOrderShipmentById: "http://localhost:8080/" + "orderShipment/getByOrderId",
-    GetOrderCostById: "http://localhost:8080/" + "orderCost/getByOrderId",
-    GetOrderGoodsById: "http://localhost:8080/" + "orderGoods/getByOrderId",
-    GoodsCodeRelate: "http://localhost:8080/" + "goodsCode/relate",
-    GoodsCodeRelease: "http://localhost:8080/" + "goodsCode/release",
-    GoodsGetUnused: "http://localhost:8080/" + "goodsCode/getUnusedCode",
-    CartList: "http://localhost:8080/" + 'cart/select', //获取购物车的数据
-    CartAdd: "http://localhost:8080/" + 'cart/add', //添加到购物车
-    CartDel: "http://localhost:8080/" + 'cart/delete', //添加到购物车
+    // CartList: DEV_BASE_URL + 'cart/select', //获取购物车的数据
+    PayPrepayId: DEV_BASE_URL + 'pay/createOrder', //获取微信统一下单prepay_id
+    OrderDetail: DEV_BASE_URL + 'order/selectById',  //订单详情
+    GetOrderShipmentById: DEV_BASE_URL + "orderShipment/getByOrderId",
+    GetOrderCostById: DEV_BASE_URL + "orderCost/getByOrderId",
+    GetOrderGoodsById: DEV_BASE_URL + "orderGoods/getByOrderId",
+    GoodsCodeRelate: DEV_BASE_URL + "goodsCode/relate",
+    GoodsCodeRelease: DEV_BASE_URL + "goodsCode/release",
+    GoodsGetUnused: DEV_BASE_URL + "goodsCode/getUnusedCode",
+    CartList: DEV_BASE_URL + 'cart/select', //获取购物车的数据
+    CartAdd: DEV_BASE_URL + 'cart/add', //添加到购物车
+    CartDel: DEV_BASE_URL + 'cart/delete', //添加到购物车
     // CartDelete: API_BASE_URL + 'cart/delete', // 删除购物车的商品
     // CatalogList: API_BASE_URL + 'catalog/index',  //分类目录全部分类数据接口
-    CatalogList: "http://localhost:8080/" + 'catalog/select',  //分类目录全部分类数据接口
+    CatalogList: DEV_BASE_URL + 'catalog/select',  //分类目录全部分类数据接口
     // CatalogCurrent: API_BASE_URL + 'catalog/current',  //分类目录当前分类数据接口
-    CatalogCurrent: "http://localhost:8080/" + 'goodsType/selectByCatalogId',  //分类目录当前分类数据接口
-    AuthLoginByWeixin: "http://localhost:8080/" + APP_ID + '/SmallAppApi/login', //微信登录
-    AuthUserInfo: "http://localhost:8080/" + APP_ID + '/SmallAppApi/info', //微信登录
-    GetMobileNo: "http://localhost:8080/" + APP_ID + '/SmallAppApi/phone', //绑定手机
-    GetWardrobe: "http://localhost:8080/" + 'wardrobe/selectNearest', //
-    WardrobeChecked: "http://localhost:8080/" + 'wardrobe/selectNearest', //
-    OrderList: "http://localhost:8080/" + 'order/selectByUserId',  //订单列表
-    CommitOrder: "http://localhost:8080/" + 'order/commit', //
-    Login: "http://localhost:8080/" + 'user/login', //账号登录
-    WebsocketUrl: "ws://localhost:8080/WebSocket/"
+    CatalogCurrent: DEV_BASE_URL + 'goodsType/selectByCatalogId',  //分类目录当前分类数据接口
+    AuthLoginByWeixin: DEV_BASE_URL + APP_ID + '/SmallAppApi/login', //微信登录
+    AuthUserInfo: DEV_BASE_URL + APP_ID + '/SmallAppApi/info', //微信登录
+    GetMobileNo: DEV_BASE_URL + APP_ID + '/SmallAppApi/phone', //绑定手机
+    GetWardrobe: DEV_BASE_URL + 'wardrobe/selectNearest', //
+    WardrobeChecked: DEV_BASE_URL + 'wardrobe/selectNearest', //
+    OrderList: DEV_BASE_URL + 'order/selectByUserId',  //订单列表
+    CommitOrder: DEV_BASE_URL + 'order/commit', //
+    Login: DEV_BASE_URL + 'user/login', //账号登录
+    WebsocketUrl: "ws://localhost:443/WebSocket/"
 };

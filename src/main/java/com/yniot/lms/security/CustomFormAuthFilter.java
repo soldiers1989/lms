@@ -3,6 +3,7 @@ package com.yniot.lms.security;
 import com.alibaba.fastjson.JSONObject;
 import com.yniot.lms.controller.UserController;
 import com.yniot.lms.controller.commonController.BaseController;
+import org.apache.log4j.Logger;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -18,11 +19,13 @@ import javax.servlet.http.HttpServletRequest;
  * @Version 1.0.0
  */
 public class CustomFormAuthFilter extends FormAuthenticationFilter {
+    private static Logger logger = Logger.getLogger(CustomFormAuthFilter.class);
 
     @Override
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         String url = httpServletRequest.getRequestURI();
+        logger.info("request uri:" + url);
         if (UserController.LOGIN_FULL_URL.equals(url)) {
             return true;
         } else {

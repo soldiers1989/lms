@@ -5,9 +5,14 @@ spring:
       charset: UTF-8
       enabled: true
   server:
-    port: 8080
+    port: 443
     tomcat:
       uri-encoding: UTF-8
+    ssl:
+      key-store: classpath:*.pfx
+      key-store-password: 1Ot2U4zt
+      keyStoreType: PKCS12
+      keyAlias: tomcat
   thymeleaf:
     cache: false
   devtools:
@@ -55,7 +60,7 @@ pagehelper:
   params: count=countSql
 wechat:
   public:
-    
+
   auth:
     path:wechat
   smallapp:
@@ -69,7 +74,7 @@ wechat:
     appId: wx935f4f8a4ba9454b
     mchId: 1520972321
     mchKey: 16919618d52de660a750f5466e26eb3b
-    keyPath: classpath*:com/yniot/lms/config/apiclient_cert.p12
+    keyPath: classpath:apiclient_cert.p12
 # 短信配置
 message:
   aliyun:

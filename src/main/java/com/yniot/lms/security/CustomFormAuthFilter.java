@@ -25,7 +25,6 @@ public class CustomFormAuthFilter extends FormAuthenticationFilter {
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         String url = httpServletRequest.getRequestURI();
-        logger.info("request uri:" + url);
         if (UserController.LOGIN_FULL_URL.equals(url)) {
             return true;
         } else {

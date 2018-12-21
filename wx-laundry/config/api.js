@@ -2,7 +2,7 @@ const root = '/platform/api/';
 const APP_ID = "wx935f4f8a4ba9454b";
 const API_BASE_URL = 'http://fly2you.cn' + root;
 // const DEV_BASE_URL = 'https://localhost:443/';
-const DEV_BASE_URL = 'http://localhost:8080/';
+const DEV_BASE_URL = 'https://localhost:8443/';
 module.exports = {
     IndexUrlNewGoods: API_BASE_URL + 'index/newGoods', //新品首发
     IndexUrlHotGoods: API_BASE_URL + 'index/hotGoods', //热卖商品

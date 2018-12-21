@@ -4,15 +4,6 @@ spring:
       force: true
       charset: UTF-8
       enabled: true
-  server:
-    port: 443
-    tomcat:
-      uri-encoding: UTF-8
-    ssl:
-      key-store: classpath:*.pfx
-      key-store-password: 1Ot2U4zt
-      keyStoreType: PKCS12
-      keyAlias: tomcat
   thymeleaf:
     cache: false
   devtools:
@@ -60,7 +51,7 @@ pagehelper:
   params: count=countSql
 wechat:
   public:
-
+    file:classpath:MP_verify_pPsxL5wo4l77Ul4R.txt
   auth:
     path:wechat
   smallapp:
@@ -86,3 +77,11 @@ message:
     readTimeout: 1000
     signName: 有你物联网科技
     regionId: cn-hangzhou
+server:
+  port: 8443
+  tomcat:
+    uri-encoding: UTF-8
+  ssl:
+    key-store: classpath:1612783_www.yn-iot.cn.pfx
+    key-store-password: 1Ot2U4zt
+    keyStoreType: PKCS12

@@ -82,7 +82,7 @@ module.exports = {
     GetWardrobe: DEV_BASE_URL + 'wardrobe/selectNearest', //
     WardrobeChecked: DEV_BASE_URL + 'wardrobe/selectNearest', //
     OrderList: DEV_BASE_URL + 'order/selectByUserId',  //订单列表
-    CommitOrder: DEV_BASE_URL + 'order/commit', //
+    CommitOrder: DEV_BASE_URL + 'order/commit/'+APP_ID, //
     Login: DEV_BASE_URL + 'user/login', //账号登录
     WebsocketUrl: "ws://localhost:443/WebSocket/"
 };

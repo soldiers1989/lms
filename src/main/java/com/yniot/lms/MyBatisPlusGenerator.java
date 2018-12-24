@@ -23,7 +23,7 @@ public class MyBatisPlusGenerator {
 
         //直接在这里添加表名和前缀即可,key为表名,value为前缀
 //        table.put("biz_order", "biz_");
-        table.put("biz_wardrobe", "biz_");
+        table.put("rel_user_app", "");
 //        table.put("biz_order_goods", "biz_");
 //        table.put("biz_order", "biz_");
 //        table.put("biz_income_history", "biz_");
@@ -56,7 +56,7 @@ public class MyBatisPlusGenerator {
 
         //4. 包名策略配置
         PackageConfig pkConfig = new PackageConfig();
-        pkConfig.setParent("com.yniot.lms.temp")
+        pkConfig.setParent("com.yniot.lms")
                 .setMapper("db.dao")//dao
                 .setService("service")//servcie
                 .setServiceImpl("service.impl")//

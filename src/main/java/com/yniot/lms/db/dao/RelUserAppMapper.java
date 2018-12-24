@@ -1,10 +1,16 @@
 package com.yniot.lms.db.dao;
 
-import com.yniot.exclude.CommonMapper;
 import com.yniot.lms.db.entity.RelUserApp;
-import org.apache.ibatis.annotations.Mapper;
+import com.yniot.exclude.CommonMapper;
 
-@Mapper
+/**
+ * <p>
+ *  Mapper 接口
+ * </p>
+ *
+ * @author wanggl
+ * @since 2018-12-24
+ */
 public interface RelUserAppMapper extends CommonMapper<RelUserApp> {
 
 }

@@ -37,7 +37,14 @@ Page({
     //向服务请求支付参数
     requestPayParam() {
         let that = this;
-        pay.payOrder(that.data.orderId);
+        pay.payOrder(that.data.orderId,
+            function (res) {
+                console.log(res);
+            }, function (res) {
+                console.log(res);
+            }, function (res) {
+                console.log(res);
+            });
     },
     startPay() {
         this.requestPayParam();

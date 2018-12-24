@@ -47,6 +47,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     OrderCostService orderCostService;
     @Autowired
     OrderShipmentService orderShipmentService;
+    @Autowired
+    RelUserAppService relUserAppService;
 
     @Override
     public int markExpiredOrder() {
@@ -85,8 +87,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 
     @Override
     @Transactional
-    public boolean generateOrder(int userId, String openId, int wardrobeId, String description) throws WxErrorException {
-        if (cellService.getAvailableCellId(wardrobeId) < 0) {
+    public boolean generateOrder(int userId, String appId, int wardrobeId, String description) throws WxErrorException {
+        String openId = relUserAppService.getOpenIdByAppId(appId, userId);
+        if (cellService.getAvailableCellId(wardrobeId) < 0 || StringUtils.isEmpty(openId)) {
             return false;
         }
         Laundry laundry = laundryService.getByWardrobeId(wardrobeId);
@@ -192,7 +195,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 
     @Override
     public boolean paid_procedure(int orderId, BigDecimal price, String transactionId, String tradeType) {
-        return baseMapper.paid_procedure(price, transactionId, tradeType) > 0 && orderStateHistoryService.saveOrderState(orderId, OrderStateEnum.PAID.getState(), 0);
+        return baseMapper.paid_procedure(orderId, price, transactionId, tradeType) > 0 && orderStateHistoryService.saveOrderState(orderId, OrderStateEnum.PAID.getState(), 0);
     }
 
     @Override

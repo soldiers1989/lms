@@ -145,7 +145,7 @@ public class WxPayController extends BaseController {
         request.setBody("洗涤费用");
         request.setVersion("1.0");
         request.setOpenid(order.getUserOpenId());
-        request.setNotifyUrl("https://www.yn-iot.cn/notify/order");
+        request.setNotifyUrl("https://www.yn-iot.cn/pay/notify/order");
 //        WxPayAppOrderResult result = this.wxService.createOrder(request);
         return getSuccessResult(this.wxService.createOrder(request));
     }

@@ -15,14 +15,14 @@ public interface OrderMapper extends CommonMapper<Order> {
     @Update("UPDATE biz_order SET state=#{state} WHERE SYSDATE() > expired_time AND deleted = 0 AND state = 10 ")
     int markExpiredOrder(int state);
 
-    int updateState(int orderId, int state);
+    int updateState(@Param("orderId") int orderId, @Param("state") int state);
 
     int updateStateBatch(@Param("list") List<Integer> orderIdList, int state);
 
     @Update("UPDATE biz_order SET state = 60 WHERE id = #{orderId} AND state = 55")
     int paid(int orderId);
 
-    int paid_procedure(BigDecimal price, String transactionId, String tradeType);
+    int paid_procedure(@Param("orderId") int orderId, @Param("price") BigDecimal price, @Param("transactionId") String transactionId, @Param("tradeType") String tradeType);
 
     List<Map<String, Object>> getFullDetail(@Param("list") List<Integer> orderIdList);
 

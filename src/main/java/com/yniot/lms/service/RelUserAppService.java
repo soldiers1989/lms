@@ -1,13 +1,17 @@
 package com.yniot.lms.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.yniot.lms.db.entity.RelUserApp;
+import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
- * @project: lms
- * @description:
- * @author: wanggl
- * @create: 2018-11-22 19:12
- **/
+ * <p>
+ * 服务类
+ * </p>
+ *
+ * @author wanggl
+ * @since 2018-12-24
+ */
 public interface RelUserAppService extends IService<RelUserApp> {
+    String getOpenIdByAppId(String appId, int userId);
+    boolean createRel(String appId, String openId, int userId, String phone);
 }

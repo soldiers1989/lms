@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.websocket.server.PathParam;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
@@ -48,10 +49,10 @@ public class OrderController extends BaseControllerT<Order> {
     CellService cellService;
 
     //1.提交订单
-    @RequestMapping("/commit")
-    public String createOrder(int wardrobeId, String description) throws WxErrorException {
+    @RequestMapping("/commit/{appId}")
+    public String createOrder(int wardrobeId, String description, @PathParam("appId") String appId) throws WxErrorException {
         //获取用户
-        return super.getSuccessResult(orderService.generateOrder(getUserId(), getOpenId(), wardrobeId, description));
+        return super.getSuccessResult(orderService.generateOrder(getUserId(), appId, wardrobeId, description));
     }
 
 

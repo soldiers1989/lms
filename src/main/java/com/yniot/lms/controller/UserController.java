@@ -3,6 +3,7 @@ package com.yniot.lms.controller;
 import com.yniot.lms.controller.commonController.BaseControllerT;
 import com.yniot.lms.db.entity.User;
 import com.yniot.lms.service.LoginHistoryService;
+import com.yniot.lms.service.RelUserAppService;
 import com.yniot.lms.service.UserService;
 import com.yniot.lms.service.WeChatService;
 import com.yniot.lms.utils.CommonUtil;
@@ -99,5 +100,16 @@ public class UserController extends BaseControllerT<User> {
         return super.getSuccessResult(userService.saveOrUpdate(user));
     }
 
+
+    @Autowired
+    RelUserAppService relUserAppService;
+
+    @RequestMapping("/relateUserIdNOpenId")
+    public String createRel(@RequestParam("appId") String appId,
+                            @RequestParam("openId") String openId,
+                            @RequestParam("userId") int userId,
+                            @RequestParam(name = "phone", required = false, defaultValue = "") String phone) {
+        return getSuccessResult(relUserAppService.createRel(appId, openId, userId, phone));
+    }
 
 }

@@ -8,7 +8,7 @@ const api = require('../config/api.js');
 /**
  * 判断用户是否登录
  */
-function payOrder(orderId) {
+function payOrder(orderId,success,fail,complete) {
     return new Promise(function (resolve, reject) {
         // wx.request({
         //     url: 'http://ip-api.com/json',
@@ -32,12 +32,15 @@ function payOrder(orderId) {
                     'signType': payParam.signType,
                     'paySign': payParam.paySign,
                     'success': function (res) {
+                        success&&success(res)
                         resolve(res);
                     },
                     'fail': function (res) {
+                        fail&&fail(res)
                         reject(res);
                     },
                     'complete': function (res) {
+                        complete&&complete(res)
                         reject(res);
                     }
                 });

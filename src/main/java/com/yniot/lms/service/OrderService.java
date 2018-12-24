@@ -28,7 +28,7 @@ public interface OrderService extends IService<Order> {
 
     boolean updateState(int orderId, int state);
 
-    boolean generateOrder(int userId, String openId, int wardrobeId, String description) throws WxErrorException;
+    boolean generateOrder(int userId, String appId, int wardrobeId, String description) throws WxErrorException;
 
     boolean removeByCode(String orderCode);
 
